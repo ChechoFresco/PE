@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath PolicyEdge.py
+web: gunicorn PolicyEdge.py
