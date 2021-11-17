@@ -1,1 +1,1 @@
-web:gunicorn PolicyEdge:app
+web:gunicorn PolicyEdge.py:app
