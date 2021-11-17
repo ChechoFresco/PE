@@ -1,1 +1,1 @@
-Web: unicorn app:PolicyEdge.py
+web:gunicorn PolicyEdge:app
