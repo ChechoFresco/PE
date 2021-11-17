@@ -1,1 +1,1 @@
-web: gunicorn PolicyEdge:application
+web: gunicorn env:PolicyEdge
