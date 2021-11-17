@@ -1,0 +1,67 @@
+body {
+	margin: 0 auto;
+	padding: 0;
+}
+.colorstrip{
+    width: 100%; height: 30px;
+    border-style: solid;
+    border-color: black;
+	background-color: black;
+	text-align: center;
+
+}
+span{
+    font-size: 25px;
+    background: -webkit-linear-gradient(#eee, #FF8038);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+}
+.topnav {
+	background: #3f474e;
+	display:inline-block;
+	width:100%;
+	z-index: 1;
+	position: absolute;
+	max-height: 70px;
+}
+.topnav a {
+	float: left;
+	margin: 10px;
+	text-align: center;
+	background-size: 200% auto;
+	text-decoration: none;
+	font-size: 15px;
+	font-weight: bold;
+	font-family: 'Roboto Condensed', sans-serif;
+	position:relative;
+	color: white;
+    text-shadow: 2x 2px  black;
+	padding: 10px 24px;
+}
+#loginb {
+    float:right;
+}
+#logoutb {
+    float:right;
+}
+#registerb {
+    float:right;
+    background-color: #FF8038;
+    text-shadow: 1px 1px black;
+
+}
+.topnav a:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.topnav a:before {
+}
+
+.topnav a:hover {
+	filter: blur(1px);
+}

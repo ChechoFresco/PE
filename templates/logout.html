@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+</br>
+{% with messages = get_flashed_messages() %}
+    {{ messages }}
+    <br/>
+    {{ session }}
+{% endwith %}
+<br><br/>
+<h1>You have signed out!</h1>
+
+{% endblock %}

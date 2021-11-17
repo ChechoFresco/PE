@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}" />
+</head>
+<br></br>
+<br></br>
+<body>
+	<div class="container"
+		{% for message in get_flashed_messages() %}
+			<div class="alert-warning">
+				<li>{{ message }}</li>
+	</div>
+        {% endfor %}
+
+    <div class="form">
+        {% from "_formhelpers.html" import render_field %}
+        <form method="post">
+            {{ render_field(form.monitor_search) }}
+            <div class="form-group">
+            <p><input type="submit" value="Add" name='action' ></p>
+            </div>
+            <div class="form-group">
+            <p><input type='submit' value="Delete" name='action'></p>
+            </div>
+        </form>
+    </div>
+
+
+        {% for agenda in agendas %}
+    <div class="container" >
+        <table class="display">
+            <caption>Here's what's going on in {{agenda.City}}</caption>
+                <thead>
+                    <tr>
+                        <th class= 'row-City'>City</th>
+                        <th class= 'row-County'>County</th>
+                        <th class= 'row-Date'>Date</th>
+                        <th class= 'row-Meeting'>Meeting Type</th>
+                        <th class= 'row-Item'>Item Type</th>
+                        <th class= 'row-Num'>Number</th>
+                        <th class= 'row-Description'>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width:5%">{{agenda.City}}</td>
+                        <td style="width:5%">{{agenda.County}} </td>
+                        <td style="width:5%">{{agenda.Date}} </td>
+                        <td style="width:5%">{{agenda.MeetingType}} </td>
+                        <td style="width:5%">{{agenda.ItemType}} </td>
+                        <td style="width:1%">{{agenda.Num}} </td>
+                        <td>{{agenda.Description}}</td>
+                </tbody>
+        </table>
+    </div>
+        {% endfor %}
+</body>
+{% endblock %}

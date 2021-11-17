@@ -1,0 +1,16 @@
+.img-container{
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    right: 0px;
+}
+img {
+    height:100vh;
+    width: 50vw;
+    object-fit: cover;
+}
+form{
+    position: relative;
+    top: 100px;
+    left: 20vh;
+}

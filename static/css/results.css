@@ -1,0 +1,29 @@
+caption{
+    background-color: #2c3e50;
+    color:#FF8038;
+}
+
+th {
+    color: white;
+    background-color: #55608f;
+    position: static;
+    }
+
+td {
+	background-color: rgba(255,255,255,0.2);
+	color:black;
+    text-align: left;
+    font-size: 13px;
+    min-width: auto;
+}
+td.description{
+    font-size: 10px;
+}
+td:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+td:hover {
+    background-color: #f5f5f5;
+}
+

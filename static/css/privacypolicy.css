@@ -1,0 +1,41 @@
+body {
+    width: 100%;
+    height: 100%;
+}
+.container{
+    width: auto;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+}
+img {
+    object-fit: cover;
+    width: 100vw;
+    height: 60vh;
+    border: 3px solid green;
+    border-radius: 50px 50px;
+}
+
+p {
+    color: rgb(53, 53, 53);
+    font-size:20px;
+}
+
+h2 {
+    font-size:50px;
+    text-align: center;
+    color: orange;
+}
+h3 {
+    font-size:35px;
+    color: rgb(39, 76, 119);
+    text-align: center;
+}
+li {
+    color: rgb(53, 53, 53);
+    font-size:20px;
+}
+h4 {
+    font-size:20px;
+    text-align: center;
+}
