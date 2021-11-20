@@ -20,7 +20,6 @@ load_dotenv()
 app = Flask(__name__,)
 
 app.config['MONGO_URI'] = os.environ.get("MONGO_URI")
-app.config['SECRET_KEY'] = os.environ.get("MONGO_SECRET_KEY")
 app.config['MAIL_SERVER']='smtp.gmail.com'#Email
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'AgendaPreciado@gmail.com'
