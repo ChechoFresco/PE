@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__,)
 
-app.config['MONGO_URI'] = "mongodb://localhost:27017/Agenda"#Flask
+app.config['MONGO_URI'] = "mongodb+srv://Spreciado67:*****@policycluster.e9a8k.mongodb.net/PolicyDatabase?authSource=admin&replicaSet=atlas-p469fr-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true"
 app.config['SECRET_KEY'] = os.environ.get("MONGO_SECRET_KEY")
 app.config['MAIL_SERVER']='smtp.gmail.com'#Email
 app.config['MAIL_PORT'] = 465
