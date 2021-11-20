@@ -501,8 +501,6 @@ def termsofservice():
 def privacypolicy():
     return render_template('privacypolicy.html', title='Privacy Policy')
 
-'''if __name__ == '__main__':
-    app.run(debug=True)'''
 
 
 
