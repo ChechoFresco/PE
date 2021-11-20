@@ -29,17 +29,7 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mongo = PyMongo(app)
 mail = Mail(app)
-#YOUR_DOMAIN = 'http://127.0.0.1:5000/'
-
-stripe_keys = {
-    "secret_key": os.environ.get("SECRET_KEY"),
-    "publishable_key": os.environ.get("PUBLISHABLE_KEY"),
-    "monthPriceId": os.environ.get("STRIPE_MONTH_PRICE_ID"),
-    "dayPriceId": os.environ.get("STRIPE_DAY_PRICE_ID"),
-    'monthProdictID': os.environ.get('STRIPE_DAY_PRODUCT_ID'),
-    'dayProductID':os.environ.get('STRIPE_MONTHLY_PRODUCT_ID')
-    }
-stripe.api_key = os.environ.get("SECRET_KEY")
+YOUR_DOMAIN = 'https://policy-edge.herokuapp.com/'
 
 
 """def check4Issues2email():
