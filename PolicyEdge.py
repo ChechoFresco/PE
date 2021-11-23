@@ -28,7 +28,6 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = os.environ.get("Sess_Key")
-session = Session()
 
 mongo = PyMongo(app)
                              
