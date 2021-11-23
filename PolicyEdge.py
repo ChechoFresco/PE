@@ -229,9 +229,9 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
     password1 = request.form["password1"]
     password2 = request.form["password2"]
 
-    username_found = db.User.find_one({"username": username})#Checks if username exist
-    email_found = db.User.find_one({"email": email})#Check if email exist
-    stripe_email_found = db.stripe_user.find_one({"email": email})
+    username_found = mongo.db.User.find_one({"username": username})#Checks if username exist
+    email_found = mongo.db.User.find_one({"email": email})#Check if email exist
+    stripe_email_found = mongo.db.stripe_user.find_one({"email": email})
     if username_found:
         flash('There already is a user by that name')
         return render_template('register.html')
@@ -248,12 +248,12 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
         hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
         policy_user_input = {'username': username, 'email': email, 'password': hashed, 'stripe_id': [],'issues': [], 'agendaUnique_id': [], 'subscriptionActive': False}
         stripe_user_input = {'username': username, 'email': email, 'stripeCustomerId' : [], 'stripeSubscriptionId':[]}
-        db.User.insert_one(policy_user_input)
-        db.stripe_user.insert_one(stripe_user_input)
+        mongo.db.User.insert_one(policy_user_input)
+        mongo.db.stripe_user.insert_one(stripe_user_input)
         session['username'] = username
         session['email'] = email
 
-    noStripeId = db.User.find_one({'$and':[ {"email": session['email'] }, {"stripe_id" : {"$exists" : True, '$eq': [] }}]}) #Checks if user has account with Stripe
+    noStripeId = mongo.db.User.find_one({'$and':[ {"email": session['email'] }, {"stripe_id" : {"$exists" : True, '$eq': [] }}]}) #Checks if user has account with Stripe
 
     if noStripeId: #The user was found not to have account with Stripe yet
         checkout_session = stripe.checkout.Session.create(
@@ -275,7 +275,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
         return redirect(checkout_session.url, code=303)
 
     else: #User has a Stripe account on mongo record db
-        have_stripe_id = db.User.find_one({'$and':[ {"email": email }, {"stripe_id" : {"$exists" : True, '$type': 'array', '$size': 1} }]}) #Checks if user has account with Stripe
+        have_stripe_id = mongo.db.User.find_one({'$and':[ {"email": email }, {"stripe_id" : {"$exists" : True, '$type': 'array', '$size': 1} }]}) #Checks if user has account with Stripe
         placeholder=[]
 
         for x in have_stripe_id['stripe_id']:
