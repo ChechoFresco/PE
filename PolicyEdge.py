@@ -26,10 +26,14 @@ app.config['MAIL_USERNAME'] = 'AgendaPreciado@gmail.com'
 app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
+app.secret_key = os.environ.get("Sess_Key")
+
+sess.init_app(app)
 
 mongo = PyMongo(app)
                              
 mail = Mail(app)
+
 YOUR_DOMAIN = 'https://policy-edge.herokuapp.com/'
 
 
