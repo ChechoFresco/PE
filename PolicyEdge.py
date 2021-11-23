@@ -28,7 +28,7 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.secret_key = os.environ.get("Sess_Key")
 
-sess.init_app(app)
+session = Session()
 
 mongo = PyMongo(app)
                              
