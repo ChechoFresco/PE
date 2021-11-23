@@ -10,19 +10,13 @@ import os
 from os import environ
 from dotenv import load_dotenv
 
-#python3.8 -m pip install ####helpful
-#source Flask-environment/env/bin/activate  ###Activates env
-#python3 /Users/sergiopreciado/Flask-environment/env/PolicyEdge.py ###Starts Flask
-#stripe listen --forward-to 127.0.0.1:5000/webhook
-
-
 load_dotenv()
 app = Flask(__name__,)
 
 app.config['MONGO_URI'] = os.environ.get("MONGO_URI")
 app.config['MAIL_SERVER']='smtp.gmail.com'#Email
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'AgendaPreciado@gmail.com'
+app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
 app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
@@ -34,6 +28,12 @@ mail = Mail(app)
 
 YOUR_DOMAIN = 'https://policy-edge.herokuapp.com/'
 
+stripe_keys = {
+  'secret_key': os.environ['SECRET_KEY'],
+  'publishable_key': os.environ['PUBLISHABLE_KEY']
+}
+
+stripe.api_key = stripe_keys['secret_key']
 
 """def check4Issues2email():
     with app.app_context():
