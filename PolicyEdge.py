@@ -179,6 +179,7 @@ def create_checkout_session2(): # Second checkout is for existing users who want
 
         if noStripeId:
             checkout_session = stripe.checkout.Session.create(
+            stripe.api_key = os.environ.get("SECRET_KEY"), #Will need to change to official when LIVE
             payment_method_types=['card'],
             line_items=[
                 {
@@ -208,6 +209,7 @@ def create_checkout_session2(): # Second checkout is for existing users who want
 
             checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
+             stripe.api_key = os.environ.get("SECRET_KEY"),
             line_items=[
                 {
                     'price': os.environ.get("STRIPE_DAY_PRICE_ID"),
@@ -259,6 +261,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
     if noStripeId: #The user was found not to have account with Stripe yet
         checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
+        stripe.api_key = os.environ.get("SECRET_KEY"),
         line_items=[
             {
                 'price': os.environ.get("STRIPE_DAY_PRICE_ID"),
@@ -287,6 +290,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
 
         checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
+        stripe.api_key = os.environ.get("SECRET_KEY"),
         line_items=[
             {
                 'price': os.environ.get("STRIPE_DAY_PRICE_ID"),
@@ -309,6 +313,7 @@ def customer_portal():
     return_url = YOUR_DOMAIN
 
     portalSession = stripe.billing_portal.Session.create(
+        stripe.api_key = os.environ.get("SECRET_KEY"),
         customer=checkout_session.customer,
         return_url=return_url,
     )
