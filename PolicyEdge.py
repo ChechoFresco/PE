@@ -316,7 +316,7 @@ def customer_portal():
 
 @app.route('/webhook', methods=['POST'])
 def webhook_received():
-    webhook_secret = 'whsec_iEhwCx3OQgtD7nCPBhTiEUkh1Ac7J683'
+    webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
     request_data = json.loads(request.data)
     if webhook_secret:
         signature = request.headers.get('stripe-signature')
