@@ -31,7 +31,7 @@ app.config['MAIL_USE_SSL'] = True
 mongo = PyMongo(app)
                              
 mail = Mail(app)
-YOUR_DOMAIN = 'https://policy-edge.herokuapp.com/'
+YOUR_DOMAIN = 'https://policy-edge.herokuapp.com'
 
 
 """def check4Issues2email():
