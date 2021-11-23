@@ -1,4 +1,4 @@
-import pymongo
+from flask_pymongo import PyMongo
 from pymongo import MongoClient
 from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, json
 from forms import searchForm, monitorListform, notificationForm
