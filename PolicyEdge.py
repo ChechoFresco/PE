@@ -29,7 +29,7 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
 client = pymongo.MongoClient(os.environ.get("MONGO_URI"))
-db = client.PolicyEdge
+db = client.policy
                              
 mail = Mail(app)
 YOUR_DOMAIN = 'https://policy-edge.herokuapp.com/'
