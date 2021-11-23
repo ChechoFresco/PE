@@ -28,7 +28,7 @@ app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
-client = PyMongo.MongoClient(os.environ.get("MONGO_URI"))
+client = pymongo.MongoClient(os.environ.get("MONGO_URI"))
 db = client.PolicyEdge
                              
 mail = Mail(app)
