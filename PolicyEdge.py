@@ -1,5 +1,4 @@
 from flask_pymongo import PyMongo
-from pymongo import MongoClient
 from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, json
 from forms import searchForm, monitorListform, notificationForm
 import bcrypt
@@ -31,7 +30,7 @@ app.config['MAIL_USE_SSL'] = True
 mongo = PyMongo(app)
                              
 mail = Mail(app)
-YOUR_DOMAIN = 'https://policy-edge.herokuapp.com'
+YOUR_DOMAIN = 'https://policy-edge.herokuapp.com/'
 
 
 """def check4Issues2email():
