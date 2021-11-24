@@ -322,7 +322,7 @@ def webhook_received():
         signature = request.headers.get('stripe-signature')
         try:
             event = stripe.Webhook.construct_event(
-            payload=request.data, sig_header=signature, secret=webhook_secret, stripe.api_key = stripe_keys['secret_key'])
+            payload=request.data, sig_header=signature, secret=webhook_secret, stripe.api_key)
             data = event['data']
         except Exception as e:
             return e
