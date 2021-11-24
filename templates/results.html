@@ -50,7 +50,7 @@
                     <td>{{agenda.MeetingType}} </td>
                     <td>{{agenda.ItemType}} </td>
                     <td>{{agenda.Num}} </td>
-                    <td class="description"></div>{{agenda.Description.replace(request.form['primary_search'], '@♦♦♦♦♦♦♦♦♦♦{}♦♦♦♦♦♦♦♦♦♦@'.format(request.form['primary_search']))}}</td>
+                    <td class="description"></div>{{agenda.Description.replace(request.form['primary_search'], '@♦♦♦♦♦{}♦♦♦♦♦@'.format(request.form['primary_search']))}}</td>
                     </tr>
                 {% endfor %}
             </tbody>
