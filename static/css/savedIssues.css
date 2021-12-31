@@ -23,6 +23,9 @@ td {
     text-align: start;
     overflow: auto;
 }
+td.description{
+    font-size: 10px;
+}
 
 tbody {
     height: 300px;
