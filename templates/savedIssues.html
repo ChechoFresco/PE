@@ -42,7 +42,7 @@
                         <th class= 'row-Meeting'>Meeting Type</th>
                         <th class= 'row-Item'>Item Type</th>
                         <th class= 'row-Num'>Number</th>
-                        <th class= 'row-Description'>Description</th>
+                        <th class= 'row-Description'>{{agenda.Description.replace(request.form['primary_search'], '@♦♦♦♦♦{}♦♦♦♦♦@'.format(request.form['primary_search']))}}</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +53,7 @@
                         <td style="width:5%">{{agenda.MeetingType}} </td>
                         <td style="width:5%">{{agenda.ItemType}} </td>
                         <td style="width:1%">{{agenda.Num}} </td>
-                        <td class="description"></div>{{agenda.Description.replace(request.form['primary_search'], '@♦♦♦♦♦{}♦♦♦♦♦@'.format(request.form['primary_search']))}}</td>
+			<td style="width:1%">{{agenda.Description}} </td>
                 </tbody>
         </table>
     </div>
