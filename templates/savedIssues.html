@@ -53,7 +53,7 @@
                         <td style="width:5%">{{agenda.MeetingType}} </td>
                         <td style="width:5%">{{agenda.ItemType}} </td>
                         <td style="width:1%">{{agenda.Num}} </td>
-                        <td class="description">{{agenda.Description.replace(request.form['monitor_search'], '@♦♦♦♦♦{}♦♦♦♦♦@'.format(request.form['monitor_search']))}}</td>
+                        <td style="width:5%">{{agenda.Description.replace(request.form['monitor_search'], '@♦♦♦♦♦{}♦♦♦♦♦@'.format(request.form['monitor_search']))}}</td>
                 </tbody>
         </table>
     </div>
