@@ -26,7 +26,7 @@ mongo = PyMongo(app)
                              
 mail = Mail(app)
 
-YOUR_DOMAIN = 'https://policy-edge.herokuapp.com/'
+YOUR_DOMAIN = 'https://policyedge.net/'
 
 stripe_keys = {
   'secret_key': os.environ['SECRET_KEY'],
