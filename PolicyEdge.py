@@ -426,7 +426,7 @@ def savedIssues():
                     j= str(issues_placeholder)
                     finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
                     flash(finished_issues)
-                    flash(today)
+                    flash(int(today-600))
                     agenda= mongo.db.Agenda.find({'$text': { "$search": finished_issues}})
                     return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
             if request.method == 'POST' and request.form['action'] == 'Add':
