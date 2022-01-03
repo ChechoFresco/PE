@@ -426,7 +426,7 @@ def savedIssues():
                     j= str(issues_placeholder)
                     finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
                     flash(finished_issues)
-                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today-600)}}]}).sort('Date').sort('City')
+                    agenda= mongo.db.Agenda.find({'$text': { "$search": finished_issues}})
                     return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
             if request.method == 'POST' and request.form['action'] == 'Add':
                 form = monitorListform()
@@ -443,7 +443,7 @@ def savedIssues():
                     j= str(issues_placeholder)
                     finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
                     flash(finished_issues)
-                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today-600)}}]}).sort('Date').sort('City')
+                    agenda= mongo.db.Agenda.find({'$text': { "$search": finished_issues}})
                     return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
             if request.method == 'POST' and request.form['action']  == 'Delete':
                 form = monitorListform()
@@ -460,7 +460,7 @@ def savedIssues():
                     j= str(issues_placeholder)
                     finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
                     flash(finished_issues)
-                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today-600)}}]}).sort('Date').sort('City')
+                    agenda= mongo.db.Agenda.find({'$text': { "$search": finished_issues}})
                     return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
         else:
             return render_template('noSubscription.html')
