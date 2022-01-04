@@ -3,6 +3,7 @@ from flask import Flask, render_template, url_for, request, redirect, flash, ses
 from forms import searchForm, monitorListform, notificationForm
 import bcrypt
 from datetime import date
+from dateutil.relativedelta import relativedelta
 from flask_mail import Mail, Message
 from apscheduler.schedulers.background import BackgroundScheduler
 import stripe
@@ -40,6 +41,9 @@ stripe.api_key = stripe_keys['secret_key']
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
+        c = date.today() + relativedelta(months=-8) #Change month to 3
+        d= str(c).replace("-","")
+        today_3= int(d)
 
         all_email=[]    #List of all email from storedUsers
 
@@ -63,7 +67,7 @@ stripe.api_key = stripe_keys['secret_key']
 
             agenda=mongo.db.Agenda.aggregate([
             {'$match' : { '$text': { '$search': finished_issues}}}, # searches for subscribed issues.
-            {'$match' : { 'Date': {'$lte':int(today), '$gte':int(today-600)}}},
+            {'$match' : { 'Date': {'$lte':int(today), '$gte':int(today_3)}}},
             {'$match': {'_id': { '$nin': userStoredAgendaId }}} #Checks if item has been sent before
             ])
 
@@ -419,21 +423,27 @@ def savedIssues():
                 a = date.today()
                 b= str(a).replace("-","")
                 today=int(b)
+                c = date.today() + relativedelta(months=-3)
+                d= str(c).replace("-","")
+                today_3= int(d)# Converts date - 3 months
                 issues_placeholder= []
                 user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues':1})
                 for x in user_issues:
                     issues_placeholder.append(x['issues'])
                     j= str(issues_placeholder)
                     finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
+                    agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today_3)}}]}).sort('Date').sort('City')
                     flash(finished_issues)
-                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today-600)}}]}).sort('Date').sort('City')
                     return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
-            if request.method == 'POST' and request.form['action'] == 'Add':
+            elif request.method == 'POST' and request.form['action'] == 'Add':
                 form = monitorListform()
                 user = session["username"]
                 a = date.today()
                 b= str(a).replace("-","")
                 today=int(b)
+                c = date.today() + relativedelta(months=-3)
+                d= str(c).replace("-","")
+                today_3= int(d)
                 issue = request.form['monitor_search']
                 mongo.db.User.find_one_and_update({'username':user}, {'$push': {'issues':issue}}, upsert = True)
                 issues_placeholder= []
@@ -442,15 +452,18 @@ def savedIssues():
                     issues_placeholder.append(x['issues'])
                     j= str(issues_placeholder)
                     finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
+                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today_3)}}]}).sort('Date').sort('City')
                     flash(finished_issues)
-                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today-600)}}]}).sort('Date').sort('City')
                     return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
-            if request.method == 'POST' and request.form['action']  == 'Delete':
+            elif request.method == 'POST' and request.form['action']  == 'Delete':
                 form = monitorListform()
                 user = session["username"]
                 a = date.today()
                 b= str(a).replace("-","")
                 today=int(b)
+                c = date.today() + relativedelta(months=-3)
+                d= str(c).replace("-","")
+                today_3= int(d)
                 issue = request.form['monitor_search']
                 mongo.db.User.find_one_and_update({'username':user}, {'$pull': {'issues':issue}})
                 issues_placeholder= []
@@ -459,8 +472,8 @@ def savedIssues():
                     issues_placeholder.append(x['issues'])
                     j= str(issues_placeholder)
                     finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
+                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today_3)}}]}).sort('Date').sort('City')
                     flash(finished_issues)
-                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today-600)}}]}).sort('Date').sort('City')
                     return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
         else:
             return render_template('noSubscription.html')
