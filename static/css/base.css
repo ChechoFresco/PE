@@ -1,67 +1,98 @@
-body {
-	margin: 0 auto;
-	padding: 0;
+body, html {
+	height: 100%;
+	width: 100%;
+	margin:0;
+	padding:0;
 }
-.colorstrip{
-    width: 100%; height: 30px;
-    border-style: solid;
-    border-color: black;
-	background-color: black;
-	text-align: center;
 
-}
-span{
-    font-size: 25px;
-    background: -webkit-linear-gradient(#eee, #FF8038);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-}
 .topnav {
-	background: #3f474e;
-	display:inline-block;
+	background: #516a6f;
 	width:100%;
-	z-index: 1;
 	position: absolute;
-	max-height: 70px;
+	display: inline-block;
+	height:6.5vh
+
 }
 .topnav a {
-	float: left;
-	margin: 10px;
+	float: right;
+	color: rgb(240, 241, 231);
 	text-align: center;
-	background-size: 200% auto;
 	text-decoration: none;
-	font-size: 15px;
-	font-weight: bold;
-	font-family: 'Roboto Condensed', sans-serif;
-	position:relative;
-	color: white;
-    text-shadow: 2x 2px  black;
-	padding: 10px 24px;
+	font-size: 17px;
+	padding: 14px 16px;
+	margin:0;
 }
-#loginb {
-    float:right;
+
+.topnav .icon {
+	display: none;
 }
-#logoutb {
-    float:right;
+
+a.banner{
+	float:left;
+    font-size: 5vh;
+	color: rgb(240, 241, 231);
+	text-shadow: 8px 8px 8px rgb(38,70,83), 8px 8px 8px #f4a261;
+	padding: 0;
+	margin:0;
+
+}
+
+a.banner::first-letter{
+	color:#b08857;
+	text-shadow: 8px 8px 8px rgb(38,70,83), 8px 8px 8px #f4a261;
+
+}
+span.second{
+	color:#b08857;
+	text-shadow: 8px 8px 8px rgb(38,70,83), 8px 8px 8px #f4a261;
+
 }
 #registerb {
-    float:right;
-    background-color: #FF8038;
-    text-shadow: 1px 1px black;
+    background-color: #8db2ba;
+    text-shadow: 1px -1px black;
+	margin:0;
 
 }
-.topnav a:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-.topnav a:before {
-}
 
-.topnav a:hover {
+a:hover {
 	filter: blur(1px);
+	color:#f09d51;
+}
+a#logoutb.logoutb{
+color: rgb(240, 241, 231);
+}
+
+@media screen and (max-width: 800px) {
+	.topnav a:not(:first-child) {
+		display: none;
+	}
+	.topnav a.icon {
+		float: right;
+		display: block;
+		padding: 28px 20px;
+		font-size: 3vh;
+	}
+	a.banner{
+		font-size: 6.5vh;
+	}
+	.topnavresponsive {
+		background: #516a6f;
+		width:100%;
+		display: block;
+		text-align: center;
+		position: relative;
+	}
+
+	.topnavresponsive a {
+		float: none;
+		display:block;
+		color:white;
+		padding: 12px 10px;
+
+	}
+	div.containerchanges h2{
+		position: inherit;
+		width: 100%;
+		top:10%;
+	}
 }
