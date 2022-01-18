@@ -6,18 +6,19 @@
     <meta name='viewport' content='width=device-width,initial-scale=1'>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/logged_in.css') }}" />
 </head>
-    <body>
-        <div class="Inwrapper">
-            <video id="video" autoplay muted loop>
-            <source src="{{ url_for('static', filename='video1.mp4') }}" type="video/mp4">
-            </video>
-            <div class="text">PolicyEdge</div>
-            <div class="overlayText">
-            <h3>Government at a glance</h3>
-            </div>
-            </div>
-        <div class="overlayText">
-        <p>Hello You have Logged in as {{ username }} </p>
+<body>
+    <div class="container" id='mycontain'>
+        <div class="bgimage1">
+            <div class="blend"></div>
+                <div class="logo"><h1>PolicyEdge</h1></div>
+                <div class="overlayText"><h2>Government at a glance</h2></div>
+                <div class="descText"><h3>PolicyEdge is the only place where you can search all of LA County and its 88 incorporated cities for issues affecting your business. We are dedicated to providing the most up-to-date agendas from Agoura Hills to Whittier. </h3></div>
         </div>
-    </body>
+        <div class="bimage2">
+                <div class="overlayText"><h2>Government at a glance</h2></div>
+                <div class="descText"><h3>PolicyEdge is the only place where you can search all of LA County and its 88 incorporated cities for issues affecting your business. We are dedicated to providing the most up-to-date agendas from Agoura Hills to Whittier. </h3></div>
+        </div>
+                <div class="bgimage3"></div>
+    </div>
+</body>
 {% endblock %}
