@@ -1,27 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 {% if title %}
 <title>{{ title }} - PolicyEdge</title>
 {% else %}
 <title>Welcome to Policy Edge</title>
 {% endif %}
 </head>
-
 <body>
-	<div class="colorstrip"><span>Welcome to PolicyEdge</span></div>
-	<div class="topnav">
-		<a href="/" class="square_btn">Home</a>
-		<a href="/contact" class="square_btn">Contact</a>
+	<nav class="topnav" id="myTopnav">
+		<a href="/" class="banner">Policy <span class='second'>E</span>dge</a>
+		<a href="/login">Log In</a>
+		<a href="/register", id='registerb' class="registerb">Register</a>
+		<a href="/savedIssues" class="square_btn">Subscribed Issues</a>
 		<a href="/about" class="square_btn">About</a>
 		<a href="/search" class="square_btn">Search</a>
-		<a href="/savedIssues" class="square_btn">Saved Issues</a>
-		<a href="/logout", id='logoutb' class="logoutb">Log Out</a>
-		<a href="/login", id='loginb' class="loginb">Log In</a>
-		<a href="/register", id='registerb' class="registerb">Register</a>
-	</div>
-</body>
+		<a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+	</nav>
+<script>
+	function myFunction() {
+	var x = document.getElementById("myTopnav");
+	if (x.className === "topnav") {
+		x.className += "responsive";
+	} else {
+		x.className = "topnav";
+	}
+	{
+	var y = document.getElementById("mycontain");
+	if (y.className === "container") {
+		y.className += "changes";
+	} else {
+		y.className = "container";
+    }
+}
+	}
+	</script>
 {% block content %}{% endblock %}
 {% include 'footer.html' %}
+</body>
+
