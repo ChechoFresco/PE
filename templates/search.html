@@ -4,31 +4,29 @@
 <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width,initial-scale=1'>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}" />
-</head>>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+</head>
+<body>
 <br></br>
-<div class="img-container">
-    <img src="/static/pexels-enric-cruz-lópez-6039205.jpg">
-</div>
-<br></br>
-
-<div class="form">
-    {% from "_formhelpers.html" import render_field %}
-    <form method="post">
-        <ul>
-        {{ render_field(form.select) }}
-        <p>
-        {{ render_field(form.primary_search) }}
-        <p>
-        {{ render_field(form.startdate_field) }}
-        <p>
-        {{ render_field(form.enddate_field) }}
-        </ul>
-        <p><input type="submit" value="Search"></p>
-</form>
-
-</ul>
-</div>
-
+    <div class="contain">
+            <img src="/static/pexels-enric-cruz-lópez-6039205.jpg"></img>
+        <div class="formdiv">
+            {% from "_formhelpers.html" import render_field %}
+            <form method="post">
+                <ul>
+                {{ render_field(form.select) }}
+                <p>
+                {{ render_field(form.primary_search) }}
+                <p>
+                {{ render_field(form.startdate_field) }}
+                <p>
+                {{ render_field(form.enddate_field) }}
+                </ul>
+                <p><input type="submit" value="Search"></p>
+            </form>
+        </div>
+    </div>
+</body>
 {% endblock %}
+
 
