@@ -199,17 +199,24 @@ h3 {
   }
   .overlayText{
     width:100vw;
-    bottom:40vh;
-	font-size:3vh;
+    bottom:30vh;
   }
    h2{
     position: relative;
-    font-size:4vh;
+    font-size:5vh;
     text-align: center;
     margin: 0 0 auto;
   }
   h3{
     font-size:2vh;
   }
+	
+.container {
+  top:0;
+  width: 100%;
+  margin:0;
+	padding:0;
+  position: relative;
+}
 
 }
