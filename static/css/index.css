@@ -210,13 +210,4 @@ h3 {
   h3{
     font-size:2vh;
   }
-	
-.container {
-  top:0;
-  width: 100%;
-  margin:0;
-	padding:0;
-  position: relative;
-}
-
 }
