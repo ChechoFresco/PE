@@ -21,10 +21,14 @@ div.bgimage1 {
 div.bgimage2 {
   background-image: url("/static/Grey-bg.jpeg");
   height: 100vh;
+  background-position: center;
+  background-size: cover;
 }
 div.bgimage3 {
   background-image: url("/static/Orange-bg.jpeg");
   height: 100vh;
+  background-position: center;
+  background-size: cover;
 }
 
 .blend{
