@@ -194,13 +194,18 @@ h3 {
     display:none;
   }
   .overlayText{
-    position: absolute;
     width:100vw;
-    bottom:60vh;
+    bottom:40vh;
+	font-size:3vh;
   }
-  h2{
+   h2{
     position: relative;
     font-size:4vh;
     text-align: center;
     margin: 0 0 auto;
- 
+  }
+  h3{
+    font-size:2vh;
+  }
+
+}
