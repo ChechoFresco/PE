@@ -25,8 +25,8 @@ div.bgimage2 {
   background-size: cover;
 }
 div.bgimage3 {
-  background-image: url("/static/Orange-bg.jpeg");
-  height: 100vh;
+background-color: orange;  
+	height: 100vh;
   background-position: center;
   background-size: cover;
 }
