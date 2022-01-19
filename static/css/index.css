@@ -13,13 +13,13 @@ body, html {
 }
 
 div.bgimage1 {
-  background-image: url("/static/Main-1.JPEG");
+  background-image: url("/static/Main-1.jpeg");
   height: 100vh;
   background-position: center;
   background-size: cover;
 }
 div.bgimage2 {
-  background-image: url("/static/Grey-bg.JPEG");
+  background-image: url("/static/Grey-bg.jpeg");
   height: 100vh;
 }
 div.bgimage3 {
