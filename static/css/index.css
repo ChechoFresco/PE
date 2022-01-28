@@ -3,6 +3,9 @@ body, html {
   width: 100%;
   margin:0;
 	padding:0;
+	        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
 }
 .container {
   height: 100vh;
