@@ -1,30 +1,53 @@
-body {
-    width: 100%;
-    height: 100%;
+div.aboutcont{
+    background-color: #4f5861;
 }
-.container{
-    width: auto;
-    margin: 0px;
-    padding: 0px;
-    position: relative;
+
+div.contain2{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    margin:0px;
+    padding:0px;
+    }
+
+div.contain2 div.image1{
+    grid-area: 1 / 1 / 2 / 3;
 }
-img {
-    object-fit: cover;
+div.contain2 div.text{
+    grid-area: 2 / 2 / 3 / 3;
+}
+div.contain2 div.image2{
+    grid-area: 2 / 1 / 3 / 2;
+}
+div.contain2 div.image1 img{
     width: 100vw;
-    height: 60vh;
-    border: 3px solid green;
+    height: 45vh;
+    object-fit: cover;
+    object-position: 0px -21rem;
+    border: 3px solid rgb(38,70,83);
     border-radius: 50px 50px;
 }
-.text {
+div.contain2 div.image2 img{
+    height: 85vh;
+    width: 45vw;
+    object-fit: cover;
+    object-position: 0px -3rem;
+    border-radius: 50px 50px;
+    margin:10px;
+    padding:10px;
+}
+
+div.contain2 div.text {
     text-align: center;
-    position: relative;
-    font-size:30px;
-    width: 60%;
+    font-size:3vh;
     margin: auto;
-    padding-bottom: 60px;
+    margin:10px;
+    padding:10px;
+
 }
 p {
-    color: rgb(53, 53, 53);
+    color: white;
     text-indent: 50px;
     letter-spacing: 2px;
     line-height: 1;
@@ -32,5 +55,32 @@ p {
 h2 {
     font-size:50px;
     color: rgb(39, 76, 119);
+    text-shadow: 2px 2px 2px white;
 }
+@media screen and (max-width: 800px) {
+    body div.aboutcont{
+        margin:0;
+        padding:0;
+        position: inherit;
+        height: 100%;
 
+    }
+    div.contain2{
+        top:8vh;
+        width: 100%;
+        position:relative;
+    }
+    div.contain2 img {
+        position: absolute;
+        width: 100vw;
+        height: 25vh;
+    }
+    div.contain2 div.text{
+        top:20vh;
+        position: absolute;
+        font-size:2vh;
+
+    }
+
+
+}
