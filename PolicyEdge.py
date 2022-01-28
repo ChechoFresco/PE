@@ -375,15 +375,15 @@ def webhook_received():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     form = searchForm()
-    if "username" in session:
-        if mongo.db.User.find_one({'$and':[ {'username': session['username']} ,{'subscriptionActive': True}]}):
+    #if "username" in session:
+    #    if mongo.db.User.find_one({'$and':[ {'username': session['username']} ,{'subscriptionActive': True}]}):
     if request.method == 'POST':
         return redirect(url_for('results'), code=307)#Doesn't work without 307?
-        else:
-            flash('Please Subscribe first.')
-            return render_template('noSubscription.html')#
-    else:
-        return redirect(url_for("login"))###
+        #else:
+            #flash('Please Subscribe first.')
+            #return render_template('noSubscription.html')#
+    #else:
+        #return redirect(url_for("login"))###
     return render_template('search.html', form=form, title='Search')
 
 @app.route('/results', methods=['GET', 'POST'])
@@ -405,10 +405,10 @@ def results():
     if request.form['select'] == 'City' and request.form['startdate_field']== "":# Allows user to not input date
         agenda = mongo.db.Agenda.find({ '$and':[ {'City': {'$regex': searchKey, '$options': 'i' }}, {"MeetingType":{'$regex': "City Council"}} ]})
         return render_template('results.html', agendas=agenda,  title = "Search Results")
-    if request.form['select'] == 'Description' and request.form['startdate_field']:
+    if request.form['select'] == 'Issue' and request.form['startdate_field']:
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
         return render_template('results.html', agendas=agenda,  title = "Search Results")
-    if request.form['select'] == 'Description' and request.form['startdate_field'] =="":# Allows user to not input date
+    if request.form['select'] == 'Issue' and request.form['startdate_field'] =="":# Allows user to not input date
         agenda = mongo.db.Agenda.find({ '$text': { "$search": searchKey}})
         return render_template('results.html', agendas=agenda, title = "Search Results")
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']:
