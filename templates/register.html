@@ -10,17 +10,14 @@
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-
 <br></br>
-<br></br>
-    <section>
     <div class="product">
+            <img src="/static/pexels-enric-cruz-lópez-6039214.jpg"></img>
         <div class="description">
         <h3>Start a membership today!</h3>
-        <h5>$100.00 / month</h5>
+        <h5>$20.00 to track 5 different issues</h5>
         </div>
 
-<br></br>
     <form action="/create-checkout-session" method="post" class="form-line">
         <div class="form-group">
             <label for="username">Username</label>
@@ -28,9 +25,9 @@
             <small id="username" class="form-text text-muted">Please enter a username</small>
         </div>
         <div class="form-group">
-                <label for="InputEmail">Email address</label>
+                <label for="InputEmail">Email</label>
                 <input name="email" class="form-control" id="InputEmail"  placeholder="Enter email">
-                <small id="emailHelp" class="form-text text-muted">Please enter a username</small>
+                <small id="emailHelp" class="form-text text-muted">Please enter a email</small>
         </div>
         <div class="form-group">
             <label for="InputPassword">Password</label>
@@ -42,5 +39,7 @@
         </div>
             <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+</div>
+
 </body>
 {% endblock %}
