@@ -375,15 +375,15 @@ def webhook_received():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     form = searchForm()
-    #if "username" in session:
-    #    if mongo.db.User.find_one({'$and':[ {'username': session['username']} ,{'subscriptionActive': True}]}):
+    if "username" in session:
+        if mongo.db.User.find_one({'$and':[ {'username': session['username']} ,{'subscriptionActive': True}]}):
     if request.method == 'POST':
         return redirect(url_for('results'), code=307)#Doesn't work without 307?
-        #else:
-            #flash('Please Subscribe first.')
-            #return render_template('noSubscription.html')#
-    #else:
-        #return redirect(url_for("login"))###
+        else:
+            flash('Please Subscribe first.')
+            return render_template('noSubscription.html')#
+    else:
+        return redirect(url_for("login"))###
     return render_template('search.html', form=form, title='Search')
 
 @app.route('/results', methods=['GET', 'POST'])
