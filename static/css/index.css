@@ -5,38 +5,37 @@ body, html {
 	padding:0;
 }
 .container {
-  top:0;
-  width: 100%;
-  margin:0;
-	padding:0;
-  position: inherit;
+  height: 100vh;
 }
 
-div.bgimage1 {
-  background-image: url("/static/Main-1.jpeg");
-  height: 100vh;
-  background-position: center;
-  background-size: cover;
+.bg {
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+background-attachment: fixed;
 }
-div.bgimage2 {
-  background-image: url("/static/Grey-bg.jpeg");
-  height: 100vh;
-  background-position: center;
-  background-size: cover;
+
+.image1 {
+  background-image:url("/static/Main-1.JPEG");
+  height: 100%;
 }
-div.bgimage3 {
-background-color: orange;  
-	height: 100vh;
-  background-position: center;
-  background-size: cover;
+
+.image2 {
+  background-image:url("/static/Grey-bg.JPEG");
+  height: 100%;
+
+}
+.image3 {
+  background-image:url("/static/Orange-bg.JPEG");
+  height: 100%;
 }
 
 .blend{
   mix-blend-mode: hue;
   position: absolute;
   background-color: orange;
-  width: 60vw;
-  height: 20vh;
+  width: 90rem;
+  height: 15rem;
   left:0;
   right:0;
   margin:auto auto;
@@ -44,28 +43,23 @@ background-color: orange;
   border: 10px solid white;
   -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
 	animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-}
-@media screen and (max-width: 1650px) {
-  div.logo{
-    top: 20%;
-  }
-}
 
+}
 .logo {
   position: absolute;
   top:15%;
-  width: 80vw;
   left:0;
   right:0;
   margin:auto auto;
   -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
 	animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
+
 }
 
 h1{
   font-family: 'Open Sans', sans-serif;
   text-align: center;
-  font-size: 6vw;
+  font-size: 8rem;
   color: rgb(240, 241, 231);
   text-shadow: 9px 5px 5px rgb(38,70,83), 9px 5px 5px rgb(38,70,83), 9px 5px 5px rgb(38,70,83), 9px 5px 5px rgb(38,70,83);
 }
@@ -76,7 +70,7 @@ h1{
   left:0;
   right:0;
   margin:0 auto;
-  bottom: 40%;
+  bottom: 20%;
   -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
 	animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
 }
@@ -86,7 +80,7 @@ h2 {
 	text-align:center;
   color: black;
 	text-shadow: 3px 3px 3px white, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861;
-  font-size: 2vw;
+  font-size: 6rem;
 }
 
 .descText {
@@ -103,7 +97,6 @@ h3 {
   text-shadow: 3px 3px 3px #4f5861, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861;
 
 }
-
 
 @-webkit-keyframes tracking-in-contract-bck-bottom {
   0% {
@@ -190,7 +183,7 @@ h3 {
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 850px) {
   .blend{
     display:none;
   }
@@ -198,12 +191,13 @@ h3 {
     display:none;
   }
   .overlayText{
+    position: absolute;
     width:100vw;
-    bottom:30vh;
+    bottom:60vh;
   }
-   h2{
-    position: relative;
-    font-size:5vh;
+  h2{
+    position: inherit;
+    font-size: 4rem;
     text-align: center;
     margin: 0 0 auto;
   }
