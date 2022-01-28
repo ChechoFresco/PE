@@ -1,5 +1,36 @@
-form{
-    top:150px;
+body, html {
+    height: 100%;
+    width: 100%;
+    margin:0;
+    padding:0;
+    background-color:Orange;
+}
+div.product {
+    height: 100%;
+    display:flex;
+    flex-direction: row-reverse;
+    align-items: stretch;
+    backdrop-filter: blur(10px);
 }
 
+img {
+    width: 100%;
+    height: 100vh;
+    object-fit: contain;
+    flex: 1;
+}
 
+form{
+    margin: 40vh 0vh;
+    flex: 2;
+    font-size:2vh;
+    background: #4f5861;
+}
+
+.description{
+    margin: 20vh 10vh;
+    flex: 3;
+    font-size:2vh;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: saturate(180%) blur(10px);
+}
