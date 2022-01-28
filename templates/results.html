@@ -42,7 +42,7 @@
                     <td>{{agenda.MeetingType}} </td>
                     <td>{{agenda.ItemType}} </td>
                     <td class='hidden'>{{agenda.Num}} </td>
-                    <td class='desc'>{{agenda.Description}}</td>  <! replace \n to compact lines in use with white-space!>
+                    <td class='desc'>{{agenda.Description.replace(request.form['primary_search'], '@*_*_*_*_*_*_{}_*_*_*_*_*_*_@'.format(request.form['primary_search']))}}</td>  <! replace \n to compact lines in use with white-space!>
                 </tr>
                 {% endfor %}
             </tbody>
