@@ -10,7 +10,8 @@ body, html {
 	width:100%;
 	position: absolute;
 	display: inline-block;
-	height:6.5vh
+	height:3.5rem;
+	z-index: 1;
 
 }
 .topnav a {
@@ -18,18 +19,17 @@ body, html {
 	color: rgb(240, 241, 231);
 	text-align: center;
 	text-decoration: none;
-	font-size: 17px;
-	padding: 14px 16px;
-	margin:0;
+	font-size: 1.5rem;
+	padding:1rem 1rem;
 }
 
-.topnav .icon {
+.topnav .hamburger {
 	display: none;
 }
 
 a.banner{
 	float:left;
-    font-size: 5vh;
+    font-size: 4rem;
 	color: rgb(240, 241, 231);
 	text-shadow: 8px 8px 8px rgb(38,70,83), 8px 8px 8px #f4a261;
 	padding: 0;
@@ -62,18 +62,20 @@ a#logoutb.logoutb{
 color: rgb(240, 241, 231);
 }
 
-@media screen and (max-width: 800px) {
+
+
+@media screen and (max-width: 844px){
 	.topnav a:not(:first-child) {
 		display: none;
 	}
-	.topnav a.icon {
+	.topnav a.hamburger {
 		float: right;
 		display: block;
 		padding: 28px 20px;
 		font-size: 3vh;
 	}
 	a.banner{
-		font-size: 6.5vh;
+		font-size: 2.5rem;
 	}
 	.topnavresponsive {
 		background: #516a6f;
@@ -88,6 +90,7 @@ color: rgb(240, 241, 231);
 		display:block;
 		color:white;
 		padding: 12px 10px;
+		font-size:1rem
 
 	}
 	div.containerchanges h2{
