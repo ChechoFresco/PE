@@ -36,6 +36,8 @@ stripe_keys = {
 
 stripe.api_key = stripe_keys['secret_key']
 
+
+
 """def check4Issues2email():
     with app.app_context():
         a = date.today()
@@ -320,7 +322,7 @@ def customer_portal():
 
 @app.route('/webhook', methods=['POST'])
 def webhook_received():
-    webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
+    webhook_secret = 'whsec_iEhwCx3OQgtD7nCPBhTiEUkh1Ac7J683'
     request_data = json.loads(request.data)
     if webhook_secret:
         signature = request.headers.get('stripe-signature')
@@ -375,20 +377,21 @@ def webhook_received():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     form = searchForm()
-    if "username" in session:
-        if mongo.db.User.find_one({'$and':[ {'username': session['username']} ,{'subscriptionActive': True}]}):
+    #if "username" in session:
+    #    if mongo.db.User.find_one({'$and':[ {'username': session['username']} ,{'subscriptionActive': True}]}):
     if request.method == 'POST':
         return redirect(url_for('results'), code=307)#Doesn't work without 307?
-        else:
-            flash('Please Subscribe first.')
-            return render_template('noSubscription.html')#
-    else:
-        return redirect(url_for("login"))###
+        #else:
+            #flash('Please Subscribe first.')
+            #return render_template('noSubscription.html')#
+    #else:
+        #return redirect(url_for("login"))###
     return render_template('search.html', form=form, title='Search')
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     searchKey = request.form['primary_search']
+    deepKey = request.form['secondary_search']
     start_date = request.form['startdate_field']
     end_date = request.form['enddate_field']
     start_year = str(start_date[0:4])
@@ -402,21 +405,41 @@ def results():
     if request.form['select'] == 'City' and request.form['startdate_field']:
         agenda = mongo.db.Agenda.find({'$and':[ { 'City': {'$regex': searchKey, '$options': 'i' }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {"MeetingType":{'$regex': "City Council", '$options': 'i' }}]}).sort('Date').sort('City')
         return render_template('results.html', agendas=agenda, title = "Search Results")
-    if request.form['select'] == 'City' and request.form['startdate_field']== "":# Allows user to not input date
-        agenda = mongo.db.Agenda.find({ '$and':[ {'City': {'$regex': searchKey, '$options': 'i' }}, {"MeetingType":{'$regex': "City Council"}} ]})
+    if request.form['select'] == 'City' and request.form['startdate_field']== "" and request.form['secondary_search']=="":# Allows user to not input date
+        agenda = mongo.db.Agenda.find({'$and':[ {'City': {'$regex': searchKey, '$options': 'i' }}, {"MeetingType":{'$regex': "City Council"}} ]})
+        return render_template('results.html', agendas=agenda, title = "Search Results")
+
+
+    if request.form['select'] == 'City' and request.form['startdate_field'] and request.form['secondary_search']:
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": deepKey}}, {'City': {'$regex': searchKey, '$options': 'i' }}, {"MeetingType":{'$regex': "City Council"}}, { 'Date':{'$lte':int(end), '$gte':int(start)}} ]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "Search Results")
+    if request.form['select'] == 'City' and request.form['startdate_field']== "" and request.form['secondary_search'] :
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": deepKey}},{'City': {'$regex': searchKey, '$options': 'i' }}, {"MeetingType":{'$regex': "City Council"}}]})
         return render_template('results.html', agendas=agenda,  title = "Search Results")
+
+
     if request.form['select'] == 'Description' and request.form['startdate_field']:
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
         return render_template('results.html', agendas=agenda,  title = "Search Results")
     if request.form['select'] == 'Description' and request.form['startdate_field'] =="":# Allows user to not input date
         agenda = mongo.db.Agenda.find({ '$text': { "$search": searchKey}})
         return render_template('results.html', agendas=agenda, title = "Search Results")
+
+
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']:
         agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}},{'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
         return render_template('results.html', agendas=agenda, title = "Search Results")
-    if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="":
-        agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }},{'City': {'$regex': 'Los Angeles', '$options': 'i' }}]})
+    if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['primary_search']:
+        agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}},{'City': {'$regex': 'Los Angeles', '$options': 'i' }},{"MeetingType":{'$regex': searchKey, '$options': 'i' }} ]})
         return render_template('results.html', agendas=agenda,  title = "Search Results")
+    if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['secondary_search']=="" and request.form['primary_search']=="*":#* To show all committees
+        agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}}, {'City': {'$regex': 'Los Angeles'}}]})
+        return render_template('results.html', agendas=agenda,  title = "Search Results")
+    if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['secondary_search'] and request.form['primary_search']=="*":#* To show all committees
+        agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}}, {'City': {'$regex': 'Los Angeles'}}, {'$text': { "$search": deepKey}}]})
+        return render_template('results.html', agendas=agenda,  title = "Search Results")
+
+
     if request.form['select'] == 'LB Committees' and request.form['startdate_field']:
         agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}},{'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
         return render_template('results.html', agendas=agenda, title = "Search Results")
@@ -435,9 +458,9 @@ def savedIssues():
                 a = date.today()
                 b= str(a).replace("-","")
                 today=int(b)
-                c = date.today() + relativedelta(months=-8)
+                c = date.today() + relativedelta(months=-1)
                 d= str(c).replace("-","")
-                today_3= int(d)# Converts date - 3 months
+                today_3= int(d)# Converts date - 1 months
                 issues_placeholder= []
                 user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues':1})
                 for x in user_issues:
@@ -453,7 +476,7 @@ def savedIssues():
                 a = date.today()
                 b= str(a).replace("-","")
                 today=int(b)
-                c = date.today() + relativedelta(months=-8)
+                c = date.today() + relativedelta(months=-1)
                 d= str(c).replace("-","")
                 today_3= int(d)
                 issue = request.form['monitor_search']
@@ -473,7 +496,7 @@ def savedIssues():
                 a = date.today()
                 b= str(a).replace("-","")
                 today=int(b)
-                c = date.today() + relativedelta(months=-8)
+                c = date.today() + relativedelta(months=-1)
                 d= str(c).replace("-","")
                 today_3= int(d)
                 issue = request.form['monitor_search']
@@ -492,6 +515,7 @@ def savedIssues():
     else:
         return redirect(url_for("login"))
 
+
 @app.route('/success')
 def success():
     return render_template("success.html")
@@ -503,13 +527,10 @@ def cancelled():
 @app.route('/noSubscription')
 def noSubscription():
     return render_template("noSubscription.html")
+
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     return render_template('about.html', title='about')
-
-@app.route('/contact', methods=['GET', 'POST'])
-def contact():
-    return render_template('contact.html', title='Contact')
 
 @app.route('/termsofservice', methods=['GET', 'POST'])
 def termsofservice():
@@ -519,6 +540,8 @@ def termsofservice():
 def privacypolicy():
     return render_template('privacypolicy.html', title='Privacy Policy')
 
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 
