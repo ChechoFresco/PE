@@ -1,3 +1,10 @@
+body, html {
+    height: 100%;
+    width: 100%;
+    margin:0;
+    padding:0;
+  }
+
 div#alert {
     top:6.5vh;
     font-size: 2vh;
@@ -31,12 +38,9 @@ td {
 
 
 div.container {
-    height: 100%;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 auto;
     position:relative
 }
+
 table, th, td {
     position:relative;
 }
@@ -56,8 +60,10 @@ table, th, td {
         font-size: 6px;
         }
     th.county, td.county {
-display:none;        }
+    display:none;
+        }
     th.num, td.num{
         visibility: hidden
         }
 }
+
