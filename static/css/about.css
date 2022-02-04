@@ -3,12 +3,11 @@ Result Skip Results Iframe
 EDIT ON
 .jumbotron {
     position: absolute;
-    height:100vh;
-}
-.jumbotron{
+    height:100%;
     padding-bottom: 0px;
     padding-top:0px;
 }
+
 .jumbotron__background {
     position: absolute;
     z-index: 2;
