@@ -1,207 +1,78 @@
-body, html {
-  height: 100%;
-  width: 100%;
+html, body{
   margin:0;
-	padding:0;
-}
-.container {
-  height: 100vh;
+  padding:0;
+  background-color:#4f5861;
 }
 
-.bg {
-background-position: center;
-background-repeat: no-repeat;
-background-size: cover;
-background-attachment: fixed;
-}
-
-.image1 {
-  background-image:url("/static/Main-1.jpeg");
-  height: 100%;
-}
-
-.image2 {
-  background-image:url("/static/Grey-bg.jpeg");
-  height: 100%;
-
-}
-.image3 {
-  background-image:url("/static/Orange-bg.jpeg");
-  height: 100%;
-}
-
-.blend{
-  mix-blend-mode: hue;
+Result Skip Results Iframe
+EDIT ON
+.jumbotron {
   position: absolute;
-  background-color: orange;
-  width: 90rem;
-  height: 15rem;
-  left:0;
-  right:0;
-  margin:auto auto;
-  top: 20%;
-  border: 10px solid white;
-  -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-	animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-
 }
-.logo {
+
+.jumbotron-fluid {
+  height:100vh;
+}
+
+.jumbotron__background {
   position: absolute;
-  top:15%;
-  left:0;
-  right:0;
-  margin:auto auto;
-  -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-	animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-
-}
-
-h1{
-  font-family: 'Open Sans', sans-serif;
-  text-align: center;
-  font-size: 8rem;
-  color: rgb(240, 241, 231);
-  text-shadow: 9px 5px 5px rgb(38,70,83), 9px 5px 5px rgb(38,70,83), 9px 5px 5px rgb(38,70,83), 9px 5px 5px rgb(38,70,83);
-}
-
-.overlayText {
-  position: absolute;
-  width: 900px;
-  left:0;
-  right:0;
-  margin:0 auto;
-  bottom: 20%;
-  -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-	animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-}
-
-h2 {
-	font-family: 'Dancing Script', cursive;
-	text-align:center;
-  color: black;
-	text-shadow: 3px 3px 3px white, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861;
-  font-size: 6rem;
-}
-
-.descText {
-  position: absolute;
-  bottom: 5%;
+  z-index: 2;
+  top: 81px;
   width: 100%;
+  height: 41%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+.jumbotron .container {
+  z-index: 2;
+  position: relative;
+  height:40%;
+}
+img {
+  width: 22%; /* You can set the dimensions to whatever you want */
+  height: 350px;
+  object-fit: cover;
 }
 
-h3 {
-	text-align:center;
+.jumbotron p{
+  font-size: 2.5rem;
   color: white;
-  font-size: 1vw;
-  font-family: Didot, serif	;
-  text-shadow: 3px 3px 3px #4f5861, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861;
-
 }
 
-@-webkit-keyframes tracking-in-contract-bck-bottom {
-  0% {
-    letter-spacing: 1em;
-    -webkit-transform: translateZ(400px) translateY(300px);
-            transform: translateZ(400px) translateY(300px);
-    opacity: 0;
-  }
-  40% {
-    opacity: 0.6;
-  }
-  100% {
-    -webkit-transform: translateZ(0) translateY(0);
-            transform: translateZ(0) translateY(0);
-    opacity: 1;
-  }
+h3{
+  color:#acc4fc;
+}
+h1.display-4{
+  color:#4404fc;
+}
+p.lead{
+  color:black;
+  font-size: 3rem;
+  font-weight: 1;
+}
+.container-fluid.bg-3{
+  z-index: 10;
+  background-color:#4f5861;
+}
+h1.display-4{
+  color:White;
+  text-shadow: 2px 2px black;
 }
 
-@-webkit-keyframes focus-in-contract-bck {
-  0% {
-    letter-spacing: 1em;
-    -webkit-transform: translateZ(300px);
-            transform: translateZ(300px);
-    -webkit-filter: blur(12px);
-            filter: blur(12px);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: translateZ(12px);
-            transform: translateZ(12px);
-    -webkit-filter: blur(0);
-            filter: blur(0);
-    opacity: 1;
-  }
-}
-@keyframes focus-in-contract-bck {
-  0% {
-    letter-spacing: 1em;
-    -webkit-transform: translateZ(300px);
-            transform: translateZ(300px);
-    -webkit-filter: blur(12px);
-            filter: blur(12px);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: translateZ(12px);
-            transform: translateZ(12px);
-    -webkit-filter: blur(0);
-            filter: blur(0);
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes tracking-in-expand-fwd-top {
-  0% {
-    letter-spacing: -0.5em;
-    -webkit-transform: translateZ(-700px) translateY(-500px);
-            transform: translateZ(-700px) translateY(-500px);
-    opacity: 0;
-  }
-  40% {
-    opacity: 0.6;
-  }
-  100% {
-    -webkit-transform: translateZ(0) translateY(0);
-            transform: translateZ(0) translateY(0);
-    opacity: 1;
-  }
-}
-@keyframes tracking-in-expand-fwd-top {
-  0% {
-    letter-spacing: -0.5em;
-    -webkit-transform: translateZ(-700px) translateY(-500px);
-            transform: translateZ(-700px) translateY(-500px);
-    opacity: 0;
-  }
-  40% {
-    opacity: 0.6;
-  }
-  100% {
-    -webkit-transform: translateZ(0) translateY(0);
-            transform: translateZ(0) translateY(0);
-    opacity: 1;
-  }
-}
-
-@media screen and (max-width: 850px) {
-  .blend{
-    display:none;
-  }
-  .logo{
-    display:none;
-  }
-  .overlayText{
+@media screen and (max-width: 1700px) {
+  .jumbotron__background {
     position: absolute;
-    width:100vw;
-    bottom:60vh;
+    z-index: 2;
+    top: 81px;
+    width: 100%;
+    height: 35%;
+    object-fit: cover;
+    opacity: 0.5;
+    overflow: hidden;
   }
-  h2{
-    position: inherit;
-    font-size: 4rem;
-    text-align: center;
-    margin: 0 0 auto;
-  }
-  h3{
-    font-size:2vh;
+  .jumbotron .container {
+    z-index: 2;
+    position: relative;
+    height:40%;
   }
 }
