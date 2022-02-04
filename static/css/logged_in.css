@@ -1,67 +1,78 @@
-<!DOCTYPE html>
-{% extends "base.html" %}
-{% block content %}
-<head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width,initial-scale=1'>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
-</head>
-<body>
-    <br></br>
-    <br></br>
-<div class="jumbotron jumbotron-fluid">
-    <picture >
-    <source media="(min-width:800px)" srcset="/static/Main-1.JPEG">
-    <img src="/static/Main-1.JPEG" alt="Agenda search" class="jumbotron__background">
-    </picture>
-    <div class="container text-center">
-        <br></br>
-        <h1 class="display-4">Government at a glance</h1>
-                <p class="lead">Tired of digging through unorganized and antiquated local governemnt websites? Let <span style= "color:#4404fc; text-shadow: 1px 1px black">Policy</span><span style= "color:#acc4fc; text-shadow: 1px 1px black">Edge</span>'s scripts and algorithims, deliver the latest agendas directly into your mailbox.</p>
-                <hr class="my-4">
-                <p>PolicyEdge is dedicated to providing the most up-to-date agendas from Agoura Hills to Whittier.</p></hr>
-            </div>
+html, body{
+  margin:0;
+  padding:0;
+  background-color:#4f5861;
+}
 
-    <div class="container-fluid bg-3 text-center">
-        <h3>Some issues of interest</h3>
-        <div class="row">
-            <div class="col-sm-3">
-                <p>Utilities</p>
-                <img src="/static/pexels-fadel-baskoro-Utilities.jpg" class="thumbnail" style="width:100% " alt="Image">
-            </div>
-            <div class="col-sm-3">
-                <p>Waste</p>
-                <img src="/static/pexels-alex-fu-Waste.jpg" class="thumbnail" style="width:100% " alt="Image">
-            </div>
-            <div class="col-sm-3">
-                <p>Medical</p>
-                <img src="/static/pexels-anna-shvets-Medical.jpg" class="thumbnail" style="width:100% " alt="Image">
-            </div>
-            <div class="col-sm-3">
-                <p>Communications</p>
-                <img src="/static/pexels-pixabay-Comm.jpg" class="thumbnail" style="width:100% " alt="Image">
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid bg-3 text-center">
-        <div class="row">
-            <div class="col-sm-3">
-                <p>Transportation</p>
-                <img src="/static/pexels-pew-nguyen-Transportation.jpg" class="thumbnail" style="width:100% " alt="Image">
-            </div>
-            <div class="col-sm-3">
-                <p>Technology</p>
-                <img src="/static/pexels-thisisengineering-Technology.jpg" class="thumbnail" style="width:100% " alt="Image">
-            </div>
-            <div class="col-sm-3">
-                <p>Financial</p>
-                <img src="/static/pexels-pixabay-Financial.jpg" class="thumbnail" style="width:100% " alt="Image">
-            </div>
-            <div class="col-sm-3">
-                <p>Retail</p>
-                <img src="/static/pexels-shvets-production-Retail.jpg" class="thumbnail" style="width:100% " alt="Image">
-            </div>
-        </div>
-    </div>
-</body>
-{% endblock %}
+Result Skip Results Iframe
+EDIT ON
+.jumbotron {
+  position: absolute;
+}
+
+.jumbotron-fluid {
+  height:100vh;
+}
+
+.jumbotron__background {
+  position: absolute;
+  z-index: 2;
+  top: 81px;
+  width: 100%;
+  height: 41%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+.jumbotron .container {
+  z-index: 2;
+  position: relative;
+  height:40%;
+}
+img {
+  width: 22%; /* You can set the dimensions to whatever you want */
+  height: 350px;
+  object-fit: cover;
+}
+
+.jumbotron p{
+  font-size: 2.5rem;
+  color: white;
+}
+
+h3{
+  color:#acc4fc;
+}
+h1.display-4{
+  color:#4404fc;
+}
+p.lead{
+  color:black;
+  font-size: 3rem;
+  font-weight: 1;
+}
+.container-fluid.bg-3{
+  z-index: 10;
+  background-color:#4f5861;
+}
+h1.display-4{
+  color:White;
+  text-shadow: 2px 2px black;
+}
+
+@media screen and (max-width: 1700px) {
+  .jumbotron__background {
+    position: absolute;
+    z-index: 2;
+    top: 81px;
+    width: 100%;
+    height: 35%;
+    object-fit: cover;
+    opacity: 0.5;
+    overflow: hidden;
+  }
+  .jumbotron .container {
+    z-index: 2;
+    position: relative;
+    height:40%;
+  }
+}
