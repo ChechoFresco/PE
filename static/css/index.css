@@ -89,13 +89,4 @@ h1.display-4{
     object-fit: cover;
     opacity: 0.5;
 }
-  h1.display-4{
-  font-weight: 2;
-
-}
-p.lead{
-  color:black;
-  font-size: 3rem;
-  font-weight: 2;
-}
 }
