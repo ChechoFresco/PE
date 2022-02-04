@@ -71,5 +71,11 @@ h1.display-4 span{
     object-fit: cover;
     opacity: 0.5;
 }
+    .jumbotron {
+    position: absolute;
+    height:100%;
+    padding-bottom: 0px;
+    padding-top:0px;
+}
 }
 
