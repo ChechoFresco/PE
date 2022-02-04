@@ -32,10 +32,7 @@ EDIT ON
 h3{
     color:#acc4fc;
 }
-h1.display-4{
-    font-size: 9rem;
-    color:#4404fc;
-}
+
 p.lead{
     color:black;
     font-size: 3rem;
@@ -48,6 +45,7 @@ h1.display-4{
     top:10px;
     color:#4404fc;
     text-shadow: 1px 1px black;
+    font-size: 9rem;
 }
 h1.display-4 span{
     color:#acc4fc;
@@ -55,16 +53,14 @@ h1.display-4 span{
 
 }
 @media screen and (max-width: 385px) {
-    p.lead{
+.jumbotron p{
         font-size: 2rem;
     }
+    
     h1.display-4{
         font-size: 7rem;
     }
-    img {
-        width: 22%; /* You can set the dimensions to whatever you want */
-        object-fit: contain;
-    }
+    
 .jumbotron__background {
     position: absolute;
     z-index: 2;
@@ -74,4 +70,5 @@ h1.display-4 span{
     object-fit: cover;
     opacity: 0.5;
 }
+    ]
 
