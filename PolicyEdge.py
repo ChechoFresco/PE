@@ -424,7 +424,7 @@ def results():
         agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }},{'City': {'$regex': 'Long Beach', '$options': 'i' }}]})
         return render_template('results.html', agendas=agenda,  title = "Search Results")
 
-      @app.route('/cannabis', methods=['GET', 'POST'])
+@app.route('/cannabis', methods=['GET', 'POST'])
 def cannabis():
     if request.method == 'GET':
         a = date.today()
