@@ -3,6 +3,7 @@
     background: #acc4fc;
     position:sticky;
     height:50px;
+    z-index:4;
 }
 
 footer a {
