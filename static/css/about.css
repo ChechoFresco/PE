@@ -1,86 +1,68 @@
-div.aboutcont{
-    background-color: #4f5861;
+Result Skip Results Iframe
+EDIT ON
+.jumbotron {
+    position: absolute;
+    height:100%;
 }
-
-div.contain2{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    margin:0px;
-    padding:0px;
-    }
-
-div.contain2 div.image1{
-    grid-area: 1 / 1 / 2 / 3;
+.jumbotron{
+    padding-bottom: 0px;
+    padding-top:0px;
 }
-div.contain2 div.text{
-    grid-area: 2 / 2 / 3 / 3;
-}
-div.contain2 div.image2{
-    grid-area: 2 / 1 / 3 / 2;
-}
-div.contain2 div.image1 img{
-    width: 100vw;
-    height: 45vh;
+.jumbotron__background {
+    position: absolute;
+    z-index: 2;
+    top: 81px;
+    width: 100%;
+    height: 101%;
     object-fit: cover;
-    object-position: 0px -21rem;
-    border: 3px solid rgb(38,70,83);
-    border-radius: 50px 50px;
+    opacity: 0.5;
 }
-div.contain2 div.image2 img{
-    height: 85vh;
-    width: 45vw;
-    object-fit: cover;
-    object-position: 0px -3rem;
-    border-radius: 50px 50px;
-    margin:10px;
-    padding:10px;
+.jumbotron .container {
+    height: 100vh;
+    z-index: 2;
+    position: relative;
 }
 
-div.contain2 div.text {
-    text-align: center;
-    font-size:3vh;
-    margin: auto;
-    margin:10px;
-    padding:10px;
-
-}
-p {
+.jumbotron p{
+    font-size: 2.5rem;
     color: white;
-    text-indent: 50px;
-    letter-spacing: 2px;
-    line-height: 1;
 }
-h2 {
-    font-size:50px;
-    color: rgb(39, 76, 119);
-    text-shadow: 2px 2px 2px white;
+
+h3{
+    color:#acc4fc;
 }
-@media screen and (max-width: 800px) {
-    body div.aboutcont{
-        margin:0;
-        padding:0;
-        position: inherit;
-        height: 100%;
-
-    }
-    div.contain2{
-        top:8vh;
-        width: 100%;
-        position:relative;
-    }
-    div.contain2 img {
-        position: absolute;
-        width: 100vw;
-        height: 25vh;
-    }
-    div.contain2 div.text{
-        top:20vh;
-        position: absolute;
-        font-size:2vh;
-
-    }
-
+h1.display-4{
+    font-size: 9rem;
+    color:#4404fc;
+}
+p.lead{
+    color:black;
+    font-size: 3rem;
+    font-weight: 1;
+}
+.container-fluid.bg-3{
+    background-color:#4f5861;
+}
+h1.display-4{
+    top:10px;
+    color:#4404fc;
+    text-shadow: 1px 1px black;
+}
+h1.display-4 span{
+    color:#acc4fc;
+    top:10px;
 
 }
+@media screen and (max-width: 385px) {
+    p.lead{
+        font-size: 2rem;
+    }
+    h1.display-4{
+        font-size: 7rem;
+    }
+    img {
+        width: 22%; /* You can set the dimensions to whatever you want */
+        object-fit: contain;
+    }
+}
+
