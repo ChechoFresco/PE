@@ -1,3 +1,4 @@
+
 Result Skip Results Iframe
 EDIT ON
 .jumbotron {
@@ -65,10 +66,12 @@ h1.display-4 span{
         object-fit: contain;
     }
 .jumbotron__background {
-    top: 93px;
-    height: 83%;
+    position: absolute;
+    z-index: 2;
+    top: 98px;
+    width: 100%;
+    height: 125%;
     object-fit: cover;
     opacity: 0.5;
-}
 }
 
