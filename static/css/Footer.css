@@ -58,11 +58,10 @@ footer a {
     }
     .copy {
         height: 15px;
-        padding: 25px 1px 0.5em;
+        padding: 13px 1px 0.5em;
         text-align: center;
-        font-size: 2vh;
+        font-size: 1.3vh;
         color: rgb(240, 241, 231);
-        text-shadow: 5px 5px 5px rgb(38,70,83), 5px 5px 5px #f4a261;
     }
     .fa {
         padding: 10px;
