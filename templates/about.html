@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
 <head>
@@ -6,20 +7,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}" />
 </head>
 <body>
-    <div class="aboutcont" id='myaboutcont'>
-        <div class="contain2">
-            <div class='image1'>
-                <img src="/static/IMG_0150 2.JPG"></img>
-            </div>
-            <div class="text">
-                <h2>About</h2>
-                <p> Mr. Preciado has been working in politics on the local and national level for over 10 years.
+    <br></br>
+    <div class="jumbotron jumbotron-fluid">
+        <picture >
+        <source media="(min-width:800px)" srcset="/static/IMG_0150.JPG">
+        <img src="/static/Main-1.JPEG" alt="Agenda search" class="jumbotron__background">
+        </picture>
+        <div class="container text-center">
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></>
+            <h1 class="display-4">Abo<span>ut</span></h1>
+            <p class="lead">Mr. Preciado has been working in politics on the local and national level for over 10 years.
                 He brings a wealth of professional experience to his work coming from both the public and private sector. Mr. Preciado has worked with regulatory agencies, startup companies, statewide campaigns, local government agencies, cannabis issues, and real estate developers. As the founder, Sergio is committed to bringing a new approach to local government.</p>
-            </div>
-            <div class='image2'>
-                <img src="/static/statue.jpg"></img>
-            </div>
         </div>
-</body>
-{% endblock %}
-
+    </div>
+s{% endblock %}
