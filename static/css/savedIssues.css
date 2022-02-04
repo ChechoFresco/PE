@@ -3,7 +3,7 @@ body, html {
     width: 100%;
     margin:0;
     padding:0;
-  }
+}
 
 div#alert {
     top:6.5vh;
@@ -26,44 +26,33 @@ div#form {
     position: relative;
 }
 
+#table{
+    max-width: 90vw;
+    margin: 0 auto;
+}
 th {
     color: white;
-    background-color: #55608f;
-
+    background-color: #4404fc;
     }
+
 td {
-    width: auto;
-    font-size: 1.5vh;
-    }
-
-
-div.container {
-    position:relative
+	background-color: rgba(255,255,255,0.2);
+	color:black;
+    text-align: center;
+    height: 30vh;
+    white-space: break-spaces;
 }
 
-table, th, td {
-    position:relative;
+td:nth-child(even){
+    background-color: #f2f2f2;
 }
-@media (min-width: 1200px){
-.container {
-    max-width: 100%;
+
+td:hover {
+    background-color: #f5f5f5;
 }
-}
-@media screen and (max-width: 800px) {
-    td{
-        font-size: 8px;
-    }
-    tbody tr td.description{
-        font-size: 20px;
-    }
-    th {
-        font-size: 6px;
-        }
-    th.county, td.county {
-    display:none;
-        }
-    th.num, td.num{
-        visibility: hidden
-        }
+
+.description{
+    display: flex;
+    overflow-x: auto;
 }
 
