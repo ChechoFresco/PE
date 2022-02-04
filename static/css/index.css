@@ -53,6 +53,7 @@ p.lead{
 .container-fluid.bg-3{
   z-index: 10;
   background-color:#4f5861;
+  position:relative;
 }
 h1.display-4{
   color:White;
