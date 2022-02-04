@@ -424,6 +424,101 @@ def results():
         agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }},{'City': {'$regex': 'Long Beach', '$options': 'i' }}]})
         return render_template('results.html', agendas=agenda,  title = "Search Results")
 
+      @app.route('/cannabis', methods=['GET', 'POST'])
+def cannabis():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(months=-3) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'cannabis'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('cannabis.html', agendas=agenda,  title = "Search Results")
+
+@app.route('/waste', methods=['GET', 'POST'])
+def waste():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(months=-3) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'waste'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('waste.html', agendas=agenda,  title = "Search Results")
+
+@app.route('/medical', methods=['GET', 'POST'])
+def medical():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(months=-3) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'medical'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('medical.html', agendas=agenda,  title = "Search Results")
+
+@app.route('/telecommunication', methods=['GET', 'POST'])
+def telecommunication():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(months=-3) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'telecommunication'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('telecommunication.html', agendas=agenda,  title = "Search Results")
+
+@app.route('/transportation', methods=['GET', 'POST'])
+def transportation():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(months=-3) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'transportation'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('transportation.html', agendas=agenda,  title = "Search Results")
+
+@app.route('/technology', methods=['GET', 'POST'])
+def technology():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(months=-3) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'technology'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('technology.html', agendas=agenda,  title = "Search Results")
+
+@app.route('/financial', methods=['GET', 'POST'])
+def financial():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(months=-3) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'financial'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('financial.html', agendas=agenda,  title = "Search Results")
+
+@app.route('/utility', methods=['GET', 'POST'])
+def utility():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(months=-3) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'utility'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('utility.html', agendas=agenda,  title = "Search Results")
 
 @app.route('/savedIssues', methods=['GET', 'POST'])
 def savedIssues():
