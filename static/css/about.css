@@ -52,8 +52,8 @@ h1.display-4 span{
     top:10px;
 
 }
-@media screen and (max-width: 385px) {
-.jumbotron p{
+@media screen and (max-width: 360px) {
+    p.lead{
         font-size: 2rem;
     }
     
