@@ -85,7 +85,7 @@ h1.display-4{
 }
 .jumbotron__background {
     top: 93px;
-    height: 83%;
+    height: 100%;
     object-fit: cover;
     opacity: 0.5;
 }
