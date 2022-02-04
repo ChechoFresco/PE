@@ -57,14 +57,14 @@ footer a {
         position: sticky;
     }
     .copy {
-        height: 15px;
-        padding: 13px 1px 0.5em;
-        text-align: center;
-        font-size: 1.3vh;
-        color: rgb(240, 241, 231);
+    height: 18px;
+    padding: 29px 1px 0.5em;
+    text-align: center;
+    font-size: 1.6vh;
+    color: rgb(240, 241, 231);
     }
     .fa {
-        padding: 10px;
+        padding: 15px 20px 19px;
         font-size: 2vh;
         width: 15px;
         text-align: center;
