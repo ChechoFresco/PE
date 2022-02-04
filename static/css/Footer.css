@@ -1,45 +1,52 @@
 .foot {
 	width:100%;
-    background: #4f5861;
+    background: #acc4fc;
     position:sticky;
+    height:50px;
 }
+
 footer a {
     margin-right: 20px;
 }
+
 .copy {
-    height: 15px;
     float: right;
-    padding: 25px 1px 0.5em;
-    text-align: center;
-    font-size: 23px;
-    color: rgb(240, 241, 231);
+    padding: 10px 28px;
+    font-size: 27px;
+    color: #4f5861;
 }
+
 .fa {
     padding: 10px;
+    margin: 0px 0px;
     font-size: 30px;
-    width: 50px;
+    width: 70px;
     text-align: center;
-    text-decoration: none;
     background: #c6e5f9;
     color: white;
 }
+
 .fa:hover {
     opacity: 0.7;
 }
+
 .fa-facebook {
-    background: #3B5998;
+    background: gray;
     color: white;
 }
+
 .fa-twitter {
-    background: #55ACEE;
+    background: gray;
     color: white;
 }
+
 .fa-google {
-    background: #dd4b39;
+    background: gray;
     color: white;
 }
+
 .fa-linkedin {
-    background: #007bb5;
+    background: gray;
     color: white;
 }
 
@@ -66,5 +73,4 @@ footer a {
         color: white;
     }
 }
-
 
