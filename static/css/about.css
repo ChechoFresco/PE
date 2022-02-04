@@ -52,7 +52,7 @@ h1.display-4 span{
     top:10px;
 
 }
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 850px) {
     p.lead{
         font-size: 2rem;
     }
