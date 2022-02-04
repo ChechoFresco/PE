@@ -3,7 +3,7 @@ body, html {
     width: 100%;
     margin:0;
     padding:0;
-    background-color:Orange;
+    background-color:light gray;
 }
 div.product {
     height: 100%;
@@ -21,16 +21,15 @@ img {
 }
 
 form{
-    margin: 40vh 0vh;
+    margin: 22vh 0vh;
     flex: 2;
     font-size:2vh;
-    background: #4f5861;
 }
 
 .description{
     margin: 20vh 10vh;
     flex: 3;
     font-size:2vh;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: saturate(180%) blur(10px);
 }
+
+
