@@ -64,5 +64,11 @@ h1.display-4 span{
         width: 22%; /* You can set the dimensions to whatever you want */
         object-fit: contain;
     }
+.jumbotron__background {
+    top: 93px;
+    height: 83%;
+    object-fit: cover;
+    opacity: 0.5;
+}
 }
 
