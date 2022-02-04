@@ -1,206 +1,67 @@
-body, html {
-  height: 100%;
-  width: 100%;
-  margin:0;
-	padding:0;
-}
-.container {
-  top:0;
-  width: 100%;
-  margin:0;
-	padding:0;
-  position: inherit;
-}
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+</head>
+<body>
+    <br></br>
+    <br></br>
+<div class="jumbotron jumbotron-fluid">
+    <picture >
+    <source media="(min-width:800px)" srcset="/static/Main-1.JPEG">
+    <img src="/static/Main-1.JPEG" alt="Agenda search" class="jumbotron__background">
+    </picture>
+    <div class="container text-center">
+        <br></br>
+        <h1 class="display-4">Government at a glance</h1>
+                <p class="lead">Tired of digging through unorganized and antiquated local governemnt websites? Let <span style= "color:#4404fc; text-shadow: 1px 1px black">Policy</span><span style= "color:#acc4fc; text-shadow: 1px 1px black">Edge</span>'s scripts and algorithims, deliver the latest agendas directly into your mailbox.</p>
+                <hr class="my-4">
+                <p>PolicyEdge is dedicated to providing the most up-to-date agendas from Agoura Hills to Whittier.</p></hr>
+            </div>
 
-div.bgimage1 {
-  background-image: url("/static/Main-1.JPEG");
-  height: 100vh;
-  background-position: center;
-  background-size: cover;
-}
-div.bgimage2 {
-  background-image: url("/static/Grey-bg.JPEG");
-  height: 100vh;
-}
-div.bgimage3 {
-  background-image: url("/static/Orange-bg.jpeg");
-  height: 100vh;
-}
-
-.blend{
-  mix-blend-mode: hue;
-  position: absolute;
-  background-color: orange;
-  width: 60vw;
-  height: 20vh;
-  left:0;
-  right:0;
-  margin:auto auto;
-  top: 25%;
-  border: 10px solid white;
-  -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-	animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-}
-
-.logo {
-  position: absolute;
-  top:25vh;
-  width: 80vw;
-  left:0;
-  right:0;
-  margin:auto auto;
-  -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-	animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-}
-
-h1{
-  font-family: 'Open Sans', sans-serif;
-  text-align: center;
-  font-size: 6vw;
-  color: rgb(240, 241, 231);
-  text-shadow: 9px 5px 5px rgb(38,70,83), 9px 5px 5px rgb(38,70,83), 9px 5px 5px rgb(38,70,83), 9px 5px 5px rgb(38,70,83);
-}
-
-.overlayText {
-  position: absolute;
-  width: 900px;
-  left:0;
-  right:0;
-  margin:0 auto;
-  bottom: 40%;
-  -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-	animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
-}
-
-h2 {
-	font-family: 'Dancing Script', cursive;
-	text-align:center;
-  color: black;
-	text-shadow: 3px 3px 3px white, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861;
-  font-size: 2vw;
-}
-
-.descText {
-  position: absolute;
-  bottom: 5%;
-  width: 100%;
-}
-
-h3 {
-	text-align:center;
-  color: white;
-  font-size: 1vw;
-  font-family: Didot, serif	;
-  text-shadow: 3px 3px 3px #4f5861, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861, 3px 3px 3px #4f5861;
-
-}
-
-
-@-webkit-keyframes tracking-in-contract-bck-bottom {
-  0% {
-    letter-spacing: 1em;
-    -webkit-transform: translateZ(400px) translateY(300px);
-            transform: translateZ(400px) translateY(300px);
-    opacity: 0;
-  }
-  40% {
-    opacity: 0.6;
-  }
-  100% {
-    -webkit-transform: translateZ(0) translateY(0);
-            transform: translateZ(0) translateY(0);
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes focus-in-contract-bck {
-  0% {
-    letter-spacing: 1em;
-    -webkit-transform: translateZ(300px);
-            transform: translateZ(300px);
-    -webkit-filter: blur(12px);
-            filter: blur(12px);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: translateZ(12px);
-            transform: translateZ(12px);
-    -webkit-filter: blur(0);
-            filter: blur(0);
-    opacity: 1;
-  }
-}
-@keyframes focus-in-contract-bck {
-  0% {
-    letter-spacing: 1em;
-    -webkit-transform: translateZ(300px);
-            transform: translateZ(300px);
-    -webkit-filter: blur(12px);
-            filter: blur(12px);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: translateZ(12px);
-            transform: translateZ(12px);
-    -webkit-filter: blur(0);
-            filter: blur(0);
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes tracking-in-expand-fwd-top {
-  0% {
-    letter-spacing: -0.5em;
-    -webkit-transform: translateZ(-700px) translateY(-500px);
-            transform: translateZ(-700px) translateY(-500px);
-    opacity: 0;
-  }
-  40% {
-    opacity: 0.6;
-  }
-  100% {
-    -webkit-transform: translateZ(0) translateY(0);
-            transform: translateZ(0) translateY(0);
-    opacity: 1;
-  }
-}
-@keyframes tracking-in-expand-fwd-top {
-  0% {
-    letter-spacing: -0.5em;
-    -webkit-transform: translateZ(-700px) translateY(-500px);
-            transform: translateZ(-700px) translateY(-500px);
-    opacity: 0;
-  }
-  40% {
-    opacity: 0.6;
-  }
-  100% {
-    -webkit-transform: translateZ(0) translateY(0);
-            transform: translateZ(0) translateY(0);
-    opacity: 1;
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .blend{
-    display:none;
-  }
-  .logo{
-    display:none;
-  }
-  .overlayText{
-    position: absolute;
-    width:100vw;
-    bottom:60vh;
-  }
-  h2{
-    position: relative;
-    font-size:4vh;
-    text-align: center;
-    margin: 0 0 auto;
-  }
-  h3{
-    font-size:2vh;
-  }
-
-}
+    <div class="container-fluid bg-3 text-center">
+        <h3>Some issues of interest</h3>
+        <div class="row">
+            <div class="col-sm-3">
+                <p>Utilities</p>
+                <img src="/static/pexels-fadel-baskoro-Utilities.jpg" class="thumbnail" style="width:100% " alt="Image">
+            </div>
+            <div class="col-sm-3">
+                <p>Waste</p>
+                <img src="/static/pexels-alex-fu-Waste.jpg" class="thumbnail" style="width:100% " alt="Image">
+            </div>
+            <div class="col-sm-3">
+                <p>Medical</p>
+                <img src="/static/pexels-anna-shvets-Medical.jpg" class="thumbnail" style="width:100% " alt="Image">
+            </div>
+            <div class="col-sm-3">
+                <p>Communications</p>
+                <img src="/static/pexels-pixabay-Comm.jpg" class="thumbnail" style="width:100% " alt="Image">
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-3 text-center">
+        <div class="row">
+            <div class="col-sm-3">
+                <p>Transportation</p>
+                <img src="/static/pexels-pew-nguyen-Transportation.jpg" class="thumbnail" style="width:100% " alt="Image">
+            </div>
+            <div class="col-sm-3">
+                <p>Technology</p>
+                <img src="/static/pexels-thisisengineering-Technology.jpg" class="thumbnail" style="width:100% " alt="Image">
+            </div>
+            <div class="col-sm-3">
+                <p>Financial</p>
+                <img src="/static/pexels-pixabay-Financial.jpg" class="thumbnail" style="width:100% " alt="Image">
+            </div>
+            <div class="col-sm-3">
+                <p>Retail</p>
+                <img src="/static/pexels-shvets-production-Retail.jpg" class="thumbnail" style="width:100% " alt="Image">
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
