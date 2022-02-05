@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/utilities.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/utility.css') }}">
 </head>
 <body>
 <br></br>
@@ -40,7 +40,7 @@
             <td>{{agenda.MeetingType}} </td>
             <td class='hidden-xs'>{{agenda.ItemType}} </td>
             <td class='hidden-xs'>{{agenda.Num}} </td>
-            <td class="description">{{agenda.Description.replace('utilities', '@*_*_*_*_*_*_{}_*_*_*_*_*_*_@'.format('utilities'))}}</td>
+            <td class="description">{{agenda.Description.replace('utility', '@*_*_*_*_*_*_{}_*_*_*_*_*_*_@'.format('utility'))}}</td>
             </tr>
         {% endfor %}
     </tbody>
