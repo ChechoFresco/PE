@@ -37,9 +37,10 @@ div.form{
     }
     .contain{
         height: 100vh;
-        background-color: #f4a261;
+        background-color: light grey;
     }
     img {
         display:none;
     }
 }
+
