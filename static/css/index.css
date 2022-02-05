@@ -92,6 +92,10 @@ h1.display-4{
   p.lead{
   color:black;
   font-size: 3rem;
-  font-weight: 3;
+  font-weight: bold;
 }
+  p.support{
+  color:black;
+  font-size: 2rem;
+  font-weight: bold;
 }
