@@ -3,7 +3,7 @@ html, body{
 }
 Result Skip Results Iframe
 EDIT ON
-.jumbotron {
+.jumbotron-fluid {
     position: absolute;
     height:100vh;
     padding-bottom: 0px;
