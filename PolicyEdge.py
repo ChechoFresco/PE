@@ -27,7 +27,7 @@ mongo = PyMongo(app)
                              
 mail = Mail(app)
 
-YOUR_DOMAIN = 'https://policyedge.net/'
+YOUR_DOMAIN = 'http://policyedge.net/' #need to update to https
 
 stripe_keys = {
   'secret_key': os.environ['SECRET_KEY'],
