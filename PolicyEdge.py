@@ -191,7 +191,7 @@ def create_checkout_session2(): # Second checkout is for existing users who want
             ],
             mode='subscription',
             success_url=YOUR_DOMAIN +
-            'success.html?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
+            'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
             cancel_url=YOUR_DOMAIN+ 'cancel',
             customer=stripe.Customer.create(
                 description="First time Stripe User",
@@ -220,7 +220,7 @@ def create_checkout_session2(): # Second checkout is for existing users who want
             mode='subscription',
             customer= stripe_customer, #places existing user_id to create proper checkout session
             success_url=YOUR_DOMAIN  +
-            'success.html?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
+            'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
             cancel_url=YOUR_DOMAIN + 'cancel',
             )
             return redirect(checkout_session.url, code=303)
@@ -270,7 +270,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
         ],
         mode='subscription',
         success_url=YOUR_DOMAIN +
-        'success.html?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
+        'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
         cancel_url=YOUR_DOMAIN+ 'cancel',
         customer= stripe.Customer.create(      # Creates customer on Stripe
             description="First time subscriber",
@@ -299,7 +299,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
         mode='subscription',
         customer= stripe_customer, #places existing User Stripe_id to create checkout session
         success_url=YOUR_DOMAIN  +
-        'success.html?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
+        'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
         cancel_url=YOUR_DOMAIN + 'cancel',
         )
         return redirect(checkout_session.url, code=303)
@@ -598,6 +598,7 @@ def cancelled():
 @app.route('/noSubscription')
 def noSubscription():
     return render_template("noSubscription.html")
+
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     return render_template('about.html', title='about')
