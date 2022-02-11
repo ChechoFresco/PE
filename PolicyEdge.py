@@ -41,7 +41,7 @@ stripe.api_key = stripe_keys['secret_key']
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-8) #Change month to 3
+        c = date.today() + relativedelta(months=-2) #Change month to 3
         d= str(c).replace("-","")
         today_3= int(d)
 
@@ -191,7 +191,7 @@ def create_checkout_session2(): # Second checkout is for existing users who want
             ],
             mode='subscription',
             success_url=YOUR_DOMAIN +
-            'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
+            'success.html?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
             cancel_url=YOUR_DOMAIN+ 'cancel',
             customer=stripe.Customer.create(
                 description="First time Stripe User",
@@ -220,7 +220,7 @@ def create_checkout_session2(): # Second checkout is for existing users who want
             mode='subscription',
             customer= stripe_customer, #places existing user_id to create proper checkout session
             success_url=YOUR_DOMAIN  +
-            'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
+            'success.html?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
             cancel_url=YOUR_DOMAIN + 'cancel',
             )
             return redirect(checkout_session.url, code=303)
@@ -270,7 +270,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
         ],
         mode='subscription',
         success_url=YOUR_DOMAIN +
-        'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
+        'success.html?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
         cancel_url=YOUR_DOMAIN+ 'cancel',
         customer= stripe.Customer.create(      # Creates customer on Stripe
             description="First time subscriber",
@@ -299,7 +299,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
         mode='subscription',
         customer= stripe_customer, #places existing User Stripe_id to create checkout session
         success_url=YOUR_DOMAIN  +
-        'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
+        'success.html?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
         cancel_url=YOUR_DOMAIN + 'cancel',
         )
         return redirect(checkout_session.url, code=303)
@@ -430,7 +430,7 @@ def cannabis():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-3) #Change month to 3
+        c = date.today() + relativedelta(months=-1) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'cannabis'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -442,7 +442,7 @@ def waste():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-3) #Change month to 3
+        c = date.today() + relativedelta(months=-1) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'waste'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -454,7 +454,7 @@ def medical():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-3) #Change month to 3
+        c = date.today() + relativedelta(months=-1) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'medical'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -466,7 +466,7 @@ def telecommunication():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-3) #Change month to 3
+        c = date.today() + relativedelta(months=-1) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'telecommunication'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -478,7 +478,7 @@ def transportation():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-3) #Change month to 3
+        c = date.today() + relativedelta(months=-1) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'transportation'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -490,7 +490,7 @@ def technology():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-3) #Change month to 3
+        c = date.today() + relativedelta(months=-1) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'technology'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -502,7 +502,7 @@ def financial():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-3) #Change month to 3
+        c = date.today() + relativedelta(months=-1) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'financial'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -514,7 +514,7 @@ def utility():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-3) #Change month to 3
+        c = date.today() + relativedelta(months=1) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'utility'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -530,7 +530,7 @@ def savedIssues():
                 a = date.today()
                 b= str(a).replace("-","")
                 today=int(b)
-                c = date.today() + relativedelta(months=-8)
+                c = date.today() + relativedelta(months=-3)
                 d= str(c).replace("-","")
                 today_3= int(d)# Converts date - 3 months
                 issues_placeholder= []
