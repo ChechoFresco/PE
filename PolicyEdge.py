@@ -186,7 +186,7 @@ def create_checkout_session2(): # Second checkout is for existing users who want
             payment_method_types=['card'],
             line_items=[
                 {
-                    'price': os.environ.get("STRIPE_DAY_PRICE_ID"),
+                    'price': os.environ.get("STRIPE_MONTH_PRICE_ID"),
                     'quantity': 1}
             ],
             mode='subscription',
@@ -214,7 +214,7 @@ def create_checkout_session2(): # Second checkout is for existing users who want
             payment_method_types=['card'],
             line_items=[
                 {
-                    'price': os.environ.get("STRIPE_DAY_PRICE_ID"),
+                    'price': os.environ.get("STRIPE_MONTH_PRICE_ID"),
                     'quantity': 1}
             ],
             mode='subscription',
@@ -265,7 +265,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
         payment_method_types=['card'],
         line_items=[
             {
-                'price': os.environ.get("STRIPE_DAY_PRICE_ID"),
+                'price': os.environ.get("STRIPE_MONTH_PRICE_ID"),
                 'quantity': 1}
         ],
         mode='subscription',
@@ -293,7 +293,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
         payment_method_types=['card'],
         line_items=[
             {
-                'price': os.environ.get("STRIPE_DAY_PRICE_ID"),
+                'price': os.environ.get("STRIPE_MONTH_PRICE_ID"),
                 'quantity': 1}
         ],
         mode='subscription',
