@@ -52,6 +52,14 @@ footer a {
 }
 
 @media screen and (min-device-width: 375px) and (max-device-width: 500px){
+	.foot {
+	width:100%;
+    background: #acc4fc;
+    position:sticky;
+    height:58px;
+    z-index:4;
+}
+
 	footer {
         width:100%;
         background: #4f5861;
@@ -65,6 +73,7 @@ footer a {
     }
     .fa {
 	padding: 19px 23px 16px;
+	    margin: 7px -1px;
     font-size: 2.8vh;
     width: 14px;
     text-align: center;
@@ -81,11 +90,11 @@ footer a {
     }
     .copy {
     padding: 18px 4px 0.2em;
-    font-size: 1.4vh;
+    font-size: 5.4vh;
     color: rgb(240, 241, 231);
     }
     .fa {
-    padding: 17px 21px 18px;
+    padding: 15px 22px 12px;;
     font-size: 2.8vh;
     width: 14px;
     text-align: center;
