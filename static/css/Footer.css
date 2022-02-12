@@ -51,29 +51,6 @@ footer a {
     color: white;
 }
 
-@media screen and (max-width: 767px) {
-    footer {
-        width:100%;
-        background: #4f5861;
-        position: sticky;
-    }
-    .copy {
-    height: 18px;
-    padding: 29px 1px 0.5em;
-    text-align: center;
-    font-size: 1.6vh;
-    color: rgb(240, 241, 231);
-    }
-    .fa {
-        padding: 15px 20px 19px;
-        font-size: 2vh;
-        width: 15px;
-        text-align: center;
-        text-decoration: none;
-        color: white;
-    }
-}
-
 @media screen and (min-device-width: 375px) and (max-device-width: 812px){
 	footer {
         width:100%;
