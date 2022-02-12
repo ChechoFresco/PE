@@ -74,7 +74,7 @@ footer a {
     }
 }
 
-@media screen and (max-width: 767px){
+@media screen and (min-width: 767px){
 	footer {
         width:100%;
         background: #4f5861;
