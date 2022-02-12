@@ -72,12 +72,11 @@ footer a {
     color: rgb(240, 241, 231);
     }
     .fa {
-	padding: 11px 21px 10px;
-	    margin: 7px 0px;
-    font-size: 2.8vh;
-    width: 14px;
-    text-align: center;
-    text-decoration: none;
+    padding: 16px 12px 10px;
+    margin: 13px 2px;
+    font-size: 2.5vh;
+    width: 41px;
+    height: 45px;
     color: white;
     }
 }
