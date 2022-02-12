@@ -41,7 +41,7 @@ def check4Issues2email():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-2) #Change month to 3
+        c = date.today() + relativedelta(months=-1) #Change month to 3
         d= str(c).replace("-","")
         today_3= int(d)
 
@@ -530,7 +530,7 @@ def savedIssues():
                 a = date.today()
                 b= str(a).replace("-","")
                 today=int(b)
-                c = date.today() + relativedelta(months=-3)
+                c = date.today() + relativedelta(months=-1)
                 d= str(c).replace("-","")
                 today_3= int(d)# Converts date - 3 months
                 issues_placeholder= []
