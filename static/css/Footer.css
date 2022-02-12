@@ -87,6 +87,12 @@ footer a {
         width:100%;
         background: #4f5861;
         position: sticky;
+	height: 59px;
+    }
+	footer {
+        width:100%;
+        background: #4f5861;
+        position: sticky;
     }
     .copy {
     padding: 18px 4px 0.2em;
@@ -94,7 +100,7 @@ footer a {
     color: rgb(240, 241, 231);
     }
     .fa {
-    padding: 15px 22px 12px;;
+    padding: 19px 25px 12px;;
     font-size: 2.8vh;
     width: 14px;
     text-align: center;
