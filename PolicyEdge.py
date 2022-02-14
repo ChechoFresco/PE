@@ -78,7 +78,7 @@ def check4Issues2email():
             item_type=[]
 
             for i in agenda: #returned criteria
-                #mongo.db.User.find_one_and_update({'username':x['username']}, {'$push': {'agendaUnique_id':i['_id']}}, upsert = True)
+                mongo.db.User.find_one_and_update({'username':x['username']}, {'$push': {'agendaUnique_id':i['_id']}}, upsert = True)
                 description.append(i['Description'])
                 city.append(i['City'])
                 intDate= (str(i['Date']))
@@ -98,7 +98,7 @@ def check4Issues2email():
                 mail.send(msg)
 
 sched = BackgroundScheduler(timezone='UTC')
-sched.add_job(check4Issues2email, 'interval', seconds=43200)
+sched.add_job(check4Issues2email, 'interval', seconds=60)
 sched.start()
 
 @app.route('/', methods=['GET', 'POST'])
