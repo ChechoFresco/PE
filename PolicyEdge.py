@@ -20,7 +20,7 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
 app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
 app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USE_SSL'] = False
 app.secret_key = os.environ.get("SESS_KEY")
 
 mongo = PyMongo(app)
