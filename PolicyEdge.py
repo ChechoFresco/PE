@@ -16,7 +16,7 @@ app = Flask(__name__,)
 
 app.config['MONGO_URI'] = os.environ.get("MONGO_URI")
 app.config['MAIL_SERVER']='smtp.gmail.com'#Email
-app.config['MAIL_PORT'] = 465
+app.config['MAIL_PORT'] = 587 or 465
 app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
 app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
 app.config['MAIL_USE_TLS'] = False
@@ -90,7 +90,7 @@ def check4Issues2email():
                 item_type.append(i['ItemType'])
 
             for z in range(len(city)):
-                subject = 'Test Email'
+                subject = 'New Issue found!'
                 sender = 'AgendaPreciado@gmail.com'
                 msg = Message(subject, sender=sender, recipients=[y['email']])
                 html_body = "<html> <body> <p> Hello {}, </p>  <p>The following item will be brought before the {} City Council on {}.</p> <br> {} </br> <p> Thanks for your continued support,<br> <br>  Policy Edge</p> </body> </html>".format(x['username'],city[z],Date[z],description[z])
@@ -98,7 +98,7 @@ def check4Issues2email():
                 mail.send(msg)
 
 sched = BackgroundScheduler(timezone='UTC')
-sched.add_job(check4Issues2email, 'interval', seconds=60)
+sched.add_job(check4Issues2email, 'interval', seconds=700)
 sched.start()
 
 @app.route('/', methods=['GET', 'POST'])
