@@ -40,8 +40,8 @@ def check4Issues2email():
     with app.app_context():
         a = date.today()
         b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(months=-1) #Change month to 3
+        today=int(b)+7 #+7 days to see future agendas
+        c = date.today() + relativedelta(days=-7) #Change days to 3
         d= str(c).replace("-","")
         today_3= int(d)
 
@@ -78,7 +78,7 @@ def check4Issues2email():
             item_type=[]
 
             for i in agenda: #returned criteria
-                mongo.db.User.find_one_and_update({'username':x['username']}, {'$push': {'agendaUnique_id':i['_id']}}, upsert = True)
+                mongo.db.User.find_one_and_update({'username':x['username']}, {'$push': {'agendaUnique_id':i['_id']}},upsert=True)# updates database with iems uniqueid
                 description.append(i['Description'])
                 city.append(i['City'])
                 intDate= (str(i['Date']))
@@ -89,13 +89,15 @@ def check4Issues2email():
                 meeting_type.append(i['MeetingType'])
                 item_type.append(i['ItemType'])
 
-            for z in range(len(city)):
-                subject = 'New Issue found!'
+                subject = 'Test Email'
                 sender = 'AgendaPreciado@gmail.com'
                 msg = Message(subject, sender=sender, recipients=[y['email']])
-                html_body = "<html> <body> <p> Hello {}, </p>  <p>The following item will be brought before the {} City Council on {}.</p> <br> {} </br> <p> Thanks for your continued support,<br> <br>  Policy Edge</p> </body> </html>".format(x['username'],city[z],Date[z],description[z])
-                msg.html=html_body
-                mail.send(msg)
+                email_body=[]
+                for z in range(len(city)):#range(len)city is used because it gives accurate count of items being sent
+                    email_body.append("<html> <body> <p>The following item will be brought before the {} City Council on {}.</p>  {}  </body><br></br><br></br><br></br><br></br>".format(city[z],Date[z],description[z]))
+                    html_body= "\n".join(email_body)
+                    msg.html= "Hello {},".format(x['username']) +html_body + "<p> Thanks for your continued support,<br> <br>  Policy Edge</p> </html>"
+        mail.send(msg)
 
 sched = BackgroundScheduler(timezone='UTC')
 sched.add_job(check4Issues2email, 'interval', seconds=3600)
