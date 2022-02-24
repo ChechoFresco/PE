@@ -109,14 +109,14 @@ def index():
     if "username" in session:
         return redirect(url_for("loggedIn"))
 
-    return render_template('index.html',title="Welcome to my site")
+    return render_template('index.html',title="PolicyEdge agenda monitoring tracking service")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if "username" in session:
         flash(session["username"])
         return redirect(url_for("loggedIn"))
-    return render_template('register.html')
+    return render_template('register.html', title='Become a member')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -160,7 +160,7 @@ def login():
 def loggedIn():
     if "username" in session:
         username = session["username"]
-        return render_template('loggedIn.html', username = username, title = "Welcome back!")
+        return render_template('loggedIn.html', username = username, title = "Logged into PolicyEdge")
     else:
         return redirect(url_for("login"))
 
@@ -387,7 +387,7 @@ def search():
             #return render_template('noSubscription.html')#
     #else:
         #return redirect(url_for("login"))###
-    return render_template('search.html', form=form, title='Search')
+    return render_template('search.html', form=form, title='Search PolicyEdge agendas')
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
@@ -404,60 +404,60 @@ def results():
     end = (end_year+end_month+end_day)
     if request.form['select'] == 'City' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['secondary_search']=="":
         agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'City': {'$regex': searchKey, '$options': 'i' }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
-        return render_template('results.html', agendas=agenda, title = "Search Results")
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'City' and request.form['startdate_field']== "" and request.form['enddate_field']=="" and request.form['secondary_search']=="":# Allows user to not input date
         agenda = mongo.db.Agenda.find({'$and':[{'$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, { 'City': {'$regex': searchKey, '$options': 'i' }}]})
-        return render_template('results.html', agendas=agenda, title = "Search Results")
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'City' and request.form['startdate_field'] and request.form['enddate_field'] == "" and request.form['secondary_search']=="":# Allows user to not input End date ==today
         agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'City': {'$regex': searchKey, '$options': 'i' }}, { 'Date':{'$lte':today, '$gte':int(start)}}, {"MeetingType":{'$regex': "City Council", '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('results.html', agendas=agenda, title = "Search Results")
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
 
 
     if request.form['select'] == 'City' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['secondary_search']:
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": deepKey}}, {'City': {'$regex': searchKey, '$options': 'i' }}, {"MeetingType":{'$regex': "City Council"}}, { 'Date':{'$lte':int(end), '$gte':int(start)}} ]}).sort('Date').sort('City')
-        return render_template('results.html', agendas=agenda, title = "Search Results")
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'City' and request.form['startdate_field'] and request.form['enddate_field'] == "" and request.form['secondary_search']:# Allows user to not input End date ==today
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": deepKey}}, {'City': {'$regex': searchKey, '$options': 'i' }}, {"MeetingType":{'$regex': "City Council"}}, { 'Date':{'$lte':today, '$gte':int(start)}} ]}).sort('Date').sort('City')
-        return render_template('results.html', agendas=agenda, title = "Search Results")
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'City' and request.form['startdate_field']== ""  and request.form['enddate_field'] == "" and request.form['secondary_search']:
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": deepKey}},{'City': {'$regex': searchKey, '$options': 'i' }}, {"MeetingType":{'$regex': "City Council"}}]})
-        return render_template('results.html', agendas=agenda,  title = "Search Results")
+        return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
 
 
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['secondary_search']=="":
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
-        return render_template('results.html', agendas=agenda,  title = "Search Results")
+        return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['secondary_search']=="":# Allows user to not input End date ==today
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]}).sort('Date').sort('City')
-        return render_template('results.html', agendas=agenda, title = "Search Results")
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field'] =="" and request.form['secondary_search']=="":# Allows user to not input date
         agenda = mongo.db.Agenda.find({ '$text': { "$search": searchKey}})
-        return render_template('results.html', agendas=agenda, title = "Search Results")
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
 
 
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field']:
         agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}},{'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('results.html', agendas=agenda, title = "Search Results")
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field'] =="":
         agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}},{'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('results.html', agendas=agenda, title = "Search Results")
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['primary_search']:
         agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}},{'City': {'$regex': 'Los Angeles', '$options': 'i' }},{"MeetingType":{'$regex': searchKey, '$options': 'i' }} ]})
-        return render_template('results.html', agendas=agenda,  title = "Search Results")
+        return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['secondary_search']=="" and request.form['primary_search']=="*":#* To show all committees
         agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}}, {'City': {'$regex': 'Los Angeles'}}]})
-        return render_template('results.html', agendas=agenda,  title = "Search Results")
+        return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['secondary_search'] and request.form['primary_search']=="*":#* To show all committees
         agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}}, {'City': {'$regex': 'Los Angeles'}}, {'$text': { "$search": deepKey}}]})
-        return render_template('results.html', agendas=agenda,  title = "Search Results")
+        return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
 
 
     if request.form['select'] == 'LB Committees' and request.form['startdate_field']:
         agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}},{'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('results.html', agendas=agenda, title = "Search Results")
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'LB Committees' and request.form['startdate_field']=="":
         agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }},{'City': {'$regex': 'Long Beach', '$options': 'i' }}]})
-        return render_template('results.html', agendas=agenda,  title = "Search Results")
+        return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
 
 @app.route('/cannabis', methods=['GET', 'POST'])
 def cannabis():
@@ -469,7 +469,7 @@ def cannabis():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'cannabis'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('cannabis.html', agendas=agenda,  title = "Search Results")
+        return render_template('cannabis.html', agendas=agenda,  title = "Cannabis Search Results")
 
 @app.route('/waste', methods=['GET', 'POST'])
 def waste():
@@ -481,7 +481,7 @@ def waste():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'waste'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('waste.html', agendas=agenda,  title = "Search Results")
+        return render_template('waste.html', agendas=agenda,  title = "Waste Search Results")
 
 @app.route('/medical', methods=['GET', 'POST'])
 def medical():
@@ -493,7 +493,7 @@ def medical():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'medical'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('medical.html', agendas=agenda,  title = "Search Results")
+        return render_template('medical.html', agendas=agenda,  title = "Medical Search Results")
 
 @app.route('/telecommunication', methods=['GET', 'POST'])
 def telecommunication():
@@ -505,7 +505,7 @@ def telecommunication():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'telecommunication'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('telecommunication.html', agendas=agenda,  title = "Search Results")
+        return render_template('telecommunication.html', agendas=agenda,  title = "Telecommunication Search Results")
 
 @app.route('/transportation', methods=['GET', 'POST'])
 def transportation():
@@ -517,7 +517,7 @@ def transportation():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'transportation'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('transportation.html', agendas=agenda,  title = "Search Results")
+        return render_template('transportation.html', agendas=agenda,  title = "Transportation Search Results")
 
 @app.route('/technology', methods=['GET', 'POST'])
 def technology():
@@ -529,7 +529,7 @@ def technology():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'technology'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('technology.html', agendas=agenda,  title = "Search Results")
+        return render_template('technology.html', agendas=agenda,  title = "Technology Search Results")
 
 @app.route('/financial', methods=['GET', 'POST'])
 def financial():
@@ -541,7 +541,7 @@ def financial():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'financial'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('financial.html', agendas=agenda,  title = "Search Results")
+        return render_template('financial.html', agendas=agenda,  title = "Financial Search Results")
 
 @app.route('/utility', methods=['GET', 'POST'])
 def utility():
@@ -553,7 +553,7 @@ def utility():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'utility'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('utility.html', agendas=agenda,  title = "Search Results")
+        return render_template('utility.html', agendas=agenda,  title = "Utility Search Results")
 
 @app.route('/savedIssues', methods=['GET', 'POST'])
 def savedIssues():
@@ -616,7 +616,7 @@ def savedIssues():
                     finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
                     agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today-600)}}]}).sort('Date').sort('City')
                     flash(finished_issues)
-                    return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
+                    return render_template('savedIssues.html', form=form, agendas=agenda,  title='Issues being tracked')
         else:
             return render_template('noSubscription.html')
     else:
@@ -636,19 +636,15 @@ def noSubscription():
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
-    return render_template('about.html', title='about')
-
-@app.route('/contact', methods=['GET', 'POST'])
-def contact():
-    return render_template('contact.html', title='Contact')
+    return render_template('about.html', title='Learn about PolicyEdge')
 
 @app.route('/termsofservice', methods=['GET', 'POST'])
 def termsofservice():
-    return render_template('termsofservice.html', title='Terms of Service')
+    return render_template('termsofservice.html', title='PolicyEdge Terms of Service')
 
 @app.route('/privacypolicy', methods=['GET', 'POST'])
 def privacypolicy():
-    return render_template('privacypolicy.html', title='Privacy Policy')
+    return render_template('privacypolicy.html', title='PolicyEdge Privacy Policy')
 
 
 
