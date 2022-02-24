@@ -6,20 +6,11 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GHTB4NH7Z"></script>
-	<script>
-  		window.dataLayer = window.dataLayer || [];
-  		function gtag(){dataLayer.push(arguments);}
-  		gtag('js', new Date());
-
-  		gtag('config', 'G-8GHTB4NH7Z');
-		</script>
-{% if title %}
-<title>{{ title }} - PolicyEdge</title>
-{% else %}
-<title>Welcome to Policy Edge</title>
-{% endif %}
+	{% if title %}
+		<title>{{ title }} - PolicyEdge</title>
+	{% else %}
+		<title>Welcome to Policy Edge</title>
+	{% endif %}
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
