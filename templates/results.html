@@ -37,7 +37,7 @@
                 <tr>
                     <td>{{agenda.City}}</td>
                     <td class='hidden-xs'>{{agenda.County}} </td> <!Hidden hides in compact phone mode!>
-                    <td type='text'>{{agenda.Date}}</td>
+                    <td type='text'>{{agenda.Date|aTime}}</td> <!aTime converts agenda.Date from int to date format!>
                     <td>{{agenda.MeetingType}} </td>
                     <td class='hidden-xs'>{{agenda.ItemType}} </td>
                     <td class='hidden-xs'>{{agenda.Num}} </td>
