@@ -5,10 +5,10 @@ from wtforms.validators import ValidationError, DataRequired, Length
 class searchForm(Form):
         choices = [('City', 'City'),('Issue', 'Issue'), ('LA Committees', 'LA Committees'), ('LA Committees', 'LB Committees')]
         select = SelectField('Criteria:', choices=choices)
-        primary_search = StringField('Keyword:', validators=[DataRequired()])
-        secondary_search = StringField('Only use to search issues within City or Committees')
-        startdate_field =  DateField('Start Date', format='%Y%m%d')
-        enddate_field = DateField('End Date', format='%Y%m%d')
+        primary_search = StringField('City:', validators=[DataRequired()])
+        secondary_search = StringField('Issues:')
+        startdate_field =  DateField('Start Date:', format='%Y%m%d')
+        enddate_field = DateField('End Date:', format='%Y%m%d')
 
 class monitorListform(Form):
         monitor_search = StringField('Add keywords to list:', validators=[Length(min=1, max=25),DataRequired()])
