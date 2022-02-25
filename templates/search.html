@@ -29,6 +29,34 @@
             </form>
         </div>
     </div>
+    <script>
+        function dynFrom(){
+            var x = document.getElementById('select').value;
+            $('select').on('change', function() {
+                if (this.value==='City'){
+                    document.querySelector("label[for='primary_search']").innerHTML = "City";
+                    document.getElementById("secondary_search").style.display="inline";
+                }
+                if (this.value==='Issue'){
+                    document.querySelector("label[for='primary_search']").innerHTML = "Search for issues:";
+                    document.getElementById("secondary_search").style.display="none";
+                    document.querySelector("label[for='secondary_search']").style.display="none";
+                }
+                if (this.value==='LA Committees'){
+                    document.querySelector("label[for='primary_search']").innerHTML = "Name of Committee:";
+                    document.querySelector("label[for='secondary_search']").innerHTML = "Issue:";
+                    document.getElementById("secondary_search").style.display="inline";
+                    document.querySelector("label[for='secondary_search']").style.display="inline";
+                }
+                if (this.value==='LB Committees'){
+                    document.querySelector("label[for='primary_search']").innerHTML = "Name of Committee:";
+                    document.querySelector("label[for='secondary_search']").innerHTML = "Issue:";
+                    document.getElementById("secondary_search").style.display="inline";
+                }
+            })
+        }
+        dynFrom()
+    </script>
 </body>
 {% endblock %}
 
