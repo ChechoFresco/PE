@@ -459,6 +459,27 @@ def results():
         agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }},{'City': {'$regex': 'Long Beach', '$options': 'i' }}]})
         return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
 
+@app.template_filter('aTime')
+def int2date(agDate: int) -> date:
+    """
+    If you have date as an integer, use this method to obtain a datetime.date object.
+
+    Parameters
+    ----------
+    value : int
+    Date as a regular integer value (example: 20160618)
+
+    Returns
+    -------
+    dateandtime.date
+    A date object which corresponds to the given value `agDate`.
+    """
+    year = int(agDate / 10000)
+    month = int((agDate % 10000) / 100)
+    day = int(agDate % 100)
+
+   return date(year,month,day)
+
 @app.route('/cannabis', methods=['GET', 'POST'])
 def cannabis():
     if request.method == 'GET':
