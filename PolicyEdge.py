@@ -89,7 +89,7 @@ def check4Issues2email():
                 meeting_type.append(i['MeetingType'])
                 item_type.append(i['ItemType'])
 
-                subject = 'Test Email'
+                subject = 'New Issue Alerts'
                 sender = 'AgendaPreciado@gmail.com'
                 msg = Message(subject, sender=sender, recipients=[y['email']])
                 email_body=[]
