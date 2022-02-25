@@ -29,7 +29,10 @@ td:hover {
 }
 
 .desc{
-    display: flex;
+    display: block;
     overflow-x: auto;
 }
 
+mark{
+    background-color: yellow;
+}
