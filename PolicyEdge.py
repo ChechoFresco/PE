@@ -477,7 +477,8 @@ def int2date(agDate: int) -> date:
     year = int(agDate / 10000)
     month = int((agDate % 10000) / 100)
     day = int(agDate % 100)
-  return date(year,month,day)
+    
+    return date(year,month,day)
 
 @app.route('/cannabis', methods=['GET', 'POST'])
 def cannabis():
