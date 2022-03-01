@@ -1,5 +1,5 @@
 .foot {
-	width:100%;
+    width:100%;
     background: #acc4fc;
     position:sticky;
     height:50px;
@@ -52,58 +52,58 @@ footer a {
 }
 
 @media screen and (min-device-width: 375px) and (max-device-width: 500px){
-	.foot {
-	width:100%;
-    background: #acc4fc;
-    position:sticky;
-    height:58px;
-    z-index:4;
+    .foot {
+   	width:100%;
+    	background: #acc4fc;
+    	position:sticky;
+    	height:58px;
+    	z-index:4;
 }
 
-	footer {
+    footer {
         width:100%;
         background: #4f5861;
         position: sticky;
 	height: 59px;
     }
     .copy {
-    padding: 34px 4px 0.2em;
-    font-size: 1.4vh;
-    color: rgb(240, 241, 231);
+    	padding: 34px 4px 0.2em;
+    	font-size: 1.4vh;
+    	color: rgb(240, 241, 231);
     }
     .fa {
-    padding: 10px 7px 12px;
-    margin: 10px 2px;
-    font-size: 2.5vh;
-    width: 33px;
-    height: 40px;
-    color: white;
+    	padding: 10px 7px 12px;
+    	margin: 10px 2px;
+    	font-size: 2.5vh;
+    	width: 33px;
+    	height: 40px;
+    	color: white;
     }
 }
 	
 @media screen and (min-device-width: 501px) and (max-device-width: 875px){
-	footer {
+    footer {
         width:100%;
         background: #4f5861;
         position: sticky;
 	height: 59px;
     }
-	footer {
+    footer {
         width:100%;
         background: #4f5861;
         position: sticky;
     }
     .copy {
-    padding: 18px 4px 0.2em;
-    font-size: 5.4vh;
-    color: rgb(240, 241, 231);
+   	 padding: 18px 4px 0.2em;
+    	font-size: 5.4vh;
+    	color: rgb(240, 241, 231);
     }
     .fa {
-    padding: 19px 25px 12px;;
-    font-size: 2.8vh;
-    width: 14px;
-    text-align: center;
-    text-decoration: none;
-    color: white;
+    	padding: 19px 25px 12px;;
+    	font-size: 2.8vh;
+    	width: 14px;
+   	 text-align: center;
+   	 text-decoration: none;
+   	 color: white;
     }
 }
