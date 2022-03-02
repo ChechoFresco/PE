@@ -84,3 +84,23 @@ h3{
         height: 105vh;
     }
 }
+@media screen and (max-width: 850px) {
+    div.form{
+        width: 50vw;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    div.formdiv{
+        margin: 8vh 5vw;
+        font-size:2vh;
+    }
+    .contain{
+        height: 100vh;
+    }
+    h3{
+        font-size:.8vh;
+        height:50%;
+        column-count: 4;
+        width:110%;
+    }
+}
