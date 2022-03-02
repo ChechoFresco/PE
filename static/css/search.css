@@ -27,7 +27,16 @@ div.form{
     justify-content: center;
     margin: 0 auto;
 }
+h3{
+    font-size:1vh;
+    height:50%;
+    column-count: 4;
+    width:140%;
+}
 
+#committeeOpt{
+    display:none;
+}
 @media screen and (max-width: 800px) {
 
     div.form{
@@ -35,12 +44,19 @@ div.form{
         justify-content: center;
         margin: 0 auto;
     }
+    div.formdiv{
+        margin: 12vh 18vh;
+        font-size:2vh;
+    }
     .contain{
         height: 100vh;
-        background-color: light grey;
     }
     img {
         display:none;
     }
+    h3{
+        font-size:.8vh;
+        height:50%;
+        column-count: 4;
+    }
 }
-
