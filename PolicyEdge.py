@@ -392,6 +392,7 @@ def search():
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     searchKey = request.form['primary_search']
+    deepKey = request.form['secondary_search']
     start_date = request.form['startdate_field']
     end_date = request.form['enddate_field']
     start_year = str(start_date[0:4])
@@ -424,14 +425,14 @@ def results():
         return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
 
 
-    if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['secondary_search']=="":
-        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
+    if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search']=="" and request.form['secondary_search']:
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": deepKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
         return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
-    if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['secondary_search']=="":# Allows user to not input End date ==today
-        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]}).sort('Date').sort('City')
+    if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search']=="" and request.form['secondary_search']:# Allows user to not input End date ==today
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": deepKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]}).sort('Date').sort('City')
         return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
-    if request.form['select'] == 'Issue' and request.form['startdate_field'] =="" and request.form['secondary_search']=="":# Allows user to not input date
-        agenda = mongo.db.Agenda.find({ '$text': { "$search": searchKey}})
+    if request.form['select'] == 'Issue' and request.form['startdate_field'] =="" and request.form['enddate_field']=="" and request.form['primary_search']=="" and request.form['secondary_search']:# Allows user to not input date
+        agenda = mongo.db.Agenda.find({ '$text': { "$search": deepKey}})
         return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
 
 
