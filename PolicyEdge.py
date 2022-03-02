@@ -395,6 +395,9 @@ def results():
     deepKey = request.form['secondary_search']
     start_date = request.form['startdate_field']
     end_date = request.form['enddate_field']
+    a = date.today()
+    b= str(a).replace("-","")
+    today=int(b)
     start_year = str(start_date[0:4])
     start_month = str(start_date[5:7])
     start_day = str(start_date[8:10])
@@ -448,7 +451,6 @@ def results():
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['secondary_search'] and request.form['primary_search']=="*":#* To show all committees
         agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}}, {'City': {'$regex': 'Los Angeles'}}, {'$text': { "$search": deepKey}}]})
         return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
-
 
     if request.form['select'] == 'LB Committees' and request.form['startdate_field']:
         agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}},{'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
