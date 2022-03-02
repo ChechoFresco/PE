@@ -79,6 +79,8 @@ h3{
         height:50%;
         column-count: 4;
         width:150%;
-
+    }
+    img {
+        height: 105vh;
     }
 }
