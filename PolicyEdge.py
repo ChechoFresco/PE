@@ -97,8 +97,8 @@ def check4Issues2email():
                     email_body.append("<html> <body> <p>The following item will be brought before the {} City Council on {}.</p>  {}  </body><br></br><br></br><br></br><br></br>".format(city[z],Date[z],description[z]))
                     html_body= "\n".join(email_body)
                     msg.html= "Hello {},".format(x['username']) +html_body + "<p> Thanks for your continued support,<br> <br>  Policy Edge</p> </html>"
-                
-                mail.send(msg)
+
+            mail.send(msg)
 
 sched = BackgroundScheduler(timezone='UTC')
 sched.add_job(check4Issues2email, 'interval', seconds=3600)
