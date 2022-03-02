@@ -427,6 +427,12 @@ def results():
     if request.form['select'] == 'Issue' and request.form['startdate_field'] =="" and request.form['enddate_field']=="":# Allows user to not input date
         agenda = mongo.db.Agenda.find({ '$text': { "$search": deepKey}})
         return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']=="":# Allows user to not input date
+        agenda = mongo.db.Agenda.find({ '$text': { "$search": deepKey}},{ 'Date':{'$lte':today, '$gte':int(start)}})
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']:# Allows user to not input date
+        agenda = mongo.db.Agenda.find({ '$text': { "$search": deepKey}},{ 'Date':{'$lte':int(end), '$gte':int(start)}})
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")      
 
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field']:
         agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}},{'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
