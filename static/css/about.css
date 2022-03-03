@@ -78,5 +78,13 @@ h1.display-4 span{
     padding-bottom: 0px;
     padding-top:0px;
 }
+    .jumbotron .container {
+    z-index: 2;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    height:inherit;
+    justify-content: flex-end;
+}
 }
 
