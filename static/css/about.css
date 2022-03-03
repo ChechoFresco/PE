@@ -20,12 +20,11 @@ EDIT ON
     opacity: 0.5;
 }
 .jumbotron .container {
-    height: 100vh;
     z-index: 2;
     position: relative;
-  display: flex;
-  flex-flow: column;
-  height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
 }
 
 .jumbotron p{
