@@ -24,6 +24,7 @@ EDIT ON
     position: relative;
     display: flex;
     flex-flow: column;
+    height:inherit;
     justify-content: flex-end;
 }
 
