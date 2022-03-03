@@ -23,13 +23,15 @@ EDIT ON
     height: 100vh;
     z-index: 2;
     position: relative;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
 }
 
 .jumbotron p{
     font-size: 2.5rem;
     color: white;
 }
-
 h3{
     color:#acc4fc;
 }
