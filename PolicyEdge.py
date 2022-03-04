@@ -232,6 +232,8 @@ def create_checkout_session2(): # Second checkout is for existing users who want
 
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():# first section creates user on Mongo and Stripe db at the same time but with subscription set to False
+    stripe.api_key = stripe_keys['secret_key']
+
     username = request.form["username"]
     email = request.form["email"]
     password1 = request.form["password1"]
@@ -240,6 +242,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
     username_found = mongo.db.User.find_one({"username": username})#Checks if username exist
     email_found = mongo.db.User.find_one({"email": email})#Check if email exist
     stripe_email_found = mongo.db.stripe_user.find_one({"email": email})
+    
     if username_found:
         flash('There already is a user by that name')
         return render_template('register.html')
