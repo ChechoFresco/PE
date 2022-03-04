@@ -179,6 +179,8 @@ def get_index():
 
 @app.route('/create-checkout-session2', methods=['POST'])
 def create_checkout_session2(): # Second checkout is for existing users who want to re-subscribe
+    stripe.api_key = stripe_keys['secret_key']
+
     if "username" in session:
         email = session["email"]
 
@@ -312,6 +314,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
 
 @app.route('/create-portal-session', methods=['POST'])
 def customer_portal():
+    stripe.api_key = stripe_keys['secret_key']
 
     checkout_session_id = request.form.get('session_id')
     checkout_session = stripe.checkout.Session.retrieve(checkout_session_id)
