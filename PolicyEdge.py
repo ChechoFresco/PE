@@ -109,7 +109,7 @@ def index():
     if "username" in session:
         return redirect(url_for("loggedIn"))
 
-    return render_template('index.html',title="PolicyEdge agenda monitoring tracking service", meta="name='description' content= 'PolicyEdge provides agenda tracking for all of Los Angeles. Agend monitoring for Los Angeles County.'")
+    return render_template('index.html',title="PolicyEdge agenda monitoring tracking service")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
