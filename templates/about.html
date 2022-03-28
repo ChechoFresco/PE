@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
+{% block metadata %}
+    <meta charset='utf-8'/>
+    <meta name=”description” content= ”About page for PolicyEdge owner”/>
+
+{% endblock %}
 {% block content %}
 <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width,initial-scale=1'>
-    <meta name=”description” content= ”About page for PolicyEdge owner”>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}" />
     <title>Learn about PolicyEdge</title>
 </head>
