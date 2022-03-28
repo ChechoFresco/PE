@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
+{% block metadata %}
+    <meta charset='utf-8'/>
+    <meta name=”description” content= ”The latest agenda items involving technology issues in Los Angeles”/>
+{% endblock %}
 {% block content %}
 <head>
-    <meta charset='utf-8'>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/technology.css') }}">
 </head>
 <body>
