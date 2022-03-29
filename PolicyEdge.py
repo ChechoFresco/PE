@@ -116,7 +116,7 @@ def register():
     if "username" in session:
         flash(session["username"])
         return redirect(url_for("loggedIn"))
-    return render_template('register.html', title='Become a member')
+    return render_template("register.html", title="Subscribe to become a member of PolicyEdge's agenda monitoring services)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -154,13 +154,13 @@ def login():
         else:
             flash('Username not found')
             return render_template('login.html')
-    return render_template('login.html', title="Please Login")
+    return render_template('login.html', title="Please Login to Policy Edge")
 
 @app.route('/loggedIn', methods=['GET', 'POST'])
 def loggedIn():
     if "username" in session:
         username = session["username"]
-        return render_template('loggedIn.html', username = username, title = "Logged into PolicyEdge")
+        return render_template('loggedIn.html', username = username, title = "You are now logged into PolicyEdge")
     else:
         return redirect(url_for("login"))
 
@@ -168,7 +168,7 @@ def loggedIn():
 def logout():
     for key in list(session.keys()):
         session.pop(key) #logs user out
-    return render_template('index.html', title='Signed Out')
+    return render_template('index.html', title='Policy Edhe has signed out of your account')
 
 @app.route('/subscription', methods=['GET'])# Subscription page is needed so existing users can re-subscribe.
 def get_index():
