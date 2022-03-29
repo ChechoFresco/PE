@@ -81,7 +81,7 @@ footer a {
     }
 }
 	
-@media screen and (min-device-width: 501px) and (max-device-width: 875px){
+@media screen and (min-device-width: 501px) and (max-device-width: 700px){
     footer {
         width:100%;
         background: #4f5861;
@@ -104,7 +104,7 @@ footer a {
     }
 }
 
-@media screen and (min-device-width: 876px) and (max-device-width: 1100px){
+@media screen and (min-device-width: 701px) and (max-device-width: 1000px){
     .foot {
    	width:100%;
     	background: #acc4fc;
