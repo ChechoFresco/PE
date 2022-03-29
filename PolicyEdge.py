@@ -109,7 +109,7 @@ def index():
     if "username" in session:
         return redirect(url_for("loggedIn"))
     
-    return redirect('https://www.policyedge.net/index.html',title="PolicyEdge agenda monitoring tracking service"')
+    return redirect(url_for('https://www.policyedge.net/index.html')),title="PolicyEdge agenda monitoring tracking service"')
 
     #return render_template('index.html',title="PolicyEdge agenda monitoring tracking service")
 
