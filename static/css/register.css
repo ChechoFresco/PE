@@ -41,15 +41,15 @@ form{
         backdrop-filter: blur(10px);
 }
     .description{
-    margin: -9vh 0vh;
-    flex: 3;
-    font-size:2vh;
+        margin: 10vh 0vh;
+        flex: 1;    
+        font-size:2vh;
 }
  
     form{
-        margin: 22vh 0vh;
+        margin: -10vh 0vh;
         flex: 2;
-        font-size:2vh;
+        font-size:1.5vh;
 }
     img {
         display:none;
