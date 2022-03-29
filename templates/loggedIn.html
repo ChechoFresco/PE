@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
+{% extends "base.html" %}
+    <meta charset='utf-8'/>
+    <meta name='description' content= 'Logged into PolicyEdge. PolicyEdge agenda tracking for all of Los Angeles.'/>
 {% block content %}
-<head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width,initial-scale=1'>
-    <meta name=”description” content= ”Logged into PolicyEdge. PolicyEdge agenda tracking for all of Los Angeles.”>
+{% block content %}
+<head
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
     <title>Logged into PolicyEdge</title>
 </head>
