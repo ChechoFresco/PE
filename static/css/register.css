@@ -36,12 +36,12 @@ form{
     div.product {
         height: 100%;
         display:flex;
-        flex-direction: row-reverse;
+        flex-direction: column;
         align-items: stretch;
         backdrop-filter: blur(10px);
 }
     h1{
-        margin: 20vh 10vh;
+        margin: -7vh 0vh;
         flex: 1;
         font-size:2vh;
 }
