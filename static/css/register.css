@@ -32,4 +32,26 @@ form{
     font-size:2vh;
 }
 
+@media screen and (max-width: 800px) {
+    div.product {
+        height: 100%;
+        display:flex;
+        flex-direction: row-reverse;
+        align-items: stretch;
+        backdrop-filter: blur(10px);
+}
+    .description{
+        margin: 20vh 10vh;
+        flex: 3;
+        font-size:2vh;
+}
+    form{
+        margin: 22vh 0vh;
+        flex: 2;
+        font-size:2vh;
+}
+    img {
+        display:none;
+    }
 
+}
