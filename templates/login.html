@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
+{% block metadata %}
+    <meta charset='utf-8'/>
+    <meta name='description' content= 'Log into PolicyEdge to use subscription services.'/>
+{% endblock %}
 {% block content %}
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
