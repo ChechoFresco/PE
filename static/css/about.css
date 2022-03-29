@@ -61,10 +61,15 @@ h1.display-4 span{
         object-fit: cover;
         opacity: 0.5;
 }
+    .jumbotron .container {
+        z-index: 2;
+        position: relative;
+        height:108vh;
+}
     p.lead{
         color:black;
-        font-size: 3rem;
-        font-weight: 3;
+        font-size: 2rem;
+        font-weight: 1000;
 }
     h1.display-4{
         font-size: 5.5rem;
