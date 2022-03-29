@@ -40,10 +40,10 @@ form{
         align-items: stretch;
         backdrop-filter: blur(10px);
 }
-    h1{
-        margin: -7vh 0vh;
-        flex: 1;
-        font-size:2vh;
+    .description{
+    margin: -9vh 0vh;
+    flex: 3;
+    font-size:2vh;
 }
  
     form{
