@@ -2,4 +2,4 @@ Options +FollowSymLinks
 RewriteEngine on
 RewriteCond %{HTTP_HOST} .
 RewriteCond %{HTTP_HOST} !^policyedge.net
-RewriteRule (.*) http://policyedge.net/$1 [R=301,L]
+RewriteRule (.*) https://policyedge.net/$1 [R=301,L]
