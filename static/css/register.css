@@ -32,7 +32,7 @@ form{
     font-size:2vh;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (min-device-width: 375px) and (max-device-width: 500px){
     div.product {
         height: 100%;
         display:flex;
