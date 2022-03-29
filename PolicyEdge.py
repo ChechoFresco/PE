@@ -656,15 +656,15 @@ def savedIssues():
 
 @app.route('/success')
 def success():
-    return render_template("success.html")
+    return render_template("success.html", title='PolicyEdge subscription succesful')
 
 @app.route('/cancel')
 def cancelled():
-    return render_template("cancel.html")
+    return render_template("cancel.html", title='Cancel your PolicyEdge subscription?')
 
 @app.route('/noSubscription')
 def noSubscription():
-    return render_template("noSubscription.html")
+    return render_template("noSubscription.html",title='You do not currently have a PolicyEdge subscription')
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
