@@ -173,7 +173,7 @@ def logout():
 @app.route('/subscription', methods=['GET'])# Subscription page is needed so existing users can re-subscribe.
 def get_index():
     if "username" in session:
-        return render_template('subscription.html')
+        return render_template('subscription.html', title='Please re-subscribe to PolicyEdge at any time. Thanks for your support')
     else:
         return redirect(url_for("login"))
 
