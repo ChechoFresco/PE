@@ -105,13 +105,15 @@ sched.add_job(check4Issues2email, 'interval', seconds=3600)
 sched.start()
 
 @app.route('/', methods=['GET', 'POST'])
+def httpsroute():
+    return redirect("https://www.policyedge.net/index.html", code = 302)
+
+@app.route('/index', methods=['GET', 'POST'])
 def index():
-    if "username" in session:
+      if "username" in session:
         return redirect(url_for("loggedIn"))
     
-    return redirect("https://www.policyedge.net/index.html",code = 302)
-
-    #return render_template('index.html',title="PolicyEdge agenda monitoring tracking service")
+    return render_template('index.html',title="PolicyEdge agenda monitoring tracking service")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
