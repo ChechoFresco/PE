@@ -106,7 +106,7 @@ sched.start()
 
 @app.route('/', methods=['GET', 'POST'])
 def httpsroute():
-    return redirect("https://www.policyedge.net/index", code = 302)
+    return redirect("https://www.policyedge.net/index", code = 301)
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
