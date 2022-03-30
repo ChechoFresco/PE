@@ -15,6 +15,10 @@ form{
     left: 30vw;
     top:30vh;
 }
+.text{
+    margin: 10vh 0vh;
+    font-size:2vh;
+}
 
 @media screen and (max-width: 800px) {
     h2{
