@@ -68,10 +68,10 @@
                     var y = document.getElementById('cityOpt');
                     document.getElementById("cityOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
-                    document.querySelector("label[for='primary_search']").style.display="none";
-                    document.getElementById("primary_search").style.display="none";
-                    document.getElementById("secondary_search").style.display="inline";
-                    document.querySelector("label[for='secondary_search']").style.display="inlne";
+                    document.querySelector("label[for='primary_search']").style.display="inline";
+                    document.getElementById("primary_search").style.display="inline";
+                    document.getElementById("secondary_search").style.display="none";
+                    document.querySelector("label[for='secondary_search']").style.display="none";
                     document.getElementById("select2").style.display="none";
                     document.querySelector("label[for='select2']").style.display="none";
                 }
@@ -88,15 +88,6 @@
                     document.getElementById("secondary_search").style.display="inline";// main search bar
                     document.getElementById("select2").style.display="inline";//drop down menu visible
                     document.queryselector("label[for='select2']").style.display="none";
-                }
-                if (this.value==='LB Committees'){
-                    var x = document.getElementById('committeeOpt');
-                    var y = document.getElementById('cityOpt');
-                    document.getElementById("cityOpt").style.display="none";
-                    document.getElementById("committeeOpt").style.display="none";
-                    document.querySelector("label[for='primary_search']").innerHTML = "Name of Committee:";
-                    document.querySelector("label[for='secondary_search']").innerHTML = "Issue:";
-                    document.getElementById("secondary_search").style.display="inline";
                 }
             })
         }
