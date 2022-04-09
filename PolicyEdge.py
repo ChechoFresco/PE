@@ -166,7 +166,7 @@ def loggedIn():
         username = session["username"]
         return render_template('loggedIn.html', username = username, title = "You are now logged into PolicyEdge. Government at a glance.")
     else:
-        return redirect(url_for("index"))
+        return redirect(url_for("/"))
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
