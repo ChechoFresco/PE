@@ -6,11 +6,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}">
 </head>
 <body>
+    
+    <br></br>
+    <br></br>
+
     <div id="alert">
         {% for message in get_flashed_messages() %}
         <li>{{ message }}</li>
         {% endfor %}
     </div>
+
+    <br></br>
+    <br></br>
+
     <div id="form">
         {% from "_formhelpers.html" import render_field %}
         <form method="post">
@@ -21,6 +29,10 @@
             <p><input type='submit' value="Delete" name='action'></p>
         </form>
     </div>
+
+    <br></br>
+    <br></br>
+
     <div class=".container-fluid" >
         <table id="table"
             data-toggle="table"
@@ -57,10 +69,10 @@
                 </tbody>
         </table>
     </div>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
-<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+    <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 </body>
 {% endblock %}
 
