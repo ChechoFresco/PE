@@ -597,61 +597,151 @@ def savedIssues():
             if request.method == 'GET':
                 form = monitorListform()
                 user = session["username"]
+
+                #####Creates dates########
+                a = date.today()
+                b= str(a).replace("-","")
+                today=int(b)+7 #add 7 so new agendas will be caught
+                c = date.today() + relativedelta(days=-30) #Change day to 7 otherwise too many emails.
+                d= str(c).replace("-","")
+                today_1month= int(d)
+
+                all_email=[]    #List of all email from storedUsers
+
+                all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, 'agendaUnique_id':1, 'email':1, 'subscriptionActive':1})#Creates list af all emails and usernames for sequence
+                for x in all_users: #For each instance of a user
+                    storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0,'issues.searchWord':1,'issues.committee':1,'issues.City':1, 'agendaUnique_id':1, 'email':1,'subscriptionActive':1})#Bring forth the following data
+                    if x['subscriptionActive'] == True: #Checks to see if user is subscripbed
+                        all_email.append(x['email'])#Users who are subscribe get added to email list
+                    else:
+                        pass
+
+                    issues_placeholder= []#List of user subscribed issues
+                    userStoredAgendaId=[]#List of user previous items
+                    agenda=[]
+
+                    for y in storedIssues:#Access users previous items and looks up subscribed issues
+                        userStoredAgendaId.extend(y['agendaUnique_id'])#previous items
+                        issues_placeholder.append(y['issues'])#subscribed issues
+
+                    for z in range(len(issues_placeholder[0])):
+                        city_Search= (issues_placeholder[0][z]['City'])
+                        issue_Search= (issues_placeholder[0][z]['searchWord'])
+                        committee_Search= (issues_placeholder[0][z]['committee'])
+
+                        Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
+
+                        for zz in Multiquery:
+                            agenda.append(zz)
+
+                        description=[]
+                        city=[]
+                        Date=[]
+                        meeting_type=[]
+                        item_type=[]
+
+                        for i in agenda: #returned criteria
+                            #mongo.db.User.find_one_and_update({'username':x['username']}, {'$push': {'agendaUnique_id':i['_id']}},upsert=True)# updates database with iems uniqueid
+                            description.append(i['Description'])
+                            city.append(i['City'])
+                            intDate= (str(i['Date']))
+                            start_year = str(intDate[0:4])
+                            start_month = str(intDate[4:6])
+                            start_day = str(intDate[6:8])
+                            Date.append(start_month+'/'+start_day+'/'+start_year)
+                            meeting_type.append(i['MeetingType'])
+                            item_type.append(i['ItemType'])
+                        flash(issue_Search)
+                return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
+
+            elif request.method == 'POST' and request.form['action'] == 'Add':
+                form = monitorListform()
+                user = session["username"]
+
+
+                #####Creates dates########
                 a = date.today()
                 b= str(a).replace("-","")
                 today=int(b)
                 c = date.today() + relativedelta(months=-1)
                 d= str(c).replace("-","")
-                today_3= int(d)# Converts date - 3 months
-                issues_placeholder= []
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues':1})
-                for x in user_issues:
-                    issues_placeholder.append(x['issues'])
-                    j= str(issues_placeholder)
-                    finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
-                    agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today_3)}}]}).sort('Date').sort('City')
-                    flash(finished_issues)
-                    return render_template('savedIssues.html', form=form, agendas=agenda,  title='PolicyEdge agenda user subscription list')
-            elif request.method == 'POST' and request.form['action'] == 'Add':
-                form = monitorListform()
-                user = session["username"]
-                a = date.today()
-                b= str(a).replace("-","")
-                today=int(b)
-                c = date.today() + relativedelta(months=-8)
-                d= str(c).replace("-","")
-                today_3= int(d)
+                today_1month= int(d)
+
+                #####Adds key to Issues########
                 issue = request.form['monitor_search']
-                mongo.db.User.find_one_and_update({'username':user}, {'$push': {'issues':issue}}, upsert = True)
+                cityKey = request.form['city_search']
+                committeeKey = request.form['committee_search']
+                CompleteIssue = {
+                    "searchWord": issue,
+                    "City": cityKey,
+                    "committee": committeeKey,
+                }
+
+                mongo.db.User.find_one_and_update({'username':user}, {'$push': {'issues':CompleteIssue}}, upsert = True)
+
+                ######Returns user saved issues#####
                 issues_placeholder= []
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues':1})
+
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.searchWord':1, 'issues.City':1, 'issues.committee':1}) #projects sub-documents to run in search
                 for x in user_issues:
-                    issues_placeholder.append(x['issues'])
-                    j= str(issues_placeholder)
-                    finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
-                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today_3)}}]}).sort('Date').sort('City')
-                    flash(finished_issues)
-                    return render_template('savedIssues.html', form=form, agendas=agenda,  title='PolicyEdge agenda user subscription list')
+                    issues_placeholder.append(x['issues']) #Sends sub-document issues to issue_placeholder
+
+
+                ######Returns matching agendas from for loop below#####
+                agenda=[]
+                ####returns exact amount of items to loop through####
+                for y in range(len(issues_placeholder[0])):
+                    city_Search= (issues_placeholder[0][y]['City'])
+                    issue_Search= (issues_placeholder[0][y]['searchWord'])
+                    committee_Search= (issues_placeholder[0][y]['committee'])
+
+                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
+
+                    for z in Multiquery:
+                        agenda.append(z)
+
+                flash(issue_Search)
+                return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
+
+
+
             elif request.method == 'POST' and request.form['action']  == 'Delete':
                 form = monitorListform()
                 user = session["username"]
+
+                #####Creates dates########
                 a = date.today()
                 b= str(a).replace("-","")
                 today=int(b)
-                c = date.today() + relativedelta(months=-8)
+                c = date.today() + relativedelta(months=-1)
                 d= str(c).replace("-","")
-                today_3= int(d)
+                today_1month= int(d)
+
+                #####Adds key to Issues########
                 issue = request.form['monitor_search']
-                mongo.db.User.find_one_and_update({'username':user}, {'$pull': {'issues':issue}})
+                cityKey = request.form['city_search']
+                committeeKey = request.form['committee_search']
+                CompleteIssue = {
+                    "searchWord": issue,
+                    "City": cityKey,
+                    "committee": committeeKey,
+                }
+
+                mongo.db.User.find_one_and_update({'username':user}, {'$pull': {'issues':CompleteIssue}}, upsert = True)
+
                 issues_placeholder= []
+
                 user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues':1})#"'_id': 0" BLOCKS FROM SHOWING FLASH
+
                 for x in user_issues:
                     issues_placeholder.append(x['issues'])
                     j= str(issues_placeholder)
                     finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
-                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today-600)}}]}).sort('Date').sort('City')
+                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]}).sort('Date').sort('City')
+                    flash(issues_placeholder)
+                    flash(range(len(j)))
                     flash(finished_issues)
-                    return render_template('savedIssues.html', form=form, agendas=agenda,  title='PolicyEdge agenda user subscription list')
+                    return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
         else:
             return render_template('noSubscription.html')
     else:
