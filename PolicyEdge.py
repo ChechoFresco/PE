@@ -651,7 +651,7 @@ def savedIssues():
                             Date.append(start_month+'/'+start_day+'/'+start_year)
                             meeting_type.append(i['MeetingType'])
                             item_type.append(i['ItemType'])
-                        flash(issue_Search, city_Search, committee_Search)
+                        flash(issue_Search city_Search committee_Search)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
             elif request.method == 'POST' and request.form['action'] == 'Add':
@@ -700,7 +700,7 @@ def savedIssues():
                     for z in Multiquery:
                         agenda.append(z)
 
-                    flash(issue_Search, city_Search, committee_Search)
+                    flash(issue_Search city_Search committee_Search)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
 
@@ -738,7 +738,7 @@ def savedIssues():
                     j= str(issues_placeholder)
                     finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
                     agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]}).sort('Date').sort('City')
-                    flash(issue_Search, city_Search, committee_Search)
+                    flash(issue_Search city_Search committee_Search)
                     return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
         else:
             return render_template('noSubscription.html')
