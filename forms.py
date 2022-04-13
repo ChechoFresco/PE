@@ -11,8 +11,10 @@ class searchForm(Form):
         enddate_field = DateField('End Date:', format='%Y%m%d')
 
 class monitorListform(Form):
-        monitor_search = StringField('Add keywords to list:', validators=[Length(min=1, max=25),DataRequired()])
-
+        monitor_search = StringField('Issue', validators=[Length(min=1, max=25),DataRequired()])
+        city_search = StringField('City:')
+        committee_search= StringField('Committee:')
+        
 class notificationForm(Form):
         notification_search = StringField('What would you like notifications for?:', validators=[Length(min=1, max=25),DataRequired()])
 
