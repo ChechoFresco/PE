@@ -7,20 +7,19 @@
 </head>
 <body>
     <div id="alert">
-    {% for message in get_flashed_messages() %}
+        {% for message in get_flashed_messages() %}
         <li>{{ message }}</li>
     </div>
-    {% endfor %}
-        <div id="form">
-            {% from "_formhelpers.html" import render_field %}
-            <form method="post">
-                {{ render_field(form.monitor_search) }}
-                <p><input type="submit" value="Add" name='action' ></p>
-                <p><input type='submit' value="Delete" name='action'></p>
-            </form>
-        </div>
+        {% endfor %}
+    <div id="form">
+        {% from "_formhelpers.html" import render_field %}
+        <form method="post">
+            {{ render_field(form.monitor_search) }}
+            <p><input type="submit" value="Add" name='action' ></p>
+            <p><input type='submit' value="Delete" name='action'></p>
+        </form>
     </div>
-<div class=".container-fluid" >
+    <div class=".container-fluid" >
         <table id="table"
             data-toggle="table"
             data-filter-control="true"
@@ -40,21 +39,21 @@
                 <th class='.text-center' data-field= 'row-Description' data-sortable="true">Description</th>
             </tr>
         </thead>
-        <tbody>
-        {% for agenda in agendas %}
-            <tr>
-                <td>{{agenda.City}}</td>
-                <td class='hidden-xs'>{{agenda.County}} </td> <!Hidden hides in compact phone mode!>
-                <td type='text'>{{agenda.Date|aTime}}</td>
-                <td>{{agenda.MeetingType}} </td>
-                <td class='hidden-xs'>{{agenda.ItemType}} </td>
-                <td class='hidden-xs'>{{agenda.Num}} </td>
-                <td class="description">{{agenda.Description}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+            <tbody>
+                {% for agenda in agendas %}
+                <tr>
+                    <td>{{agenda.City}}</td>
+                    <td class='hidden-xs'>{{agenda.County}} </td> <!Hidden hides in compact phone mode!>
+                    <td type='text'>{{agenda.Date|aTime}}</td>
+                    <td>{{agenda.MeetingType}} </td>
+                    <td class='hidden-xs'>{{agenda.ItemType}} </td>
+                    <td class='hidden-xs'>{{agenda.Num}} </td>
+                    <td class="description">{{agenda.Description}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
