@@ -15,6 +15,8 @@
         {% from "_formhelpers.html" import render_field %}
         <form method="post">
             {{ render_field(form.monitor_search) }}
+            {{ render_field(form.city_search) }}
+            {{ render_field(form.committee_search) }}
             <p><input type="submit" value="Add" name='action' ></p>
             <p><input type='submit' value="Delete" name='action'></p>
         </form>
