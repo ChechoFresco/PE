@@ -6,15 +6,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}">
 </head>
 <body>
-    <br></br>
-    <br></br>
     <div id="alert">
     {% for message in get_flashed_messages() %}
         <li>{{ message }}</li>
     </div>
     {% endfor %}
-    <br></br>
-    <br></br>
         <div id="form">
             {% from "_formhelpers.html" import render_field %}
             <form method="post">
@@ -24,8 +20,6 @@
             </form>
         </div>
     </div>
-    <br></br>
-    <br></br>    
 <div class=".container-fluid" >
         <table id="table"
             data-toggle="table"
