@@ -8,13 +8,13 @@
 <body>
     <br></br>
     <br></br>
-
     <div id="alert">
     {% for message in get_flashed_messages() %}
         <li>{{ message }}</li>
     </div>
     {% endfor %}
-
+    <br></br>
+    <br></br>
         <div id="form">
             {% from "_formhelpers.html" import render_field %}
             <form method="post">
@@ -25,7 +25,8 @@
         </div>
     </div>
     <br></br>
-    <div class=".container-fluid" >
+    <br></br>    
+<div class=".container-fluid" >
         <table id="table"
             data-toggle="table"
             data-filter-control="true"
