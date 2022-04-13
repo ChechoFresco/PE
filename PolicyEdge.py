@@ -62,20 +62,26 @@ def check4Issues2email():
                 userStoredAgendaId.extend(y['agendaUnique_id'])#previous items
                 issues_placeholder.extend(y['issues'])#subscribed issues
 
-            issueToString= str(issues_placeholder)
-            finished_issues= issueToString.replace("'",'').replace("["," ").replace("]"," ").replace("issues:", " ")#Makes subscribed issues work in mongo query. Might have to get rid of commas!!!
+            agenda=[]
 
-            agenda=mongo.db.Agenda.aggregate([
-            {'$match' : { '$text': { '$search': finished_issues}}}, # searches for subscribed issues.
-            {'$match' : { 'Date': {'$lte':int(today), '$gte':int(today_3)}}},
-            {'$match': {'_id': { '$nin': userStoredAgendaId }}} #Checks if item has been sent before
-            ])
+            for z in range(len(issues_placeholder[0])):
+                city_Search= (issues_placeholder[0][z]['City'])
+                issue_Search= (issues_placeholder[0][z]['searchWord'])
+                committee_Search= (issues_placeholder[0][z]['committee'])
 
-            description=[]
-            city=[]
-            Date=[]
-            meeting_type=[]
-            item_type=[]
+                Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}, {'_id': { '$nin': userStoredAgendaId }}]})
+
+                for zz in Multiquery:
+                    agenda.append(zz)
+
+            if not agenda: #If query returns empty skip
+                pass
+            else:
+                description=[]
+                city=[]
+                Date=[]
+                meeting_type=[]
+                item_type=[]
 
             for i in agenda: #returned criteria
                 mongo.db.User.find_one_and_update({'username':x['username']}, {'$push': {'agendaUnique_id':i['_id']}},upsert=True)# updates database with iems uniqueid
