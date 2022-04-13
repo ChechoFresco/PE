@@ -653,7 +653,7 @@ def savedIssues():
                             item_type.append(i['ItemType'])
                         flash(issue_Search)
                         flash(city_Search)
-                        flash(comittee_Search)
+                        flash(committee_Search)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
             elif request.method == 'POST' and request.form['action'] == 'Add':
