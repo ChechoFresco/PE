@@ -629,29 +629,28 @@ def savedIssues():
                         issue_Search= (issues_placeholder[0][z]['searchWord'])
                         committee_Search= (issues_placeholder[0][z]['committee'])
 
-                        Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
+                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
-                        for zz in Multiquery:
-                            agenda.append(zz)
+                    for zz in Multiquery:
+                        agenda.append(zz)
 
-                        description=[]
-                        city=[]
-                        Date=[]
-                        meeting_type=[]
-                        item_type=[]
+                    description=[]
+                    city=[]
+                    Date=[]
+                    meeting_type=[]
+                    item_type=[]
 
-                        for i in agenda: #returned criteria
-                            #mongo.db.User.find_one_and_update({'username':x['username']}, {'$push': {'agendaUnique_id':i['_id']}},upsert=True)# updates database with iems uniqueid
-                            description.append(i['Description'])
-                            city.append(i['City'])
-                            intDate= (str(i['Date']))
-                            start_year = str(intDate[0:4])
-                            start_month = str(intDate[4:6])
-                            start_day = str(intDate[6:8])
-                            Date.append(start_month+'/'+start_day+'/'+start_year)
-                            meeting_type.append(i['MeetingType'])
-                            item_type.append(i['ItemType'])
-                        
+                    for i in agenda: #returned criteria
+                        #mongo.db.User.find_one_and_update({'username':x['username']}, {'$push': {'agendaUnique_id':i['_id']}},upsert=True)# updates database with iems uniqueid
+                        description.append(i['Description'])
+                        city.append(i['City'])
+                        intDate= (str(i['Date']))
+                        start_year = str(intDate[0:4])
+                        start_month = str(intDate[4:6])
+                        start_day = str(intDate[6:8])
+                        Date.append(start_month+'/'+start_day+'/'+start_year)
+                        meeting_type.append(i['MeetingType'])
+                        item_type.append(i['ItemType'])
                     flash(issues_placeholder)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
