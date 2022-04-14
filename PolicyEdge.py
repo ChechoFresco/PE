@@ -610,7 +610,7 @@ def savedIssues():
 
                 all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, 'agendaUnique_id':1, 'email':1, 'subscriptionActive':1})#Creates list af all emails and usernames for sequence
                 for x in all_users: #For each instance of a user
-                    storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0,'issues.searchWord':1,'issues.committee':1,'issues.City':1, 'agendaUnique_id':1, 'email':1,'subscriptionActive':1})#Bring forth the following data
+                    storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0,'issues.Issue':1,'issues.Committee':1,'issues.City':1, 'agendaUnique_id':1, 'email':1,'subscriptionActive':1})#Bring forth the following data
                     if x['subscriptionActive'] == True: #Checks to see if user is subscripbed
                         all_email.append(x['email'])#Users who are subscribe get added to email list
                     else:
@@ -626,8 +626,8 @@ def savedIssues():
 
                     for z in range(len(issues_placeholder[0])):
                         city_Search= (issues_placeholder[0][z]['City'])
-                        issue_Search= (issues_placeholder[0][z]['searchWord'])
-                        committee_Search= (issues_placeholder[0][z]['committee'])
+                        issue_Search= (issues_placeholder[0][z]['Issue'])
+                        committee_Search= (issues_placeholder[0][z]['Committee'])
 
                     Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
@@ -682,7 +682,7 @@ def savedIssues():
                 ######Returns user saved issues#####
                 issues_placeholder= []
 
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.searchWord':1, 'issues.City':1, 'issues.committee':1}) #projects sub-documents to run in search
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1}) #projects sub-documents to run in search
                 for x in user_issues:
                     issues_placeholder.append(x['issues']) #Sends sub-document issues to issue_placeholder
 
@@ -692,8 +692,8 @@ def savedIssues():
                 ####returns exact amount of items to loop through####
                 for y in range(len(issues_placeholder[0])):
                     city_Search= (issues_placeholder[0][y]['City'])
-                    issue_Search= (issues_placeholder[0][y]['searchWord'])
-                    committee_Search= (issues_placeholder[0][y]['committee'])
+                    issue_Search= (issues_placeholder[0][y]['Issue'])
+                    committee_Search= (issues_placeholder[0][y]['Committee'])
 
                     Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
@@ -732,7 +732,7 @@ def savedIssues():
                 ######Returns user saved issues#####
                 issues_placeholder= []
 
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.searchWord':1, 'issues.City':1, 'issues.committee':1}) #projects sub-documents to run in search
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1}) #projects sub-documents to run in search
                 for x in user_issues:
                     issues_placeholder.append(x['issues']) #Sends sub-document issues to issue_placeholder
 
@@ -742,8 +742,8 @@ def savedIssues():
                 ####returns exact amount of items to loop through####
                 for y in range(len(issues_placeholder[0])):
                     city_Search= (issues_placeholder[0][y]['City'])
-                    issue_Search= (issues_placeholder[0][y]['searchWord'])
-                    committee_Search= (issues_placeholder[0][y]['committee'])
+                    issue_Search= (issues_placeholder[0][y]['Issue'])
+                    committee_Search= (issues_placeholder[0][y]['Committee'])
 
                     Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
