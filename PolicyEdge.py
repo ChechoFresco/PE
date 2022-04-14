@@ -629,10 +629,10 @@ def savedIssues():
                         issue_Search= (issues_placeholder[0][z]['Issue'])
                         committee_Search= (issues_placeholder[0][z]['Committee'])
 
-                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
+                        Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
-                    for zz in Multiquery:
-                        agenda.append(zz)
+                        for zz in Multiquery:
+                            agenda.append(zz)
 
                     description=[]
                     city=[]
