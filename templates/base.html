@@ -71,8 +71,7 @@
 				</ul>
 			</div>
 	</nav>
-{% block content %}{% endblock %}
-{% include 'footer.html' %}
+		
 <script>
 function loginChange(){
 	var x = document.title;
@@ -85,5 +84,8 @@ function loginChange(){
 	}
 		loginChange()
 </script>
+{% block content %}{% endblock %}
+{% include 'footer.html' %}
+
 
 
