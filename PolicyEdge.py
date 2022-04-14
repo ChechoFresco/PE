@@ -66,8 +66,8 @@ def check4Issues2email():
 
             for z in range(len(issues_placeholder[0])):
                 city_Search= (issues_placeholder[0][z]['City'])
-                issue_Search= (issues_placeholder[0][z]['searchWord'])
-                committee_Search= (issues_placeholder[0][z]['committee'])
+                issue_Search= (issues_placeholder[0][z]['Issue'])
+                committee_Search= (issues_placeholder[0][z]['Committee'])
 
                 Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}, {'_id': { '$nin': userStoredAgendaId }}]})
 
