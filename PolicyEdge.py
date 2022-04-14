@@ -739,7 +739,7 @@ def savedIssues():
                     j= str(issues_placeholder)
                     finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
                     agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]}).sort('Date').sort('City')
-                    flash(CompleteIssue)
+                    flash(finished_issues)
                     return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
         else:
             return render_template('noSubscription.html')
