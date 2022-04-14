@@ -628,7 +628,7 @@ def savedIssues():
                         agenda.append(z)
                         
                 e=str(issues_placeholder) 
-                user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{"," ").replace("}"," ")
+                user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("*"," ")
                 flash(user_issue)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
@@ -678,7 +678,9 @@ def savedIssues():
                     for z in Multiquery:
                         agenda.append(z)
 
-                flash(issues_placeholder)
+                e=str(issues_placeholder) 
+                user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("*"," ")
+                flash(user_issue)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
 
@@ -728,8 +730,10 @@ def savedIssues():
                     for z in Multiquery:
                         agenda.append(z)
 
-                    flash(issues_placeholder)
-                    return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
+                e=str(issues_placeholder) 
+                user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("*"," ")
+                flash(user_issue)                    
+                return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
         else:
             return render_template('noSubscription.html')
     else:
