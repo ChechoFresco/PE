@@ -701,7 +701,7 @@ def savedIssues():
                     for z in Multiquery:
                         agenda.append(z)
 
-                    flash(CompleteIssue)
+                    flash(issues_placeholder)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
 
