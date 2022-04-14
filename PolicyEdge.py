@@ -730,16 +730,28 @@ def savedIssues():
 
                 mongo.db.User.find_one_and_update({'username':user}, {'$pull': {'issues':CompleteIssue}}, upsert = True)
 
+                ######Returns user saved issues#####
                 issues_placeholder= []
 
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues':1})#"'_id': 0" BLOCKS FROM SHOWING FLASH
-
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.searchWord':1, 'issues.City':1, 'issues.committee':1}) #projects sub-documents to run in search
                 for x in user_issues:
-                    issues_placeholder.append(x['issues'])
-                    j= str(issues_placeholder)
-                    finished_issues= j.replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
-                    agenda= mongo.db.Agenda.find({'$and':[ {'$text': { "$search": finished_issues}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]}).sort('Date').sort('City')
-                    flash(finished_issues)
+                    issues_placeholder.append(x['issues']) #Sends sub-document issues to issue_placeholder
+
+
+                ######Returns matching agendas from for loop below#####
+                agenda=[]
+                ####returns exact amount of items to loop through####
+                for y in range(len(issues_placeholder[0])):
+                    city_Search= (issues_placeholder[0][y]['City'])
+                    issue_Search= (issues_placeholder[0][y]['searchWord'])
+                    committee_Search= (issues_placeholder[0][y]['committee'])
+
+                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
+
+                    for z in Multiquery:
+                        agenda.append(z)
+
+                    flash(issues_placeholder)
                     return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
         else:
             return render_template('noSubscription.html')
