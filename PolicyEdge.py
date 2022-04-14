@@ -652,7 +652,7 @@ def savedIssues():
                             meeting_type.append(i['MeetingType'])
                             item_type.append(i['ItemType'])
                         
-                     flash(issues_placeholder)
+                        flash(issues_placeholder)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
             elif request.method == 'POST' and request.form['action'] == 'Add':
