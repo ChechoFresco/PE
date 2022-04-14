@@ -702,7 +702,7 @@ def savedIssues():
                     for z in Multiquery:
                         agenda.append(z)
 
-                    flash(issues_placeholder[0][z]['City']['searchWord']['committee'])
+                    flash(issues_placeholder[0])
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
 
