@@ -672,9 +672,9 @@ def savedIssues():
                 cityKey = request.form['city_search']
                 committeeKey = request.form['committee_search']
                 CompleteIssue = {
-                    "searchWord": issue,
+                    "Issue": issue,
                     "City": cityKey,
-                    "committee": committeeKey,
+                    "Committee": committeeKey,
                 }
 
                 mongo.db.User.find_one_and_update({'username':user}, {'$push': {'issues':CompleteIssue}}, upsert = True)
@@ -722,9 +722,9 @@ def savedIssues():
                 cityKey = request.form['city_search']
                 committeeKey = request.form['committee_search']
                 CompleteIssue = {
-                    "searchWord": issue,
+                    "Issue": issue,
                     "City": cityKey,
-                    "committee": committeeKey,
+                    "Committee": committeeKey,
                 }
 
                 mongo.db.User.find_one_and_update({'username':user}, {'$pull': {'issues':CompleteIssue}}, upsert = True)
