@@ -626,8 +626,10 @@ def savedIssues():
 
                     for z in Multiquery:
                         agenda.append(z)
-                    
-                flash(issues_placeholder.replace("'",'').replace("["," ").replace("]"," ").replace(",", " "))
+                        
+                e=str(issues_placeholder) 
+                user_issue=e..replace("'",'').replace("["," ").replace("]"," ").replace(",", " ")
+                flash(user_issue)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
             elif request.method == 'POST' and request.form['action'] == 'Add':
