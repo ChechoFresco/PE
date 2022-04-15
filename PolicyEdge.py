@@ -100,7 +100,8 @@ def check4Issues2email():
                 msg = Message(subject, sender=sender, recipients=[y['email']])
                 email_body=[]
                 for z in range(len(city)):#range(len)city is used because it gives accurate count of items being sent
-                    email_body.append("<html> <body> <p>The following item will be brought before the {} City Council on {}.</p>  {}  </body><br></br><br></br><br></br><br></br>".format(city[z],Date[z],description[z]))
+                for z in range(len(city)):#range(len)city is used because it gives accurate count of items being sent
+                    email_body.append("<html> <body> <p>The following issue '{}' will be brought before the {} City Council on {}.</p>  {}  </body><br></br><br></br><br></br><br></br>".format(issue_Search,city[z],Date[z],description[z]))
                     html_body= "\n".join(email_body)
                     msg.html= "Hello {},".format(x['username']) +html_body + "<p> Thanks for your continued support,<br> <br>  Policy Edge</p> </html>"
 
