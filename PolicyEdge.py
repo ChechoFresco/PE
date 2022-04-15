@@ -69,7 +69,7 @@ def check4Issues2email():
                 issue_Search= (issues_placeholder[0][z]['Issue'])
                 committee_Search= (issues_placeholder[0][z]['Committee'])
 
-                Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}, {'_id': { '$nin': userStoredAgendaId }}]})
+                Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_3)}}, {'_id': { '$nin': userStoredAgendaId }}]})
 
                 for zz in Multiquery:
                     agenda.append(zz)
@@ -99,7 +99,6 @@ def check4Issues2email():
                 sender = 'AgendaPreciado@gmail.com'
                 msg = Message(subject, sender=sender, recipients=[y['email']])
                 email_body=[]
-                for z in range(len(city)):#range(len)city is used because it gives accurate count of items being sent
                 for z in range(len(city)):#range(len)city is used because it gives accurate count of items being sent
                     email_body.append("<html> <body> <p>The following issue '{}' will be brought before the {} City Council on {}.</p>  {}  </body><br></br><br></br><br></br><br></br>".format(issue_Search,city[z],Date[z],description[z]))
                     html_body= "\n".join(email_body)
