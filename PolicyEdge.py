@@ -624,7 +624,7 @@ def savedIssues():
                         agenda.append(z)
                         
                 e=str(issues_placeholder) 
-                user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("*"," ")
+                user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("}","*")
                 flash(user_issue)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
@@ -675,7 +675,7 @@ def savedIssues():
                         agenda.append(z)
 
                 e=str(issues_placeholder) 
-                user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("*"," ")
+                user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("}","*")
                 flash(user_issue)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
@@ -727,7 +727,7 @@ def savedIssues():
                         agenda.append(z)
 
                 e=str(issues_placeholder) 
-                user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("*"," ")
+                user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("}","*")
                 flash(user_issue)                    
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
         else:
