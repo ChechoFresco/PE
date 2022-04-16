@@ -41,9 +41,9 @@ def check4Issues2email():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)+7 #+7 days to see future agendas
-        c = date.today() + relativedelta(days=-7) #Change days to 3
+        c = date.today() + relativedelta(days=-7) #Change days to 7 before date just in case
         d= str(c).replace("-","")
-        today_3= int(d)
+        today_3= int(d)# #Change days to 7 finished product
 
         all_email=[]    #List of all email from storedUsers
 
@@ -64,20 +64,21 @@ def check4Issues2email():
 
             agenda=[]
 
-            for z in range(len(issues_placeholder[0])):
-                city_Search= (issues_placeholder[0][z]['City'])
-                issue_Search= (issues_placeholder[0][z]['Issue'])
-                committee_Search= (issues_placeholder[0][z]['Committee'])
+            for z in range(len(issues_placeholder[0])): #For every item in issues_placeholder, breaks down into indiviudal parts in order for Multiquery to function
+                city_Search= (issues_placeholder[0][z]['City'])#Grabs City
+                issue_Search= (issues_placeholder[0][z]['Issue'])#Grabs Issue
+                committee_Search= (issues_placeholder[0][z]['Committee'])#Grabs Committee
 
+                ##################Multiquery uses each _Search to run individual db.finds to v=create multiquery
                 Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_3)}}, {'_id': { '$nin': userStoredAgendaId }}]})
 
-                for zz in Multiquery:
-                    agenda.append(zz)
+                for query in Multiquery:#Places individualised results in agenda from Multiquery
+                    agenda.append(query)
 
             if not agenda: #If query returns empty skip
                 pass
             else:
-                description=[]
+                description=[]###Information is grabbed from loop done below
                 city=[]
                 Date=[]
                 meeting_type=[]
