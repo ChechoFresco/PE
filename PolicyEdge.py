@@ -24,14 +24,13 @@ app.config['MAIL_USE_SSL'] = True
 app.secret_key = os.environ.get("SESS_KEY")
 
 mongo = PyMongo(app)
-                             
 mail = Mail(app)
 
-YOUR_DOMAIN = 'https://www.policyedge.net/' 
+YOUR_DOMAIN = 'https://www.policyedge.net/'
 
 stripe_keys = {
-  'secret_key': os.environ['SECRET_KEY'],
-  'publishable_key': os.environ['PUBLISHABLE_KEY']
+    'secret_key': os.environ['SECRET_KEY'],
+    'publishable_key': os.environ['PUBLISHABLE_KEY']
 }
 
 stripe.api_key = stripe_keys['secret_key']
@@ -50,7 +49,7 @@ def check4Issues2email():
         all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, "subscriptionActive":1})#Creates list af all emails and usernames for sequence
         for x in all_users: #For each instance of a user
             storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0,'issues':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
-            if x['subscriptionActive'] == True: #Checks to see if user is subscripbed
+            if x['subscriptionActive'] == True: #Checks to see if user is subscribed
                 all_email.append(x['email'])#Users who are subscribe get added to email list
             else:
                 pass
@@ -64,7 +63,7 @@ def check4Issues2email():
 
             agenda=[]
 
-            for z in range(len(issues_placeholder[0])): #For every item in issues_placeholder, breaks down into indiviudal parts in order for Multiquery to function
+            for z in range(len(issues_placeholder[0])): #For every item in issues_placeholder, breaks down into individual parts in order for Multiquery to function
                 city_Search= (issues_placeholder[0][z]['City'])#Grabs City
                 issue_Search= (issues_placeholder[0][z]['Issue'])#Grabs Issue
                 committee_Search= (issues_placeholder[0][z]['Committee'])#Grabs Committee
@@ -113,10 +112,10 @@ sched.start()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-      if "username" in session:
+    if "username" in session:
         return redirect(url_for("loggedIn"))
-      
-      return render_template('https://www.policyedge.net' ,title="PolicyEdge agenda monitoring tracking service")
+
+    return render_template('https://www.policyedge.net' ,title="PolicyEdge agenda monitoring tracking service")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -251,7 +250,7 @@ def create_checkout_session():# first section creates user on Mongo and Stripe d
     username_found = mongo.db.User.find_one({"username": username})#Checks if username exist
     email_found = mongo.db.User.find_one({"email": email})#Check if email exist
     stripe_email_found = mongo.db.stripe_user.find_one({"email": email})
-    
+
     if username_found:
         flash('There already is a user by that name')
         return render_template('register.html')
@@ -447,7 +446,7 @@ def results():
         return render_template('results.html', agendas=agenda, title = "PolicyEdge agendas monitoring tracking Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search']:# Allows user to not input date
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}},{ 'Date':{'$lte':int(end), '$gte':int(start)}} ]}).sort('Date').sort('City')
-        return render_template('results.html', agendas=agenda, title = "PolicyEdge agendas monitoring tracking Search Results")           
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge agendas monitoring tracking Search Results")
 
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['secondary_search']=="":
         agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}},{'City': {'$regex': 'Los Angeles', '$options': 'i' }},{"MeetingType":{'$regex': searchKey, '$options': 'i' }} ]})
@@ -468,27 +467,14 @@ def results():
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['secondary_search']:
         agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council"}}},{'City': {'$regex': 'Los Angeles', '$options': 'i' }},{"MeetingType":{'$regex': searchKey, '$options': 'i' }},{ 'Date':{'$lte':int(end), '$gte':int(start)}}, {'$text': { "$search": deepKey}} ]})
         return render_template('results.html', agendas=agenda,  title = "PolicyEdge agendas monitoring tracking Search Results")
-      
+
 
 @app.template_filter('aTime')
-def int2date(agDate: int) -> date:
-    """
-    If you have date as an integer, use this method to obtain a datetime.date object.
-
-    Parameters
-    ----------
-    value : int
-    Date as a regular integer value (example: 20160618)
-
-    Returns
-    -------
-    dateandtime.date
-    A date object which corresponds to the given value `agDate`.
-    """
+def int2date(agDate: int) -> date:#Chages format of dates in charts
     year = int(agDate / 10000)
     month = int((agDate % 10000) / 100)
     day = int(agDate % 100)
-    
+
     return date(year,month,day)
 
 @app.route('/cannabis', methods=['GET', 'POST'])
@@ -623,7 +609,7 @@ def savedIssues():
 
                     for z in Multiquery:
                         agenda.append(z)
-                        
+
                 e=str(issues_placeholder) 
                 user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("}","*")
                 flash(user_issue)
@@ -675,7 +661,7 @@ def savedIssues():
                     for z in Multiquery:
                         agenda.append(z)
 
-                e=str(issues_placeholder) 
+                e=str(issues_placeholder)
                 user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("}","*")
                 flash(user_issue)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
@@ -727,9 +713,9 @@ def savedIssues():
                     for z in Multiquery:
                         agenda.append(z)
 
-                e=str(issues_placeholder) 
+                e=str(issues_placeholder)
                 user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("}","*")
-                flash(user_issue)                    
+                flash(user_issue)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
         else:
             return render_template('noSubscription.html')
@@ -738,7 +724,7 @@ def savedIssues():
 
 @app.route('/success')
 def success():
-    return render_template("success.html", title='PolicyEdge subscription succesful')
+    return render_template("success.html", title='PolicyEdge subscription successful')
 
 @app.route('/cancel')
 def cancelled():
@@ -759,8 +745,6 @@ def termsofservice():
 @app.route('/privacypolicy', methods=['GET', 'POST'])
 def privacypolicy():
     return render_template('privacypolicy.html', title='PolicyEdge agenda tracking monitoring Privacy Policy')
-
-
 
 
 
