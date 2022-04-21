@@ -116,7 +116,7 @@ def index():
       if "username" in session:
         return redirect(url_for("loggedIn"))
       
-      return render_template('index.html',title="PolicyEdge agenda monitoring tracking service")
+      return render_template('https://www.policyedge.net' ,title="PolicyEdge agenda monitoring tracking service")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
