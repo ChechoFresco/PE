@@ -35,7 +35,7 @@ stripe_keys = {
 
 stripe.api_key = stripe_keys['secret_key']
 
-def check4Issues2email():
+"""def check4Issues2email():
     with app.app_context():
         a = date.today()
         b= str(a).replace("-","")
@@ -108,7 +108,7 @@ def check4Issues2email():
 
 sched = BackgroundScheduler(timezone='UTC')
 sched.add_job(check4Issues2email, 'interval', seconds=30)
-sched.start()
+sched.start()"""
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
