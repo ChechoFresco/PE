@@ -64,9 +64,9 @@ def check4Issues2email():
             agenda=[]
 
             for z in range(len(issues_placeholder[0])): #For every item in issues_placeholder, breaks down into individual parts in order for Multiquery to function
-                city_Search= (issues_placeholder[0][z]['City'])#Grabs City
-                issue_Search= (issues_placeholder[0][z]['Issue'])#Grabs Issue
-                committee_Search= (issues_placeholder[0][z]['Committee'])#Grabs Committee
+                city_Search= (issues_placeholder[0][z-1]['City'])#Grabs City
+                issue_Search= (issues_placeholder[0][z-1]['Issue'])#Grabs Issue
+                committee_Search= (issues_placeholder[0][z-1]['Committee'])#Grabs Committee
 
                 ##################Multiquery uses each _Search to run individual db.finds to v=create multiquery
                 Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_3)}}, {'_id': { '$nin': userStoredAgendaId }}]})
