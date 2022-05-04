@@ -48,7 +48,9 @@ def check4Issues2email():
 
         all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, "subscriptionActive":1})#Creates list af all emails and usernames for sequence
         for x in all_users: #For each instance of a user
-            storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0,'issues':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
+            #storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0,'issues':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
+            storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
+
             if x['subscriptionActive'] == True: #Checks to see if user is subscribed
                 all_email.append(x['email'])#Users who are subscribe get added to email list
             else:
