@@ -2,16 +2,26 @@ html, body{
 	margin:0;
 	padding:0;
 }
+
 .navbar{
-	background: #4f5861;
+	background: transparent;
     width: 100vw;
     position: absolute;
-    height: 10rem;
+    height: 70px;
 	z-index: 10000;
-	padding:20px;
 	overflow-x: visible;
+    margin-bottom: 0;
 }
-
+.navbar-inverse {
+    border-color: transparent;
+}
+ul.navbar-nav{
+	font-size: 1.5rem;
+	background-color: #acc4fc;
+	padding: 0.5rem 0.5rem;
+	margin: 0.5rem -3.5rem;
+	border-radius: 28px;
+	}
 div a.navbar-header{
 	width: 25rem;
 	height: 5rem;
@@ -22,7 +32,6 @@ a.navbar-brand{
     background: url(/static/PolicyFull.svg) no-repeat center;
     background-size: 81rem 45rem;
 }
-
 .navbar-nav{
 	font-size:2rem;
 }
@@ -34,21 +43,188 @@ a.navbar-brand{
     background-color:#acc4fc;
     color:white;
 }
-@media screen and (max-width: 850px) {
+.navbar-toggle .icon-bar {
+    background-color: white;
+}
+
+
+.foot {
+    width:100%;
+    background: #acc4fc;
+    position:sticky;
+    height:50px;
+    z-index:4;
+}
+
+footer a {
+    margin-right: 20px;
+}
+
+h8 {
+    float: right;
+    padding: 10px 28px;
+    font-size: 27px;
+    color: #4f5861;
+}
+
+.fa {
+    padding: 10px;
+    margin: 0px 0px;
+    font-size: 30px;
+    width: 70px;
+    text-align: center;
+    background: #c6e5f9;
+    color: white;
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+.fa-facebook {
+    background: gray;
+    color: white;
+}
+
+.fa-twitter {
+    background: gray;
+    color: white;
+}
+
+.fa-google {
+    background: gray;
+    color: white;
+}
+
+.fa-linkedin {
+    background: gray;
+    color: white;
+}
+
+@media screen and (min-width: 350px) and (max-width: 767px)
+{
+    .foot {
+    width:100%;
+    background: #acc4fc;
+    position:sticky;
+	height:58px;
+	z-index:4;
+    }
+
+    footer {
+    width:100%;
+    background: #4f5861;
+    position: sticky;
+	height: 59px;
+    }
+
+    h8 {
+    padding: 29px 4px 0.2em;
+    font-size: 1.7vh;
+    color: rgb(240, 241, 231);
+    }
+
+    .fa {
+    padding: 9px 2px 6px 5px;
+    margin: 7px 2px 1px 0px;
+    font-size: 2.5vh;
+    width: 36px;
+    height: 42px;
+    }
 	ul.navbar-nav{
-		font-size: 1.5rem;
-		background-color: #acc4fc;
-		padding: 0.5rem 0.5rem;
-		margin: 0.5rem -3.5rem;
-		border-radius: 28px;
+	font-size: 1.5rem;
+	background-color: #acc4fc;
+	padding: 0.5rem 0.5rem;
+	margin: 0.5rem -3.5rem;
+	border-radius: 28px;
 	}
 	.nav .li .a{
-		padding: 10px 17px;
+	padding: 10px 17px;
 	}
 	a.navbar-brand {
-		width: 20rem;
-		height: 6rem;
-		background: url(/static/PolicyFull.svg) no-repeat center;
-		background-size: 40rem 22rem;
+    width: 20rem;
+    height: 6rem;
+    background: url(/static/PolicyFull.svg) no-repeat center;
+    background-size: 40rem 22rem;
 	}
+}
+
+@media screen and (min-width: 767px) and (max-width: 1300px)
+{
+    footer {
+    width:100%;
+    background: #4f5861;
+    position: sticky;
+	height: 59px;
+    }
+
+    h8 {
+    padding: 16px 4px 0.2em;
+    font-size: 2.4vh;
+    color: rgb(240, 241, 231);
+    }
+    .fa {
+    padding: 10px 28px;
+    font-size: 2.8vh;
+    width: 0px;
+    text-align: center;
+    height: 50px;
+    margin: 0px 4px 0px -4px;
+    }
+
+	ul.navbar-nav{
+    font-size: 1.5rem;
+    background-color: #acc4fc;
+    padding: 0.5rem 0.5rem;
+    margin: 0.5rem -3.5rem;
+    border-radius: 28px;
+	}
+	.nav .li .a{
+	padding: 10px 17px;
+	}
+	a.navbar-brand {
+    width: 20rem;
+    height: 6rem;
+    background: url(/static/PolicyFull.svg) no-repeat center;
+    background-size: 40rem 22rem;
+	}
+}
+
+@media screen and (min-width: 1300px) and (max-width: 1700px)
+{
+    .foot {
+    width:100%;
+	background: #acc4fc;
+	position:sticky;
+	height:58px;
+	z-index:4;
+    }
+
+    footer {
+    width:100%;
+    background: #4f5861;
+    position: sticky;
+	height: 59px;
+    }
+    ul.navbar-nav{
+    font-size: 1.5rem;
+    background-color: #acc4fc;
+    padding: 0.5rem 0.5rem;
+    margin: 0.5rem -3.5rem;
+    border-radius: 28px;
+	}
+    h8 {
+	padding: 34px 4px 0.2em;
+	font-size: 1.4vh;
+	color: rgb(240, 241, 231);
+    }
+    .fa {
+    padding: 10px;
+    margin: 0px 0px;
+    font-size: 30px;
+    width: 70px;
+    text-align: center;
+    background: #c6e5f9;
+    color: white;
+    }
 }
