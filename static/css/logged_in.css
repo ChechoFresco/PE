@@ -7,8 +7,7 @@ html, body{
 }
 
 .jumbotron{
-  border-radius:10px;
-    background:
+  background:
 linear-gradient(
   rgba(172, 196, 252, .25),
   rgba(79, 88, 97, 1)
@@ -17,7 +16,7 @@ url('../Meteor.svg');
 background-attachment: fixed;
 color:white !important;
 background-size: contain;
-height:53vh;
+height:49vh;
 position: relative;
 }
 
@@ -56,7 +55,7 @@ h3{
 }
 p.frontpg{
   color: white;
-  font-size: 44px;
+  font-size: 41px;
   text-shadow: 1px 3px 9px #4f5861;
   font-weight: 400;
 }
@@ -64,20 +63,26 @@ p.title{
   text-align: center;
 }
 p.subject{
-  font-size: 2.2rem;
+  font-size: 2.7rem;
   color: white;
   text-align: center;
 }
+p.subjectLead{
+  font-size: 2.9rem;
+  color:#acc4fc;
+}
+
 p.offer{
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   color: white;
 }
 
 h1.display-4{
   color:#acc4fc;
   text-shadow:  4px 5px 3px #4f5861;
-  font-size: 77px;
+  font-size: 64px;
+  margin-top: -60px;
 }
 
 @media screen and (min-width: 350px) and (max-width: 767px)
