@@ -9,70 +9,96 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/logged_in.css') }}" />
     <title>Logged into PolicyEdge</title>
 </head>
-<body>
-   <br></br>
-<div class="jumbotron jumbotron-fluid">
-    <picture >
-    <img src="/static/Main-1.jpeg" alt="Blue MSP building located in Scotland. Scottish parliament building."  class="jumbotron__background">
-    </picture>
+
+<div class="jumbotron jumbotron-fluid" style='position: relative; overflow: hidden; width: 100vw'>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container text-center">
+            <h1 class="display-4">Los Angeles Monitoring Service </h1>
+            <p class="frontpg">If your industry interacts with local government.</p>
+            <p class="frontpg">PolicyEdge will help keep you up to date with the issues that affect you</p>
+        </div>
+    </div>
+</div>
+
+
     <div class="container text-center">
-        <br></br>
-        <h1 class="display-4">Government at a glance</h1>
-                <p class="lead">Tired of digging through unorganized and antiquated local governemnt websites? Let <span style= "color:#4404fc; text-shadow: 1px 1px black">Policy</span><span style= "color:#acc4fc; text-shadow: 1px 1px black">Edge</span>'s scripts and algorithims, deliver the latest agendas directly into your mailbox.</p>
-                <hr class="my-4">
-                <p class="support">PolicyEdge is dedicated to providing the most up-to-date agendas from Agoura Hills to Whittier.</p></hr>
-            </div>
-<br></br>
-<br></br>
-<br></br>
-<div class="container-fluid bg-3 text-center">
-        <h3>Click on images to see if any of the following issues have been discussed in LA County during the last month</h3>
+        <p class="subject">We understand the importance of quick access to information firsthand.</p>
+
+        <p class="subject">A meeting was overlooked because of a poorly designed city website. Problems emerged when an unexpected issue came up in a local city council meeting. A contracts was missed when a window of opportunity was missed.</p>
+
+        <p class="subject">Save yourself some time with <span style= "color:#4404fc; text-shadow: 1px 1px black">Policy</span><span style= "color:#acc4fc; text-shadow: 1px 1px black">Edge</span> an online search tool to monitors and track local city council agendas daily and an email alert system to let you know about it right away.</p>
+
+        <p class="subject">With <span style= "color:#4404fc; text-shadow: 1px 1px black">Policy</span><span style= "color:#acc4fc; text-shadow: 1px 1px black">Edge</span>, keeping up to date with local city governments takes a glance. </p>
+    </div>
+
+    <div class="container">
+        <div class="col-sm-offset-4 col-sm-4">
+            <h3>What We Offer</h3>
+        </div>
         <div class="row">
-            <div class="col-sm-3">
-                <a href="/utility" class="link">
-                <p>Utilities</p>
-                <img src="/static/pexels-fadel-baskoro-Utilities-min.jpg" title ="Bird" alt="Birds sitting on top of utility pole." class="thumbnail" style="width:100% " alt="Image">
+            <div class="col-sm-5">
+                <h3><span style= "color:#4404fc; text-shadow: 1px 1px black">Search</span></h3>
+                <p class="subject">We provide a back catalog of city government documents going back years with customizable search features, allowing users to keep up to date with their issues, and gain additional insight by examining how neighboring cities have dealt with the same issue in the past. </p>
             </div>
-            <div class="col-sm-3">
-                <a href="/waste" class="link">
-                <p>Waste</p>
-                <img src="/static/pexels-alex-fu-Waste-min.jpg" title ="Cardboard stacks" alt="Cardboard waste stacked in pellets for recycling." class="thumbnail" style="width:100% " alt="Image">
-            </div>
-            <div class="col-sm-3">
-                <a href="/medical" class="link">
-                <p>Medical</p>
-                <img src="/static/pexels-anna-shvets-Medical-min.jpg" title ="Face mask" alt="Face mask" class="thumbnail" style="width:100% " alt="Image">
-            </div>
-            <div class="col-sm-3">
-                <a href="/telecommunication" class="link">
-                <p>Communications</p>
-                <img src="/static/pexels-pixabay-Comm-min.jpg" title ="Communication tower" alt="Staring up through a large communication tower." class="thumbnail" style="width:100% " alt="Image">
+            <div class="col-sm-offset-1 col-sm-5">
+                <h3><span style= "color:#4404fc; text-shadow: 1px 1px black">Notify</span></h3>
+                <p class="subject">Using our notification system, you stay up to date on issues important to you as soon as they are released on the city websites.</p>
             </div>
         </div>
     </div>
-    <div class="container-fluid bg-3 text-center">
-        <div class="row">
-            <div class="col-sm-3">
-                <a href="/transportation" class="link">
-                <p>Transportation</p>
-                <img src="/static/pexels-pew-nguyen-Transportation-min.jpg" title ="Bus" alt="People riding on a bus to work during rush hour." class="thumbnail" style="width:100% " alt="Image">
+
+
+
+    <div class="container">
+        <div class="col-sm-12">
+            <h3>See whats happening this week around Los Angeles by clicking on images!</h3>
+        </div>
+    </div>
+
+<div class="container">
+    <div class="row d-sm-block">
+        <div class="col-sm-4 float-left border">
+            <p class='title'>Trends</p>
+            <a class="twitter-timeline" data-tweet-limit=3 href="https://twitter.com/Policy__Edge?ref_src=twsrc%5Etfw"></a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div class="col-sm-4 float-right border">
+            <div>
+                <a href="/gateway" class="link">
+                <p class='title'>Gateway Cities</p>
+                <img src="/static/mayara-steinmeyer-Gateway.jpg" title ="Long Beach marina" alt="A few boats docked out in front fg the Long Beach marina" class="thumbnail" style="width:100% " alt="Image">
             </div>
-            <div class="col-sm-3">
-                <p>Technology</p>
-                <a href="/technology" class="link">
-                <img src="/static/pexels-thisisengineering-Technology.jpg" title ="Android arm" alt="Android arm being diplayed at event" class="thumbnail" style="width:100% " alt="Image">
+            <div>
+                <a href="/westside" class="link">
+                <p class='title'>Westside</p>
+                <img src="/static/gerson-repreza-Westside.jpg" title ="Santa Monnica Pier" alt="Front view of the Santa Monica Pier" class="thumbnail" style="width:100% " alt="Image">
             </div>
-            <div class="col-sm-3">
-                <a href="/financial" class="link">
-                <p>Financial</p>
-                <img src="/static/pexels-pixabay-Financial-min.jpg" title ="Wall St." alt="Stock market tickers from Wall St." class="thumbnail" style="width:100% " alt="Image">
+            <div>
+                <a href="/sangabrielCities" class="link">
+                <p class='title'>San Gabriel Valley</p>
+                <img src="/static/remy-hellequin-Sangabriel.jpg" title ="Colorado St." alt="Looking down Colorado St. near Pasadena." class="thumbnail" style="width:100% " alt="Image">
             </div>
-            <div class="col-sm-3">
+        </div>
+        <div class="col-sm-4 float-right border">
+            <div>
+                <a href="/southBay" class="link">
+                <p class='title'>South Bay</p>
+                <img src="/static/roberto-nickson-SouthBay.jpg" title ="View down Hermosa Beach into the ocean." alt="Sunset near the ocean on Main st." class="thumbnail" style="width:100% " alt="Image">
+            </div>
+            <div>
+                <a href="/sanfernandoCities" class="link">
+                <p class='title'>San Fernando Valley</p>
+                <img src="/static/maurice-williams-Sanfernando.jpg" title ="Van Nuys Airport" alt="Planes on tarmac ready to takeoff in Van Nuys Airport" class="thumbnail" style="width:100% " alt="Image">
+            </div>
+            <div>
                 <a href="/cannabis" class="link">
-                <p>Cannabis</p>
+                <p class='title'>Cannabis</p>
                 <img src="/static/Marijuana.jpeg" title ="Cannabis store" alt="Cannabis retail options." class="thumbnail" style="width:100% " alt="Image">
             </div>
         </div>
     </div>
-</body>
+</div>
 {% endblock %}
+
+
+
+
