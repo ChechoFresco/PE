@@ -96,7 +96,7 @@ def check4Issues2email():
                         item_type.append(i['ItemType'])
 
                         for z in range(len(city)):#range(len)city is used because it gives accurate count of items being sent
-                            email_body.append("<html> <body> <p>The following issue '{}' will be brought before the {} {} on {}.</p>  {}  </body><br></br><br></br><br></br>".format(issue_Search,city[z],meeting_type[z],Date[z],description[z]))
+                            email_body.append("<html> <body> <p>The following issue will be brought before the {} {} on {}.</p>  {}  </body><br></br><br></br><br></br>".format(city[z],meeting_type[z],Date[z],description[z]))
 
                     subject = 'New Issue Alerts'
                     sender = 'AgendaPreciado@gmail.com'
