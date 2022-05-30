@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}">
 </head>
 <body>
-    
     <br></br>
     <br></br>
 
@@ -50,7 +49,6 @@
                         <th class='.text-center' data-field= 'row-Description' data-sortable="true">Description</th>
                     </tr>
                 </thead>
-            
                 <tbody>
                     {% for agenda in agendas %}
                     <tr>
@@ -72,5 +70,7 @@
     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 </body>
 {% endblock %}
+
+
 
 
