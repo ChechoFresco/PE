@@ -67,10 +67,13 @@ p.subject{
   font-size: 2.7rem;
   color: white;
   text-align: center;
+  text-shadow: 1px 1px  white;
 }
 p.subjectLead{
   font-size: 2.9rem;
   color:#acc4fc;
+  text-shadow: 1px 1px  white;
+
 }
 
 p.offer{
