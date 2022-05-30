@@ -5,7 +5,8 @@ body, html {
     padding:0;
     background-color:light gray;
 }
-div.product {
+
+div.package{
     height: 100%;
     display:flex;
     flex-direction: row-reverse;
@@ -13,46 +14,73 @@ div.product {
     backdrop-filter: blur(10px);
 }
 
-img {
-    width: 100%;
-    height: 100vh;
-    object-fit: contain;
+div.background {
+    height: 100%;
     flex: 1;
 }
-
-form{
-    margin: 22vh 0vh;
+.description{
+    height: 100%;
+    margin: 9vh 14vw;
     flex: 2;
     font-size:2vh;
 }
 
-.description{
-    margin: 20vh 10vh;
-    flex: 3;
-    font-size:2vh;
+img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+form{
+    margin: 7vh 0vh;
+    font-size: 2vh;
+    width: fit-content;
 }
 
-@media screen and (min-device-width: 375px) and (max-device-width: 500px){
-    div.product {
-        height: 110%;
+@media screen and (min-width: 350px) and (max-width: 767px)
+{
+    div.package{
+        height: 100%;
         display:flex;
-        flex-direction: column;
+        flex-direction: row-reverse;
         align-items: stretch;
         backdrop-filter: blur(10px);
 }
+    div.background {
+        flex: 0;
+}
     .description{
         margin: 10vh 0vh;
-        flex: 1;    
+        flex: 1;
         font-size:2vh;
 }
- 
     form{
-        margin: -10vh 0vh;
-        flex: 2;
+        margin: 8vh 0vh;
         font-size:1.5vh;
 }
     img {
         display:none;
     }
-
+}
+@media screen and (min-width: 767px) and (max-width: 1300px)
+{
+    div.package{
+        height: 100%;
+        display:flex;
+        flex-direction: row-reverse;
+        align-items: stretch;
+        backdrop-filter: blur(10px);
+}
+    div.background {
+        height: 110%;
+        flex: 2;
+}
+    .description{
+        margin: 10vh 0vh;
+        flex: 1;
+        font-size:2vh;
+}
+    form{
+        margin: 8vh 0vh;
+        font-size:1.5vh;
+}
 }
