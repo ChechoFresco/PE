@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block metadata %}
-    <meta charset='utf-8'/>
-    <meta name='description' content= 'About section of PolicyEdge owner Sergio Preciado'/>
+<meta charset='utf-8'/>
+<meta name='description' content= 'About section of PolicyEdge owner Sergio Preciado'/>
 {% endblock %}
 {% block content %}
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}" />
 </head>
-<body>
-    <br></br>
-    <div class="jumbotron jumbotron-fluid">
-        <picture >
-        <img src="/static/Main-1.jpeg" title= "Blue Parliament building" alt="Blue MSP building located in Scotland. Scottish parliament building." class="jumbotron__background">
-        </picture>
-        <div class="container">
-            <h1 class="display-4">Abo<span>ut</span></h1>
-            <p class="lead">Mr. Preciado has been working in politics, on the local and national level, for over 10 years. He brings a wealth of professional experience to his work coming from both the public and private sector.  
-                <br></br>Before PolicyEdge, Sergio served as a political consultant for one of the top Public Affair firms in Los Angeles, with clients at the highest levels of the business, non-profit, trade association and political worlds. Preceding that, he was a Congressional staff member in Washington D.C., for a member of the U.S House of representatives. He is a resident of Los Angeles and spends his time in his community. 
-                <br></br>As the founder, Sergio is committed to providing new insight into local government using his laptop and a cup of coffee.</p>
+    <div class="container">
+        <div class="p-5 text-center bg-image text-white "
+        style="background-image: url('https://lh3.googleusercontent.com/QF6q3NZ6F-l7gpu5PyhY9QIfCaBFxoacDFyLEWsJR3Q6MYj9b6_Zy1lHLtoIaxIMFkfIdtuZgjuBLqfouZYxIhMG3puCZ8hRyTiPArzpREj1tTWyDv2IKP7hymvV-Mkj04d1XwM2aIc=w2400'); 
+        background-size: contain; background-repeat: no-repeat;">
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.385); height: 91vh; overflow:auto">
+                <div class="d-flex justify-content-center align-items-center">
+                    <h1 class="display-4">Abo<span>ut</span></h1>
+                    <h2>Sergio Preciado</h2>
+                    <p class="lead">Mr. Preciado has been working in politics, on the local and national level, for over 10 years. He brings a wealth of professional experience to his work coming from both the public and private sector.
+                    <br></br>Before PolicyEdge, Sergio served as a political consultant for one of the top Public Affair firms in Los Angeles, with clients at the highest levels of the business, non-profit, trade association and political worlds. Preceding that, he was a Congressional staff member in Washington D.C., for a member of the U.S House of representatives. He is a resident of Los Angeles and spends his time in his community. 
+                    <br></br>As the founder, Sergio is committed to providing new insight into local government using his laptop and a cup of coffee.</p>
+                </div>
+            </div>
         </div>
     </div>
-</body>
 {% endblock %}
