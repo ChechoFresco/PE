@@ -1,3 +1,4 @@
+from unittest import skip
 from flask_pymongo import PyMongo
 from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, json
 from forms import searchForm, monitorListform, notificationForm
@@ -42,74 +43,72 @@ def check4Issues2email():
         today=int(b)+7 #+7 days to see future agendas
         c = date.today() + relativedelta(days=-7) #Change days to 7 before date just in case
         d= str(c).replace("-","")
-        today_3= int(d)# #Change days to 7 finished product
+        todayNeg7= int(d)# #Change days to 7 finished product
 
-        all_email=[]    #List of all email from storedUsers
+        all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, 'agendaUnique_id':1, 'email':1, 'subscriptionActive':1, 'issues':1})#Creates list af all emails and usernames for sequence
 
-        all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, "subscriptionActive":1})#Creates list af all emails and usernames for sequence
         for x in all_users: #For each instance of a user
-            #storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0,'issues':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
-            storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
-
             if x['subscriptionActive'] == True: #Checks to see if user is subscribed
-                all_email.append(x['email'])#Users who are subscribe get added to email list
-            else:
-                pass
+                storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
 
-            issues_placeholder= []#List of user subscribed issues
-            userStoredAgendaId=[]#List of user previous items
+                issues_placeholder= []#List of user subscribed issues
+                userStoredAgendaId=[]#List of user previous items
 
-            for y in storedIssues:#Access users previous items and looks up subscribed issues
-                userStoredAgendaId.extend(y['agendaUnique_id'])#previous items
-                issues_placeholder.extend(y['issues'])#subscribed issues
 
-            agenda=[]
+                for y in storedIssues:
+                    userStoredAgendaId.extend(y['agendaUnique_id'])#previous items
+                    issues_placeholder.append(y['issues'])#subscribed issues
 
-            for z in range(len(issues_placeholder[0])): #For every item in issues_placeholder, breaks down into individual parts in order for Multiquery to function
-                city_Search= (issues_placeholder[0][z-1]['City'])#Grabs City
-                issue_Search= (issues_placeholder[0][z-1]['Issue'])#Grabs Issue
-                committee_Search= (issues_placeholder[0][z-1]['Committee'])#Grabs Committee
+                agenda=[]
 
-                ##################Multiquery uses each _Search to run individual db.finds to v=create multiquery
-                Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_3)}}, {'_id': { '$nin': userStoredAgendaId }}]})
+                for z in range(len(issues_placeholder[0])): #For every item in issues_placeholder, breaks down into individual parts in order for Multiquery to function
+                    city_Search= (issues_placeholder[0][z]['City'])#Grabs City
+                    issue_Search= (issues_placeholder[0][z]['Issue'])#Grabs Issue
+                    committee_Search= (issues_placeholder[0][z]['Committee'])#Grabs Committee
 
-                for query in Multiquery:#Places individualised results in agenda from Multiquery
-                    agenda.append(query)
+                    ##################Multiquery uses each _Search to run individual db.finds to create multiquery
+                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(todayNeg7)}}, {'_id': { '$nin': userStoredAgendaId }}]})
 
-            if not agenda: #If query returns empty skip
-                pass
-            else:
-                description=[]###Information is grabbed from loop done below
-                city=[]
-                Date=[]
-                meeting_type=[]
-                item_type=[]
+                    for query in Multiquery:#Places individualised results in agenda from Multiquery
+                        agenda.append(query)
 
-            for i in agenda: #returned criteria
-                mongo.db.User.find_one_and_update({'username':x['username']}, {'$push': {'agendaUnique_id':i['_id']}},upsert=True)# updates database with iems uniqueid
-                description.append(i['Description'])
-                city.append(i['City'])
-                intDate= (str(i['Date']))
-                start_year = str(intDate[0:4])
-                start_month = str(intDate[4:6])
-                start_day = str(intDate[6:8])
-                Date.append(start_month+'/'+start_day+'/'+start_year)
-                meeting_type.append(i['MeetingType'])
-                item_type.append(i['ItemType'])
+                if not agenda: #If query returns empty skip
+                    pass
+                else:
+                    description=[]###Information is grabbed from loop done below
+                    city=[]
+                    Date=[]
+                    meeting_type=[]
+                    item_type=[]
 
-                subject = 'New Issue Alerts'
-                sender = 'AgendaPreciado@gmail.com'
-                msg = Message(subject, sender=sender, recipients=[y['email']])
-                email_body=[]
-                for z in range(len(city)):#range(len)city is used because it gives accurate count of items being sent
-                    email_body.append("<html> <body> <p>The following issue '{}' will be brought before the {} City Council on {}.</p>  {}  </body><br></br><br></br><br></br><br></br>".format(issue_Search,city[z],Date[z],description[z]))
+                    email_body=[]
+
+                    for i in agenda: #returned criteria
+                        mongo.db.User.find_one_and_update({'username':x['username']}, {'$push': {'agendaUnique_id':i['_id']}})# updates database with iems uniqueid
+                        description.append(i['Description'])
+                        city.append(i['City'])
+                        intDate= (str(i['Date']))
+                        start_year = str(intDate[0:4])
+                        start_month = str(intDate[4:6])
+                        start_day = str(intDate[6:8])
+                        Date.append(start_month+'/'+start_day+'/'+start_year)
+                        meeting_type.append(i['MeetingType'])
+                        item_type.append(i['ItemType'])
+
+                        for z in range(len(city)):#range(len)city is used because it gives accurate count of items being sent
+                            email_body.append("<html> <body> <p>The following issue '{}' will be brought before the {} {} on {}.</p>  {}  </body><br></br><br></br><br></br>".format(issue_Search,city[z],meeting_type[z],Date[z],description[z]))
+
+                    subject = 'New Issue Alerts'
+                    sender = 'AgendaPreciado@gmail.com'
+                    msg = Message(subject, sender=sender, recipients=[x['email']])
                     html_body= "\n".join(email_body)
                     msg.html= "Hello {},".format(x['username']) +html_body + "<p> Thanks for your continued support,<br> <br>  Policy Edge</p> </html>"
-
-            mail.send(msg)
+                    mail.send(msg)
+            else:
+                pass
 
 sched = BackgroundScheduler(timezone='UTC')
-sched.add_job(check4Issues2email, 'interval', seconds=30)
+sched.add_job(check4Issues2email, 'interval', seconds=90)
 sched.start()
 
 @app.route('/', methods=['GET', 'POST'])
@@ -117,7 +116,7 @@ def index():
     if "username" in session:
         return redirect(url_for("loggedIn"))
 
-    return render_template('https://www.policyedge.net' ,title="PolicyEdge agenda monitoring tracking service")
+    return render_template('index.html' ,title="PolicyEdge agenda monitoring tracking service")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -479,101 +478,65 @@ def int2date(agDate: int) -> date:#Chages format of dates in charts
 
     return date(year,month,day)
 
-@app.route('/cannabis', methods=['GET', 'POST'])
-def cannabis():
+@app.route('/southBay', methods=['GET', 'POST'])
+def southbay():
     if request.method == 'GET':
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-1) #Change month to 3
+        c = date.today() + relativedelta(weeks=-2) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'cannabis'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('cannabis.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring Cannabis Search Results")
+        agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Torrance "," Carson "," Lomita "," Rancho Palos Verdes "," Rolling Hills "," Rolling Hills Estates "," Redondo Beach "," Hermosa Beach "," Manhattan Beach "," El Segundo "," Hawthorne "," Lawndale "," Gardena "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('southbay.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring Southbay Search Results")
 
-@app.route('/waste', methods=['GET', 'POST'])
-def waste():
+@app.route('/gateway', methods=['GET', 'POST'])
+def gateway():
     if request.method == 'GET':
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-1) #Change month to 3
+        c = date.today() + relativedelta(weeks=-2) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'waste'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('waste.html', agendas=agenda,  title = "PolicyEdge agenda Waste Search Results")
+        agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[ " Lakewood "," Long Beach "," Signal Hill "," Compton ", " Lynwood ", " South Gate ", " Cudahy ", " Bell ", " Maywood ", " Vernon ", " Bell Gardens ", " Commerce ", " Downey ", " Pico Rivera ", " Santa Fe Springs "," Whittier ", " Santa Fe Springs ", " Norwalk ", " La Mirada ", " Cerritos ", " Hawaiian Gardens ", " Bellflower ", " Paramount "," Artesia " ]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('gateway.html', agendas=agenda,  title = "PolicyEdge agenda Gateway Cities Search Results")
 
-@app.route('/medical', methods=['GET', 'POST'])
-def medical():
+@app.route('/westside', methods=['GET', 'POST'])
+def westside():
     if request.method == 'GET':
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-1) #Change month to 3
+        c = date.today() + relativedelta(weeks=-2) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'medical'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('medical.html', agendas=agenda,  title = "PolicyEdge agenda Medical Search Results")
+        agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Beverly Hills " , " Culver City " , " Malibu " , " Santa Monica " , " West Hollywood "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('westside.html', agendas=agenda,  title = "PolicyEdge agenda Westside area Search Results")
 
-@app.route('/telecommunication', methods=['GET', 'POST'])
-def telecommunication():
+@app.route('/sangabrielCities', methods=['GET', 'POST'])
+def sangabriel():
     if request.method == 'GET':
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-1) #Change month to 3
+        c = date.today() + relativedelta(weeks=-2) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'telecommunication'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('telecommunication.html', agendas=agenda,  title = "PolicyEdge agenda Telecommunication Search Results")
+        agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Alhambra "," Arcadia "," Azusa "," Baldwin Park "," Bradbury "," Covina "," Diamond Bar "," Duarte "," El Monte "," Glendora "," City of Industry "," Irwindale "," La Canada Flintridge "," La Puente "," La Verne "," Monrovia "," Montebello "," Monterey Park "," Pasadena "," Pomona "," Rosemead "," San Dimas "," San Gabriel "," San Marino "," Sierra Madre "," South El Monte ", " S Pasadena ", " Temple City "," Walnut "," West Covina "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('sangabrielCities.html', agendas=agenda,  title = "PolicyEdge agenda San Gabriel Area Search Results")
 
-@app.route('/transportation', methods=['GET', 'POST'])
-def transportation():
+@app.route('/sanfernandoCities', methods=['GET', 'POST'])
+def sanfernando():
     if request.method == 'GET':
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-1) #Change month to 3
+        c = date.today() + relativedelta(weeks=-2) #Change month to 3
         d= str(c).replace("-","")
         lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'transportation'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('transportation.html', agendas=agenda,  title = "PolicyEdge agenda Transportation Search Results")
-
-@app.route('/technology', methods=['GET', 'POST'])
-def technology():
-    if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(months=-1) #Change month to 3
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'technology'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('technology.html', agendas=agenda,  title = "PolicyEdge agenda Technology Search Results")
-
-@app.route('/financial', methods=['GET', 'POST'])
-def financial():
-    if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(months=-1) #Change month to 3
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'financial'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('financial.html', agendas=agenda,  title = "PolicyEdge agenda Financial Search Results")
-
-@app.route('/utility', methods=['GET', 'POST'])
-def utility():
-    if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(months=1) #Change month to 3
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'utility'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('utility.html', agendas=agenda,  title = "PolicyEdge agenda Utility Search Results")
+        agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Agoura Hills " , " Burbank " , " Calabasas " , " Glendale " , " Hidden Hills " , " San Fernando " , " Westlake Village "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('sanfernandoCities.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring San Fernando Search Results")
 
 @app.route('/savedIssues', methods=['GET', 'POST'])
 def savedIssues():
@@ -612,7 +575,7 @@ def savedIssues():
                     for z in Multiquery:
                         agenda.append(z)
 
-                e=str(issues_placeholder) 
+                e=str(issues_placeholder)
                 user_issue=e.replace("'",'').replace("["," ").replace("]"," ").replace("{","*").replace("}","*")
                 flash(user_issue)
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
@@ -747,6 +710,14 @@ def termsofservice():
 @app.route('/privacypolicy', methods=['GET', 'POST'])
 def privacypolicy():
     return render_template('privacypolicy.html', title='PolicyEdge agenda tracking monitoring Privacy Policy')
+
+if __name__ == '__main__':
+    app.run(debug = True)
+
+
+
+
+
 
 
 
