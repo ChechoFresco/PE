@@ -12,35 +12,76 @@
 </head>
 <body>
 <br></br>
-    <div class="product">
+    <div class="package">
+
+        <div class="background">
             <img src="/static/pexels-enric-cruz-lópez-6039214.jpg" alt="Contemporary building facade with honeycomb style windows."></img>
-        <div class="description">
-        <h1>Start a PolicyEdge membership today!</h3>
-        <h2>$20.00 to track 5 different issues</h5>
         </div>
 
-    <form action="/create-checkout-session" method="post" class="form-line">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input name="username" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Enter username">
-            <small id="username" class="form-text text-muted">Please enter a username</small>
+        <div class="description">
+            <h1>Start a PolicyEdge membership today!</h1>
+            <h2>$20.00 to track 5 different issues</h2>
+            <form action="/create-checkout-session" method="post" class="form-line">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input name="username" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Enter username">
+                    <small id="username" class="form-text text-muted">Please enter a username</small>
+                </div>
+                <div class="form-group">
+                    <label for="InputEmail">Email</label>
+                    <input name="email" class="form-control" id="InputEmail"  placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">Please enter a email</small>
+                </div>
+                <div class="form-group">
+                    <label for="InputPassword">Password</label>
+                    <input type="password" name="password1" class="form-control" id="InputPassword" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label for="InputPassword2">Repeat Password</label>
+                    <input type="password" name="password2" class="form-control" id="InputPassword2" placeholder="Repeat Password">
+                </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
-        <div class="form-group">
-                <label for="InputEmail">Email</label>
-                <input name="email" class="form-control" id="InputEmail"  placeholder="Enter email">
-                <small id="emailHelp" class="form-text text-muted">Please enter a email</small>
-        </div>
-        <div class="form-group">
-            <label for="InputPassword">Password</label>
-            <input type="password" name="password1" class="form-control" id="InputPassword" placeholder="Password">
-        </div>
-        <div class="form-group">
-            <label for="InputPassword2">Repeat Password</label>
-            <input type="password" name="password2" class="form-control" id="InputPassword2" placeholder="Repeat Password">
-        </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+    </div>
 
 </body>
 {% endblock %}
+<div class="img container">
+    <img src="/static/pexels-enric-cruz-lópez-6039214.jpg" alt="Contemporary building facade with honeycomb style windows."></img>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-10">
+            <h1>Start a PolicyEdge membership today!</h3>
+            <h2>$20.00 to track 5 different issues</h5>
+        </div>
+    </div>
+    <br></br>
+    <br></br>
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+            <form action="/create-checkout-session" method="post" class="form-line">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input name="username" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Enter username">
+                    <small id="username" class="form-text text-muted">Please enter a username</small>
+                </div>
+                <div class="form-group">
+                    <label for="InputEmail">Email</label>
+                    <input name="email" class="form-control" id="InputEmail"  placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">Please enter a email</small>
+                </div>
+                <div class="form-group">
+                    <label for="InputPassword">Password</label>
+                    <input type="password" name="password1" class="form-control" id="InputPassword" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label for="InputPassword2">Repeat Password</label>
+                    <input type="password" name="password2" class="form-control" id="InputPassword2" placeholder="Repeat Password">
+                </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
