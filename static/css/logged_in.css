@@ -1,39 +1,50 @@
-html, body{
-  margin:0;
-  padding:0;
-  background-color:#4f5861;
-}
-
 Result Skip Results Iframe
 EDIT ON
-.jumbotron {
-  position: absolute;
+html, body{
+	margin:0;
+	padding:0;
+  background-color: #4f5861;
 }
 
-.jumbotron-fluid {
-  height:110vh;
+.jumbotron{
+  border-radius:10px;
+    background:
+linear-gradient(
+  rgba(172, 196, 252, .25),
+  rgba(79, 88, 97, 1)
+),
+url('../Meteor.svg');
+background-attachment: fixed;
+color:white !important;
+background-size: contain;
+height:53vh;
+position: relative;
 }
 
-.jumbotron__background {
-  position: absolute;
-  z-index: 2;
-  top: 81px;
-  width: 100%;
-  height: 125%;
-  object-fit: cover;
-  opacity: 0.5;
+.btn-outline-danger{
+  color:white;
+  border-color:white;
+  border-radius:0px;
+  font-weight:100;
+  margin-top:20px;
 }
+.lead{
+  font-family:raleway;
+  font-weight:100;
+  margin-top:-10px;
+}
+
 .jumbotron .container {
-  z-index: 2;
-  position: relative;
-  height:54%;
+  top: 40px;
 }
-img {
+.container {
+  position: relative;
+}
+.thumbnail{
   width: 22%; /* You can set the dimensions to whatever you want */
   height: 350px;
   object-fit: cover;
 }
-
 .jumbotron p{
   font-size: 2.5rem;
   color: white;
@@ -41,132 +52,96 @@ img {
 
 h3{
   color:#acc4fc;
+  text-align: center;
 }
-h1.display-4{
-  color:#4404fc;
+p.frontpg{
+  color: white;
+  font-size: 44px;
+  text-shadow: 1px 3px 9px #4f5861;
+  font-weight: 400;
 }
-p.lead{
-  color:black;
-  font-size: 3rem;
-  font-weight: 1;
+p.title{
+  text-align: center;
 }
-.container-fluid.bg-3{
-  z-index: 10;
-  background-color:#4f5861;
-  position:relative;
+p.subject{
+  font-size: 2.2rem;
+  color: white;
+  text-align: center;
 }
-h1.display-4{
-  color:White;
-  text-shadow: 2px 2px black;
+p.offer{
+  text-align: center;
+  font-size: 1.5rem;
+  color: white;
 }
 
-@media screen and (max-width: 1700px) {
-  .jumbotron__background {
-    position: absolute;
-    z-index: 2;
-    top: 81px;
-    width: 100%;
-    height: 52%;
-    object-fit: cover;
-    opacity: 0.5;
-    overflow: hidden;
-  }
-  .jumbotron .container {
-    z-index: 2;
-    position: relative;
-    height:40%;
-  }
+h1.display-4{
+  color:#acc4fc;
+  text-shadow:  4px 5px 3px #4f5861;
+  font-size: 77px;
 }
-@media screen and (max-width: 480px) {
-.jumbotron .container {
-    z-index: 2;
-    position: relative;
-    height: 77%;
+
+@media screen and (min-width: 350px) and (max-width: 767px)
+{
+  .backgroundimg{
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+  opacity: 0.5;
+  top: 0px;
 }
-.jumbotron__background {
-    top: 93px;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.5;
-}
-  p.lead{
-  color:black;
-  font-size: 1.8rem;
-  font-weight: bold;
-}
- .jumbotron p.support{
+.jumbotron p.support{
   color:white;
   font-size: 1.6rem;
   font-weight: bold;
   text-shadow: 2px 2px black;
 }
-}
-@media screen and (min-width: 768px)
-.jumbotron {
-    padding-top: 95px;
-    padding-bottom: 48px;
-}
-
-.jumbotron {
-    padding-top: 30px;
-    padding-bottom: 30px;
-    margin-bottom: 30px;
-    color: inherit;
-    background-color: #eee;
-}
-.jumbotron__background {
-    position: absolute;
-    z-index: 2;
-    top: 100px;
-    width: 100%;
-    height: 110%;
-    object-fit: cover;
-    opacity: 0.5;
-    overflow: hidden;
-}
-.jumbotron-fluid {
-  height:110vh;
-}
-
-.jumbotron p{
-  font-size: 2.5rem;
-  color: white;
-}
-
-h3{
-  color:#acc4fc;
-}
-h1.display-4{
-  color:#4404fc;
-}
 p.lead{
   color:black;
-  font-size: 3rem;
-  font-weight: 1;
+  font-size: 2rem;
+  font-weight: bolder;
 }
-.container-fluid.bg-3{
-  z-index: 10;
-  background-color:#4f5861;
-}
-h1.display-4{
-  color:White;
-  text-shadow: 2px 2px black;
-}
-
-@media screen and (max-width: 1700px) {
-  .jumbotron__background {
-    position: absolute;
-    z-index: 2;
-    top: 81px;
-    width: 100%;
-    height: 35%;
-    object-fit: cover;
-    opacity: 0.5;
-    overflow: hidden;
+.img-fluid {
+  height:1000px;
+  width:100%;
+  object-fit: cover;
   }
-  .jumbotron .container {
-    z-index: 2;
-    position: relative;
-    height:40%;
+  p.frontpg{
+    color: white;
+    font-size: 18px;
+    text-shadow: 1px 3px 9px #4f5861;
+    font-weight: 400;
+  }
+  h1.display-4{
+    color:#acc4fc;
+    text-shadow:  4px 5px 3px #4f5861;
+    font-size: 31px;
+  }
+  .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+    background-color: gray;
+}
+}
+@media screen and (min-width: 768px) and (max-width: 1300px)
+{
+.backgroundimg{
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+  opacity: 0.5;
+  top: 0px;
+}
+}
+@media screen and (min-width: 1300px) and (max-width: 1700px)
+{
+.backgroundimg{
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+  opacity: 0.5;
+  top: 0px;
+  }
+.img-fluid {
+  height:800px;
+  width:100%;
+  object-fit: cover;
   }
 }
