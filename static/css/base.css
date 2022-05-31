@@ -41,7 +41,7 @@ a.navbar-brand{
     text-shadow: 2px 2px #4f5861;
 }
 .nav.navbar-nav.navbar-right li a:hover{
-    background-color:#acc4fc;
+    background-color:transparent;
     color:white;
 }
 .navbar-toggle .icon-bar {
