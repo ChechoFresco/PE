@@ -43,7 +43,7 @@ position: relative;
   width: 22%; /* You can set the dimensions to whatever you want */
   height: 350px;
   object-fit: cover;
-  background-color: :#acc4fc;
+  background-color: #acc4fc;
 }
 .jumbotron p{
   font-size: 2.5rem;
