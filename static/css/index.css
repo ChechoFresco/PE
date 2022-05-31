@@ -53,27 +53,30 @@ position: relative;
 h3{
   color:#acc4fc;
   text-align: center;
+  text-shadow: 1px 1px  white;
 }
+
 p.frontpg{
   color: white;
   font-size: 41px;
   text-shadow: 1px 3px 9px #4f5861;
   font-weight: 400;
 }
+
 p.title{
   text-align: center;
 }
+
 p.subject{
   font-size: 2.7rem;
   color: white;
   text-align: center;
-  text-shadow: 1px 1px  white;
 }
+
 p.subjectLead{
   font-size: 2.9rem;
   color:#acc4fc;
   text-shadow: 1px 1px  white;
-
 }
 
 p.offer{
@@ -98,37 +101,45 @@ h1.display-4{
   opacity: 0.5;
   top: 0px;
 }
+	
 .jumbotron p.support{
   color:white;
   font-size: 1.6rem;
   font-weight: bold;
   text-shadow: 2px 2px black;
 }
+	
 p.lead{
   color:black;
   font-size: 2rem;
   font-weight: bolder;
 }
+	
 .img-fluid {
   height:1000px;
   width:100%;
   object-fit: cover;
   }
-  p.frontpg{
+	
+p.frontpg{
     color: white;
     font-size: 18px;
     text-shadow: 1px 3px 9px #4f5861;
     font-weight: 400;
   }
-  h1.display-4{
+	
+h1.display-4{
     color:#acc4fc;
     text-shadow:  4px 5px 3px #4f5861;
     font-size: 31px;
   }
-  .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+	
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
     background-color: gray;
 }
+	
 }
+
 @media screen and (min-width: 768px) and (max-width: 1300px)
 {
 .backgroundimg{
