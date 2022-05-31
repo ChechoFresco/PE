@@ -16,7 +16,7 @@ url('../Meteor.svg');
 background-attachment: fixed;
 color:white !important;
 background-size: contain;
-height:49vh;
+height:43vh;
 position: relative;
 }
 
@@ -34,7 +34,7 @@ position: relative;
 }
 
 .jumbotron .container {
-  top: 40px;
+  top: 50px;
 }
 .container {
   position: relative;
@@ -43,7 +43,7 @@ position: relative;
   width: 22%; /* You can set the dimensions to whatever you want */
   height: 350px;
   object-fit: cover;
-  background-color: :#acc4fc;
+  background-color: #acc4fc;
 }
 .jumbotron p{
   font-size: 2.5rem;
@@ -53,26 +53,31 @@ position: relative;
 h3{
   color:#acc4fc;
   text-align: center;
+  text-shadow: 1px 1px  white;
 }
+
 p.frontpg{
   color: white;
-  font-size: 41px;
+  font-size: 35px;
   text-shadow: 1px 3px 9px #4f5861;
   font-weight: 400;
 }
+
 p.title{
   text-align: center;
   color: white;
-
 }
+
 p.subject{
   font-size: 2.7rem;
   color: white;
   text-align: center;
 }
+
 p.subjectLead{
   font-size: 2.9rem;
   color:#acc4fc;
+  text-shadow: 1px 1px  white;
 }
 
 p.offer{
@@ -84,8 +89,8 @@ p.offer{
 h1.display-4{
   color:#acc4fc;
   text-shadow:  4px 5px 3px #4f5861;
-  font-size: 64px;
-  margin-top: -60px;
+  font-size: 60px;
+  margin-top: -25px;
 }
 
 @media screen and (min-width: 350px) and (max-width: 767px)
@@ -97,37 +102,45 @@ h1.display-4{
   opacity: 0.5;
   top: 0px;
 }
+	
 .jumbotron p.support{
   color:white;
   font-size: 1.6rem;
   font-weight: bold;
   text-shadow: 2px 2px black;
 }
+	
 p.lead{
   color:black;
   font-size: 2rem;
   font-weight: bolder;
 }
+	
 .img-fluid {
   height:1000px;
   width:100%;
   object-fit: cover;
   }
-  p.frontpg{
+	
+p.frontpg{
     color: white;
     font-size: 18px;
     text-shadow: 1px 3px 9px #4f5861;
     font-weight: 400;
   }
-  h1.display-4{
+	
+h1.display-4{
     color:#acc4fc;
     text-shadow:  4px 5px 3px #4f5861;
     font-size: 31px;
   }
-  .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+	
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
     background-color: gray;
 }
+	
 }
+
 @media screen and (min-width: 768px) and (max-width: 1300px)
 {
 .backgroundimg{
