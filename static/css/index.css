@@ -65,6 +65,8 @@ p.frontpg{
 
 p.title{
   text-align: center;
+  color: white;
+  text-shadow: 1px 1px #acc4fc;
 }
 
 p.subject{
