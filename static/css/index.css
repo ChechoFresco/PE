@@ -9,12 +9,11 @@ html, body{
 .jumbotron{
   background:
 linear-gradient(
-  rgba(172, 196, 252, .25),
+  rgba(172, 196, 252, .31),
   rgba(79, 88, 97, 1)
 ),
 url('../Meteor.svg');
 background-attachment: fixed;
-color:white !important;
 background-size: contain;
 height:43vh;
 position: relative;
@@ -53,7 +52,7 @@ position: relative;
 h3{
   color:#acc4fc;
   text-align: center;
-  text-shadow: 1px 1px  white;
+  text-shadow: 1px 1px  #4f5861;
 }
 
 p.frontpg{
