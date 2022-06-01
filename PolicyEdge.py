@@ -108,7 +108,7 @@ def check4Issues2email():
                 pass
 
 sched = BackgroundScheduler(timezone='UTC')
-sched.add_job(check4Issues2email, 'interval', seconds=90)
+sched.add_job(check4Issues2email, 'interval', seconds=3600)
 sched.start()
 
 @app.route('/', methods=['GET', 'POST'])
@@ -484,7 +484,7 @@ def southbay():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(weeks=-2) #Change month to 3
+        c = date.today() + relativedelta(weeks=-2) 
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Torrance "," Carson "," Lomita "," Rancho Palos Verdes "," Rolling Hills "," Rolling Hills Estates "," Redondo Beach "," Hermosa Beach "," Manhattan Beach "," El Segundo "," Hawthorne "," Lawndale "," Gardena "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -496,7 +496,7 @@ def gateway():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(weeks=-2) #Change month to 3
+        c = date.today() + relativedelta(weeks=-2) 
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[ " Lakewood "," Long Beach "," Signal Hill "," Compton ", " Lynwood ", " South Gate ", " Cudahy ", " Bell ", " Maywood ", " Vernon ", " Bell Gardens ", " Commerce ", " Downey ", " Pico Rivera ", " Santa Fe Springs "," Whittier ", " Santa Fe Springs ", " Norwalk ", " La Mirada ", " Cerritos ", " Hawaiian Gardens ", " Bellflower ", " Paramount "," Artesia " ]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -508,7 +508,7 @@ def westside():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(weeks=-2) #Change month to 3
+        c = date.today() + relativedelta(weeks=-2)
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Beverly Hills " , " Culver City " , " Malibu " , " Santa Monica " , " West Hollywood "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -520,7 +520,7 @@ def sangabriel():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(weeks=-2) #Change month to 3
+        c = date.today() + relativedelta(weeks=-2) 
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Alhambra "," Arcadia "," Azusa "," Baldwin Park "," Bradbury "," Covina "," Diamond Bar "," Duarte "," El Monte "," Glendora "," City of Industry "," Irwindale "," La Canada Flintridge "," La Puente "," La Verne "," Monrovia "," Montebello "," Monterey Park "," Pasadena "," Pomona "," Rosemead "," San Dimas "," San Gabriel "," San Marino "," Sierra Madre "," South El Monte ", " S Pasadena ", " Temple City "," Walnut "," West Covina "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -532,7 +532,7 @@ def sanfernando():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(weeks=-2) #Change month to 3
+        c = date.today() + relativedelta(weeks=-2) 
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Agoura Hills " , " Burbank " , " Calabasas " , " Glendale " , " Hidden Hills " , " San Fernando " , " Westlake Village "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -544,7 +544,7 @@ def cannabis():
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(months=-3) #Change month to 3
+        c = date.today() + relativedelta(weeks=-2) 
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'cannabis'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
@@ -600,7 +600,7 @@ def savedIssues():
                 #####Creates dates########
                 a = date.today()
                 b= str(a).replace("-","")
-                today=int(b)
+                today=int(b)+7
                 c = date.today() + relativedelta(months=-1)
                 d= str(c).replace("-","")
                 today_1month= int(d)
@@ -652,7 +652,7 @@ def savedIssues():
                 #####Creates dates########
                 a = date.today()
                 b= str(a).replace("-","")
-                today=int(b)
+                today=int(b)+7
                 c = date.today() + relativedelta(months=-1)
                 d= str(c).replace("-","")
                 today_1month= int(d)
