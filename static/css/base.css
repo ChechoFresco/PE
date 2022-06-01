@@ -16,10 +16,10 @@ html, body{
     border-color: transparent;
 }
 ul.navbar-nav{
-	font-size: 1.5rem;
+	font-size: 1.9rem;
 	background-color: #acc4fc;
-	padding: 0.5rem 0.5rem;
-	margin: 0.5rem .5rem;
+    padding: 1.5rem 6.5rem;
+    margin: 1.5rem 3.5rem;
 	border-radius: 28px;
 	}
 div a.navbar-header{
@@ -28,9 +28,9 @@ div a.navbar-header{
 }
 a.navbar-brand{
     width: 41rem;
-    height: 7rem;
+    height: 12rem;
     background: url(/static/PolicyFull.svg) no-repeat center;
-    background-size: 81rem 45rem;
+    background-size: 86rem 45rem;
 }
 .navbar-nav{
 	font-size:2rem;
