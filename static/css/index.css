@@ -5,6 +5,7 @@ html, body{
 	padding:0;
   background-color: #4f5861;
 }
+
 .jumbotron{
 height:37vh;
 position: relative;
@@ -26,6 +27,7 @@ video {
   font-weight:100;
   margin-top:20px;
 }
+
 .lead{
   font-family:raleway;
   font-weight:100;
@@ -35,15 +37,18 @@ video {
 .jumbotron .container {
   top: 110px;
 }
+
 .container {
   position: relative;
 }
+
 .thumbnail{
   width: 22%; /* You can set the dimensions to whatever you want */
   height: 350px;
   object-fit: cover;
   background-color: #acc4fc;
 }
+
 .jumbotron p{
   font-size: 2.5rem;
   color: white;
@@ -92,7 +97,7 @@ h1.display-4{
     -webkit-text-fill-color: #acc4fc;
     font-size: 76px;
     margin-top: -10px;
-    text-shadow: 8px 8px 12px dimgrey;
+    text-shadow: 7px 5px 4px dimgrey;
 }
 
 @media screen and (min-width: 350px) and (max-width: 767px)
