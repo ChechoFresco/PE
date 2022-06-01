@@ -3,9 +3,19 @@ html, body{
     line-height: .8;
     background-color:#4f5861;
 }
+
 .container{
-    overflow:auto
+    overflow:auto;
+    height:100%;
+    width:100%;
 }
+
+h1{
+    font-size:8.5rem;
+    color:white;
+    text-shadow: 4px 4px 2px black;
+}
+
 p.lead{
     color:white;
     font-size: 3rem;
@@ -13,20 +23,48 @@ p.lead{
     text-shadow: 1px 1px black;
 }
 
-h1.display-4{
+h2.display-4{
     font-size: 8rem;
     color:#4404fc;
     text-shadow: 1px 1px black;
 }
 
-h1.display-4 span{
+h2.display-4 span{
     color:#acc4fc;
-    top:10px;
 }
 
-h2{
-color:white;
-font-size: 4rem;
-font-weight: 1;
-text-shadow: 1px 1px black;
+.d-flex {
+padding-top: 100px;
+}
+
+@media screen and (min-width: 350px) and (max-width: 767px){
+    h1{
+        font-size:5.5rem;
+        color:white;
+        text-shadow: 4px 4px 2px black;
+    }
+    
+    p.lead{
+        color:white;
+        font-size: 2rem;
+        font-weight: 1;
+        text-shadow: 1px 1px black;
+    }
+    
+    h2.display-4{
+        font-size: 4.2rem;
+        color:#4404fc;
+        text-shadow: 1px 1px black;
+    }
+    
+    h2.display-4 span{
+        color:#acc4fc;
+    }
+    
+    .d-flex {
+    padding-top: 50px;
+    }
+    .p-12 {
+
+    }
 }
