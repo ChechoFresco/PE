@@ -10,37 +10,44 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 
-<div class="jumbotron jumbotron-fluid" style='position: relative; overflow: hidden; width: 100vw'>
-	<div class="container text-center">
-	    <h1 class="display-4">Keep Up with Local Government in Los Angeles   </h1>
-	    <p class="frontpg">If your industry interacts with local government.</p>
-	    <p class="frontpg">PolicyEdge will help keep you up to date with the issues that affect you</p>
+<div class="jumbotron jumbotron-fluid">
+    <video id="bg-video" autoplay="true" loop="loop" preload="metadata" muted="muted">
+        <source src="static/pexels-Henrique.mp4" type="video/mp4">
+    </video>
+
+	<div class="container text-center" style="position:absolute; margin: auto; width: 100%">
+	    <h1 class="display-4">Keep Up with Local Government in Los Angeles</h1>
 	</div>
 </div>
 
+    <div class="container text-center" style="margin: auto; width: 100%">
+        <p class="subjectLead">We understand the importance of reliable information</p>
 
-    <div class="container text-center">
-        <p class="subjectLead">We understand the importance of quick access to information firsthand.</p>
+        <p class="subject">Problems emerged when an unexpected issue came up in a local city council meeting</p>
 
-        <p class="subject">A meeting was overlooked because of a poorly designed city website.</p>
+        <p class="subject">Time was lost waiting on a city to update its website with new information</p>
 
-        <p class="subject">Problems emerged when an unexpected issue came up in a local city council meeting.</p>
-
-        <p class="subject">Save yourself some time with <span style= "color:#4404fc; text-shadow: 1px 1px black">Policy</span><span style= "color:#acc4fc; text-shadow: 1px 1px black">Edge</span> an online search tool to monitors and track local city council agendas daily and an email alert system to let you know about it right away.</p>
+        <p class="subject">An oppurtunity was missed when a RFP had no means of grabbing your attention</p>
     </div>
 
-    <div class="container">
-        <div class="col-sm-offset-4 col-sm-4">
-            <h3>What We Offer</h3>
-        </div>
+    <div class="container" style="margin: auto; width: 80%; top: 35px;">
         <div class="row">
-            <div class="col-sm-5">
-                <h3><span style= "color:#4404fc; text-shadow: 1px 1px black">Search</span></h3>
-                <p class="subject">We provide a back catalog of city government documents going back years with customizable search features, allowing users to keep up to date with their issues, and gain additional insight by examining how neighboring cities have dealt with the same issue in the past. </p>
+            <div class="col-sm-offset-3 col-sm-6">
+                <h3 style="font-size: 45px; color:floralwhite; ">What <span style= "color:#4404fc; text-shadow: 1px 1px black">Policy</span><span style= "color:#acc4fc; text-shadow: 1px 1px black">Edge</span> Offers</h3>
             </div>
-            <div class="col-sm-offset-1 col-sm-5">
-                <h3><span style= "color:#4404fc; text-shadow: 1px 1px black">Notify</span></h3>
+        </div>
+        <div class="row" style="margin-top: 29px;"> 
+            <div class="col-sm-4">
+                <h3><span style= "color:#4404fc;text-shadow: 1px 1px 2px black;">Notify</span></h3>
                 <p class="subject">Using our notification system, you stay up to date on issues important to you as soon as they are released on the city websites.</p>
+            </div>
+            <div class="col-sm-4">
+                <h3><span style= "color:#acc4fc; text-shadow: 2px 2px 2px black;">Upfront Approach</span></h3>
+                <p class="subject">Our competitors hide behind demos and hidden price models. We offer a membership for an upfront cost and allow you to start searching today! </p>
+            </div>
+            <div class="col-sm-4">
+                <h3><span style= "color:#4404fc; text-shadow: 1px 1px 2px black;">Search</span></h3>
+                <p class="subject">We provide a back catalog of city government documents going back years with customizable search features, allowing users to keep up to date with their issues, and gain additional insight by examining how neighboring cities have dealt with the same issue in the past. </p>
             </div>
         </div>
     </div>
@@ -53,7 +60,7 @@
         </div>
     </div>
 
-<div class="container">
+<div class="container" style="margin: auto; width: 75%;">
     <div class="col-sm-4 float-left border">
         <p class='title'>Trends</p>
         <a class="twitter-timeline" data-tweet-limit=3 href="https://twitter.com/Policy__Edge?ref_src=twsrc%5Etfw"></a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -94,8 +101,6 @@
     </div>
 </div>
 {% endblock %}
-
-
 
 
 
