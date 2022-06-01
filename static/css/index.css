@@ -5,18 +5,18 @@ html, body{
 	padding:0;
   background-color: #4f5861;
 }
-
 .jumbotron{
-  background:
-linear-gradient(
-  rgba(172, 196, 252, .31),
-  rgba(79, 88, 97, 1)
-),
-url('../Meteor.svg');
-background-attachment: fixed;
-background-size: contain;
-height:43vh;
+height:37vh;
 position: relative;
+background-color: transparent;
+padding-top: 0px;
+}
+
+video {
+  width: 100%;
+  object-fit: cover;
+  height: 116%;
+  object-position: 0% 63%;
 }
 
 .btn-outline-danger{
@@ -33,7 +33,7 @@ position: relative;
 }
 
 .jumbotron .container {
-  top: 50px;
+  top: 110px;
 }
 .container {
   position: relative;
@@ -52,7 +52,8 @@ position: relative;
 h3{
   color:#acc4fc;
   text-align: center;
-  text-shadow: 1px 1px  #4f5861;
+  text-shadow: 4px 4px 2px black;
+  font-size: 31px;
 }
 
 p.frontpg{
@@ -65,18 +66,20 @@ p.frontpg{
 p.title{
   text-align: center;
   color: white;
+  font-size: 2.2rem;
 }
 
 p.subject{
-  font-size: 2.7rem;
+  font-size: 3rem;
   color: white;
   text-align: center;
+  margin: 25px;
 }
 
 p.subjectLead{
-  font-size: 2.9rem;
-  color:#acc4fc;
-  text-shadow: 1px 1px  white;
+  font-size: 5.9rem;
+  color: white;
+  text-shadow: 4px 4px 2px black;
 }
 
 p.offer{
@@ -86,10 +89,10 @@ p.offer{
 }
 
 h1.display-4{
-  color:#acc4fc;
-  text-shadow:  4px 5px 3px #4f5861;
-  font-size: 60px;
-  margin-top: -25px;
+    -webkit-text-fill-color: #acc4fc;
+    font-size: 96px;
+    margin-top: -23px;
+    text-shadow: 8px 8px 12px dimgrey;
 }
 
 @media screen and (min-width: 350px) and (max-width: 767px)
@@ -128,16 +131,32 @@ p.frontpg{
     font-weight: 400;
   }
 	
+  p.subjectLead {
+    font-size: 3.9rem;
+    color: #acc4fc;
+}
+
+p.subject {
+  font-size: 2.0rem;
+  color: white;
+  text-align: center;
+}
 h1.display-4{
-    color:#acc4fc;
-    text-shadow:  4px 5px 3px #4f5861;
-    font-size: 31px;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: transparent;
+  font-size: 48px;
+  text-shadow: 8px 8px 12px dimgrey;
+  }
+p.frontpg{
+    color: white;
+    font-size: 30px;
+    text-shadow: 1px 3px 9px #4f5861;
+    font-weight: 400;
   }
 	
 .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
     background-color: gray;
 }
-	
 }
 
 @media screen and (min-width: 768px) and (max-width: 1300px)
@@ -148,6 +167,19 @@ h1.display-4{
   width: 100%;
   opacity: 0.5;
   top: 0px;
+}
+
+video {
+  position: relative;
+  top: 0px;
+  width:100%;
+}
+
+h1.display-4{
+-webkit-text-fill-color: #acc4fc;
+font-size: 65px;
+margin-top: -23px;
+text-shadow: 8px 8px 12px dimgrey;
 }
 }
 @media screen and (min-width: 1300px) and (max-width: 1700px)
@@ -164,4 +196,10 @@ h1.display-4{
   width:100%;
   object-fit: cover;
   }
+  h1.display-4{
+    -webkit-text-fill-color: #acc4fc;
+    font-size: 75px;
+    margin-top: -23px;
+    text-shadow: 8px 8px 12px dimgrey;
+    }
 }
