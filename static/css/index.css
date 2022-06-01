@@ -16,7 +16,7 @@ video {
   width: 100%;
   object-fit: cover;
   height: 116%;
-  object-position: 0% 63%;
+  object-position: 0% 60%;
 }
 
 .btn-outline-danger{
@@ -77,7 +77,7 @@ p.subject{
 }
 
 p.subjectLead{
-  font-size: 5.9rem;
+  font-size: 4.8rem;
   color: white;
   text-shadow: 4px 4px 2px black;
 }
@@ -90,8 +90,8 @@ p.offer{
 
 h1.display-4{
     -webkit-text-fill-color: #acc4fc;
-    font-size: 96px;
-    margin-top: -23px;
+    font-size: 76px;
+    margin-top: -10px;
     text-shadow: 8px 8px 12px dimgrey;
 }
 
