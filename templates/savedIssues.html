@@ -5,70 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}">
 </head>
-<body>
-    <br></br>
-    <br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<div id="alert">
+    {% for message in get_flashed_messages() %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</div>
 
-    <div id="alert">
-        {% for message in get_flashed_messages() %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </div>
-
-    <div id="form">
-        {% from "_formhelpers.html" import render_field %}
-        <form method="post">
-            {{ render_field(form.monitor_search) }}
-            {{ render_field(form.city_search) }}
-            {{ render_field(form.committee_search) }}
-            <p><input type="submit" value="Add" name='action' ></p>
-            <p><input type='submit' value="Delete" name='action'></p>
-        </form>
-    </div>
-
-    <br></br>
-    <br></br>
-
-    <div class=".container-fluid" >
-        <table id="table"
-            data-toggle="table"
-            data-filter-control="true"
-            data-sortable="true"
-            data-pagination="true"
-            data-show-columns="true"
-            data-show-columns-toggle-all="true"
-            class="table-responsive">
-                <thead class='h-10'>
-                    <tr class='col-sm-6'>
-                        <th data-field= 'row-City'  data-sortable="true">City</th>
-                        <th class="hidden-xs" data-field= 'row-County' data-sortable="False">County</th>
-                        <th data-field= 'row-Date' data-sortable="False">Date</th>
-                        <th data-field= 'row-Meeting' data-sortable="true">Meeting Type</th>
-                        <th class='hidden-xs' data-field= 'row-Item' data-sortable="true">Item Type</th>
-                        <th class='hidden-xs' data-field= 'row-Num' data-sortable="true">Number</th>
-                        <th class='.text-center' data-field= 'row-Description' data-sortable="true">Description</th>
+<div id="form">
+    {% from "_formhelpers.html" import render_field %}
+    <form method="post">
+        {{ render_field(form.monitor_search) }}
+        {{ render_field(form.city_search) }}
+        {{ render_field(form.committee_search) }}
+        <p><input type="submit" value="Add" name='action' ></p>
+        <p><input type='submit' value="Delete" name='action'></p>
+    </form>
+</div>
+<br></br>
+<br></br>
+<div class=".container-fluid" >
+    <table id="table"
+        data-toggle="table"
+        data-filter-control="true"
+        data-sortable="true"
+        data-pagination="true"
+        data-show-columns="true"
+        data-show-columns-toggle-all="true"
+        class="table-responsive">
+            <thead class='h-10'>
+                <tr class='col-sm-6'>
+                    <th data-field= 'row-City'  data-sortable="true">City</th>
+                    <th class="hidden-xs" data-field= 'row-County' data-sortable="False">County</th>
+                    <th data-field= 'row-Date' data-sortable="False">Date</th>
+                    <th data-field= 'row-Meeting' data-sortable="true">Meeting Type</th>
+                    <th class='hidden-xs' data-field= 'row-Item' data-sortable="true">Item Type</th>
+                    <th class='hidden-xs' data-field= 'row-Num' data-sortable="true">Number</th>
+                    <th class='.text-center' data-field= 'row-Description' data-sortable="true">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agenda in agendas %}
+                <tr>
+                    <td>{{agenda.City}}</td>
+                    <td class='hidden-xs'>{{agenda.County}} </td> <!Hidden hides in compact phone mode!>
+                    <td type='text'>{{agenda.Date|aTime}}</td>
+                    <td>{{agenda.MeetingType}} </td>
+                    <td class='hidden-xs'>{{agenda.ItemType}} </td>
+                    <td class='hidden-xs'>{{agenda.Num}} </td>
+                    <td class="description">{{agenda.Description}}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for agenda in agendas %}
-                    <tr>
-                        <td>{{agenda.City}}</td>
-                        <td class='hidden-xs'>{{agenda.County}} </td> <!Hidden hides in compact phone mode!>
-                        <td type='text'>{{agenda.Date|aTime}}</td>
-                        <td>{{agenda.MeetingType}} </td>
-                        <td class='hidden-xs'>{{agenda.ItemType}} </td>
-                        <td class='hidden-xs'>{{agenda.Num}} </td>
-                        <td class="description">{{agenda.Description}}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-        </table>
-    </div>
+                {% endfor %}
+            </tbody>
+    </table>
+</div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
-</body>
 {% endblock %}
 
 
