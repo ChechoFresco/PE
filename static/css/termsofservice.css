@@ -3,10 +3,6 @@ body {
     height: 100%;
 }
 
-p {
-    color: rgb(53, 53, 53);
-    font-size:25px;
-}
 h1 {
     font-size:50px;
     text-align: center;
@@ -20,10 +16,11 @@ h3 {
     color: rgb(39, 76, 119);
     text-align: center;
 }
+h4 {
+    color: rgb(53, 53, 53);
+    font-size:25px;
+}
 ul {
     font-size:25px;
 }
-h4 {
-    font-size:25px;
-    text-align: center;
-}
+
