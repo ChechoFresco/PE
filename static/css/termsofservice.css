@@ -7,14 +7,16 @@ p {
     color: rgb(53, 53, 53);
     font-size:25px;
 }
-
-h2 {
+h1 {
     font-size:50px;
-    color: orange;
+    text-align: center;
+}
+h2 {
+    font-size:35px;
     text-align: center;
 }
 h3 {
-    font-size:35px;
+    font-size:30px;
     color: rgb(39, 76, 119);
     text-align: center;
 }
