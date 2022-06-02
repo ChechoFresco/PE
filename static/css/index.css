@@ -98,6 +98,7 @@ h1.display-4{
     font-size: 76px;
     margin-top: -10px;
     text-shadow: 7px 5px 4px dimgrey;
+    font-family: 'Crimson Text', serif;
 }
 
 @media screen and (min-width: 350px) and (max-width: 767px)
