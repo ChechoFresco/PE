@@ -46,7 +46,7 @@ video {
   width: 22%; /* You can set the dimensions to whatever you want */
   height: 350px;
   object-fit: cover;
-  background-color: #acc4fc;
+  background-color: #5e7cff;
 }
 
 .jumbotron p{
@@ -55,7 +55,7 @@ video {
 }
 
 h3{
-  color:#acc4fc;
+  color:#5e7cff;
   text-align: center;
   text-shadow: 4px 4px 2px black;
   font-size: 27px;
@@ -94,7 +94,7 @@ p.offer{
 }
 
 h1.display-4{
-    background: -webkit-linear-gradient(#acc4fc,#5d65d9,#acc4fc);
+    background: -webkit-linear-gradient(#5e7cff,#5d65d9,#5e7cff);
     -webkit-background-clip: text;
    -webkit-text-fill-color: transparent;
     font-size: 76px;
