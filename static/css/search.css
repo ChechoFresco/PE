@@ -62,14 +62,14 @@ h3{
     div.formdiv{
         flex: 2;
         font-size: 1.2vh;
-        margin: 3px 15px;
+        margin: 18px 10px;
     }
     
     .info{
         position: absolute;
         height:46%;
         column-count: 4;
-        width:50%;
+        width:80%;
     }
     
     h3{
