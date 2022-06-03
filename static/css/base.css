@@ -133,7 +133,7 @@ a.navbar-brand{
 @media screen and (min-width: 350px) and (max-width: 767px){
 ul.navbar-nav{
 	font-size: 1.5rem;
-	background-color: #acc4fc;
+	background-color: #5e7cff;
 	padding: 0.5rem 0.5rem;
 	margin: 0.5rem -3.5rem;
 	border-radius: 28px;
@@ -155,7 +155,7 @@ a.navbar-brand {
 {
 ul.navbar-nav{
     font-size: 1.5rem;
-    background-color: #acc4fc;
+    background-color: #5e7cff;
     padding: 0.5rem 0.5rem;
     margin: 0.5rem 0.5rem;
     border-radius: 28px;
@@ -177,7 +177,7 @@ a.navbar-brand {
 {
 ul.navbar-nav{
     font-size: 1.5rem;
-    background-color: #acc4fc;
+    background-color: #5e7cff;
     padding: 0.5rem 0.5rem;
     margin: 0.5rem -3.5rem;
     border-radius: 28px;
