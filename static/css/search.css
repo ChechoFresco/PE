@@ -13,11 +13,11 @@ body ,html{
 
 .containIn{
     display:flex;
-    height:70%;
-    width: 70%;
+    height: 85%;
+    width: 50%;
+    margin: 5% 25%;
     position: absolute;
     background-color:ghostwhite;
-    margin: 11% 15%;
     border-radius: 7%;
     overflow: hidden;
 }
