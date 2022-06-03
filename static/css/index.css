@@ -94,10 +94,11 @@ p.offer{
 }
 
 h1.display-4{
-    -webkit-text-fill-color: #acc4fc;
+    background: -webkit-linear-gradient(#acc4fc,#5d65d9,#acc4fc);
+    -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
     font-size: 76px;
     margin-top: -10px;
-    text-shadow: 7px 5px 4px dimgrey;
     font-family: 'Crimson Text', serif;
 }
 
