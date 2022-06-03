@@ -1,29 +1,71 @@
-#table{
-    max-width: 90vw;
-    margin: 0 auto;
+body, html {
+	height: 100%;
+	width: 100%;
+	background-color:#4f5861;
+
 }
+
+.containerOut{
+	height: 100vh;
+	width: 100vw;
+	position: relative;
+	overflow:auto;
+}
+
+.containerTable{
+	position: absolute;
+	margin: 8% 2%;
+	height: auto;
+	width: 95%;
+}
+
+#table{
+	max-width: 90vw;
+	height: auto;
+}
+
 th {
-    color: white;
-    background-color: #4404fc;
-    }
+	color: white;
+	background-color: #acc4fc;
+}
 
 td {
-	background-color: rgba(255,255,255,0.2);
 	color:black;
-    text-align: center;
-    height: 30vh;
-    white-space: break-spaces;
+   	text-align: center;
+   	height: 30vh;
+	white-space: break-spaces;
+	overflow-wrap: break-word;
+	background-color: ghostwhite;
 }
 
 td:nth-child(even){
-    background-color: #f2f2f2;
+   	background-color: snow;
 }
 
 td:hover {
-    background-color: #f5f5f5;
+   	background-color: #f5f5f5;
 }
 
-.description{
-    display: flex;
-    overflow-x: auto;
+.desc{
+	display: block;
+	overflow-x: auto;
+}
+
+span.pagination-info{
+    	color: white;
+}
+
+span.page-list{
+    	color: white;
+}
+
+@media screen and (min-width: 001px) and (max-width: 400px){
+    td {
+        color:black;
+        text-align: center;
+        height: 23vh;
+        overflow-wrap: break-word;
+        background-color: ghostwhite;
+        font-size: .9rem;
+    }
 }
