@@ -4,11 +4,8 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}" >
 </head>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-    <div class=".container-fluid" >
+<div class="containerOut" >
+    <div class="containerTable" >
         <table id="table"
             data-toggle="table"
             data-filter-control="true"
@@ -17,45 +14,36 @@
             data-show-columns="true"
             data-show-columns-toggle-all="true"
             class="table-responsive">
-
-            <thead>
-                <tr class='col-sm-10'>
-                    <th data-field= 'row-City'  data-sortable="true">City</th>
-                    <th class="hidden-xs" data-field= 'row-County' data-sortable="False">County</th>
-                    <th data-field= 'row-Date' data-sortable="False">Date</th>
-                    <th data-field= 'row-Meeting' data-sortable="true">Meeting Type</th>
-                    <th class='hidden-xs' data-field= 'row-Item' data-sortable="true">Item Type</th>
-                    <th class='hidden-xs' data-field= 'row-Num' data-sortable="true">Number</th>
-                    <th class='.text-center' data-field= 'row-Description' data-sortable="true">Description</th>
+            <thead class='h-10'>
+                <tr class='col-sm-6'>
+                    <th data-field= 'row-City' class='city'data-sortable="true">City</th>
+                    <th class="hidden-xs County" data-field= 'row-County' data-sortable="False">County</th>
+                    <th data-field= 'row-Date' class='date'data-sortable="False">Date</th>
+                    <th data-field= 'row-Meeting' class='meeting' data-sortable="true">Meeting Type</th>
+                    <th class='hidden-xs Item' data-field= 'row-Item' data-sortable="true">Item Type</th>
+                    <th class='hidden-xs Num' data-field= 'row-Num' data-sortable="true">Number</th>
+                    <th class='description'data-field= 'row-Description' data-sortable="true" >Description</th>
                 </tr>
             </thead>
-
             <tbody>
                 {% for agenda in agendas %}
                     <tr>
                         <td>{{agenda.City}}</td>
                         <td class='hidden-xs'>{{agenda.County}} </td> <!Hidden hides in compact phone mode!>
-                        <td type='text'>{{agenda.Date|aTime}}</td> <!aTime converts agenda.Date from int to date format!>
+                        <td type='text'>{{agenda.Date|ctime}}</td>
                         <td>{{agenda.MeetingType}} </td>
                         <td class='hidden-xs'>{{agenda.ItemType}} </td>
                         <td class='hidden-xs'>{{agenda.Num}} </td>
-                        <td class='desc'>{{agenda.Description.replace(request.form['primary_search'], "<mark>{}</mark>".format(request.form['primary_search']))|safe}}</td>
+                        <td class='desc'>{{agenda.Description.replace(request.form['primary_search'] , "<mark>{}</mark>".format(request.form['primary_search'],flags=IGNORECASE))|safe}}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+</div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 {% endblock %}
-
-
-
-
-
-
-
-
 
