@@ -72,7 +72,7 @@ h3{
   color:#acc4fc;
   text-align: center;
   text-shadow: 4px 4px 2px black;
-  font-size: 6vw;
+  font-size: 3rem;
 }
 
 p.frontpg{
@@ -116,7 +116,7 @@ p.offer{
   position: absolute;
   z-index: 0;
   width: 100%;
-  opacity: 0.5;
+  opacity: 0.9;
   top: 0px;
 }
 	
@@ -128,24 +128,24 @@ p.offer{
 }
 
 h1.display-4{
-  font-size: ;
-  margin-top: -8%;
-
+  font-size: 4.0rem;
+  margin-top: 6%;
+  opacity: 1;
 }
 
 p.subjectLead {
-  font-size: 6.1vw;
-  color: #acc4fc;
+  font-size: 3.5rem;
+  color: snow;
 }
 
 p.subject {
-font-size: 4.5vw;
+font-size: 3.1rem;
 color: white;
 text-align: center;
 }
 
 h3#offer{
-  font-size: 6.1vw; 
+  font-size: 3.5rem; 
   color:floralwhite; 
 }
 
@@ -163,14 +163,14 @@ p.lead{
 	
 p.frontpg{
     color: white;
-    font-size: 18px;
+    font-size: 18rem;
     text-shadow: 1px 3px 9px #4f5861;
     font-weight: 400;
   }
 
 p.frontpg{
     color: white;
-    font-size: 30px;
+    font-size: 30rem;
     text-shadow: 1px 3px 9px #4f5861;
     font-weight: 400;
   }
@@ -199,6 +199,7 @@ video {
 h1.display-4{
 font-size: 4.1vw;
 margin-top: 3%;
+opacity: 1;
 }
 }
 
@@ -219,6 +220,7 @@ margin-top: 3%;
   h1.display-4{
     font-size: 4.1vw;
     margin-top: 3%;
+    opacity: 1;
     }
 }
 
@@ -240,7 +242,7 @@ margin-top: 3%;
     background-color: snow;
     font-size: 4.1vw;
     font-weight: bold;
-    margin: 2% 50%;
+    margin: 3% 50%;
     width: 86%;
     text-align: center;
     position: absolute;
