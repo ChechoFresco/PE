@@ -105,6 +105,8 @@ h3{
 @media screen and (min-width: 1530px) and (max-width: 2000px){
 .containIn{
         margin:5% 25%;
+        width: 44%;
+        margin: 5% 28%;
     }
     
 div.formdiv{
@@ -127,8 +129,8 @@ h3{
     .containIn{
         display:flex;
         height:85%;
-        width: 70%;
-        margin: 5% 15%;
+        width: 44%;
+        margin: 5% 28%;
     }
     
     div.formdiv{
