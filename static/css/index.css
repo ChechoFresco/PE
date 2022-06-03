@@ -185,7 +185,7 @@ video {
 }
 
 h1.display-4{
--webkit-text-fill-color: #acc4fc;
+-webkit-text-fill-color: #5e7cff;
 font-size: 65px;
 margin-top: -23px;
 text-shadow: 8px 8px 12px dimgrey;
@@ -206,7 +206,7 @@ text-shadow: 8px 8px 12px dimgrey;
   object-fit: cover;
   }
   h1.display-4{
-    -webkit-text-fill-color: #acc4fc;
+    -webkit-text-fill-color: #5e7cff;
     font-size: 75px;
     margin-top: -23px;
     text-shadow: 8px 8px 12px dimgrey;
