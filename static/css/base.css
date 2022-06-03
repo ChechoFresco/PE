@@ -130,7 +130,7 @@ a.navbar-brand{
 }
 
 
-@media screen and (min-width: 350px) and (max-width: 767px){
+@media screen and (min-width: 300px) and (max-width: 400px){
 ul.navbar-nav{
 	font-size: 1.5rem;
 	background-color: #5e7cff;
@@ -151,7 +151,7 @@ a.navbar-brand {
 }
 }
 
-@media screen and (min-width: 767px) and (max-width: 1300px)
+@media screen and (min-width: 401px) and (max-width: 1050px)
 {
 ul.navbar-nav{
     font-size: 1.5rem;
@@ -173,7 +173,7 @@ a.navbar-brand {
 }
 }
 
-@media screen and (min-width: 1300px) and (max-width: 1700px)
+@media screen and (min-width: 1051px) and (max-width: 1700px)
 {
 ul.navbar-nav{
     font-size: 1.5rem;
@@ -183,6 +183,18 @@ ul.navbar-nav{
     border-radius: 28px;
 }
 }
+
+@media screen and (min-width: 1700px) and (max-width: 3500px)
+{
+	ul.navbar-nav{
+    font-size: 1.5rem;
+    background-color: #5e7cff;
+    padding: 0.5rem 0.5rem;
+    margin: 0.5rem -3.5rem;
+    border-radius: 28px;
+}
+}
+
 
 @media (max-width:991px)
 {
@@ -273,3 +285,4 @@ ul.navbar-nav{
     font-weight:600
   }
 }
+
