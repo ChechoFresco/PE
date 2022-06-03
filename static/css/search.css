@@ -102,23 +102,23 @@ h3{
     }
 }
 @media screen and (min-width: 1530px) and (max-width: 2000px){
-    .containIn{
-        margin: 12% 13%;
+.containIn{
+        margin:5% 25%;
     }
     
-    div.formdiv{
+div.formdiv{
         font-size:1.8vh;
         margin: 22px 33px;
     }
     
-    .info{
+.info{
         position: absolute;
         height:42%;
         column-count: 4;
         width:30%;
     }
     
-    h3{
+h3{
         font-size:.8vh;
     }
 }
