@@ -89,25 +89,30 @@ a.navbar-brand{
 }
 .footer-links li
 {
-  display:block
+  display:block;
 }
+
 .footer-links a
 {
-  color:#acc4fc
+  color:5e7cff;
 }
+
 .footer-links a:active,.footer-links a:focus,.footer-links a:hover
 {
   color:#3366cc;
   text-decoration:none;
 }
+
 .footer-links.inline li
 {
-  display:inline-block
+  display:inline-block;
 }
+
 .site-footer .social-icons
 {
-  text-align:right
+  text-align:right;
 }
+
 .site-footer .social-icons a
 {
   width:40px;
@@ -118,62 +123,65 @@ a.navbar-brand{
   border-radius:100%;
   background-color:#33353d
 }
+
 .copyright-text
 {
   margin:0
 }
 
 
-@media screen and (min-width: 350px) and (max-width: 767px)
-{
-	ul.navbar-nav{
+@media screen and (min-width: 350px) and (max-width: 767px){
+ul.navbar-nav{
 	font-size: 1.5rem;
 	background-color: #acc4fc;
 	padding: 0.5rem 0.5rem;
 	margin: 0.5rem -3.5rem;
 	border-radius: 28px;
 	}
-	.nav .li .a{
+	
+.nav .li .a{
 	padding: 10px 17px;
-	}
-	a.navbar-brand {
-    width: 20rem;
-    height: 6rem;
-    background: url(/static/PolicyFull.svg) no-repeat center;
-    background-size: 40rem 22rem;
-	}
+}
+	
+a.navbar-brand {
+	width: 20rem;
+	height: 6rem;
+	background: url(/static/PolicyFull.svg) no-repeat center;
+	background-size: 40rem 22rem;
+}
 }
 
 @media screen and (min-width: 767px) and (max-width: 1300px)
 {
-	ul.navbar-nav{
+ul.navbar-nav{
     font-size: 1.5rem;
     background-color: #acc4fc;
     padding: 0.5rem 0.5rem;
     margin: 0.5rem 0.5rem;
     border-radius: 28px;
-	}
-	.nav .li .a{
+}
+	
+.nav .li .a{
 	padding: 10px 17px;
-	}
-	a.navbar-brand {
-    width: 20rem;
-    height: 6rem;
-    background: url(/static/PolicyFull.svg) no-repeat center;
-    background-size: 40rem 22rem;
-	}
+	
+}
+a.navbar-brand {
+	width: 20rem;
+	height: 6rem;
+	background: url(/static/PolicyFull.svg) no-repeat center;
+	background-size: 40rem 22rem;
+}
 }
 
 @media screen and (min-width: 1300px) and (max-width: 1700px)
 {
-    ul.navbar-nav{
+ul.navbar-nav{
     font-size: 1.5rem;
     background-color: #acc4fc;
     padding: 0.5rem 0.5rem;
     margin: 0.5rem -3.5rem;
     border-radius: 28px;
-	}
-
+}
 }
 
 @media (max-width:991px)
