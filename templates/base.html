@@ -69,7 +69,19 @@
 		</button>
 			<a class="navbar-brand" href="/"></a>
 	</div>
+    {% if session['username'] %}
+	<div class="collapse navbar-collapse" id="myNavbar">
+		<ul href="#" class="nav navbar-nav navbar-right ">
+			<li><a href="/about"><span style= "color:#4404fc"></span>About</a></li>
+			<li><a href="/search">Search</a></li>
+			<li><a href="/savedIssues">Notification</a></li>
+			<li><a id = 'signup' href="/subscription"><span class="glyphicon glyphicon-user"></span> Renew Subscription</a></li>
+			<li><a id ='login' href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+		</ul>
+	</div>
+	{% endif %}
 
+    {% if not session['username'] %}
 	<div class="collapse navbar-collapse" id="myNavbar">
 		<ul href="#" class="nav navbar-nav navbar-right ">
 			<li><a href="/about"><span style= "color:#4404fc"></span>About</a></li>
@@ -79,20 +91,9 @@
 			<li><a id ='login' href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 		</ul>
 	</div>
-</nav>
+	{% endif %}
 
-<script>
-function loginChange(){
-	var x = document.title;
-		if (x=='You are now logged into PolicyEdge. Government at a glance.'){
-			document.getElementById("login").innerHTML = "Log out";
-			document.getElementById("login").href = "/logout";
-			document.getElementById("signup").innerHTML = "Renew Subscription";
-			document.getElementById("signup").href = "/subscription";
-		}
-	}
-		loginChange()
-</script>
+</nav>
 	
 {% block content %}{% endblock%}
 	
