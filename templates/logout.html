@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<br>
-</br>
-{% with messages = get_flashed_messages() %}
-    {{ messages }}
-    <br/>
+<div id="alert">
+    {% for message in get_flashed_messages() %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</div>
     {{ session }}
 {% endwith %}
-<br><br/>
 <h1>You have signed out!</h1>
-
 {% endblock %}
