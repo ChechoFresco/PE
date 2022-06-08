@@ -5,8 +5,7 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
     <script src="https://js.stripe.com/v3/"></script>
 </head>
-<body>
-    <section>
+<section>
     <div class="product">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14px" height="16px" viewBox="0 0 14 16" version="1.1">
             <defs>
@@ -16,15 +15,15 @@
                 </g>
             </g>
         </svg>
+            
         <div class="description">
-        <h3>subscription</h3>
-        <h5>$20.00 / month</h5>
+            <h3>subscription</h3>
+            <h5>$100.00 / month</h5>
         </div>
     </div>
+        
     <form action="/create-checkout-session2" method="POST">
         <input type="hidden" name="lookup_key" value='123'></input>
         <button id="checkout-and-portal-button" type="submit">Checkout</button>
     </form>
-    </section>
-</body>
-</html>
+</section>
