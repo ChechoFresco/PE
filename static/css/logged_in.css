@@ -46,11 +46,13 @@ h1.display-4{
 	font: 800 40px Arial;
 	-webkit-text-fill-color: transparent;
 	-webkit-text-stroke: 3px white;
-	font-size: 9.5rem;
+	font-size: 8.5rem;
 	width: 100%;
+	margin: -19px 1px;
 	text-align: center;
 	position: absolute;
 	font-family: 'Cardo', serif;
+}
 }
 
 .jumbotron p{
@@ -171,7 +173,7 @@ video {
 	width:100%;
 }
 
-	h1.display-4{
+h1.display-4{
 	font-size: 5vw;
 	margin-top: 2%;
 }
@@ -179,9 +181,15 @@ video {
 p.subjectLead {
  	font-size: 3.5rem;
 }
+	
+p.subject {
+	font-size: 2.2rem;
+	color: white;
+	text-align: center;
+}
 h1.display-4{
 	-webkit-text-stroke: 2px white;
-	font-size: 6rem;
+	font-size: 4.5rem;
 	width: 100%;
 	margin: -26px 0px;
 }
@@ -205,12 +213,18 @@ h1.display-4{
 	
   h1.display-4{
 	-webkit-text-stroke: 2px white;
-	font-size: 7rem;
+	font-size: 5rem;
 	width: 100%;
  }
 	
 p.subjectLead{
  	font-size: 4rem;
+}
+	
+p.subject {
+	font-size: 2.2rem;
+	color: white;
+	text-align: center;
 }
 	
 }
@@ -232,4 +246,3 @@ p.subjectLead{
   }
 
     }
-
