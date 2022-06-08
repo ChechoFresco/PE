@@ -5,13 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}">
 </head>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
 <div id="alert">
     {% for message in get_flashed_messages() %}
-    <li>{{ message }}</li>
+    <li>{{ message.replace('*', '').replace(': ,', ': All').replace(':  ', ': All')}}</li>
     {% endfor %}
 </div>
 
@@ -24,6 +20,7 @@
         <p><input type="submit" value="Add" name='action' ></p>
         <p><input type='submit' value="Delete" name='action'></p>
     </form>
+</div>
 <div class="containerOut" >
     <div class="containerTable" >
         <table id="table"
