@@ -1,26 +1,24 @@
 body, html {
 	height: 100%;
 	width: 100%;
-	background-color:#4f5861
+	background-color:#4f5861;
 }
 
 div#alert {
-	top:6.5vh;
+	top:10.5vh;
 	font-size: 2vh;
 	position: relative;
-	height: 3vh;
 	width: 100vw;
-	background-color:white;
-	color:black;
+	height:10vh;
+	color:white;
 	text-align: center;
 	list-style-type: none;
 }
 
 div#form {
-	top:8vh;
-	height: 17vh;
-	width: 20%;
 	position: relative;
+	margin: 12% 1%;
+	height: 9%;
 }
 
 label{
@@ -29,21 +27,21 @@ label{
 }
 
 .containerOut{
-	height: 100vh;
-	width: 100vw;
 	position: relative;
-	overflow:auto;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
 }
 
 .containerTable{
 	position: absolute;
-	margin: 8% 2%;
-	height: auto;
-	width: 95%;
+	margin: 0% 1%;
+	width: 98%;
+	height: 100%;
 }
 
 #table{
-	 max-width: 90vw;
+	max-width: 98vw;
 	height: auto;
 }
 
@@ -81,12 +79,105 @@ span.page-list{
 }
 
 @media screen and (min-width: 001px) and (max-width: 400px){
-    td {
+div#form {
+	top: 2vh;
+	height: 17vh;
+	width: 20%;
+	position: relative;
+}
+.containerOut{
+	top:11%;
+}
+td {
         color:black;
         text-align: center;
         height: 23vh;
         overflow-wrap: break-word;
         background-color: ghostwhite;
         font-size: .9rem;
+}
+}
+
+@media screen and (min-width: 401px) and (max-width: 1399px){
+div#form {
+        top: 8vh;
+        height: 17vh;
+        width: 20%;
+        position: relative;
     }
+.containerOut{
+        top:0%;
+    }
+	
+td {
+	color:black;
+	text-align: center;
+	height: 23vh;
+	overflow-wrap: break-word;
+	background-color: ghostwhite;
+	font-size: 1.5rem;
+}
+    }
+@media screen and (min-width: 1400px) and (max-width: 1950px){
+div#form {
+	top: -7vh;
+	height: 17vh;
+	width: 20%;
+	position: relative;
+}
+.containerOut{
+	top:-22%;
+}
+td {
+	color:black;
+	text-align: center;
+	height: 23vh;
+	overflow-wrap: break-word;
+	background-color: ghostwhite;
+	font-size: 1.5rem;
+}
+}
+
+@media screen and (min-width: 1951px) and (max-width: 2500px){
+div#form {
+            top: -7vh;
+            height: 17%;
+            width: 20%;
+            margin: 9% 1%;
+            position: relative;
+ }
+	    
+.containerOut{
+	top:-22%;
+}
+	    
+td {
+	color:black;
+	text-align: center;
+	height: 23vh;
+	overflow-wrap: break-word;
+	background-color: ghostwhite;
+	font-size: 1.5rem;
+}
+        }
+
+@media screen and (min-width: 2501px) and (max-width: 5500px){
+div#form {
+	top: -13vh;
+	height: 17%;
+	width: 20%;
+	margin: 9% 1%;
+	position: relative;
+}
+.containerOut{
+	top:-34%;
+}
+td {
+        color:black;
+        text-align: center;
+        height: 23vh;
+        overflow-wrap: break-word;
+        background-color: ghostwhite;
+        font-size: 1.5rem;
+}
 }
