@@ -181,6 +181,12 @@ h1.display-4{
 p.subjectLead {
  	font-size: 3.5rem;
 }
+	
+p.subject {
+	font-size: 2.2rem;
+	color: white;
+	text-align: center;
+}
 h1.display-4{
 	-webkit-text-stroke: 2px white;
 	font-size: 4.5rem;
@@ -213,6 +219,12 @@ h1.display-4{
 	
 p.subjectLead{
  	font-size: 4rem;
+}
+	
+p.subject {
+	font-size: 2.2rem;
+	color: white;
+	text-align: center;
 }
 	
 }
