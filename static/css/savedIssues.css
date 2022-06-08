@@ -26,6 +26,10 @@ div#form {
     width: 20%;
     position: relative;
 }
+label{
+    color:white;
+    width:fit-content;
+}
 
 .containerOut{
     height: 100vh;
