@@ -213,7 +213,6 @@ ul.navbar-nav{
  	text-align:center
 }
 	
-}
 
 .social-icons{
 	padding-left:0;
@@ -273,6 +272,7 @@ ul.navbar-nav{
 }
 .social-icons a.google:hover{
   	background-color:#ea4c89
+}
 }
 
 @media (max-width:767px){
