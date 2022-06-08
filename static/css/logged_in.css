@@ -67,7 +67,7 @@ p.offer{
 }
 
 h3{
-	  color:#acc4fc;
+	  color:#3366cc;
 	  text-align: center;
 	  text-shadow: 4px 4px 2px black;
 	  font-size: 3rem;
@@ -89,14 +89,14 @@ p.subject{
 	  font-size: 3rem;
 	  color: white;
 	  text-align: center;
-	  margin: 25px;
+	  margin: 10px;
 }
 
 .thumbnail{
 	  width: 22%; /* You can set the dimensions to whatever you want */
 	  height: 350px;
 	  object-fit: cover;
-	  background-color: #acc4fc;
+	  background-color: #3366cc;
 }
 
 @media screen and (min-width: 300px) and (max-width: 400px)
