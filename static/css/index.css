@@ -146,7 +146,7 @@ p.subject{
 
 @media screen and (min-width: 300px) and (max-width: 400px)
 {
-  .backgroundimg{
+.backgroundimg{
 	  position: absolute;
 	  z-index: 0;
 	  width: 100%;
@@ -239,7 +239,7 @@ p.subject {
  	top: 42px;
   }
   
- jumbotron h1{
+.jumbotron h1{
  	font-size:6.4rem;
   }
 	
