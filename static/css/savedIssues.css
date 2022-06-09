@@ -80,13 +80,13 @@ span.page-list{
 
 @media screen and (min-width: 001px) and (max-width: 400px){
 div#form {
-	top: 2vh;
-	height: 17vh;
-	width: 20%;
-	position: relative;
+    top: 2vh;
+    height: 17vh;
+    width: 20%;
+    position: relative;
 }
 .containerOut{
-	top:11%;
+    top:11%;
 }
 td {
         color:black;
@@ -98,47 +98,47 @@ td {
 }
 }
 
-@media screen and (min-width: 401px) and (max-width: 1399px){
-div#form {
+@media screen and (min-width: 401px) and (max-width: 700px){
+    div#form {
         top: 8vh;
         height: 17vh;
         width: 20%;
         position: relative;
     }
-.containerOut{
-        top:12%;
+    .containerOut{
+        top:0%;
     }
-	
-td {
-	color:black;
-	text-align: center;
-	height: 23vh;
-	overflow-wrap: break-word;
-	background-color: ghostwhite;
-	font-size: 1.5rem;
-}
+    td {
+            color:black;
+            text-align: center;
+            height: 23vh;
+            overflow-wrap: break-word;
+            background-color: ghostwhite;
+            font-size: 1.5rem;
     }
-@media screen and (min-width: 1400px) and (max-width: 1950px){
-div#form {
-	top: -7vh;
-	height: 17vh;
-	width: 20%;
-	position: relative;
-}
-.containerOut{
-	top:-22%;
-}
-td {
-	color:black;
-	text-align: center;
-	height: 23vh;
-	overflow-wrap: break-word;
-	background-color: ghostwhite;
-	font-size: 1.5rem;
-}
-}
+    }
 
-@media screen and (min-width: 1951px) and (max-width: 2500px){
+@media screen and (min-width: 701px) and (max-width: 1399px){
+    div#form {
+        top: 0vh;
+        height: 2vh;
+        width: 20%;
+        position: relative;
+    }
+    .containerOut{
+        top:0%;
+    }
+    td {
+            color:black;
+            text-align: center;
+            height: 23vh;
+            overflow-wrap: break-word;
+            background-color: ghostwhite;
+            font-size: 1.5rem;
+    }
+    }
+
+@media screen and (min-width: 1401px) and (max-width: 2500px){
 div#form {
             top: -7vh;
             height: 17%;
