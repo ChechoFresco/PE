@@ -92,14 +92,14 @@ video {
 	  color: white;
 }
 
-h3#offer{
+h3.offer{
 	  text-align: center;
-	  font-size: 1.7rem;
+	  font-size: 4rem;
 	  color: white;
 }
 
 h3{
-	  color:white;
+	  color:#3366cc;
 	  text-align: center;
 	  text-shadow: 4px 4px 2px black;
 	  font-size: 3rem;
@@ -123,6 +123,7 @@ p.subject{
 	  text-align: center;
 	  margin: 21px;
 }
+
 #con4 {
   position: relative;
   transform: translateY(150px);
@@ -136,7 +137,6 @@ p.subject{
   transform: translateY(0);
   opacity: 1;
 }
-
 .thumbnail{
 	  width: 22%; /* You can set the dimensions to whatever you want */
 	  height: 350px;
@@ -144,9 +144,9 @@ p.subject{
 	  background-color: #3366cc;
 }
 
-@media screen and (min-width: 300px) and (max-width: 400px)
+@media screen and (min-width: 001px) and (max-width: 400px)
 {
-.backgroundimg{
+  .backgroundimg{
 	  position: absolute;
 	  z-index: 0;
 	  width: 100%;
@@ -213,6 +213,11 @@ video {
 .jumbotron h1{
   	font-size:5.5rem;
 }
+h3.offer{
+	  text-align: center;
+	  font-size: 2.7rem;
+	  color: white;
+}
 
 p.subjectLead {
  	font-size: 3.5rem;
@@ -239,7 +244,7 @@ p.subject {
  	top: 42px;
   }
   
-.jumbotron h1{
+ jumbotron h1{
  	font-size:6.4rem;
   }
 	
