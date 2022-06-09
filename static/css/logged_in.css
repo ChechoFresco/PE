@@ -94,7 +94,7 @@ video {
 
 h3.offer{
 	  text-align: center;
-	  font-size: 1.7rem;
+	  font-size: 4rem;
 	  color: white;
 }
 
@@ -144,7 +144,7 @@ p.subject{
 	  background-color: #3366cc;
 }
 
-@media screen and (min-width: 300px) and (max-width: 400px)
+@media screen and (min-width: 001px) and (max-width: 400px)
 {
   .backgroundimg{
 	  position: absolute;
@@ -212,6 +212,11 @@ video {
 
 .jumbotron h1{
   	font-size:5.5rem;
+}
+h3.offer{
+	  text-align: center;
+	  font-size: 2.7rem;
+	  color: white;
 }
 
 p.subjectLead {
