@@ -138,10 +138,11 @@ p.subject{
   opacity: 1;
 }
 .thumbnail{
-	  width: 22%; /* You can set the dimensions to whatever you want */
-	  height: 350px;
-	  object-fit: cover;
-	  background-color: #3366cc;
+	width: 22%; /* You can set the dimensions to whatever you want */
+	height: 350px;
+	object-fit: cover;
+	background-color: #3366cc;
+	border: 0px;
 }
 
 @media screen and (min-width: 001px) and (max-width: 400px)
