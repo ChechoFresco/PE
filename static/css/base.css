@@ -197,14 +197,14 @@ a.navbar-brand {
 	}
 i.fa.fa-bars{
     position: relative;
-    font-size:3rem;
+    font-size: 5rem;
     position: relative;
     font-size: 3rem;
     top: -100%;
     left: 800%;
 }
 div#myLinks{
-  top: -10vh;
+  top: -6vh;
   position: relative;
 }
 	
@@ -219,13 +219,15 @@ div#myLinks{
   .navbar-nav{
     font-size:1.5rem;
   }
-	a.navbar-brand {
+
+a.navbar-brand {
     width: 20rem;
     height: 6rem;
     background: url(/static/PolicyFull.svg) no-repeat center;
     background-size: 40rem 22rem;
-	}
-  .navbar-right li a {
+}
+	
+.navbar-right li a {
     padding: 22px 26px;
     font-size: 2rem;
   }
