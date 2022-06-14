@@ -64,7 +64,7 @@ div#myLinks {
 
 /* Navbar burger*/
 i.fa.fa-bars{
-  position: fixed;
+  position: relative;
   font-size:6rem;
   color:white;
   text-shadow:
