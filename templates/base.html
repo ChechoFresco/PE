@@ -62,38 +62,36 @@
 <body>
 <nav class="navbar navbar-inverse">
 	<div class="navbar-header">
-		<button type="button" class="navbar-toggle " data-toggle="collapse" data-target="#myNavbar">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-			<a class="navbar-brand" href="/"></a>
+		<a class="navbar-brand"  href="/">
+		</a>
 	</div>
+    {% if not session['username'] %}
+	<div href="#" class="nav navbar-nav navbar-right">
+		<li href="javascript:void(0);" class="icon" onclick="myFunction()">
+			<i class="fa fa-bars"></i>
+		</li>
+		<div id="myLinks">
+			<li><a href="/search">Search</a></li>
+			<li><a href="/savedIssues">Notification</a></li>
+			<li><a id = 'signup' href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			<li><a id ='login' href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		</div>
+	</div>
+</nav>
+	{% endif %}
+
     {% if session['username'] %}
 	<div class="collapse navbar-collapse" id="myNavbar">
 		<ul href="#" class="nav navbar-nav navbar-right ">
-			<li><a href="/about"><span style= "color:#4404fc"></span>About</a></li>
+			<li><a href="/about">About</a></li>
 			<li><a href="/search">Search</a></li>
 			<li><a href="/savedIssues">Notification</a></li>
 			<li><a id = 'signup' href="/subscription"><span class="glyphicon glyphicon-user"></span> Renew Subscription</a></li>
 			<li><a id ='login' href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
 		</ul>
 	</div>
-	{% endif %}
-
-    {% if not session['username'] %}
-	<div class="collapse navbar-collapse" id="myNavbar">
-		<ul href="#" class="nav navbar-nav navbar-right ">
-			<li><a href="/about"><span style= "color:#4404fc"></span>About</a></li>
-			<li><a href="/search">Search</a></li>
-			<li><a href="/savedIssues">Notification</a></li>
-			<li><a id = 'signup' href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-			<li><a id ='login' href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-		</ul>
-	</div>
-	{% endif %}
-
 </nav>
+	{% endif %}
 	
 {% block content %}{% endblock%}
 	
