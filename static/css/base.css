@@ -200,8 +200,12 @@ i.fa.fa-bars{
     font-size:3rem;
     position: relative;
     font-size: 3rem;
-    top: -87%;
-    left: 500%;
+    top: -100%;
+    left: 800%;
+}
+div#myLinks{
+  top: -10vh;
+  position: relative;
 }
 	
 .navbar-right li a {
