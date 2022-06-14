@@ -3,123 +3,156 @@ html, body{
 	padding:0;
 }
 
+/* Navbar complete*/
 .navbar{
-	background: transparent;
-	width: 100vw;
-	position: absolute;
-	height: 70px;
-	z-index: 10000;
-	overflow-x: visible;
-	margin-bottom: 0;
+  background: transparent;
+  width: 100vw;
+  position: absolute;
+  height: 70px;
+  z-index: 10;
+  display: block;
 }
-
-.navbar-inverse {
-    	border-color: transparent;
-}
-
-ul.navbar-nav{
-	font-size: 1.9rem;
-	background-color: #5e7cff;
-    	padding: 1.5rem 6.5rem;
-   	 margin: 1.5rem 3.5rem;
-	border-radius: 28px;
-}
-
-div a.navbar-header{
-	width: 25rem;
-	height: 5rem;
-}
-
-a.navbar-brand{
-	width: 41rem;
-	height: 12rem;
-	background: url(/static/PolicyFull.svg) no-repeat center;
-	background-size: 86rem 45rem;
-}
-
+/* Navbar text size*/
 .navbar-nav{
 	font-size:2rem;
 }
 
-.nav.navbar-nav.navbar-right li a {
-	color: white;
-	text-shadow: 2px 2px #4f5861;
+.navbar-inverse {
+    border-color: transparent;
 }
 
-.nav.navbar-nav.navbar-right li a:hover{
-    	background-color:transparent;
-    	color:white;
+a.navbar-brand {
+  width: 41rem;
+    height: 12rem;
+    background: url(/static/PolicyFull.svg) no-repeat center;
+    background-size: 86rem 45rem;
+  }
+ 
+/* Navbar right side*/
+.navbar-right li a {
+  color: white;
+  font-family: 'Neonderthaw', cursive;
+  padding: 22px 26px;
+  font-size: 3rem;
+  text-shadow:
+  0 0 3px #fff,
+  0 0 7px #5e7cff,
+  0 0 16px #5e7cff,
+  0 0 42px #5e7cff,
+  0 0 82px #5e7cff,
+  0 0 92px #5e7cff,
+  0 0 102px #5e7cff,
+  0 0 151px #5e7cff;
 }
 
-.navbar-toggle .icon-bar {
-    	background-color: white;
+.navbar-right li a:hover{
+    text-shadow:
+    0 0 3px #fff,
+    0 0 7px #5e7cff,
+    0 0 16px #5e7cff,
+    0 0 42px #5e7cff,
+    0 0 82px #5e7cff,
+    0 0 92px #5e7cff,
+    0 0 102px #5e7cff,
+    0 0 151px #5e7cff;
 }
 
+div#myLinks {
+  display: none;
+  background-color:transparent;
+}
+
+/* Navbar burger*/
+i.fa.fa-bars{
+  position: fixed;
+  font-size:6rem;
+  color:white;
+  text-shadow:
+    0 0 3px #fff,
+    0 0 7px #5e7cff,
+    0 0 16px #5e7cff,
+    0 0 42px #5e7cff,
+    0 0 82px #5e7cff,
+    0 0 92px #5e7cff,
+    0 0 102px #5e7cff,
+    0 0 151px #5e7cff;
+
+}
+li.icon{
+  top: 0vh;
+  height: 52px;
+  width: 72px;
+}
+
+/* FOOTER*/
 .site-footer{
-	background-color:#4f5861;
-	padding:0px 0 0px;
-	font-size:15px;
-	line-height:24px;
-	color:white;
+  background-color:#4f5861;
+  padding:0px 0 0px;
+  font-size:15px;
+  line-height:24px;
+  color:white;
 }
+
 .site-footer hr{
- 	 border-top-color:#bbb;
- 	 opacity:0.5
+  border-top-color:#bbb;
+  opacity:0.5
 }
+
 .site-footer hr.small{
-  	margin:20px 0
+  margin:20px 0
 }
+
 .site-footer h6{
-	  color:#fff;
-	  font-size:16px;
-	  text-transform:uppercase;
-	  margin-top:5px;
-	  letter-spacing:2px
+  color:#fff;
+  font-size:16px;
+  text-transform:uppercase;
+  margin-top:5px;
+  letter-spacing:2px
 }
 
 .site-footer a{
-  	color:white;
+  color:white;
 }
 
 .site-footer a:hover{
- 	color:#3366cc;
-  	text-decoration:none;
+  color:#3366cc;
+  text-decoration:none;
 }
 
 .footer-links{
-  	padding-left:0;
-  	list-style:none
+  padding-left:0;
+  list-style:none
 }
 
 .footer-links li{
-  	display:block;
+  display:block
 }
 
 .footer-links a{
-  	color:5e7cff;
+  color:#acc4fc
 }
 
 .footer-links a:active,.footer-links a:focus,.footer-links a:hover{
-	  color:#3366cc;
-	  text-decoration:none;
+  color:#3366cc;
+  text-decoration:none;
 }
 
 .footer-links.inline li{
-  	display:inline-block;
+  display:inline-block
 }
 
 .site-footer .social-icons{
-  	text-align:right;
+  text-align:right
 }
 
 .site-footer .social-icons a{
-	  width:40px;
-	  height:40px;
-	  line-height:40px;
-	  margin-left:6px;
-	  margin-right:0;
-	  border-radius:100%;
-	  background-color:#33353d
+  width:40px;
+  height:40px;
+  line-height:40px;
+  margin-left:6px;
+  margin-right:0;
+  border-radius:100%;
+  background-color:#33353d
 }
 
 .copyright-text{
@@ -127,112 +160,102 @@ a.navbar-brand{
 }
 
 
-@media screen and (min-width: 300px) and (max-width: 400px){
-ul.navbar-nav{
-	font-size: 1.5rem;
-	background-color: #5e7cff;
-	padding: 0.5rem 0.5rem;
-	margin: 0.5rem .5rem;
-	border-radius: 28px;
+@media screen and (min-width: 001px) and (max-width: 375px)
+{
+	a.navbar-brand {
+    width: 20rem;
+    height: 5rem;
+    background: url(/static/PolicyFull.svg) no-repeat center;
+    background-size: 40rem 22rem;
 	}
-	
-.nav .li .a{
-	padding: 10px 17px;
+  i.fa.fa-bars{
+    position: relative;
+    font-size:3rem;
+    position: relative;
+    font-size: 3rem;
+    top: -87%;
+    left: 500%;
 }
-	
-a.navbar-brand {
-	width: 20rem;
-	height: 6rem;
-	background: url(/static/PolicyFull.svg) no-repeat center;
-	background-size: 40rem 22rem;
+div#myLinks{
+  top: -10vh;
+  position: relative;
+}
+.navbar-right li a {
+  color: white;
+  padding: 22px 26px;
+  font-size: 1rem;
 }
 }
 
-@media screen and (min-width: 401px) and (max-width: 1050px)
+@media screen and (min-width: 376px) and (max-width: 800px)
 {
-ul.navbar-nav{
-	font-size: 1.5rem;
-	background-color: #5e7cff;
-	padding: 0.5rem 0.5rem;
-	margin: 0.5rem 0.5rem;
-	border-radius: 28px;
+	a.navbar-brand {
+    width: 20rem;
+    height: 6rem;
+    background: url(/static/PolicyFull.svg) no-repeat center;
+    background-size: 40rem 22rem;
+	}
+  i.fa.fa-bars{
+    position: relative;
+    font-size:3rem;
 }
-	
-.nav .li .a{
-	padding: 10px 17px;
-	
-}
-a.navbar-brand {
-	width: 20rem;
-	height: 6rem;
-	background: url(/static/PolicyFull.svg) no-repeat center;
-	background-size: 40rem 22rem;
+.navbar-right li a {
+  padding: 22px 26px;
+  font-size: 2rem;
 }
 }
 
-@media screen and (min-width: 1051px) and (max-width: 1700px)
+@media screen and (min-width: 801px) and (max-width: 1300px)
 {
-ul.navbar-nav{
-	font-size: 1.5rem;
-	background-color: #5e7cff;
-	padding: 0.5rem 0.5rem;
-	margin: 0.5rem .5rem;
-	border-radius: 28px;
-}
-	
-}
-
-@media screen and (min-width: 1700px) and (max-width: 3500px)
-{
-ul.navbar-nav{
-	font-size: 1.5rem;
-	background-color: #5e7cff;
-	padding: 0.5rem 0.5rem;
- 	margin: 1.5rem 0rem;
-	border-radius: 28px;
-}
+  .navbar-nav{
+    font-size:1.5rem;
+  }
+	a.navbar-brand {
+    width: 20rem;
+    height: 6rem;
+    background: url(/static/PolicyFull.svg) no-repeat center;
+    background-size: 40rem 22rem;
+	}
+  .navbar-right li a {
+    padding: 22px 26px;
+    font-size: 2rem;
+  }
 }
 
-
-@media (max-width:991px)
-{
- .site-footer [class^=col-]{
+@media (max-width:991px){
+  .site-footer [class^=col-]
+  {
     margin-bottom:30px
   }
-	
 }
 
-
-@media (max-width:767px)
-{
-  .site-footer
-  {
+@media (max-width:767px){
+  .site-footer{
     padding-bottom:0
   }
-  .site-footer .copyright-text,.site-footer .social-icons
-  {
+  .site-footer .copyright-text,.site-footer .social-icons{
     text-align:center
   }
 }
-.social-icons
-{
+
+.social-icons{
   padding-left:0;
   margin-bottom:0;
   list-style:none
 }
-.social-icons li
-{
+.social-icons li{
   display:inline-block;
   margin-bottom:4px
 }
-.social-icons li.title
-{
+
+.social-icons li.title{
   margin-right:15px;
   text-transform:uppercase;
   color:#96a2b2;
   font-weight:700;
   font-size:13px
 }
+
 .social-icons a{
   background-color:#eceeef;
   color:#818a91;
@@ -248,38 +271,37 @@ ul.navbar-nav{
   -o-transition:all .2s linear;
   transition:all .2s linear
 }
-.social-icons a:active,.social-icons a:focus,.social-icons a:hover
-{
+
+.social-icons a:active,.social-icons a:focus,.social-icons a:hover{
   color:#fff;
   background-color:#29aafe
 }
-.social-icons.size-sm a
-{
+
+.social-icons.size-sm a{
   line-height:34px;
   height:34px;
   width:34px;
   font-size:14px
 }
-.social-icons a.facebook:hover
-{
+
+.social-icons a.facebook:hover{
   background-color:#3b5998
 }
-.social-icons a.twitter:hover
-{
+
+.social-icons a.twitter:hover{
   background-color:#00aced
 }
-.social-icons a.linkedin:hover
-{
+
+.social-icons a.linkedin:hover{
   background-color:#007bb6
 }
-.social-icons a.google:hover
-{
+
+.social-icons a.google:hover{
   background-color:#ea4c89
 }
-@media (max-width:767px)
-{
-  .social-icons li.title
-  {
+
+@media (max-width:767px){
+  .social-icons li.title{
     display:block;
     margin-right:0;
     font-weight:600
