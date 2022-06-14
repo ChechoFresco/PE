@@ -162,7 +162,7 @@ li.icon{
 
 @media screen and (min-width: 001px) and (max-width: 375px)
 {
-	a.navbar-brand {
+a.navbar-brand {
     width: 20rem;
     height: 5rem;
     background: url(/static/PolicyFull.svg) no-repeat center;
@@ -189,16 +189,21 @@ div#myLinks{
 
 @media screen and (min-width: 376px) and (max-width: 800px)
 {
-	a.navbar-brand {
+a.navbar-brand {
     width: 20rem;
     height: 6rem;
     background: url(/static/PolicyFull.svg) no-repeat center;
     background-size: 40rem 22rem;
 	}
-  i.fa.fa-bars{
+i.fa.fa-bars{
     position: relative;
     font-size:3rem;
+    position: relative;
+    font-size: 3rem;
+    top: -87%;
+    left: 500%;
 }
+	
 .navbar-right li a {
   padding: 22px 26px;
   font-size: 2rem;
