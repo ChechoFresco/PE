@@ -3,63 +3,64 @@ EDIT ON
 html, body{
 	margin:0;
 	padding:0;
-  background-color: #4f5861;
+  	background-color: #4f5861;
 }
+
 .container {
-  position: relative;
+  	position: relative;
 }
 
 /* First Container Jumbo*/
 .jumbotron{
-height:37vh;
-position: relative;
-background-color: transparent;
-padding-top: 0px;
+	height:37vh;
+	position: relative;
+	background-color: transparent;
+	padding-top: 0px;
 }
 
 .jumbotron .container {
-  top: 110px;
+  	top: 110px;
 }
 
 video {
-  width: 100%;
-  object-fit: cover;
-  height: 116%;
-  object-position: 0% 63%;
+	  width: 100%;
+	  object-fit: cover;
+	  height: 116%;
+	  object-position: 0% 63%;
 }
 
 /* Neon sign*/
 .jumbotron h1{
-  font-size:9rem;
-  color: #fff;
+	  font-size:9rem;
+	  color: #fff;
 }
 
 .neon{
-  font-family: 'Neonderthaw', cursive;
-  position: absolute;
-  opacity: .77;
-  top: 68px;
-  left: 50%;
-  width: 100%;
-  transform: translate(-50%, -50%);
-  letter-spacing: 8px;
-  text-shadow:
-    0 0 7px #fff,
-    0 0 10px #fff,
-    0 0 21px #fff,
-    0 0 42px #5e7cff,
-    0 0 82px #5e7cff,
-    0 0 92px #5e7cff,
-    0 0 102px #5e7cff,
-    0 0 151px #5e7cff;
+	  font-family: 'Neonderthaw', cursive;
+	  position: absolute;
+	  opacity: .77;
+	  top: 68px;
+	  left: 50%;
+	  width: 100%;
+	  transform: translate(-50%, -50%);
+	  letter-spacing: 8px;
+	  text-shadow:
+	    0 0 7px #fff,
+	    0 0 10px #fff,
+	    0 0 21px #fff,
+	    0 0 42px #5e7cff,
+	    0 0 82px #5e7cff,
+	    0 0 92px #5e7cff,
+	    0 0 102px #5e7cff,
+	    0 0 151px #5e7cff;
 }
 
 .flicker-slow{
-  animation: flicker 4.5s linear infinite;
+  	animation: flicker 4.5s linear infinite;
 }
 
 .flicker-fast{
-  animation: flicker 2.5s linear infinite;
+ 	 animation: flicker 2.5s linear infinite;
 }
 
 @keyframes flicker {
@@ -71,7 +72,6 @@ video {
 		opacity: 0.4;
 	}
 }
-
 
 
 /* Second section Sell portion*/
@@ -190,10 +190,13 @@ p.title{
 }
 
 
-@media screen and (min-width: 300px) and (max-width: 400px)
+@media screen and (min-width: 001px) and (max-width: 400px)
 {
 .neon{
   top: -20px;
+}
+.jumbotron .container {
+  	top: 153px;
 }
 
 .jumbotron h1{
