@@ -102,7 +102,7 @@ def check4Issues2email():
                     sender = 'AgendaPreciado@gmail.com'
                     msg = Message(subject, sender=sender, recipients=[x['email']])
                     html_body= "\n".join(email_body)
-                    msg.html= "Hello {},".format(x['username']) +html_body + "<p> Thanks for your continued support,<br> <br>  Policy Edge</p> </html>"
+                    msg.html= "Hello {},".format(x['username']) +html_body + "<p> Thanks for your continued support,<br> <br><span style= 'color:#3e00ff; text-shadow: 1px 1px black'>Policy</span><span style= 'color:#5e7cff; text-shadow: 1px 1px black'>Edge</span></p> </html>"
                     mail.send(msg)
             else:
                 pass
