@@ -14,10 +14,6 @@ html, body{
 
 }
 
-.navbar-inverse {
-    border-color: transparent;
-}
-
 div.navbar-header{
   position: relative;
   height: 70px;
@@ -250,7 +246,7 @@ li.icon{
 }
 
 .footer-links a{
-  color:#acc4fc
+  color:#3366cc
 }
 
 .footer-links a:active,.footer-links a:focus,.footer-links a:hover{
@@ -289,20 +285,22 @@ li.icon{
   i.fa.fa-bars{
     position: relative;
     font-size:3rem;
-    position: relative;
-    font-size: 3rem;
-    top: -87%;
-    left: 500%;
-}
+    top: -112%;
+    left: 462%;
+
+  }
 div#myLinks{
   top: -8vh;
   position: relative;
 }
+
+
 .navbar-right li a {
   color: black;
   padding: 6px 26px;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
+
 svg {
   position: absolute;
   width: 17rem;
