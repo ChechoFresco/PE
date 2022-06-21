@@ -3,7 +3,7 @@ body ,html{
     height: 100vh;
     margin: 0 auto;
 }
-div.container{
+div.contain{
     top:0;
     width: 100%;
     height:100vh;
@@ -11,12 +11,9 @@ div.container{
 }
 
 form{
-    position: fixed;
-}
-
-.text{
-    margin: 10vh 0vh;
-    font-size:2vh;
+    position: absolute;
+    left: 30vw;
+    top:30vh;
 }
 
 @media screen and (max-width: 800px) {
