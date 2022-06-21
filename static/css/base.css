@@ -295,13 +295,13 @@ li.icon{
     left: 500%;
 }
 div#myLinks{
-  top: -10vh;
+  top: -8vh;
   position: relative;
 }
 .navbar-right li a {
-  color: white;
-  padding: 22px 26px;
-  font-size: 1rem;
+  color: black;
+  padding: 6px 26px;
+  font-size: 1.1rem;
 }
 svg {
   position: absolute;
