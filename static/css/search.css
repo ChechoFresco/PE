@@ -3,6 +3,7 @@ body ,html{
     height: 100%;
     margin: 0 auto;
 }
+
 .containBG{
     display:flex;
     height:100%;
@@ -13,11 +14,11 @@ body ,html{
 
 .containIn{
     display:flex;
-    height: 85%;
-    width: 50%;
-    margin: 5% 25%;
+    height:70%;
+    width: 70%;
     position: absolute;
     background-color:ghostwhite;
+    margin: 11% 15%;
     border-radius: 7%;
     overflow: hidden;
 }
@@ -29,7 +30,8 @@ img {
     flex: 1;
 }
 input[type=submit] {
-    margin: 0 auto
+    margin: 0 auto;
+    color: white;
 }
 
 div.formdiv{
@@ -53,25 +55,28 @@ h3{
 #committeeOpt{
     display:none;
 }
+
+
+
+
 @media screen and (min-width: 001px) and (max-width: 499px){
     .containIn{
-        margin: 27% 13%;
-        width: 80%;
+        margin: 37% 13%;
     }
-    
+
     div.formdiv{
         flex: 2;
         font-size: 1.2vh;
-        margin: 18px 10px;
+        margin: 3px 15px;
     }
-    
+
     .info{
         position: absolute;
         height:46%;
         column-count: 4;
-        width:80%;
+        width:50%;
     }
-    
+
     h3{
         font-size:.8vh;
     }
@@ -81,20 +86,20 @@ h3{
 }
 @media screen and (min-width: 500px) and (max-width: 1529px){
     .containIn{
-        margin: 12% 25%;
+        margin: 12% 13%;
     }
-    
+
     div.formdiv{
         font-size: 1.2vh;
         margin: 29px 70px;
     }
-    
+
     .info{
         height:46%;
         column-count: 4;
         width:50%;
     }
-    
+
     h3{
         font-size:.8vh;
     }
@@ -103,24 +108,23 @@ h3{
     }
 }
 @media screen and (min-width: 1530px) and (max-width: 2000px){
-.containIn{
-    width: 60%;
-    margin: 7% 20%;
+    .containIn{
+        margin: 12% 13%;
     }
-    
-div.formdiv{
+
+    div.formdiv{
         font-size:1.8vh;
         margin: 22px 33px;
     }
-    
-.info{
+
+    .info{
         position: absolute;
         height:42%;
         column-count: 4;
         width:30%;
     }
-    
-h3{
+
+    h3{
         font-size:.8vh;
     }
 }
@@ -128,27 +132,31 @@ h3{
     .containIn{
         display:flex;
         height:85%;
-        width: 44%;
-        margin: 5% 28%;
+        width: 70%;
+        margin: 5% 13%;
     }
-    
+
     div.formdiv{
         flex: 2;
         font-size:1.8vh;
         margin: 22px 33px;
     }
-    
+
     .info{
         position: absolute;
         height:42%;
         column-count: 4;
         width:30%;
     }
-    
+
     h3{
         font-size:.8vh;
     }
 }
+
+
+
+
 
 
 
