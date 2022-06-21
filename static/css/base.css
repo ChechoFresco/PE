@@ -296,9 +296,9 @@ div#myLinks{
 
 
 .navbar-right li a {
-  color: black;
-  padding: 6px 26px;
-  font-size: 1rem;
+  color: white;
+  padding: 6px 20px;
+  font-size: 1.2rem;
 }
 
 svg {
