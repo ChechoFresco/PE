@@ -5,125 +5,146 @@
     <meta name='description' content= 'Logged into PolicyEdge. PolicyEdge agenda tracking for all of Los Angeles.'/>
 {% endblock %}
 {% block content %}
+
 <head>
-    <script>function reveal() {
-        var reveals = document.querySelectorAll("#con4");
-        for (var i = 0; i < reveals.length; i++) {
-          var windowHeight = window.innerHeight;
-          var elementTop = reveals[i].getBoundingClientRect().top;
-          var elementVisible = 150;
-          if (elementTop < windowHeight - elementVisible) {
-            reveals[i].classList.add("active");
-          } else {
-            reveals[i].classList.remove("active");
-          }
-        }
-      }
-      window.addEventListener("scroll", reveal);
-    </script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cardo:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Monoton&family=Neonderthaw&family=Plaster&family=Sonsie+One&display=swap" rel="stylesheet">
+<script>function reveal() {
+    var reveals = document.querySelectorAll("#con4");
+    for (var i = 0; i < reveals.length; i++) {
+    var windowHeight = window.innerHeight;
+    var elementTop = reveals[i].getBoundingClientRect().top;
+    var elementVisible = 150;
+    if (elementTop < windowHeight - elementVisible) {
+        reveals[i].classList.add("active");
+    } else {
+        reveals[i].classList.remove("active");
+    }
+    }
+}
+window.addEventListener("scroll", reveal);
+</script>
+
+<script>function reveal() {
+    var reveals = document.querySelectorAll("h3#happening");
+    for (var i = 0; i < reveals.length; i++) {
+    var windowHeight = window.innerHeight;
+    var elementTop = reveals[i].getBoundingClientRect().top;
+    var elementVisible = 150;
+    if (elementTop < windowHeight - elementVisible) {
+        reveals[i].classList.add("active");
+    } else {
+        reveals[i].classList.remove("active");
+    }
+    }
+}
+window.addEventListener("scroll", reveal);
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cardo:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Monoton&family=Neonderthaw&family=Plaster&family=Sonsie+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
 </head>
 
 <div class="jumbotron jumbotron-fluid">
     <video id="bg-video" autoplay="true" loop="loop" preload="metadata" muted="muted">
         <source src="static/pexels-Henrique.mp4" type="video/mp4">
     </video>
-
 	<div class="container text-center" style="position:absolute; margin: auto; width: 100%">
-        	<h1 class="neon" data-text="U">Keep <span class="flicker-slow">U</span>p With<span class="flicker-fast">L</span>oca<span class="flicker-slow">l</span>Gover<span class="flicker-fast">n</span>men<span class="flicker-slow">t</span></h1>
-	</div>
-</div>
-
-<div class="container text-center" id='con1'>
-	<p class="subjectLead">We understand the importance of reliable information</p>
-	
-	<div class="row" style="margin-top: 29px;"> 
-		<div class="col-sm-4">
-			<p class="subject">Problems emerged when an unexpected issue came up in a local city council meeting.</p>
-		</div>
-		<div class="col-sm-4">
-			<p class="subject">Time was lost waiting on a city to update its website with new information </p>
-		</div>
-		<div class="col-sm-4">
-			<p class="subject">An oppurtunity was missed when a RFP had no means of grabbing your attention</p>
-		</div>
-	</div>
-</div>
-
-
-<div class="container" id='con2'>
-    <div class="row">
-        <div class="col-sm-offset-3 col-sm-6">
-            <h3 id="offer">What <span style= "color:#4404fc; text-shadow: 1px 1px black">Policy</span><span style= "color:#3366cc; text-shadow: 1px 1px black">Edge</span> Offers</h3>
-        </div>
-    </div>
-    <div class="row" style="margin-top: 29px;"> 
-        <div class="col-sm-4">
-            <h3><span style= "color:#3366cc;text-shadow: 2px 2px 2px black;">Notify</span></h3>
-            <p class="subject">Using our notification system, you stay up to date on issues important to you as soon as they are released on the city websites.</p>
-        </div>
-        <div class="col-sm-4">
-            <h3><span style= "color:#3366cc; text-shadow: 2px 2px 2px black;">Upfront Approach</span></h3>
-            <p class="subject">Our competitors hide behind demos and hidden price models. We offer a membership for an upfront cost and allow you to start searching today! </p>
-        </div>
-        <div class="col-sm-4">
-            <h3><span style= "color:#3366cc; text-shadow: 2px 2px 2px black;">Search</span></h3>
-            <p class="subject">We provide a back catalog of city government documents going back years with customizable search features, allowing users to keep up to date with their issues, and gain additional insight by examining how neighboring cities have dealt with the same issue in the past. </p>
-        </div>
+        <h1 class="neon" data-text="U">Keep <span class="flicker-slow">U</span>p With<span class="flicker-fast">L</span>oca<span class="flicker-slow">l</span>Gover<span class="flicker-fast">n</span>men<span class="flicker-slow">t</span></h1>
     </div>
 </div>
 
+<div class= 'frost'>
+    <div class="container text-center" id='con1'>
+        <p class="subjectLead">We understand the importance of reliable information</p>
+        <div class="row">
+            <div class="col-sm-4">
+                <p class="subject 1">Problems emerged when an unexpected issue came up in a local city council meeting.</p>
+            </div>
+            <div class="col-sm-4">
+                <p class="subject 2">Time was lost waiting on a city to update its website with new information </p>
+            </div>
+            <div class="col-sm-4">
+                <p class="subject 3">An oppurtunity was missed when a RFP had no means of grabbing your attention</p>
+            </div>
+        </div>
+    </div>
 
-<div class="container" id='con3'>
-    <div class="col-sm-12">
-        <h3>Check out local agendas in Los Angeles by region. Just click on the image!</h3>
+
+
+    <div class="container" id='con2'>
+        <div class="row">
+            <div class="col-sm-offset-3 col-sm-6">
+                <h3 id="offer">What <span style= "color:#3e00ff; text-shadow: 1px 1px black">Policy</span><span style= "color:#5e7cff; text-shadow: 1px 1px black">Edge</span> Offers</h3>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 29px;">
+            <div class="col-sm-4">
+                <h3 id="offer 1"><span style= "color:#5e7cff;text-shadow: 2px 2px 2px   black;">Notify</span></h3>
+                <p class="subject 4">Using our notification system, you stay up to date on issues important to you as soon as they are released on the city websites.</p>
+            </div>
+            <div class="col-sm-4">
+                <h3 id="offer 2"><span style= "color:#5e7cff; text-shadow: 2px 2px 2px black;">Upfront Approach</span></h3>
+                <p class="subject 4">Our competitors hide behind demos and hidden price models. We offer a membership for an upfront cost and allow you to start searching today! </p>
+            </div>
+            <div class="col-sm-4">
+                <h3 id="offer 3"><span style= "color:#5e7cff; text-shadow: 2px 2px 2px  black;">Search</span></h3>
+                <p class="subject 4">We provide a back catalog of city government documents going back years with customizable search features, allowing users to keep up to date with their issues, and gain additional insight by examining how neighboring cities have dealt with the same issue in the past. </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container" id='con3'>
+        <div class="col-sm-12">
+            <h3 id="happening">See whats happening this week around Los Angeles by clicking on images!</h3>
+        </div>
+    </div>
+
+
+    <div class="container" id='con4'>
+        <div class="col-sm-4 float-left border">
+            <p class='title'>Trends</p>
+            <a class="twitter-timeline" data-tweet-limit=3 href="https://twitter.com/Policy__Edge?ref_src=twsrc%5Etfw"></a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div class="col-sm-4 float-right border">
+            <div id="gateway">
+                <a href="/gateway" class="link">
+                <p class='title'>Gateway Cities</p>
+                <img src="/static/mayara-steinmeyer-Gateway.jpg" title ="Long Beach marina" alt="A few boats docked out in front fg the Long Beach marina" class="thumbnail" style="width:100% " alt="Image"></img></a>
+
+            </div>
+            <div>
+                <a href="/westside" class="link">
+                <p class='title'>Westside</p>
+                <img src="/static/gerson-repreza-Westside.jpg" title ="Santa Monnica Pier" alt="Front view of the Santa Monica Pier" class="thumbnail" style="width:100% " alt="Image"></img></a>
+            </div>
+            <div>
+                <a href="/sangabrielCities" class="link">
+                <p class='title'>San Gabriel Valley</p>
+                <img src="/static/remy-hellequin-Sangabriel.jpg" title ="Colorado St." alt="Looking down Colorado St. near Pasadena." class="thumbnail" style="width:100% " alt="Image"></img></a>
+            </div>
+        </div>
+        <div class="col-sm-4 float-right border">
+            <div>
+                <a href="/southBay" class="link">
+                <p class='title'>South Bay</p>
+                <img src="/static/roberto-nickson-SouthBay.jpg" title ="View down Hermosa Beach into the ocean." alt="Sunset near the ocean on Main st." class="thumbnail" style="width:100% " alt="Image"></img></a>
+            </div>
+            <div>
+                <a href="/sanfernandoCities" class="link">
+                <p class='title'>San Fernando Valley</p>
+                <img src="/static/maurice-williams-Sanfernando.jpg" title ="Van Nuys Airport" alt="Planes on tarmac ready to takeoff in Van Nuys Airport" class="thumbnail" style="width:100% " alt="Image"></img></a>
+            </div>
+            <div>
+                <a href="/cannabis" class="link">
+                <p class='title'>Cannabis</p>
+                <img src="/static/Marijuana.jpeg" title ="Cannabis store" alt="Cannabis retail options." class="thumbnail" style="width:100% " alt="Image"></img></a>
+            </div>
+        </div>
     </div>
 </div>
 
-
-<div class="container" id='con4'>
-    <div class="col-sm-4 float-left border">
-        <p class='title'>Trends</p>
-        <a class="twitter-timeline" data-tweet-limit=3 href="https://twitter.com/Policy__Edge?ref_src=twsrc%5Etfw"></a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
-    <div class="col-sm-4 float-right border">
-        <div>
-            <a href="/gateway" class="link">
-            <p class='title'>Gateway Cities</p>
-            <img src="/static/mayara-steinmeyer-Gateway.jpg" title ="Long Beach marina" alt="A few boats docked out in front fg the Long Beach marina" class="thumbnail" style="width:100% " alt="Image"></img>
-        </div>
-        <div>
-            <a href="/westside" class="link">
-            <p class='title'>Westside</p>
-            <img src="/static/gerson-repreza-Westside.jpg" title ="Santa Monnica Pier" alt="Front view of the Santa Monica Pier" class="thumbnail" style="width:100% " alt="Image"></img>
-        </div>
-        <div>
-            <a href="/sangabrielCities" class="link">
-            <p class='title'>San Gabriel Valley</p>
-            <img src="/static/remy-hellequin-Sangabriel.jpg" title ="Colorado St." alt="Looking down Colorado St. near Pasadena." class="thumbnail" style="width:100% " alt="Image"></img>
-        </div>
-    </div>
-    <div class="col-sm-4 float-right border">
-        <div>
-            <a href="/southBay" class="link">
-            <p class='title'>South Bay</p>
-            <img src="/static/roberto-nickson-SouthBay.jpg" title ="View down Hermosa Beach into the ocean." alt="Sunset near the ocean on Main st." class="thumbnail" style="width:100% " alt="Image"></img>
-        </div>
-        <div>
-            <a href="/sanfernandoCities" class="link">
-            <p class='title'>San Fernando Valley</p>
-            <img src="/static/maurice-williams-Sanfernando.jpg" title ="Van Nuys Airport" alt="Planes on tarmac ready to takeoff in Van Nuys Airport" class="thumbnail" style="width:100% " alt="Image"></img>
-        </div>
-        <div>
-            <a href="/cannabis" class="link">
-            <p class='title'>Cannabis</p>
-            <img src="/static/Marijuana.jpeg" title ="Cannabis store" alt="Cannabis retail options." class="thumbnail" style="width:100% " alt="Image"></img></a>
-        </div>
-    </div>
-</div>
 {% endblock %}
 
 
