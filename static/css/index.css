@@ -166,10 +166,6 @@ h3 {
 #con3 {
   position: relative;
   width:55vw;
-  transform: translateY(100px);
-  opacity: 0;
-  transition: 2s all ease;
-  transition-timing-function: linear;
 }
 
 h3#happening{
