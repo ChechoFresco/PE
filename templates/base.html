@@ -320,13 +320,16 @@ function myFunction() {
 	{% endif %}
 
     {% if session['username'] %}
-	<div class="collapse navbar-collapse" id="myNavbar">
-		<ul href="#" class="nav navbar-nav navbar-right ">
+	<div href="#" class="nav navbar-nav navbar-right">
+		<li href="javascript:void(0);" class="icon" onclick="myFunction()">
+			<i class="fa fa-bars"></i>
+		</li>
+		<div id="myLinks">
 			<li><a href="/search">Search</a></li>
 			<li><a href="/savedIssues">Notification</a></li>
-			<li><a id = 'signup' href="/subscription"><span class="glyphicon glyphicon-user"></span> Renew Subscription</a></li>
-			<li><a id ='login' href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-		</ul>
+			<li><a id = 'signup' href="/subscription">Renew Subscription</a></li>
+			<li><a id ='login' href="/logout">Logout</a></li>
+		</div>
 	</div>
 </div>
 </nav>
