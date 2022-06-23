@@ -1,36 +1,3 @@
-div.package{
-    position: relative;
-    width:100vw;
-}
-
-div.background {
-    position: relative;
-    height: 100vh;
-}
-.description{
-    position: relative;
-    font-size:2vh;
-}
-
-svg#cartoon{
-    width: 70%;
-    height: 100vh;
-}
-
-form{
-    margin: 7vh 0vh;
-    font-size: 2vh;
-    width: fit-content;
-}
-.frost {
-    position: relative;
-    height: 100vh;
-    border-radius: 8%;
-    background-color: rgba(255, 255, 255, .15);
-    backdrop-filter: blur(5px);
-    padding: 3%;
-}
-
 @media screen and (min-width: 250px) {
 svg#cartoon{
     width: 97%;
@@ -50,19 +17,21 @@ form{
     margin: 8vh 0vh;
     font-size:1.5vh;
 }
+h1,h2{
+    color:white;
+}
 }
 
 @media screen and (min-width: 1300px) {
 .description{
     font-size:2vh;
 }
+
 form{
     margin: 8vh 0vh;
     font-size:1.5vh;
 }
-}
 
-@media screen and (min-width: 2000px) {
 .description{
     font-size:2vh;
 }
@@ -71,5 +40,47 @@ form{
     margin: 7vh 0vh;
     font-size: 2vh;
     width: fit-content;
+}
+svg#cartoon{
+    width: 70%;
+    height: 100vh;
+}
+}
+@media screen and (min-width: 2000px) {
+div.package{
+    position: relative;
+    width:100vw;
+}
+
+div.background {
+    position: relative;
+    height: 100vh;
+}
+
+svg#cartoon{
+    width: 70%;
+    height: 100vh;
+}
+
+div.description{
+    position: relative;
+    font-size:2vh;
+    color:white;
+}
+
+.frost {
+    position: relative;
+    height: 100vh;
+    border-radius: 8%;
+    background-color: rgba(255, 255, 255, .15);
+    backdrop-filter: blur(5px);
+    padding: 3%;
+}
+
+form{
+    margin: 7vh 0vh;
+    font-size: 2vh;
+    width: fit-content;
+    color:white;
 }
 }
