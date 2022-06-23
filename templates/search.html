@@ -8,43 +8,49 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
 </head>
-<div class="containBG">
-    <div class="containIn">
-        <img src="/static/pexels-enric-cruz-lópez-6039205.jpg" title= "Uniton Station Los Angeles" alt="Halls of Union Station in Downtown Los Angeles">
-        </img>
-        <div class="formdiv">
-            {% from "_formhelpers.html" import render_field %}
-            <form method="post">
-                <ul>
-                {{ render_field(form.select) }}
-                <p>
-                {{ render_field(form.primary_search) }}
-                <p>
-                {{ render_field(form.secondary_search) }}
-                <p>
-                {{ render_field(form.startdate_field) }}
-                <p>
-                {{ render_field(form.enddate_field) }}
-                </ul>
-                <p><input type="submit" value="Search"></p>
-            </form>
-            <div class="info">
-                <h3 id="cityOpt">Agoura Hills<br></br>Alhambra<br></br> Arcadia<br></br> Artesia<br></br> Azusa<br></br> Baldwin Park<br></br> Bell
-                    <br></br> Bell Gardens<br></br> Bellflower<br></br> Beverly Hills<br></br> Bradbury<br></br> Burbank<br></br> Calabasas<br></br> Carson
-                    <br></br> Cerritos<br></br> City of Industry<br></br> Claremont<br></br> Commerce<br></br> Compton<br></br> Covina<br></br> Cudahy<br></br> Culver City
-                    <br></br> Diamond Bar<br></br> Downey<br></br> Duarte<br></br> El Monte<br></br> El Segundo<br></br> Gardena<br></br> Glendale<br></br> Glendora
-                    <br></br> Hawaiian Gardens<br></br> Hawthorne<br></br> Hermosa Beach<br></br> Hidden Hills<br></br> Huntington Park<br></br> Inglewood<br></br> Irwindale<br></br> La Canada Flintridge
-                    <br></br> La Habra Heights<br></br> La Mirada<br></br> La Puente<br></br> La Verne<br></br> Lakewood<br></br> Lancaster<br></br> Lawndale
-                    <br></br> Lomita<br></br> Long Beach<br></br> Los Angeles<br></br> Lynwood<br></br> Malibu<br></br> Manhattan Beach<br></br> Maywood
-                    <br></br> Monrovia<br></br> Montebello<br></br> Monterey Park<br></br> Norwalk<br></br> Palmdale<br></br> Palos Verdes Estates<br></br> Paramount
-                    <br></br> Pasadena<br></br> Pico Rivera<br></br> Pomona<br></br> Rancho Palos Verdes<br></br> Redondo Beach<br></br> Rolling Hills<br></br> Rolling Hills Estate
-                    <br></br> Rosemead<br></br> San Dimas<br></br> San Fernando<br></br> San Gabriel<br></br> San Marino<br></br> Santa Clarita<br></br> Santa Fe Springs
-                    <br></br> Santa Monica<br></br> Sierra Madre<br></br> Signal Hill<br></br> South El Monte<br></br> South Gate<br></br> South Pasadena<br></br> Temple City
-                    <br></br> Torrance<br></br> Vernon<br></br> Walnut<br></br> West Covina<br></br> West Hollywood<br></br> Westlake Village<br></br> Whittier</h3>
-
-                <h3 id="committeeOpt">Arts, Parks, Health, Education, and Neighborhoods Committee <br></br> Board of Airport Commissioners <br></br> Board of Fire Commissioners <br></br> Board of Public Works <br></br> Board of Rec and Park Commission <br></br> Board of Transportation Commissioners <br></br> Budget & Finance <br></br> Cannabis Regulation Commission <br></br> City Planning Commission <br></br> Economic Development and Jobs Committee <br></br> Energy Climate <br></br> Homelessness & Poverty Committee <br></br> Immigrant Affairs , Civil Rights, and Equity Committee <br></br> Information Technology & General Service Committee <br></br> LA City Health Commission <br></br> LA County Board <br>
-                </br> LA Police Commission <br></br> LADWP Board <br></br> Personnel, Audits, and Animal Welfare Committee <br></br> PLUM <br></br> Port of LA <br></br> Public Safety Committee <br></br> Public Works <br>
-                </br> Rules Elections <br></br> Trade, Travel, and Tourism Committee <br></br> Transportation Committee'</h3>
+<div class="package">
+    <div class="row">
+        <div class="col-sm-offset-1 col-sm-5">
+            <div class="background">
+                <img src="/static/pexels-enric-cruz-lópez-6039205.jpg" title= "Uniton Station Los Angeles" alt="Halls of Union Station in Downtown Los Angeles"></img>
+            </div>
+        </div>
+        <div class="col-sm-offset-0 col-sm-5">
+            <div class='frost'>
+                <div class="formdiv">
+                    {% from "_formhelpers.html" import render_field %}
+                    <form method="post">
+                        <ul>
+                        {{ render_field(form.select) }}
+                        <p>
+                        {{ render_field(form.primary_search) }}
+                        <p>
+                        {{ render_field(form.secondary_search) }}
+                        <p>
+                        {{ render_field(form.startdate_field) }}
+                        <p>
+                        {{ render_field(form.enddate_field) }}
+                        </ul>
+                        <p><input type="submit" value="Search"></p>
+                    </form>
+                    <div class="info">
+                        <h3 id="cityOpt">Agoura Hills<br></br>Alhambra<br></br> Arcadia<br></br> Artesia<br></br> Azusa<br></br> Baldwin Park<br></br> Bell
+                            <br></br> Bell Gardens<br></br> Bellflower<br></br> Beverly Hills<br></br> Bradbury<br></br> Burbank<br></br> Calabasas<br></br> Carson
+                            <br></br> Cerritos<br></br> City of Industry<br></br> Claremont<br></br> Commerce<br></br> Compton<br></br> Covina<br></br> Cudahy<br></br> Culver City
+                            <br></br> Diamond Bar<br></br> Downey<br></br> Duarte<br></br> El Monte<br></br> El Segundo<br></br> Gardena<br></br> Glendale<br></br> Glendora
+                            <br></br> Hawaiian Gardens<br></br> Hawthorne<br></br> Hermosa Beach<br></br> Hidden Hills<br></br> Huntington Park<br></br> Inglewood<br></br> Irwindale<br></br> La Canada Flintridge
+                            <br></br> La Habra Heights<br></br> La Mirada<br></br> La Puente<br></br> La Verne<br></br> Lakewood<br></br> Lancaster<br></br> Lawndale
+                            <br></br> Lomita<br></br> Long Beach<br></br> Los Angeles<br></br> Lynwood<br></br> Malibu<br></br> Manhattan Beach<br></br> Maywood
+                            <br></br> Monrovia<br></br> Montebello<br></br> Monterey Park<br></br> Norwalk<br></br> Palmdale<br></br> Palos Verdes Estates<br></br> Paramount
+                            <br></br> Pasadena<br></br> Pico Rivera<br></br> Pomona<br></br> Rancho Palos Verdes<br></br> Redondo Beach<br></br> Rolling Hills<br></br> Rolling Hills Estate
+                            <br></br> Rosemead<br></br> San Dimas<br></br> San Fernando<br></br> San Gabriel<br></br> San Marino<br></br> Santa Clarita<br></br> Santa Fe Springs
+                            <br></br> Santa Monica<br></br> Sierra Madre<br></br> Signal Hill<br></br> South El Monte<br></br> South Gate<br></br> South Pasadena<br></br> Temple City
+                            <br></br> Torrance<br></br> Vernon<br></br> Walnut<br></br> West Covina<br></br> West Hollywood<br></br> Westlake Village<br></br> Whittier</h3>
+                        <h3 id="committeeOpt">Arts, Parks, Health, Education, and Neighborhoods Committee <br></br> Board of Airport Commissioners <br></br> Board of Fire Commissioners <br></br> Board of Public Works <br></br> Board of Rec and Park Commission <br></br> Board of Transportation Commissioners <br></br> Budget & Finance <br></br> Cannabis Regulation Commission <br></br> City Planning Commission <br></br> Economic Development and Jobs Committee <br></br> Energy Climate <br></br> Homelessness & Poverty Committee <br></br> Immigrant Affairs , Civil Rights, and Equity Committee <br></br> Information Technology & General Service Committee <br></br> LA City Health Commission <br></br> LA County Board <br>
+                        </br> LA Police Commission <br></br> LADWP Board <br></br> Personnel, Audits, and Animal Welfare Committee <br></br> PLUM <br></br> Port of LA <br></br> Public Safety Committee <br></br> Public Works <br>
+                        </br> Rules Elections <br></br> Trade, Travel, and Tourism Committee <br></br> Transportation Committee'</h3>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
