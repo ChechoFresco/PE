@@ -1,86 +1,75 @@
-body, html {
-    height: 100%;
-    width: 100%;
-    margin:0;
-    padding:0;
-    background-color:light gray;
-}
-
 div.package{
-    height: 100%;
-    display:flex;
-    flex-direction: row-reverse;
-    align-items: stretch;
-    backdrop-filter: blur(10px);
+    position: relative;
+    width:100vw;
 }
 
 div.background {
-    height: 100%;
-    flex: 1;
+    position: relative;
+    height: 100vh;
 }
 .description{
-    height: 100%;
-    margin: 9vh 14vw;
-    flex: 2;
+    position: relative;
     font-size:2vh;
 }
 
-img {
-    width: 100%;
+svg#cartoon{
+    width: 70%;
     height: 100vh;
-    object-fit: cover;
 }
+
 form{
     margin: 7vh 0vh;
     font-size: 2vh;
     width: fit-content;
 }
+.frost {
+    position: relative;
+    height: 100vh;
+    border-radius: 8%;
+    background-color: rgba(255, 255, 255, .15);
+    backdrop-filter: blur(5px);
+    padding: 3%;
+}
 
-@media screen and (min-width: 350px) and (max-width: 767px)
-{
-    div.package{
-        height: 100%;
-        display:flex;
-        flex-direction: row-reverse;
-        align-items: stretch;
-        backdrop-filter: blur(10px);
+@media screen and (min-width: 250px) {
+svg#cartoon{
+    width: 97%;
+    height: 130vh;
 }
-    div.background {
-        flex: 0;
+
+div.background {
+    position: relative;
+    height: 4vh;
 }
-    .description{
-        margin: 10vh 0vh;
-        flex: 1;
-        font-size:2vh;
+.description{
+    position: relative;
+    font-size:2vh;
+    font-size:2vh;
 }
-    form{
-        margin: 8vh 0vh;
-        font-size:1.5vh;
+form{
+    margin: 8vh 0vh;
+    font-size:1.5vh;
 }
-    img {
-        display:none;
-    }
 }
-@media screen and (min-width: 767px) and (max-width: 1300px)
-{
-    div.package{
-        height: 100%;
-        display:flex;
-        flex-direction: row-reverse;
-        align-items: stretch;
-        backdrop-filter: blur(10px);
+
+@media screen and (min-width: 1300px) {
+.description{
+    font-size:2vh;
 }
-    div.background {
-        height: 110%;
-        flex: 2;
+form{
+    margin: 8vh 0vh;
+    font-size:1.5vh;
 }
-    .description{
-        margin: 10vh 0vh;
-        flex: 1;
-        font-size:2vh;
 }
-    form{
-        margin: 8vh 0vh;
-        font-size:1.5vh;
+
+@media screen and (min-width: 2000px) {
+.description{
+    font-size:2vh;
+}
+
+form{
+    margin: 7vh 0vh;
+    font-size: 2vh;
+    width: fit-content;
 }
 }
