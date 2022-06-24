@@ -306,7 +306,7 @@ h3#happening.active{
   text-align: center;
   text-shadow: 4px 4px 2px black;
   font-size: 3rem;
-  display:block;
+  display: contents;
 }
 
 #con5.active{
@@ -378,6 +378,7 @@ p.subject {
 #con5 {
   position: relative;
   width:87vw;
+  display: contents;
 }
 
 h3#happening{
@@ -436,11 +437,6 @@ p.subject {
 
 #con5 {
   display:none;
-}
-
-#con5 {
-  position: relative;
-  width:87vw;
 }
 
 h3#happening{
