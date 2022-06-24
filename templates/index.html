@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block metadata %}
-	<meta name= 'description' content= 'PolicyEdge provides agenda tracking for all of Los Angeles. Agend monitoring for Los Angeles County.'/>
-    <meta charset='utf-8'/>
+<meta name= 'description' content= 'PolicyEdge provides agenda tracking for all of Los Angeles. Agend monitoring for Los Angeles County.'/>
+<meta charset='utf-8'/>
+
 {% endblock %}
 {% block content %}
+
 <head>
-	
 <script>function reveal() {
 var reveals = document.querySelectorAll("#con4");
 for (var i = 0; i < reveals.length; i++) {
@@ -39,10 +40,10 @@ window.addEventListener("scroll", reveal);
 window.addEventListener("scroll", reveal);
 </script>
 	
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cardo:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Monoton&family=Neonderthaw&family=Plaster&family=Sonsie+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cardo:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Monoton&family=Neonderthaw&family=Plaster&family=Sonsie+One&display=swap" rel="stylesheet">
 </head>
 
 <div class="jumbotron jumbotron-fluid">
