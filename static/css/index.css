@@ -218,8 +218,7 @@ p.title{
   transform: scale(1.1);
 }
 
-@media screen and (min-width: 250px)
-{
+@media screen and (min-width: 250px){
 label {
   display:none;
 }
@@ -730,4 +729,3 @@ input[value="6"]:checked ~ .container .carousel a:nth-child(6) { -webkit-transfo
 input[value="7"]:checked ~ .container .carousel a:nth-child(7) { -webkit-transform: rotateY(270deg) translateZ(540px) scale(1); opacity: 1; }
 input[value="8"]:checked ~ .container .carousel a:nth-child(8) { -webkit-transform: rotateY(315deg) translateZ(540px) scale(1); opacity: 1; }
 }
-
