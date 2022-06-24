@@ -1,8 +1,3 @@
-div.package{
-    position: relative;
-    width:100vw;
-}
-
 .col-sm-5{
     padding-right:0px;
     padding-left:0px;
@@ -17,6 +12,7 @@ img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: 0% 71%;
 }
 
 .frost {
@@ -55,8 +51,7 @@ h3{
     display:none;
 }
 
-
-@media screen and (min-width: 001px) and (max-width: 499px){
+@media screen and (min-width: 250px){
 div.formdiv{
     font-size: 1.2vh;
     top: 1vh;
@@ -72,17 +67,18 @@ div.background {
     column-count: 6;
     width:100%;
 }
+div.background {
+    height:0px;
+}
 img {
-    width: 100%;
-    height: 82vh;
-    object-fit: cover;
+    display: none;
 }
 .frost {
-top:-3vh;
+    top:3vh;
 }
 }
 
-@media screen and (min-width: 500px) and (max-width: 1529px){
+@media screen and (min-width: 768px) {
 div.formdiv{
     font-size: 1.2vh;
 }
@@ -92,13 +88,37 @@ div.formdiv{
     column-count: 6;
     width:100%;
 }
+div.background {
+    height:80vh;
+}
+img {
+    display:block;
+}
 }
 
-@media screen and (min-width: 1530px) and (max-width: 2000px){
+@media screen and (min-width: 1500px) {
 div.formdiv{
     font-size:1.8vh;
 }
+.info{
+    position: absolute;
+    height: 46%;
+    column-count: 6;
+    width:100%;
+}
+div.background {
+    height:80vh;
+}
+img {
+    display:block;
+}
+}
 
+@media screen and (min-width: 2000px) {
+
+div.formdiv{
+    font-size:1.8vh;
+}
 .info{
     position: absolute;
     height: 46%;
@@ -106,19 +126,16 @@ div.formdiv{
     width:100%;
 }
 
+div.package{
+    position: relative;
+    width:100vw;
 }
-@media screen and (min-width: 2001px) and (max-width: 3500px){
-div.formdiv{
-    font-size:1.8vh;
+div.background {
+    height:80vh;
 }
-
-.info{
-    position: absolute;
-    height: 46%;
-    column-count: 6;
-    width:100%;
+img {
+    display:block;
 }
-
 }
 
 
