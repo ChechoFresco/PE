@@ -572,7 +572,7 @@ def savedIssues():
                 a = date.today()+ relativedelta(days=30)
                 b= str(a).replace("-","")
                 today=int(b) #add 30 so new agendas will be caught
-                c = date.today() + relativedelta(days=14) #Change day to 7 otherwise too many emails.
+                c = date.today() + relativedelta(days=-14) #Change day to 7 otherwise too many emails.
                 d= str(c).replace("-","")
                 today_1month= int(d)
 
@@ -611,7 +611,7 @@ def savedIssues():
                 a = date.today()+ relativedelta(days=30)
                 b= str(a).replace("-","")
                 today=int(b) #add 30 so new agendas will be caught
-                c = date.today() + relativedelta(days=14) #Change day to 7 otherwise too many emails.
+                c = date.today() + relativedelta(days=-14) #Change day to 7 otherwise too many emails.
                 d= str(c).replace("-","")
                 today_1month= int(d)
 
@@ -663,7 +663,7 @@ def savedIssues():
                 a = date.today()+ relativedelta(days=30)
                 b= str(a).replace("-","")
                 today=int(b) #add 30 so new agendas will be caught
-                c = date.today() + relativedelta(days=14) #Change day to 7 otherwise too many emails.
+                c = date.today() + relativedelta(days=-14) #Change day to 7 otherwise too many emails.
                 d= str(c).replace("-","")
                 today_1month= int(d)
 
