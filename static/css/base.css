@@ -262,7 +262,6 @@ li.icon{
 
 
 
-
 /* FOOTER*/
 .site-footer{
   background-color:#4f5861;
@@ -353,10 +352,21 @@ div#myLinks{
 }
 
 .navbar-right li a {
-  color: white;
-  padding: 6px 26px;
-  font-size: 1rem;
+  font-family: 'Neonderthaw';
+  padding: 1rem 2rem;
+  font-size: 1.4rem;
+  text-shadow:
+  0 0 3px #fff,
+  0 0 7px #5e7cff,
+  0 0 16px #5e7cff,
+  0 0 42px #5e7cff,
+  0 0 82px #5e7cff,
+  0 0 92px #5e7cff,
+  0 0 102px #5e7cff,
+  0 0 151px #5e7cff;
 }
+}
+
 svg#logo{
   position: absolute;
   width: 12rem;
@@ -368,10 +378,10 @@ svg#logo{
 {
   i.fa.fa-bars{
     position: relative;
-    font-size:3rem;
+    font-size: 4rem;
 }
 .navbar-right li a {
-  padding: 22px 26px;
+  padding: 1rem 2rem;
   font-size: 2rem;
 }
 div#myLinks {
@@ -399,8 +409,33 @@ div#myLinks {
   }
 }
 
+@media screen and (min-width: 3840px)
+{
+  i.fa.fa-bars{
+    position: relative;
+    font-size:3rem;
+}
+.navbar-right li a {
+  padding: 22px 26px;
+  font-size: 2rem;
+}
+div#myLinks {
+  top: 8vh;
+  position: relative;
+}
+svg#logo{
+  position: absolute;
+  width: 78rem;
+  height: 26rem;
+}
 
-
+i.fa.fa-bars{
+  position: relative;
+  font-size:17rem;
+  color:white;
+  opacity:.6;
+}
+}
 
 
 /* CSS for Footer*/
