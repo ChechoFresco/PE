@@ -40,7 +40,7 @@ def check4Issues2email():
     with app.app_context():
         a = date.today()
         b= str(a).replace("-","")
-        today=int(b)+7 #+7 days to see future agendas
+        today=int(b)+30 #+7 days to see future agendas
         c = date.today() + relativedelta(days=-7) #Change days to 7 before date just in case
         d= str(c).replace("-","")
         todayNeg7= int(d)# #Change days to 7 finished product
@@ -571,7 +571,7 @@ def savedIssues():
                 #####Creates dates########
                 a = date.today()
                 b= str(a).replace("-","")
-                today=int(b)+7 #add 7 so new agendas will be caught
+                today=int(b)+30 #add 30 so new agendas will be caught
                 c = date.today() + relativedelta(days=-30) #Change day to 7 otherwise too many emails.
                 d= str(c).replace("-","")
                 today_1month= int(d)
@@ -610,7 +610,7 @@ def savedIssues():
                 #####Creates dates########
                 a = date.today()
                 b= str(a).replace("-","")
-                today=int(b)+7
+                today=int(b)+30
                 c = date.today() + relativedelta(months=-1)
                 d= str(c).replace("-","")
                 today_1month= int(d)
@@ -662,7 +662,7 @@ def savedIssues():
                 #####Creates dates########
                 a = date.today()
                 b= str(a).replace("-","")
-                today=int(b)+7
+                today=int(b)+30
                 c = date.today() + relativedelta(months=-1)
                 d= str(c).replace("-","")
                 today_1month= int(d)
