@@ -6,19 +6,16 @@ body, html {
 
 div#alert {
 	top:10.5vh;
-	font-size: 2vh;
+	font-size: 1.5rem;
 	position: relative;
 	width: 100vw;
-	height:10vh;
 	color:white;
-	text-align: center;
-	list-style-type: none;
+	text-align: left;
 }
 
 div#form {
-	position: relative;
+	position: inherit;
 	margin: 12% 1%;
-	height: 9%;
 }
 
 label{
@@ -30,14 +27,13 @@ label{
 	position: relative;
 	height: 100%;
 	width: 100%;
-	overflow: auto;
 }
 
 .containerTable{
-	position: absolute;
+	position: relative;
 	margin: 5% 1%;
 	width: 98%;
-	height: 100%;
+    overflow: auto;
 }
 
 #table{
@@ -84,6 +80,15 @@ div#form {
     height: 17vh;
     width: 20%;
     position: relative;
+}
+div#alert {
+	top:5.5vh;
+	font-size: 1rem;
+	position: relative;
+	width: 100vw;
+	height:10vh;
+	color:white;
+	text-align: left;
 }
 .containerOut{
     top:11%;
