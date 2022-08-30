@@ -5,6 +5,11 @@ html, body{
   padding: 0px;
   background-color:#4f5861;
 }
+#page {
+  position: relative;
+  min-height: 100vh;
+  min-width: 100%;
+}
 
 /* Navbar complete*/
 .navbar{
@@ -269,6 +274,7 @@ li.icon{
   font-size:15px;
   line-height:24px;
   color:white;
+  margin-top:6%;
 }
 
 .site-footer hr{
@@ -371,7 +377,6 @@ svg#logo{
   position: absolute;
   width: 12rem;
   height: 5rem;
-}
 }
 
 @media screen and (min-width: 376px) and (max-width: 800px)
