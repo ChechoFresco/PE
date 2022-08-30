@@ -371,14 +371,13 @@ div#myLinks{
   0 0 102px #5e7cff,
   0 0 151px #5e7cff;
 }
-}
 
 svg#logo{
   position: absolute;
   width: 12rem;
   height: 5rem;
 }
-
+}
 @media screen and (min-width: 376px) and (max-width: 800px)
 {
   i.fa.fa-bars{
