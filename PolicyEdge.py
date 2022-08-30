@@ -67,7 +67,7 @@ def check4Issues2email():
                     committee_Search= (issues_placeholder[0][z]['Committee'])#Grabs Committee
 
                     ##################Multiquery uses each _Search to run individual db.finds to create multiquery
-                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(todayNeg7)}}, {'_id': { '$nin': userStoredAgendaId }}]})
+                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i'}} ,{'Description': { "$regex": issue_Search,  '$options': 'i' }}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
                     for query in Multiquery:#Places individualised results in agenda from Multiquery
                         agenda.append(query)
@@ -592,7 +592,7 @@ def savedIssues():
                     issue_Search= (issues_placeholder[0][y]['Issue'])
                     committee_Search= (issues_placeholder[0][y]['Committee'])
 
-                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
+                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i'}} ,{'Description': { "$regex": issue_Search,  '$options': 'i' }}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
                     for z in Multiquery:
                         agenda.append(z)
@@ -642,7 +642,7 @@ def savedIssues():
                     issue_Search= (issues_placeholder[0][y]['Issue'])
                     committee_Search= (issues_placeholder[0][y]['Committee'])
 
-                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
+                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i'}} ,{'Description': { "$regex": issue_Search,  '$options': 'i' }}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
                     for z in Multiquery:
                         agenda.append(z)
@@ -693,7 +693,7 @@ def savedIssues():
                     issue_Search= (issues_placeholder[0][y]['Issue'])
                     committee_Search= (issues_placeholder[0][y]['Committee'])
 
-                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i' }} ,{'$text': { "$search": issue_Search}}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
+                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i'}} ,{'Description': { "$regex": issue_Search,  '$options': 'i' }}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
                     for z in Multiquery:
                         agenda.append(z)
