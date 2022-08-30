@@ -597,6 +597,7 @@ def savedIssues():
                     for z in Multiquery:
                         agenda.append(z)
 
+                    flash(str(issues_placeholder[0][y]))
 
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
@@ -646,6 +647,7 @@ def savedIssues():
                     for z in Multiquery:
                         agenda.append(z)
 
+                    flash(str(issues_placeholder[0][y]))
 
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
 
@@ -695,6 +697,8 @@ def savedIssues():
 
                     for z in Multiquery:
                         agenda.append(z)
+
+                    flash(str(issues_placeholder[0][y]))
 
 
                 return render_template('savedIssues.html', form=form, agendas=agenda,  title='Monitor List')
