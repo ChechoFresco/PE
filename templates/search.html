@@ -47,8 +47,9 @@
                             <br></br> Santa Monica<br></br> Sierra Madre<br></br> Signal Hill<br></br> South El Monte<br></br> South Gate<br></br> South Pasadena<br></br> Temple City
                             <br></br> Torrance<br></br> Vernon<br></br> Walnut<br></br> West Covina<br></br> West Hollywood<br></br> Westlake Village<br></br> Whittier</h3>
                         <h3 id="committeeOpt">Arts, Parks, Health, Education, and Neighborhoods Committee <br></br> Board of Airport Commissioners <br></br> Board of Fire Commissioners <br></br> Board of Public Works <br></br> Board of Rec and Park Commission <br></br> Board of Transportation Commissioners <br></br> Budget & Finance <br></br> Cannabis Regulation Commission <br></br> City Planning Commission <br></br> Economic Development and Jobs Committee <br></br> Energy Climate <br></br> Homelessness & Poverty Committee <br></br> Immigrant Affairs , Civil Rights, and Equity Committee <br></br> Information Technology & General Service Committee <br></br> LA City Health Commission <br></br> LA County Board <br>
-                        </br> LA Police Commission <br></br> LADWP Board <br></br> Personnel, Audits, and Animal Welfare Committee <br></br> PLUM <br></br> Port of LA <br></br> Public Safety Committee <br></br> Public Works <br>
-                        </br> Rules Elections <br></br> Trade, Travel, and Tourism Committee <br></br> Transportation Committee'</h3>
+                            </br> LA Police Commission <br></br> LADWP Board <br></br> Personnel, Audits, and Animal Welfare Committee <br></br> PLUM <br></br> Port of LA <br></br> Public Safety Committee <br></br> Public Works <br>
+                            </br> Rules Elections <br></br> Trade, Travel, and Tourism Committee <br></br> Transportation Committee'</h3>
+                        <h3 id="orangeOpt">Aliso Viejo<br></br>Anaheim<br></br>Brea<br></br>Buena Park<br></br>Coasta Mesa<br></br>Cypress<br></br>Dana Point<br></br>Fountain Valley<br></br>Fullerton<br></br>Huntington Beach<br></br>Irvine<br></br> La Habra<br></br>La Palma<br></br>Laguna Beach<br></br>Laguna Hills<br></br>Laguna Niguel<br></br>Laguna Woods<br></br>Lake Forest<br></br>Los Alamitos<br></br>Mission Viejo<br></br>Newport Beach<br><br></br>Orange<br></br>Placentia<br></br>Rancho Santa Margarita<br></br>San Clemente<br></br>San Juan Capistrano<br></br>Santa Ana<br></br>Seal Beach<br></br>Stanton<br></br>Tustin<br></br>Villa Park<br></br>Westminister<br></br>Yorba Linda</h3>
                     </div>
                 </div>
             </div>
@@ -61,6 +62,7 @@
                 if (this.value==='LA County'){
                     var x = document.getElementById('committeeOpt');
                     var y = document.getElementById('cityOpt');
+                    var z = document.getElementById('orangeOpt');
                     document.getElementById("cityOpt").style.display="block";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("primary_search").style.display="inline";
@@ -74,8 +76,10 @@
                 if (this.value==='Issue'){
                     var x = document.getElementById('committeeOpt');
                     var y = document.getElementById('cityOpt');
+                    var z = document.getElementById('orangeOpt');
                     document.getElementById("cityOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
+                    document.getElementById("orangeOpt").style.display="none";
                     document.querySelector("label[for='primary_search']").style.display="inline";
                     document.getElementById("primary_search").style.display="inline";
                     document.querySelector("label[for='primary_search']").innerHTML = "Issue:";
@@ -87,6 +91,8 @@
                 if (this.value==='LA Committees'){
                     var x = document.getElementById('committeeOpt');//committee aid
                     var y = document.getElementById('cityOpt');//city aid
+                    var z = document.getElementById('orangeOpt');
+                    document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("cityOpt").style.display="none";//hides city html
                     document.getElementById("committeeOpt").style.display="block";//displays LA Committee options
                     document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
@@ -97,6 +103,21 @@
                     document.getElementById("secondary_search").style.display="inline";// main search bar
                     document.getElementById("select2").style.display="inline";//drop down menu visible
                     document.queryselector("label[for='select2']").style.display="none";
+                }
+                if (this.value==="Orange County"){
+                    var x = document.getElementById('committeeOpt');
+                    var y = document.getElementById('cityOpt');
+                    var z = document.getElementById('orangeOpt');
+                    document.getElementById("orangeOpt").style.display="block";
+                    document.getElementById("cityOpt").style.display="none";
+                    document.getElementById("committeeOpt").style.display="none";
+                    document.getElementById("primary_search").style.display="inline";
+                    document.querySelector("label[for='primary_search']").innerHTML = "City:";
+                    document.querySelector("label[for='primary_search']").style.display="inline";
+                    document.querySelector("label[for='secondary_search']").style.display="inline";
+                    document.getElementById("secondary_search").style.display="inline";
+                    document.getElementById("select2").style.display="none";
+                    document.querySelector("label[for='select2']").style.display="none";
                 }
             })
         }
