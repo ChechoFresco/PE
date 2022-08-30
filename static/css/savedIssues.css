@@ -169,7 +169,7 @@ td {
 @media screen and (min-width: 2501px) and (max-width: 5500px){
 div#form {
 	top: -13vh;
-	height: 17%;
+	height: 0vh;
 	width: 20%;
 	margin: 9% 1%;
 	position: relative;
