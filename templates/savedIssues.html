@@ -10,7 +10,7 @@
     {% if messages %}
             <ul class=flashes>
             {% for message in messages %}
-                <li>{{ message.replace("'", '').replace("{", '').replace(",", " -*--*--*-").replace("}", '').replace("y:", 'y :Full Coverage: ').replace("ee: ", 'e :Full Coverage: ')}}</li>
+                <li>{{ message.replace("'", '').replace("{", '').replace(",", " *-*--*--*-*").").replace("}", '').replace("y:", 'y :Full Coverage: ').replace("ee: ", 'e :Full Coverage ')}}</li>
             {% endfor %}
             </ul>
     {% endif %}
