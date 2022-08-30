@@ -3,7 +3,7 @@ from wtforms.fields.html5 import DateField
 from wtforms.validators import ValidationError, DataRequired, Length
 
 class searchForm(Form):
-        choices = [('LA County', 'LA County'),('Issue', 'Issue'), ('LA Committees', 'LA Committees'), ('LA Committees', 'LB Committees')]
+        choices = [('LA County', 'LA County'),('Issue', 'Issue'), ('LA Committees', 'LA Committees')]
         select = SelectField('Criteria:', choices=choices)
         primary_search = StringField('City:', validators=[DataRequired()])
         secondary_search = StringField('Issues:')
