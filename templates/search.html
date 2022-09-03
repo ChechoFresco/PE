@@ -50,6 +50,7 @@
                             </br> LA Police Commission <br></br> LADWP Board <br></br> Personnel, Audits, and Animal Welfare Committee <br></br> PLUM <br></br> Port of LA <br></br> Public Safety Committee <br></br> Public Works <br>
                             </br> Rules Elections <br></br> Trade, Travel, and Tourism Committee <br></br> Transportation Committee'</h3>
                         <h3 id="orangeOpt">Aliso Viejo<br></br>Anaheim<br></br>Brea<br></br>Buena Park<br></br>Coasta Mesa<br></br>Cypress<br></br>Dana Point<br></br>Fountain Valley<br></br>Fullerton<br></br>Huntington Beach<br></br>Irvine<br></br> La Habra<br></br>La Palma<br></br>Laguna Beach<br></br>Laguna Hills<br></br>Laguna Niguel<br></br>Laguna Woods<br></br>Lake Forest<br></br>Los Alamitos<br></br>Mission Viejo<br></br>Newport Beach<br><br></br>Orange<br></br>Placentia<br></br>Rancho Santa Margarita<br></br>San Clemente<br></br>San Juan Capistrano<br></br>Santa Ana<br></br>Seal Beach<br></br>Stanton<br></br>Tustin<br></br>Villa Park<br></br>Westminister<br></br>Yorba Linda</h3>
+                        <h3 id="lbcommitteeOpt">Airport<br></br>Economic Development and Finance Committee<br></br>Economic Development Commission<br></br>Long Beach Transit<br></br>Parks and Recreation Commission<br></br>Planning Commission<br></br>Port, Transportation and Infrastructure Committee<br></br>Public Safety Committee<br></br>Technology and Innovation Commission<br></br>Water Commission<br></br></h3>
                     </div>
                 </div>
             </div>
@@ -63,6 +64,9 @@
                     var x = document.getElementById('committeeOpt');
                     var y = document.getElementById('cityOpt');
                     var z = document.getElementById('orangeOpt');
+                    var a = document.getElementById('lbcommitteeOpt');
+                    document.getElementById("lbcommitteeOpt").style.display="none";
+                    document.getElementById("orangeOpt").style.display="none";
                     document.getElementById("cityOpt").style.display="block";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("primary_search").style.display="inline";
@@ -77,6 +81,8 @@
                     var x = document.getElementById('committeeOpt');
                     var y = document.getElementById('cityOpt');
                     var z = document.getElementById('orangeOpt');
+                    var a = document.getElementById('lbcommitteeOpt');
+                    document.getElementById("lbcommitteeOpt").style.display="none";
                     document.getElementById("cityOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("orangeOpt").style.display="none";
@@ -92,6 +98,9 @@
                     var x = document.getElementById('committeeOpt');//committee aid
                     var y = document.getElementById('cityOpt');//city aid
                     var z = document.getElementById('orangeOpt');
+                    var a = document.getElementById('lbcommitteeOpt');
+                    document.getElementById("lbcommitteeOpt").style.display="none";
+                    document.getElementById("orangeOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("cityOpt").style.display="none";//hides city html
                     document.getElementById("committeeOpt").style.display="block";//displays LA Committee options
@@ -109,6 +118,7 @@
                     var y = document.getElementById('cityOpt');
                     var z = document.getElementById('orangeOpt');
                     document.getElementById("orangeOpt").style.display="block";
+                    document.getElementById("lbcommitteeOpt").style.display="none";
                     document.getElementById("cityOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("primary_search").style.display="inline";
@@ -118,6 +128,24 @@
                     document.getElementById("secondary_search").style.display="inline";
                     document.getElementById("select2").style.display="none";
                     document.querySelector("label[for='select2']").style.display="none";
+                }
+                if (this.value==='Long Beach Committees'){
+                    var x = document.getElementById('committeeOpt');//committee aid
+                    var y = document.getElementById('cityOpt');//city aid
+                    var z = document.getElementById('orangeOpt');
+                    var a = document.getElementById('lbcommitteeOpt');
+                    document.getElementById("lbcommitteeOpt").style.display="block";
+                    document.getElementById("orangeOpt").style.display="none";
+                    document.getElementById("committeeOpt").style.display="none";
+                    document.getElementById("cityOpt").style.display="none";//hides city html
+                    document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
+                    document.querySelector("label[for='primary_search']").style.display= "inline";//display primary_search text
+                    document.querySelector("label[for='primary_search']").innerHTML = "Committees:";//changes name of primary_search to commitees from something else
+                    document.querySelector("label[for='secondary_search']").innerHTML = "Issue:"; // label of main search bar
+                    document.querySelector("label[for='secondary_search']").style.display="inline";// makes sure label is visible
+                    document.getElementById("secondary_search").style.display="inline";// main search bar
+                    document.getElementById("select2").style.display="inline";//drop down menu visible
+                    document.queryselector("label[for='select2']").style.display="none";
                 }
             })
         }
