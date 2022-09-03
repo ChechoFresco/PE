@@ -10,7 +10,7 @@
     {% if messages %}
             <ul class=flashes>
             {% for message in messages %}
-                <li>{{ message.replace("'", '').replace("{", '').replace(",", " *-*--*--*-*").replace("}", '').replace("y:", 'y :Full Coverage: ').replace("ee: ", 'e :Full Coverage ')}}</li>
+                <li>{{ message.replace("'", '').replace("{", '').replace(",", " *-*--*--*-*").replace("}", '').replace("y:", 'y :Full Coverage: ').replace("ee: ", 'e :Full Coverage: ')}}</li>
             {% endfor %}
             </ul>
     {% endif %}
@@ -22,6 +22,7 @@
             {{ render_field(form.monitor_search) }}
             {{ render_field(form.city_search) }}
             {{ render_field(form.committee_search) }}
+            {{ render_field(form.county_search) }}
             <p><input type="submit" value="Add" name='action' id="monitorListform" ></p>
             <p><input type='submit' value="Delete" name='action'id="monitorListform" ></p>
         </form>
@@ -68,8 +69,6 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 {% endblock %}
-
-
 
 
 
