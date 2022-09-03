@@ -54,6 +54,9 @@ h3{
 #orangeOpt{
     display:none;
 }
+#lbcommitteeOpt{
+    display:none;
+}
 
 @media screen and (min-width: 250px){
 div.formdiv{
@@ -141,6 +144,7 @@ img {
     display:block;
 }
 }
+
 
 
 
