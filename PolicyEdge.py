@@ -49,7 +49,7 @@ def check4Issues2email():
 
         for x in all_users: #For each instance of a user
             if x['subscriptionActive'] == True: #Checks to see if user is subscribed
-                storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
+                storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0, 'issues.Issue':1, 'issues.County':1, 'issues.City':1, 'issues.committee':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
 
                 issues_placeholder= []#List of user subscribed issues
                 userStoredAgendaId=[]#List of user previous items
@@ -683,7 +683,7 @@ def savedIssues():
                 ######Returns user saved issues#####
                 issues_placeholder= []
 
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.committee':1, 'issues.County':1}) #projects sub-documents to run in search
                 for x in user_issues:
                     issues_placeholder.append(x['issues']) #Sends sub-document issues to issue_placeholder
 
@@ -736,7 +736,7 @@ def savedIssues():
                 ######Returns user saved issues#####
                 issues_placeholder= []
 
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.committee':1, 'issues.County':1}) #projects sub-documents to run in search
                 for x in user_issues:
                     issues_placeholder.append(x['issues']) #Sends sub-document issues to issue_placeholder
 
@@ -747,7 +747,7 @@ def savedIssues():
                 for y in range(len(issues_placeholder[0])):
                     city_Search= (issues_placeholder[0][y]['City'])
                     issue_Search= (issues_placeholder[0][y]['Issue'])
-                    committee_Search= (issues_placeholder[0][y]['Committee'])
+                    committee_Search= (issues_placeholder[0][y]['committee'])
                     county_Search= (issues_placeholder[0][y]['County'])
 
 
@@ -792,7 +792,7 @@ def savedIssues():
                 ######Returns user saved issues#####
                 issues_placeholder= []
 
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.committee':1, 'issues.County':1}) #projects sub-documents to run in search
                 for x in user_issues:
                     issues_placeholder.append(x['issues']) #Sends sub-document issues to issue_placeholder
 
