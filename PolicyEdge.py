@@ -683,7 +683,7 @@ def savedIssues():
                 ######Returns user saved issues#####
                 issues_placeholder= []
 
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1}) #projects sub-documents to run in search
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
                 for x in user_issues:
                     issues_placeholder.append(x['issues']) #Sends sub-document issues to issue_placeholder
 
@@ -736,7 +736,7 @@ def savedIssues():
                 ######Returns user saved issues#####
                 issues_placeholder= []
 
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1}) #projects sub-documents to run in search
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
                 for x in user_issues:
                     issues_placeholder.append(x['issues']) #Sends sub-document issues to issue_placeholder
 
@@ -792,7 +792,7 @@ def savedIssues():
                 ######Returns user saved issues#####
                 issues_placeholder= []
 
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1}) #projects sub-documents to run in search
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
                 for x in user_issues:
                     issues_placeholder.append(x['issues']) #Sends sub-document issues to issue_placeholder
 
