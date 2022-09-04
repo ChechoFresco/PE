@@ -34,7 +34,7 @@
                         <td>{{agenda.MeetingType}} </td>
                         <td class='hidden-xs'>{{agenda.ItemType}} </td>
                         <td class='hidden-xs'>{{agenda.Num}} </td>
-                        <td class='desc'>{{agenda.Description.replace(request.form['primary_search'] , "<mark>{}</mark>".format(request.form['primary_search'],flags=IGNORECASE))|safe}}</td>
+                        <td class='desc'>{{agenda.Description}}</td>
                     </tr>
                 {% endfor %}
             </tbody>
