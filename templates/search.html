@@ -70,10 +70,11 @@
                     document.getElementById("cityOpt").style.display="block";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("primary_search").style.display="inline";
+                    document.getElementById("secondary_search").style.display="inline";
                     document.querySelector("label[for='primary_search']").innerHTML = "City:";
                     document.querySelector("label[for='primary_search']").style.display="inline";
                     document.querySelector("label[for='secondary_search']").style.display="inline";
-                    document.getElementById("secondary_search").style.display="inline";
+                    document.querySelector("label[for='secondary_search']").innerHTML = "Issue:";
                 }
                 if (this.value==='Issue'){
                     var x = document.getElementById('committeeOpt');
@@ -84,10 +85,10 @@
                     document.getElementById("cityOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("orangeOpt").style.display="none";
-                    document.querySelector("label[for='primary_search']").style.display="inline";
                     document.getElementById("primary_search").style.display="inline";
-                    document.querySelector("label[for='primary_search']").innerHTML = "Issue:";
                     document.getElementById("secondary_search").style.display="none";
+                    document.querySelector("label[for='primary_search']").style.display="inline";
+                    document.querySelector("label[for='primary_search']").innerHTML = "Issue:";
                     document.querySelector("label[for='secondary_search']").style.display="none";
                 }
                 if (this.value==='LA Committees'){
@@ -100,11 +101,11 @@
                     document.getElementById("cityOpt").style.display="none";//hides city html
                     document.getElementById("committeeOpt").style.display="block";//displays LA Committee options
                     document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
+                    document.getElementById("secondary_search").style.display="inline";// main search bar
                     document.querySelector("label[for='primary_search']").style.display= "inline";//display primary_search text
                     document.querySelector("label[for='primary_search']").innerHTML = "Committees:";//changes name of primary_search to commitees from something else
                     document.querySelector("label[for='secondary_search']").innerHTML = "Issue:"; // label of main search bar
                     document.querySelector("label[for='secondary_search']").style.display="inline";// makes sure label is visible
-                    document.getElementById("secondary_search").style.display="inline";// main search bar
                 }
                 if (this.value==='Orange County'){
                     var x = document.getElementById('committeeOpt');
@@ -116,10 +117,11 @@
                     document.getElementById("cityOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("primary_search").style.display="inline";
+                    document.getElementById("secondary_search").style.display="inline";
                     document.querySelector("label[for='primary_search']").innerHTML = "City:";
                     document.querySelector("label[for='primary_search']").style.display="inline";
                     document.querySelector("label[for='secondary_search']").style.display="inline";
-                    document.getElementById("secondary_search").style.display="inline";
+                    document.querySelector("label[for='secondary_search']").innerHTML = "Issue:";
                 }
                 if (this.value==='Long Beach Committees'){
                     var x = document.getElementById('committeeOpt');//committee aid
@@ -131,11 +133,11 @@
                     document.getElementById("cityOpt").style.display="none";//hides city html
                     document.getElementById("committeeOpt").style.display="none";//displays LA Committee options
                     document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
+                    document.getElementById("secondary_search").style.display="inline";// main search bar
                     document.querySelector("label[for='primary_search']").style.display= "inline";//display primary_search text
                     document.querySelector("label[for='primary_search']").innerHTML = "Committees:";//changes name of primary_search to commitees from something else
                     document.querySelector("label[for='secondary_search']").innerHTML = "Issue:"; // label of main search bar
                     document.querySelector("label[for='secondary_search']").style.display="inline";// makes sure label is visible
-                    document.getElementById("secondary_search").style.display="inline";// main search bar
                 }
             })
         }
