@@ -50,6 +50,12 @@ h3{
 #committeeOpt{
     display:none;
 }
+#lbcommitteeopt{
+    display:none;
+}
+#orangeOpt{
+    display:none;
+}
 
 
 @media screen and (min-width: 250px){
