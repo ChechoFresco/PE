@@ -118,8 +118,8 @@
                     var y = document.getElementById('cityOpt');
                     var z = document.getElementById('orangeOpt');
                     var a = document.getElementById('lbcommitteeOpt');
-                    document.getElementById("orangeOpt").style.display="block";
                     document.getElementById("lbcommitteeOpt").style.display="none";
+                    document.getElementById("orangeOpt").style.display="block";
                     document.getElementById("cityOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("primary_search").style.display="inline";
@@ -139,6 +139,7 @@
                     document.getElementById("orangeOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("cityOpt").style.display="none";//hides city html
+                    document.getElementById("committeeOpt").style.display="none";//displays LA Committee options
                     document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
                     document.querySelector("label[for='primary_search']").style.display= "inline";//display primary_search text
                     document.querySelector("label[for='primary_search']").innerHTML = "Committees:";//changes name of primary_search to commitees from something else
