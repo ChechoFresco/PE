@@ -227,7 +227,7 @@ input[type=checkbox], input[type=radio]{
   display:none;
 }
 div.carousel{
-  height:'0px'
+  height:0px
 }
 #concarousel{
   display:none;
@@ -680,7 +680,7 @@ label {
   font: 0.9em Arial;
   text-align: center;
   left: 35vw;
-  top: 46vh;
+  top: 38vh;
 }
 
 label:hover {
