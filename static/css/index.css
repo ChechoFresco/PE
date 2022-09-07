@@ -72,7 +72,6 @@ video {
   backdrop-filter: blur(5px);
 }
 
-
 #con1{
   width:70vw;
 }
@@ -245,12 +244,6 @@ div.carousel{
 
 .jumbotron h1{
   font-size:2.4rem;
-}
-
-.frost {
-  width: 87vw;
-  left: 6%;
-  top: -9%;
 }
 
 p.subjectLead {
