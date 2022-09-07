@@ -5,8 +5,8 @@ html, body{
   padding: 0px;
   background-color:#4f5861;
 }
-#page {
-  position: relative;
+.page {
+  position: fixed;
   min-height: 100vh;
   min-width: 100%;
 }
