@@ -134,6 +134,11 @@ p.subject.\34 {
   top:4vh;
 }
 /* con4*/
+#con4{
+  position:relative;
+  width:70vw;
+  top:4vh;
+}
 h3#offer{
   color:white;
   text-align: center;
