@@ -67,7 +67,7 @@ def check4Issues2email():
                     committee_Search= (issues_placeholder[0][z]['committee'])#Grabs Committee
                     county_Search= (issues_placeholder[0][z]['County'])
 
-          ##################Multiquery uses each _Search to run individual db.finds to create multiquery
+        ##################Multiquery uses each _Search to run individual db.finds to create multiquery
 
                     Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i'}}, {"County":{'$regex': county_Search, '$options': 'i'}}  ,{'Description': { "$regex": issue_Search,  '$options': 'i' }}, { 'Date':{'$lte':int(today), '$gte':int(today_3)}}]})
 
@@ -75,21 +75,19 @@ def check4Issues2email():
                     for query in Multiquery:#Places individualised results in agenda from Multiquery
                         agenda.append(query)
 
-                if not agenda: #If query returns empty skip
-                    pass
-                else:
-                    description=[]###Information is grabbed from loop done below
-                    city=[]
-                    Date=[]
-                    County=[]
-                    meeting_type=[]
-                    item_type=[]
-                    text=[]
+                description=[]###Information is grabbed from loop done below
+                city=[]
+                Date=[]
+                County=[]
+                meeting_type=[]
+                item_type=[]
+                text=[]
 
-                    email_body=[]
+                email_body=[]
 
-                    for i in agenda: #returned criteria
-                        mongo.db.User.find_one_and_update({'username':x['username']}, {'$push': {'agendaUnique_id':i['_id']}})# updates database with iems uniqueid
+                for i in agenda: #returned criteria
+                    if i['_id'] not in userStoredAgendaId:
+                        mongo.db.User.find_one_and_update({'username':x['username']}, {'$addToSet': {'agendaUnique_id':i['_id']}})# updates database with items uniqueid
                         description.append(i['Description'])
                         city.append(i['City'])
                         County.append(i['County'])
@@ -97,16 +95,19 @@ def check4Issues2email():
                         start_year = str(intDate[0:4])
                         start_month = str(intDate[4:6])
                         start_day = str(intDate[6:8])
-                        links=mongo.db.doc.find_one({"City":{'$regex': i['City'], '$options': 'i'}},{'_id': 0,'webAdress': 1} )
-                        links2= str(links).replace("{'webAdress':  '","").replace("'}","")
+                        links=mongo.db.doc.find_one({"City":{'$regex': i['City'][1:-1], '$options': 'i'}},{'_id': 0,'webAdress': 1} )
+                        links2= str(links).replace("{'webAdress': '","").replace("'}","")
                         text.append(links2)
                         Date.append(start_month+'/'+start_day+'/'+start_year)
                         meeting_type.append(i['MeetingType'])
                         item_type.append(i['ItemType'])
 
                     for z in range(len(city)):#range(len)city is used because it gives accurate count of items being sent
-                        email_body.append("<html> <body> <p>The following issue  will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {} </body><br></br><br></br><br></br>".format(city[z],meeting_type[z],Date[z],description[z], text[z]))
+                        email_body.append("<html> <body> <p>The following issue  will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {} </body><br></br><br></br><br></br>".format(city[z],meeting_type[z],County[z],Date[z],description[z], text[z]))
 
+                if len(email_body)==0:
+                    pass
+                else:
                     subject = 'New Issue Alerts'
                     sender = 'AgendaPreciado@gmail.com'
                     msg = Message(subject, sender=sender, recipients=[x['email']])
