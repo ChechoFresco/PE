@@ -105,15 +105,15 @@ def check4Issues2email():
                     for z in range(len(city)):#range(len)city is used because it gives accurate count of items being sent
                         email_body.append("<html> <body> <p>The following issue  will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {} </body><br></br><br></br><br></br>".format(city[z],meeting_type[z],County[z],Date[z],description[z], text[z]))
 
-                if len(email_body)==0:
-                    pass
-                else:
-                    subject = 'New Issue Alerts'
-                    sender = 'AgendaPreciado@gmail.com'
-                    msg = Message(subject, sender=sender, recipients=[x['email']])
-                    html_body= "\n".join(email_body)
-                    msg.html= "Hello {},".format(x['username']) +html_body + "<p> Thanks for your continued support,<br> <br><span style= 'color:#3e00ff; text-shadow: 1px 1px black'>Policy</span><span style= 'color:#5e7cff; text-shadow: 1px 1px black'>Edge</span></p> </html>"
-                    mail.send(msg)
+            if len(email_body)==0:
+                pass
+            else:
+                subject = 'New Issue Alerts'
+                sender = 'AgendaPreciado@gmail.com'
+                msg = Message(subject, sender=sender, recipients=[x['email']])
+                html_body= "\n".join(email_body)
+                msg.html= "Hello {},".format(x['username']) +html_body + "<p> Thanks for your continued support,<br> <br><span style= 'color:#3e00ff; text-shadow: 1px 1px black'>Policy</span><span style= 'color:#5e7cff; text-shadow: 1px 1px black'>Edge</span></p> </html>"
+                mail.send(msg)
             else:
                 pass
 
