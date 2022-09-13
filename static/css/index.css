@@ -528,7 +528,7 @@ label {
   height: 35px;
   font: 0.9em Arial;
   text-align: center;
- left: 34vw;
+  left: 34vw;
   top: 43rem;
 }
 
@@ -691,7 +691,7 @@ label {
   font: 0.9em Arial;
   text-align: center;
   left: 34vw;
-  top: 35rem;
+  top: 43rem;
 }
 
 label:hover {
