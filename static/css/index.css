@@ -72,7 +72,6 @@ video {
   backdrop-filter: blur(5px);
   top: -8vh;
   left: 10%;
-  overflow: auto;
 }
 
 #con1{
