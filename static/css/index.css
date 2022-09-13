@@ -520,8 +520,8 @@ label {
   height: 35px;
   font: 0.9em Arial;
   text-align: center;
-  left: 34vw;
-  top: 38vh;
+ left: 4rem;
+  top: 35rem;
 }
 
 label:hover {
