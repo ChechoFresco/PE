@@ -224,6 +224,9 @@ p.title{
   transform: scale(1.1);
 }
 
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
 @media screen and (min-width: 250px){
 label {
   display:none;
@@ -332,6 +335,9 @@ p.title{
 }
 }
 
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
 @media screen and (min-width: 768px) {
 label {
   display:none;
@@ -408,7 +414,9 @@ h3#happening.active{
 }
 }
 
-
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
 @media screen and (min-width: 1500px) {
 video {
   position: relative;
@@ -520,8 +528,8 @@ label {
   height: 35px;
   font: 0.9em Arial;
   text-align: center;
- left: 4rem;
-  top: 35rem;
+ left: 49rem;
+  top: 43rem;
 }
 
 label:hover {
@@ -567,6 +575,9 @@ input[value="7"]:checked ~ .container .carousel a:nth-child(7) { -webkit-transfo
 input[value="8"]:checked ~ .container .carousel a:nth-child(8) { -webkit-transform: rotateY(315deg) translateZ(540px) scale(1); opacity: 1; }
 }
 
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
 @media screen and (min-width: 2000px) {
 .neon{
     top: 42px;
@@ -679,7 +690,7 @@ label {
   height: 35px;
   font: 0.9em Arial;
   text-align: center;
-  left: 4rem;
+  left: 34vw;
   top: 35rem;
 }
 
@@ -724,4 +735,14 @@ input[value="5"]:checked ~ .container .carousel a:nth-child(5) { -webkit-transfo
 input[value="6"]:checked ~ .container .carousel a:nth-child(6) { -webkit-transform: rotateY(225deg) translateZ(540px) scale(1); opacity: 1; }
 input[value="7"]:checked ~ .container .carousel a:nth-child(7) { -webkit-transform: rotateY(270deg) translateZ(540px) scale(1); opacity: 1; }
 input[value="8"]:checked ~ .container .carousel a:nth-child(8) { -webkit-transform: rotateY(315deg) translateZ(540px) scale(1); opacity: 1; }
+}
+
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
+
+@media screen and (min-width: 2600px) {
+label {
+  left: 38vw;
+}
 }
