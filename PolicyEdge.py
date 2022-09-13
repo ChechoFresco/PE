@@ -59,6 +59,7 @@ def check4Issues2email():
                     issues_placeholder.append(y['issues'])#subscribed issues
 
                 agenda=[]
+                agenda2=[]
 
                 for z in range(len(issues_placeholder[0])): #For every item in issues_placeholder, breaks down into individual parts in order for Multiquery to function
                     city_Search= (issues_placeholder[0][z]['City'])#Grabs City
@@ -73,8 +74,11 @@ def check4Issues2email():
 
                     for query in Multiquery:#Places individualised results in agenda from Multiquery
                         agenda.append(query)
+                        agenda2.append(issue_Search)
+
 
                 description=[]###Information is grabbed from loop done below
+                issue=[]
                 city=[]
                 Date=[]
                 County=[]
@@ -84,6 +88,9 @@ def check4Issues2email():
 
                 email_body=[]
 
+                for zz in agenda2:
+                    issue.append(zz)
+ 
                 for i in agenda: #returned criteria
                     if i['_id'] not in userStoredAgendaId:
                         mongo.db.User.find_one_and_update({'username':x['username']}, {'$addToSet': {'agendaUnique_id':i['_id']}})# updates database with items uniqueid
@@ -102,7 +109,7 @@ def check4Issues2email():
                         item_type.append(i['ItemType'])
 
                 for y in range(len(city)):#range(len)city is used because it gives accurate count of items being sent
-                    email_body.append("<html> <body> <p>The following issue  will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {} </body><br></br><br></br><br></br>".format(city[y],meeting_type[y],County[y],Date[y],description[y], text[y]))
+                    email_body.append("<html> <body> <p>The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {} </body><br></br><br></br><br></br>".format(issue[y],city[y],meeting_type[y],County[y],Date[y],description[y], text[y]))
 
                 if len(email_body)==0:
                     pass
