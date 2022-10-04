@@ -135,6 +135,20 @@ def httpsroute():
 def index():
     if "username" in session:
         return redirect(url_for("loggedIn"))
+    else:
+        a = date.today()+ relativedelta(weeks=1)
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(weeks=-1) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)        
+        agendaSanGab = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Alhambra "," Arcadia "," Azusa "," Baldwin Park "," Bradbury "," Covina "," Diamond Bar "," Duarte "," El Monte "," Glendora "," City of Industry "," Irwindale "," La Canada Flintridge "," La Puente "," La Verne "," Monrovia "," Montebello "," Monterey Park "," Pasadena "," Pomona "," Rosemead "," San Dimas "," San Gabriel "," San Marino "," Sierra Madre "," South El Monte ", " S Pasadena ", " Temple City "," Walnut "," West Covina "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendaSanFer = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Agoura Hills " , " Burbank " , " Calabasas " , " Glendale " , " Hidden Hills " , " San Fernando " , " Westlake Village "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendaCann = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'cannabis'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendaWest = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Beverly Hills " , " Culver City " , " Malibu " , " Santa Monica " , " West Hollywood "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+
+    return render_template('index.html',agendaSanGabs=agendaSanGab,agendaSanFers=agendaSanFer,agendaCanns=agendaCann,agendaWests=agendaWest, title="Welcome to my site")
+
 
     return render_template('index.html',title="PolicyEdge agenda monitoring tracking service")
 #@app.route('/', methods=['GET', 'POST'])
