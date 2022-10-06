@@ -427,9 +427,8 @@ p.text-justify{
 }
 
 .footer-links a{
-  color:#3366cc;
-  text-shadow:
-  0 0 7px black;
+  color: blanchedalmond;
+  text-shadow: 1px 1px 4px #fab935;
 }
 
 .footer-links a:active,.footer-links a:focus,.footer-links a:hover{
@@ -516,7 +515,7 @@ p.text-justify{
   background-color:#007bb6
 }
 
-.social-icons a.google:hover{
+.social-icons a.gmail:hover{
   background-color:#ea4c89
 }
 
