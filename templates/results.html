@@ -2,8 +2,23 @@
 {% extends "base.html" %}
 {% block content %}
 <head>
+    <!-- JavaScript table expand -->
+    <script>
+        $(document).ready(function () {
+            $("#table").on("click", ".description", function () {
+                if (this.style.display === "flex") {
+                    this.style.display = "revert";
+                }
+                else {
+                    this.style.display = "flex";
+                }
+            });
+        });
+    </script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}" >
 </head>
+<br></br>
 <div class="containerOut" >
     <div class="containerTable" >
         <table id="table"
@@ -22,7 +37,7 @@
                     <th data-field= 'row-Meeting' class='meeting' data-sortable="true">Meeting Type</th>
                     <th class='hidden-xs Item' data-field= 'row-Item' data-sortable="true">Item Type</th>
                     <th class='hidden-xs Num' data-field= 'row-Num' data-sortable="true">Number</th>
-                    <th class='description'data-field= 'row-Description' data-sortable="true" >Description</th>
+                    <th data-field= 'row-Description' data-sortable="true" >Item</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +49,7 @@
                         <td>{{agenda.MeetingType}} </td>
                         <td class='hidden-xs'>{{agenda.ItemType}} </td>
                         <td class='hidden-xs'>{{agenda.Num}} </td>
-                        <td class='desc'>{{agenda.Description}}</td>
+                        <td class='description'>{{agenda.Description}}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -46,4 +61,3 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 {% endblock %}
-
