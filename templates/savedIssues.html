@@ -3,29 +3,58 @@
 {% block content %}
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}">
+<script>
+    $(document).ready(function () {
+        $('td').click(function(){
+            var issue = $(this).text();
+            var maybe =  issue.split("\n");
+            var is =  (JSON.stringify(maybe[0]));
+            var is2 =  (JSON.stringify(maybe[1]));
+            var is3 =  (JSON.stringify(maybe[2]));
+            var is4 =  (JSON.stringify(maybe[3]));
+
+            $(".input-issue").val(is.replace("Issue :","").replace('"    ','').replace(' "','')); 
+            $(".input-city").val(is2.replace("City :","").replace('"    ','').replace(' "',''));
+            $(".input-committee").val(is3.replace("committee :","").replace('"    ','').replace(' "',''));  
+            $(".input-county").val(is4.replace("County :","").replace('"    ','').replace('  "',''));  
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $("#table").on("click", "#desc", function() {
+            if (this.style.display === "block") {
+                this.style.display = "revert";} 
+            else {
+                this.style.display = "block";}        
+        });
+    });
+</script>
+
 </head>
-    <div id="alert">
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-            <ul class=flashes>
-            {% for message in messages %}
-                <li>{{ message.replace("'", ' ').replace("{", '  ').replace("}", ' ').replace(", ", ' ▂▃▅▆█▆▅▃▂ ')}}</li>
-            {% endfor %}
-            </ul>
-    {% endif %}
-    </div>
-    {% endwith %}
+
     <div id="form">
         {% from "_formhelpers.html" import render_field %}
         <form method="post">
-            {{ render_field(form.monitor_search) }}
-            {{ render_field(form.city_search) }}
-            {{ render_field(form.committee_search) }}
-            {{ render_field(form.county_search) }}
+            {{ render_field(form.monitor_search, class='input-issue' )}}
+            {{ render_field(form.city_search, class='input-city')}}
+            {{ render_field(form.committee_search, class='input-committee')}}
+            {{ render_field(form.county_search, class='input-county')}}
             <p><input type="submit" value="Add" name='action' id="monitorListform" ></p>
             <p><input type='submit' value="Delete" name='action'id="monitorListform" ></p>
         </form>
+    </div>
+    <div class="containerNew" >
+        <table>
+            {% for x in issues_placeholders%}
+            <tr class= 'subrow'>
+                <td class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("searchWord", "Issue") }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
     <div class="containerOut" >
         <div class="containerTable" >
@@ -50,14 +79,14 @@
                 </thead>
                 <tbody>
                     {% for agenda in agendas %}
-                        <tr>
+                        <tr class="agendaRow">
                             <td>{{agenda.City}}</td>
-                            <td class='hidden-xs'>{{agenda.County}} </td> <!Hidden hides in compact phone mode!>
+                            <td class='hidden-xs' id='Count'>{{agenda.County}} </td> <!Hidden hides in compact phone mode!>
                             <td type='text'>{{agenda.Date|aTime}}</td>
-                            <td>{{agenda.MeetingType}} </td>
-                            <td class='hidden-xs'>{{agenda.ItemType}} </td>
+                            <td id='meetTyp'>{{agenda.MeetingType}}</td>
+                            <td id='itemTyp'class='hidden-xs'>{{agenda.ItemType}} </td>
                             <td class='hidden-xs'>{{agenda.Num}} </td>
-                            <td class='desc'>{{agenda.Description}}</td>
+                            <td id='desc'>{{agenda.Description}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
