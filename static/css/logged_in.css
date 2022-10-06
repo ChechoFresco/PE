@@ -66,22 +66,25 @@ video {
   position: relative;
   width: 86vw;
   height:auto;
-  border-radius: 1%;
   background-color: rgba(255, 255, 255, .15);
-  backdrop-filter: blur(5px);
-  top: -8vh;
+  top: -13rem;
   left: 7%;
+  border: 4px solid;
+  padding: 1rem;
+  border-image: linear-gradient(100deg, #fab935, dodgerblue) 20 round;
 }
+
+
 #conanimation{
   position:relative;
   display:flex;
 }
   svg.animated{
-    overflow: hidden;
-    height: auto;
-    top: 0vh;
-    position: relative;
-  }
+  overflow: hidden;
+  height: auto;
+  top: 0vh;
+  position: relative;
+}
 h3#howPE{
   color:lavender;
   text-align: center;
@@ -104,7 +107,6 @@ h3.howwrk{
 #con3{
   position:relative;
   width:70vw;
-  top:4vh;
 }
 h3#offer{
   text-align: center;
@@ -155,19 +157,23 @@ p.subject.\34 {
   top:4vh;
 }
 h3#happening{
-  transform: translateY(100px);
-  opacity: 0;
   color:white;
-  transition: 2s all ease;
-  transition-timing-function: linear;
   text-align: center;
   text-shadow: 4px 4px 2px black;
   font-size: 3rem;
 }
 
-h3#happening.active{
-  transform: translateY(0);
-  opacity: 1;
+#con5{
+  position:relative;
+  display:flex;
+  width:70vw;
+  top:4vh;
+}
+h3#title{
+  color:white;
+  text-align: center;
+  text-shadow: 2px 2px 3px #fab935;  
+  font-size: 3rem;
 }
 /* Tables */
 div#split{
@@ -178,23 +184,99 @@ div#split{
 }
 #table_1{
   float: left;
-  border:7px ridge #5e7cff;
   max-width: 27vw;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: 2s all ease;
+  transition-timing-function: linear;
+}
+#table_1.active{
+  transform: translateY(0);
+  opacity: 1;
 }
 #table_2{
   float: right;
-  border:7px ridge #5e7cff;
   max-width: 27vw;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: 2s all ease;
+  transition-timing-function: linear;
+}
+#table_2.active{
+  transform: translateY(0);
+  opacity: 1;
 }
 #table_3{
   float: left;
-  border:7px ridge #5e7cff;
   max-width: 27vw;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: 2s all ease;
+  transition-timing-function: linear;
+}
+#table_3.active{
+  transform: translateY(0);
+  opacity: 1;
 }
 #table_4{
   float: right;
-  border:7px ridge #5e7cff;
   max-width: 27vw;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: 2s all ease;
+  transition-timing-function: linear;
+}
+#table_4.active{
+  transform: translateY(0);
+  opacity: 1;
+}
+#table_5{
+  float: left;
+  max-width: 27vw;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: 2s all ease;
+  transition-timing-function: linear;
+}
+#table_5.active{
+  transform: translateY(0);
+  opacity: 1;
+}
+#table_6{
+  float: right;
+  max-width: 27vw;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: 2s all ease;
+  transition-timing-function: linear;
+}
+#table_6.active{
+  transform: translateY(0);
+  opacity: 1;
+}
+#table_7{
+  float: left;
+  max-width: 27vw;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: 2s all ease;
+  transition-timing-function: linear;
+}
+#table_7.active{
+  transform: translateY(0);
+  opacity: 1;
+}
+#table_8{
+  float: right;
+  max-width: 27vw;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: 2s all ease;
+  transition-timing-function: linear;
+}
+#table_8.active{
+  transform: translateY(0);
+  opacity: 1;
 }
 td.meetType{
   width: .1em;
@@ -444,8 +526,8 @@ padding: 1px 11px;
   
   svg.animated{
     overflow: hidden;
-    height: auto;
-    top: 2vh;
+    height: 28rem;
+    top: -2rem;
     position: relative;
   }
   
@@ -461,4 +543,3 @@ padding: 1px 11px;
     align-items: flex-start;
   }
   }
-
