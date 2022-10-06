@@ -9,7 +9,7 @@
 
 <head>
     <script>function reveal() {
-            var reveals = document.querySelectorAll("h3#happening");
+            var reveals = document.querySelectorAll("#table_1,#table_2,#table_3,#table_4,#table_5,#table_6,#table_7,#table_8");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
@@ -26,7 +26,7 @@
 
     <script>
         $(document).ready(function () {
-            $("#table_1").on("click", ".description", function () {
+            $("#table_1,#table_2,#table_3,#table_4,#table_5,#table_6,#table_7,#table_8").on("click", ".description", function () {
                 if (this.style.display === "flex") {
                     this.style.display = "revert";
                 }
@@ -36,42 +36,7 @@
             });
         });
     </script>
-    <script>
-        $(document).ready(function () {
-            $("#table_2").on("click", ".description", function () {
-                if (this.style.display === "flex") {
-                    this.style.display = "revert";
-                }
-                else {
-                    this.style.display = "flex";
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $("#table_3").on("click", ".description", function () {
-                if (this.style.display === "flex") {
-                    this.style.display = "revert";
-                }
-                else {
-                    this.style.display = "flex";
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $("#table_4").on("click", ".description", function () {
-                if (this.style.display === "flex") {
-                    this.style.display = "revert";
-                }
-                else {
-                    this.style.display = "flex";
-                }
-            });
-        });
-    </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -100,6 +65,7 @@
                     style="color:#5e7cff; text-shadow: 1px 1px black">Edge</span> Works</h3>
         </div>
     </div>
+
 
     <div class="container" id='conanimation'>
         <div class="row">
@@ -865,111 +831,6 @@
             </div>
         </div>
     </div>
-
-    <div class="container" id='con4'>
-        <div class="col-sm-12">
-            <h3 id="happening">See whats happening next week around Southern California!</h3>
-        </div>
-    </div>
-    <br></br>
-    <div id="split">
-        <table id="table_1" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
-            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
-            <thead class='h-10'>
-                <tr class='col-sm-6'>
-                    <th data-field='row-City' data-sortable="true">City</th>
-                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
-                    <th data-field='row-Date' data-sortable="False">Date</th>
-                    <th class='.text-center' data-field='row-Description' data-sortable="true">Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for agendaSanGab in agendaSanGabs %}
-                <tr>
-                    <td class="city">{{agendaSanGab.City}}</td>
-                    <td class="meetType">{{agendaSanGab.MeetingType}} </td>
-                    <td type='text' class="date">{{agendaSanGab.Date|aTime}}</td>
-                    <td class="description">{{agendaSanGab.Description}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <table id="table_2" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
-            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
-            <thead class='h-10'>
-                <tr class='col-sm-6'>
-                    <th data-field='row-City' data-sortable="true">City</th>
-                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
-                    <th data-field='row-Date' data-sortable="False">Date</th>
-                    <th class='.text-center' data-field='row-Description' data-sortable="true">Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for agendaWest in agendaWests %}
-                <tr>
-                    <td class="city">{{agendaWest.City}}</td>
-                    <td class="meetType">{{agendaWest.MeetingType}} </td>
-                    <td type='text'>{{agendaWest.Date|aTime}}</td>
-                    <td class="description">{{agendaWest.Description}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="container" id='con4'>
-        <div class="col-sm-12">
-            <h3 id="happening">To expand window click on items!</h3>
-        </div>
-    </div>
-    <br></br>
-    <br></br>
-
-    <div id="split">
-        <table id="table_3" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
-            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
-            <thead class='h-10'>
-                <tr class='col-sm-6'>
-                    <th data-field='row-City' data-sortable="true">City</th>
-                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
-                    <th data-field='row-Date' data-sortable="False">Date</th>
-                    <th class='.text-center' data-field='row-Description' data-sortable="true">Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for agendaSanFer in agendaSanFers %}
-                <tr class=".borderless tr">
-                    <td class="city">{{agendaSanFer.City}}</td>
-                    <td class="meetType">{{agendaSanFer.MeetingType}} </td>
-                    <td type='text'>{{agendaSanFer.Date|aTime}}</td>
-                    <td class="description">{{agendaSanFer.Description}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <table id="table_4" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
-            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
-            <thead class='h-10'>
-                <tr class='col-sm-6'>
-                    <th data-field='row-City' data-sortable="true">City</th>
-                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
-                    <th data-field='row-Date' data-sortable="False">Date</th>
-                    <th class='.text-center' data-field='row-Description' data-sortable="true">Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for agendaCann in agendaCanns %}
-                <tr>
-                    <td class="city">{{agendaCann.City}}</td>
-                    <td class="meetType">{{agendaCann.MeetingType}} </td>
-                    <td type='text'>{{agendaCann.Date|aTime}}</td>
-                    <td class="description">{{agendaCann.Description}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
     <div class="container" id='con3'>
         <div class="row" style="margin-top: 29px;">
             <div class="col-sm-4">
@@ -991,6 +852,255 @@
                 </p>
             </div>
         </div>
+    </div>
+
+
+
+    <div class="container" id='con4'>
+        <div class="col-sm-12">
+            <h3 id="happening">Here are a few thing going on in Southern California!</h3>
+        </div>
+    </div>
+
+    <div class="container" id='con5'>
+        <div class="row" style="margin-top: 29px; width:189rem">
+            <div class="col-sm-6">
+                <h3 id="title">Water</h3>
+            </div>
+            <div class="col-sm-6">
+                <h3 id="title">Cannabis</h3>
+            </div>
+        </div>
+    </div>
+
+
+    <br></br>
+    <div id="split">
+        <table id="table_1" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
+            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
+            <thead class='h-10'>
+                <tr class='col-sm-6'>
+                    <th data-field='row-City' data-sortable="true">City</th>
+                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
+                    <th data-field='row-Date' data-sortable="False">Date</th>
+                    <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agendaa in agendaas %}
+                <tr>
+                    <td class="city">{{agendaa.City}}</td>
+                    <td class="meetType">{{agendaa.MeetingType}} </td>
+                    <td type='text' class="date">{{agendaa.Date|aTime}}</td>
+                    <td class="description">{{agendaa.Description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table id="table_2" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
+            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
+            <thead class='h-10'>
+                <tr class='col-sm-6'>
+                    <th data-field='row-City' data-sortable="true">City</th>
+                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
+                    <th data-field='row-Date' data-sortable="False">Date</th>
+                    <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agendab in agendabs %}
+                <tr>
+                    <td class="city">{{agendab.City}}</td>
+                    <td class="meetType">{{agendab.MeetingType}} </td>
+                    <td type='text'>{{agendab.Date|aTime}}</td>
+                    <td class="description">{{agendab.Description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="container" id='con4'>
+        <div class="col-sm-12">
+            <h3 id="happening">To expand window click on items!</h3>
+        </div>
+    </div>
+     <br></br>
+
+     <div class="container" id='con5'>
+        <div class="row" style="margin-top: 29px; width:189rem">
+            <div class="col-sm-6">
+                <h3 id="title">EV</h3>
+            </div>
+            <div class="col-sm-6">
+                <h3 id="title">Homeless</h3>
+            </div>
+        </div>
+    </div>
+
+    <br></br>
+    <div id="split">
+        <table id="table_3" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
+            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
+            <thead class='h-10'>
+                <tr class='col-sm-6'>
+                    <th data-field='row-City' data-sortable="true">City</th>
+                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
+                    <th data-field='row-Date' data-sortable="False">Date</th>
+                    <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agendac in agendacs %}
+                <tr class=".borderless tr">
+                    <td class="city">{{agendac.City}}</td>
+                    <td class="meetType">{{agendac.MeetingType}} </td>
+                    <td type='text'>{{agendac.Date|aTime}}</td>
+                    <td class="description">{{agendac.Description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table id="table_4" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
+            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
+            <thead class='h-10'>
+                <tr class='col-sm-6'>
+                    <th data-field='row-City' data-sortable="true">City</th>
+                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
+                    <th data-field='row-Date' data-sortable="False">Date</th>
+                    <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agendad in agendads %}
+                <tr>
+                    <td class="city">{{agendad.City}}</td>
+                    <td class="meetType">{{agendad.MeetingType}} </td>
+                    <td type='text'>{{agendad.Date|aTime}}</td>
+                    <td class="description">{{agendad.Description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+     <br></br>
+
+     <div class="container" id='con5'>
+        <div class="row" style="margin-top: 29px; width:189rem">
+            <div class="col-sm-6">
+                <h3 id="title">Healthcare</h3>
+            </div>
+            <div class="col-sm-6">
+                <h3 id="title">Crime</h3>
+            </div>
+        </div>
+    </div>
+     
+    <br></br>
+    <div id="split">
+        <table id="table_5" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
+            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
+            <thead class='h-10'>
+                <tr class='col-sm-6'>
+                    <th data-field='row-City' data-sortable="true">City</th>
+                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
+                    <th data-field='row-Date' data-sortable="False">Date</th>
+                    <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agendae in agendaes %}
+                <tr>
+                    <td class="city">{{agendae.City}}</td>
+                    <td class="meetType">{{agendae.MeetingType}} </td>
+                    <td type='text' class="date">{{agendae.Date|aTime}}</td>
+                    <td class="description">{{agendae.Description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table id="table_6" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
+            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
+            <thead class='h-10'>
+                <tr class='col-sm-6'>
+                    <th data-field='row-City' data-sortable="true">City</th>
+                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
+                    <th data-field='row-Date' data-sortable="False">Date</th>
+                    <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agendaf in agendafs %}
+                <tr>
+                    <td class="city">{{agendaf.City}}</td>
+                    <td class="meetType">{{agendaf.MeetingType}} </td>
+                    <td type='text'>{{agendaf.Date|aTime}}</td>
+                    <td class="description">{{agendaf.Description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br></br>
+
+    <div class="container" id='con5'>
+        <div class="row" style="margin-top: 29px; width:189rem">
+            <div class="col-sm-6">
+                <h3 id="title">Climate</h3>
+            </div>
+            <div class="col-sm-6">
+                <h3 id="title">Military</h3>
+            </div>
+        </div>
+    </div>
+     
+    <br></br>
+    <div id="split">
+        <table id="table_7" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
+            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
+            <thead class='h-10'>
+                <tr class='col-sm-6'>
+                    <th data-field='row-City' data-sortable="true">City</th>
+                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
+                    <th data-field='row-Date' data-sortable="False">Date</th>
+                    <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agendag in agendags %}
+                <tr>
+                    <td class="city">{{agendagCity}}</td>
+                    <td class="meetType">{{agendag.MeetingType}} </td>
+                    <td type='text' class="date">{{agendag.Date|aTime}}</td>
+                    <td class="description">{{agendag.Description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table id="table_8" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
+            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
+            <thead class='h-10'>
+                <tr class='col-sm-6'>
+                    <th data-field='row-City' data-sortable="true">City</th>
+                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
+                    <th data-field='row-Date' data-sortable="False">Date</th>
+                    <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agendah in agendahs %}
+                <tr>
+                    <td class="city">{{agendah.City}}</td>
+                    <td class="meetType">{{agendah.MeetingType}} </td>
+                    <td type='text'>{{agendah.Date|aTime}}</td>
+                    <td class="description">{{agendah.Description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 <!-- Optional JavaScript -->
