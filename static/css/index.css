@@ -288,8 +288,8 @@ td.date{
   width: .1em;
 }
 th {
-  color: #5e7cff;
-  text-shadow: 1px 0px 5px white;
+  color: white;
+  text-shadow: 2px 2px 1px #5e7cff;
   background-color: #FAB935;
   text-align: center;
 }
