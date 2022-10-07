@@ -3,9 +3,7 @@ body, html {
 	width: 100%;
 	background-color:#4f5861;
 }
-
-
-.containerNew {
+.containeraddDelete {
 	top:5rem;
 	position: relative;
 	color:black;
@@ -13,6 +11,16 @@ body, html {
 	margin: 0 auto;
 	max-width:1920px
 }
+#con2{
+	position:relative;
+	width:70vw;
+  }
+h2#delMessage{
+	color:white;
+	text-align: center;
+	text-shadow: 4px 4px 2px black;
+	font-size: 3rem;
+  }
 
 div#form {
 	position: relative;
@@ -22,7 +30,9 @@ div#form {
 }
 
 label{
-	color:black;
+	color:white;
+	text-align: center;
+	text-shadow: 4px 4px 2px black;	
 	width:fit-content;
 }
 
@@ -43,38 +53,43 @@ label{
 }
 
 th {
-	color: white;
-	background-color: #acc4fc;
+    color: white;
+    text-shadow: 1px 2px 1px #5e7cff;
+    background-color: #FAB935;
+    text-align: center;
 }
 
 td {
-	color:black;
-	text-align: center;
-	white-space: break-spaces;
-	overflow-wrap: break-word;
-	background-color: ghostwhite;
-	height: 23vh;
-	overflow: auto;
+    background-color: slategray;
+    color:white;
+    text-align: center;
+    max-height: 20rem;
+    white-space: break-spaces;
+    font-size: .8em;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-shadow: 0px 1px 1px #FAB935;
+	overflow:auto;
 }
 
 .subrow {
 	color:black;
 	display:inline;
 }
+
 .subMenu {
-	color:black;
 	text-align: inherit;
-	background-color: ghostwhite;
+	background-color: #4f5861;
 	height:auto;
 	font-size: 1.5rem;
+	border: 2px solid #FAB935;
+	padding: 1rem;
 }
+.subMenu:hover {
+	background-color: darkkhaki;
 
-td:nth-child(even){
-	background-color: snow;
 }
-
-td:hover {
-	background-color: #f5f5f5;
+td#desc:hover {
+	background-color: darkkhaki;
 }
 
 #desc{
@@ -87,9 +102,6 @@ span.pagination-info{
 span.page-list{
 	color: white;
 }
-.dropdown-item{
-	border: 1px solid #ccc;
-}
 td#Count {
 	max-width:1vw;
 }
@@ -97,7 +109,10 @@ td#meetTyp {
 	max-width:1vw;
 }
 td#itemTyp {
-	max-width:5vw;
+	max-width:1vw;
+}
+.table thead tr th, .table tbody tr td {
+    border: none;
 }
 
 @media screen and (min-width: 001px) and (max-width: 400px){
@@ -113,9 +128,7 @@ div#form {
 td {
     color:black;
     text-align: center;
-    height: 23vh;
     overflow-wrap: break-word;
-    background-color: ghostwhite;
     font-size: .9rem;
 }
 }
@@ -131,9 +144,7 @@ div#form {
 td {
     color:black;
     text-align: center;
-    height: 23vh;
     overflow-wrap: break-word;
-    background-color: ghostwhite;
     font-size: 1.5rem;
 }
 }
@@ -150,9 +161,7 @@ div#form {
 td {
     color:black;
     text-align: center;
-    height: 23vh;
     overflow-wrap: break-word;
-    background-color: ghostwhite;
     font-size: 1.5rem;
 }
 }
@@ -171,9 +180,7 @@ div#form {
 td {
 	color:black;
 	text-align: center;
-	height: 23vh;
-	overflow-wrap: break-word;
-	background-color: ghostwhite;
+	overflow-wrap: break-word;	
 	font-size: 1.5rem;
 }
 }
