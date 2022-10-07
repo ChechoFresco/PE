@@ -36,7 +36,7 @@
 
 </head>
 
-    <div class="containerNew" >
+    <div class="containeraddDelete" >
         <table>
             {% for x in issues_placeholders%}
             <tr class= 'subrow'>
@@ -44,6 +44,14 @@
             </tr>
             {% endfor %}
         </table>
+    </div>
+<br></br>
+
+<br></br>
+    <div class="container" id='con2'>
+        <div class="col-sm-12">
+            <h2 id="delMessage">To delete items click on highlighted issue above and it will prefill form below for deletion.</h2>
+        </div>
     </div>
 
     <div id="form">
@@ -99,6 +107,7 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 {% endblock %}
+
 
 
 
