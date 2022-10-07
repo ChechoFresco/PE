@@ -210,7 +210,21 @@ def login():
 def loggedIn():
     if "username" in session:
         username = session["username"]
-        return render_template('loggedIn.html', username = username, title = "You are now logged into PolicyEdge. Government at a glance.")
+        a = date.today()+ relativedelta(weeks=1)
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(weeks=-2) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)        
+        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'water'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendab = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'cannabis'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendac = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'EV'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendad = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'homeless'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendae = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'healthcare'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendaf = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'criminal'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendag = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'climate'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendah = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'military'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        return render_template('loggedIn.html',agendaas=agendaa,agendabs=agendab,agendacs=agendac,agendads=agendad,agendaes=agendae,agendafs=agendaf,agendags=agendag,agendahs=agendah, username = username, title = "You are now logged into PolicyEdge. Government at a glance.")
     else:
         return redirect(url_for("/"))
 
