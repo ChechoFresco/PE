@@ -36,6 +36,16 @@
 
 </head>
 
+    <div class="containerNew" >
+        <table>
+            {% for x in issues_placeholders%}
+            <tr class= 'subrow'>
+                <td class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("searchWord", "Issue") }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
     <div id="form">
         {% from "_formhelpers.html" import render_field %}
         <form method="post">
@@ -47,15 +57,7 @@
             <p><input type='submit' value="Delete" name='action'id="monitorListform" ></p>
         </form>
     </div>
-    <div class="containerNew" >
-        <table>
-            {% for x in issues_placeholders%}
-            <tr class= 'subrow'>
-                <td class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("searchWord", "Issue") }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+
     <div class="containerOut" >
         <div class="containerTable" >
             <table id="table"
@@ -92,12 +94,12 @@
                 </tbody>
             </table>
         </div>
-    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 {% endblock %}
+
 
 
 
