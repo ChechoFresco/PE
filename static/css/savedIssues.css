@@ -126,7 +126,6 @@ div#form {
     top:20rem;
 }
 td {
-    color:black;
     text-align: center;
     overflow-wrap: break-word;
     font-size: .9rem;
@@ -142,7 +141,6 @@ div#form {
     top:25rem;
 }
 td {
-    color:black;
     text-align: center;
     overflow-wrap: break-word;
     font-size: 1.5rem;
@@ -159,7 +157,6 @@ div#form {
     top:36rem;
 }
 td {
-    color:black;
     text-align: center;
     overflow-wrap: break-word;
     font-size: 1.5rem;
@@ -178,7 +175,6 @@ div#form {
 }
 
 td {
-	color:black;
 	text-align: center;
 	overflow-wrap: break-word;	
 	font-size: 1.5rem;
