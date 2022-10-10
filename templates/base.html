@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GHTB4NH7Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -48,7 +46,6 @@ function myFunction() {
 }]
 	}
 </script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -57,9 +54,8 @@ function myFunction() {
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cardo:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Monoton&family=Neonderthaw&family=Plaster&family=Sonsie+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-
+	
 {% if title %}
 	<title>{{ title }}</title>
 {% else %}
@@ -67,8 +63,8 @@ function myFunction() {
 {% endif %}
 
 {% block metadata %}{% endblock %}
-
 </head>
+
 <body>
 	<div class="page">
 		<nav class="navbar">
