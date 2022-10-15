@@ -14,7 +14,6 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.probability import FreqDist
 from nltk.corpus import stopwords
-import matplotlib.pyplot as plt
 import string
 import csv
 
