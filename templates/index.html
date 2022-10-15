@@ -46,6 +46,7 @@
         href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cardo:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Monoton&family=Neonderthaw&family=Plaster&family=Sonsie+One&display=swap"
         rel="stylesheet">
 </head>
+<!--Head portion-->
 
 <div class="jumbotron jumbotron-fluid">
     <video id="bg-video" autoplay="true" loop="loop" preload="metadata" muted="muted" autoplay loop muted playsinline>
@@ -58,6 +59,8 @@
     </div>
 </div>
 
+<!--Front main-->
+
 <div class="frost">
     <div class="container" id='con2'>
         <div class="col-sm-offset-3 col-sm-6">
@@ -65,8 +68,6 @@
                     style="color:#5e7cff; text-shadow: 1px 1px black">Edge</span> Works</h3>
         </div>
     </div>
-
-
     <div class="container" id='conanimation'>
         <div class="row">
             <div class="col-sm-offset-2 col-sm-4">
@@ -854,11 +855,11 @@
         </div>
     </div>
 
-
+<!--Tables-->
 
     <div class="container" id='con4'>
         <div class="col-sm-12">
-            <h3 id="happening">Here are a few thing going on in Southern California!</h3>
+            <h3 id="happening">Here are a few thing going on in Southern California.</h3>
         </div>
     </div>
 
@@ -873,6 +874,7 @@
         </div>
     </div>
 
+<!--First table-->
 
     <br></br>
     <div id="split">
@@ -920,9 +922,12 @@
             </tbody>
         </table>
     </div>
+
+<!--Second table-->
+
     <div class="container" id='con4'>
         <div class="col-sm-12">
-            <h3 id="happening">To expand window click on items!</h3>
+            <h3 id="happening">To expand window double-click on highlighted items!</h3>
         </div>
     </div>
      <br></br>
@@ -952,7 +957,7 @@
             </thead>
             <tbody>
                 {% for agendac in agendacs %}
-                <tr class=".borderless tr">
+                <tr>
                     <td class="city">{{agendac.City}}</td>
                     <td class="meetType">{{agendac.MeetingType}} </td>
                     <td type='text'>{{agendac.Date|aTime}}</td>
@@ -985,14 +990,22 @@
         </table>
     </div>
      <br></br>
+<!--Third table-->
 
+     <div class="container" id='con4'>
+        <div class="col-sm-12">
+            <h3 id="happening">Check out our Search page to really see what going on in Southern California.</h3>
+        </div>
+    </div>
+
+    <br></br>
      <div class="container" id='con5'>
         <div class="row" style="margin-top: 29px; width:189rem">
             <div class="col-sm-6">
-                <h3 id="title">Healthcare</h3>
+                <h3 id="title">Request for Proposals</h3>
             </div>
             <div class="col-sm-6">
-                <h3 id="title">Crime</h3>
+                <h3 id="title">Sheriff</h3>
             </div>
         </div>
     </div>
@@ -1044,6 +1057,7 @@
         </table>
     </div>
     <br></br>
+<!--Fourth table-->
 
     <div class="container" id='con5'>
         <div class="row" style="margin-top: 29px; width:189rem">
@@ -1101,6 +1115,111 @@
                 {% endfor %}
             </tbody>
         </table>
+    </div>
+    <br></br>
+    <!--First trend-->
+
+    <div class="container" id='trendTitle'>
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 id="title">Westide Trends</h3>
+            </div>
+            <div class="col-sm-6">
+                <h3 id="title">San Gabriel Trends</h3>
+            </div>
+        </div>
+    </div>
+    <div id="split2">
+        <div class="row">
+            <div class="col-sm-6" id="trendColumn" style ='float: left;'>
+                <table>
+                    {% for x in fdist1s.most_common(25)%}
+                    <ul class= 'subrow'>
+                        <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
+                    </ul>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-sm-6" id="trendColumn" style ='float: right;'>
+                <table>
+                    {% for x in fdist2s.most_common(25)%}
+                    <ul class= 'subrow'>
+                        <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
+                    </ul>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--- Second trend-->
+
+    <div class="container" id='trendTitle'>
+        <div class="row" >
+            <div class="col-sm-6">
+                <h3 id="title">Gateway Trends</h3>
+            </div>
+            <div class="col-sm-6">
+                <h3 id="title">South Bay Trends</h3>
+            </div>
+        </div>
+    </div>
+    <div id="split2">
+        <div class="row">
+            <div class="col-sm-6" id="trendColumn" style ='float: left;'>
+                <table>
+                    {% for x in fdist3s.most_common(25)%}
+                    <ul class= 'subrow'>
+                        <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
+                    </ul>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-sm-6" id="trendColumn" style ='float: right;'>
+                <table>
+                    {% for x in fdist4s.most_common(25)%}
+                    <ul class= 'subrow'>
+                        <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
+                    </ul>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--Third trend-->
+
+    <div class="container" id='trendTitle'>
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 id="title">San Fernando Trends</h3>
+            </div>
+            <div class="col-sm-6">
+                <h3 id="title">LA Committee Trends</h3>
+            </div>
+        </div>
+    </div>
+    <div id="split2">
+        <div class="row">
+            <div class="col-sm-6" id="trendColumn" style ='float: left;'>
+                <table>
+                    {% for x in fdist5s.most_common(25)%}
+                    <ul class= 'subrow'>
+                        <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
+                    </ul>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-sm-6" id="trendColumn" style ='float: right;'>
+                <table>
+                    {% for x in fdist6s.most_common(25)%}
+                    <ul class= 'subrow'>
+                        <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
+                    </ul>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 <!-- Optional JavaScript -->
