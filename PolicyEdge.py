@@ -1,16 +1,22 @@
-from unittest import skip
 from flask_pymongo import PyMongo
 from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, json
-from forms import searchForm, monitorListform, notificationForm
+from forms import searchForm, monitorListform
 import bcrypt
-from datetime import date
+from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 from flask_mail import Mail, Message
-from apscheduler.schedulers.background import BackgroundScheduler
 import stripe
 import os
+import re
 from os import environ
-from dotenv import load_dotenv
+from apscheduler.schedulers.background import BackgroundScheduler
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.probability import FreqDist
+from nltk.corpus import stopwords
+import matplotlib.pyplot as plt
+import string
+import csv
 
 load_dotenv()
 app = Flask(__name__,)
