@@ -34,8 +34,8 @@ a#alogo{
 
 svg#logo{
   position: absolute;
-  width: 32rem;
-  height: 10rem;
+  width: 40rem;
+  height: 9rem;
 }
 
 #path284{
@@ -337,7 +337,7 @@ svg#logo{
   }
   svg#logo{
     position: absolute;
-    width: 25rem;
+    width: 40rem;
     height: 8rem;
   }
 }
