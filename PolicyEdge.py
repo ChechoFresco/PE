@@ -17,7 +17,6 @@ from nltk.corpus import stopwords
 import string
 import csv
 
-load_dotenv()
 app = Flask(__name__,)
 
 app.config['MONGO_URI'] = os.environ.get("MONGO_URI")
