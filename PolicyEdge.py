@@ -727,6 +727,74 @@ def results():
         return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
 
 ######################
+    ##San Diego County Only County no dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search']==""  and request.form['secondary_search']=="":
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County Only County Start dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search']==""  and request.form['secondary_search']=="":
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, { 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County Only County End dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search']==""  and request.form['secondary_search']=="":
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, { 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County Only County both dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search']==""  and request.form['secondary_search']=="":
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+
+    ##San Diego County and City no dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search']  and request.form['secondary_search']=="":
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}, {'City': {'$regex': searchKey, '$options': 'i' }}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County and City Start dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search']  and request.form['secondary_search']=="":
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}, {'City': {'$regex': searchKey, '$options': 'i' }}, { 'Date':{'$lte':today, '$gte':int(start)}}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County and City End dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search']  and request.form['secondary_search']=="":
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}, {'City': {'$regex': searchKey, '$options': 'i' }}, { 'Date':{'$lte':today, '$gte':int(end)}}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County and City Both dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search']  and request.form['secondary_search']=="":
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}, {'City': {'$regex': searchKey, '$options': 'i' }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+
+    ##San Diego County and Issue no dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search']=="" and request.form['secondary_search']:
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }},{'$text': { "$search": deepKey}}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County and Issue Start dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search']==""  and request.form['secondary_search']:
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }},{'$text': { "$search": deepKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County and Issue End dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search']==""  and request.form['secondary_search']:
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }},{'$text': { "$search": deepKey}}, { 'Date':{'$lte':today, '$gte':int(end)}}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County and Issue Both dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search']==""  and request.form['secondary_search']:
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }},{'$text': { "$search": deepKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+
+    ##San Diego County and Issue and City no dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search']  and request.form['secondary_search']:
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}, {'City': {'$regex': searchKey, '$options': 'i' }},{'$text': { "$search": deepKey}}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County and Issue and City Start dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search']  and request.form['secondary_search']:
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }},{'$text': { "$search": deepKey}}, {'City': {'$regex': searchKey, '$options': 'i' }}, { 'Date':{'$lte':today, '$gte':int(start)}}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County and Issue and City End dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search']  and request.form['secondary_search']:
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }},{'$text': { "$search": deepKey}}, {'City': {'$regex': searchKey, '$options': 'i' }}, { 'Date':{'$lte':today, '$gte':int(end)}}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+    ##San Diego County and Issue and City Both dates###
+    if request.form['select'] == 'San Diego County' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search']  and request.form['secondary_search']:
+        agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Diego County', '$options': 'i' }},{'$text': { "$search": deepKey}}, {'City': {'$regex': searchKey, '$options': 'i' }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
+        return render_template('results.html', agendas=agenda, title = "PolicyEdge Search Results")
+######################
 
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']:
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
