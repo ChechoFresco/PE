@@ -179,6 +179,27 @@
                     document.getElementById("select2").style.display="none";
                     document.querySelector("label[for='select2']").style.display="none";
                 }
+                if (this.value==="San Diego County"){
+                    var x = document.getElementById('committeeOpt');
+                    var y = document.getElementById('cityOpt');
+                    var z = document.getElementById('orangeOpt');
+                    var a = document.getElementById('lbcommitteeOpt');
+                    var b = document.getElementById('riversideOpt');
+                    var c = document.getElementById('sandiegoOpt');
+                    document.getElementById("orangeOpt").style.display="none";
+                    document.getElementById("lbcommitteeOpt").style.display="none";
+                    document.getElementById("cityOpt").style.display="none";
+                    document.getElementById("sandiegoOpt").style.display="block";
+                    document.getElementById("riversideOpt").style.display="none";
+                    document.getElementById("committeeOpt").style.display="none";
+                    document.getElementById("primary_search").style.display="inline";
+                    document.querySelector("label[for='primary_search']").innerHTML = "City:";
+                    document.querySelector("label[for='primary_search']").style.display="inline";
+                    document.querySelector("label[for='secondary_search']").style.display="inline";
+                    document.getElementById("secondary_search").style.display="inline";
+                    document.getElementById("select2").style.display="none";
+                    document.querySelector("label[for='select2']").style.display="none";
+                }                
             })
         }
         dynFrom()
