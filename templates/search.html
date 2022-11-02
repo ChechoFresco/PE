@@ -68,8 +68,10 @@
                     var z = document.getElementById('orangeOpt');
                     var a = document.getElementById('lbcommitteeOpt');
                     var b = document.getElementById('riversideOpt');
+                    var c = document.getElementById('sandiegoOpt');
                     document.getElementById("lbcommitteeOpt").style.display="none";
                     document.getElementById("riversideOpt").style.display="none";
+                    document.getElementById("sandiegoOpt").style.display="none";
                     document.getElementById("orangeOpt").style.display="none";
                     document.getElementById("cityOpt").style.display="block";
                     document.getElementById("committeeOpt").style.display="none";
@@ -87,7 +89,9 @@
                     var z = document.getElementById('orangeOpt');
                     var a = document.getElementById('lbcommitteeOpt');
                     var b = document.getElementById('riversideOpt');
+                    var c = document.getElementById('sandiegoOpt');
                     document.getElementById("lbcommitteeOpt").style.display="none";
+                    document.getElementById("sandiegoOpt").style.display="none";
                     document.getElementById("riversideOpt").style.display="none";
                     document.getElementById("cityOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
@@ -106,8 +110,10 @@
                     var z = document.getElementById('orangeOpt');
                     var a = document.getElementById('lbcommitteeOpt');
                     var b = document.getElementById('riversideOpt');
+                    var c = document.getElementById('sandiegoOpt');
                     document.getElementById("lbcommitteeOpt").style.display="none";
                     document.getElementById("orangeOpt").style.display="none";
+                    document.getElementById("sandiegoOpt").style.display="none";
                     document.getElementById("riversideOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("cityOpt").style.display="none";//hides city html
@@ -127,9 +133,11 @@
                     var z = document.getElementById('orangeOpt');
                     var a = document.getElementById('lbcommitteeOpt');
                     var b = document.getElementById('riversideOpt');
+                    var c = document.getElementById('sandiegoOpt');
                     document.getElementById("orangeOpt").style.display="block";
                     document.getElementById("lbcommitteeOpt").style.display="none";
                     document.getElementById("cityOpt").style.display="none";
+                    document.getElementById("sandiegoOpt").style.display="none";
                     document.getElementById("riversideOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("primary_search").style.display="inline";
@@ -146,9 +154,11 @@
                     var z = document.getElementById('orangeOpt');
                     var a = document.getElementById('lbcommitteeOpt');
                     var b = document.getElementById('riversideOpt')
+                    var c = document.getElementById('sandiegoOpt');
                     document.getElementById("lbcommitteeOpt").style.display="block";
                     document.getElementById("orangeOpt").style.display="none";
                     document.getElementById("riversideOpt").style.display="none";
+                    document.getElementById("sandiegoOpt").style.display="none";
                     document.getElementById("committeeOpt").style.display="none";
                     document.getElementById("cityOpt").style.display="none";//hides city html
                     document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
@@ -159,25 +169,6 @@
                     document.getElementById("secondary_search").style.display="inline";// main search bar
                     document.getElementById("select2").style.display="inline";//drop down menu visible
                     document.queryselector("label[for='select2']").style.display="none";
-                }
-                if (this.value==="Riverside County"){
-                    var x = document.getElementById('committeeOpt');
-                    var y = document.getElementById('cityOpt');
-                    var z = document.getElementById('orangeOpt');
-                    var a = document.getElementById('lbcommitteeOpt');
-                    var b = document.getElementById('riversideOpt');
-                    document.getElementById("orangeOpt").style.display="none";
-                    document.getElementById("lbcommitteeOpt").style.display="none";
-                    document.getElementById("cityOpt").style.display="none";
-                    document.getElementById("riversideOpt").style.display="block";
-                    document.getElementById("committeeOpt").style.display="none";
-                    document.getElementById("primary_search").style.display="inline";
-                    document.querySelector("label[for='primary_search']").innerHTML = "City:";
-                    document.querySelector("label[for='primary_search']").style.display="inline";
-                    document.querySelector("label[for='secondary_search']").style.display="inline";
-                    document.getElementById("secondary_search").style.display="inline";
-                    document.getElementById("select2").style.display="none";
-                    document.querySelector("label[for='select2']").style.display="none";
                 }
                 if (this.value==="San Diego County"){
                     var x = document.getElementById('committeeOpt');
@@ -199,7 +190,28 @@
                     document.getElementById("secondary_search").style.display="inline";
                     document.getElementById("select2").style.display="none";
                     document.querySelector("label[for='select2']").style.display="none";
-                }                
+                }
+                if (this.value==="Riverside County"){
+                    var x = document.getElementById('committeeOpt');
+                    var y = document.getElementById('cityOpt');
+                    var z = document.getElementById('orangeOpt');
+                    var a = document.getElementById('lbcommitteeOpt');
+                    var b = document.getElementById('riversideOpt');
+                    var c = document.getElementById('sandiegoOpt');
+                    document.getElementById("orangeOpt").style.display="none";
+                    document.getElementById("lbcommitteeOpt").style.display="none";
+                    document.getElementById("cityOpt").style.display="none";
+                    document.getElementById("sandiegoOpt").style.display="none";
+                    document.getElementById("riversideOpt").style.display="block";
+                    document.getElementById("committeeOpt").style.display="none";
+                    document.getElementById("primary_search").style.display="inline";
+                    document.querySelector("label[for='primary_search']").innerHTML = "City:";
+                    document.querySelector("label[for='primary_search']").style.display="inline";
+                    document.querySelector("label[for='secondary_search']").style.display="inline";
+                    document.getElementById("secondary_search").style.display="inline";
+                    document.getElementById("select2").style.display="none";
+                    document.querySelector("label[for='select2']").style.display="none";
+                }
             })
         }
         dynFrom()
