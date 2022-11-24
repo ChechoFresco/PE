@@ -6,61 +6,16 @@
   padding-top: 0px;
   top: -15vh;
   }
-
 video {
   width: 100%;
   object-fit: cover;
   height: 116%;
   object-position: 0% 63%;
 }
-  
   /* Height of Headline*/
 .jumbotron .container {
   top: 17rem;
 }
-/* Neon sign*/
-.jumbotron h1{
-  font-size:8rem;
-  color: #fff;
-}
-.neon{
-  font-family: 'Neonderthaw', cursive;
-  position: absolute;
-  opacity: .77;
-  top: 11vh;
-  left: 50%;
-  width: 100%;
-  transform: translate(-50%, -50%);
-  letter-spacing: 8px;
-  text-shadow:
-    0 0 7px #fff,
-    0 0 10px #fab935,
-    0 0 21px #fab935,
-    0 0 42px #5e7cff,
-    0 0 82px #5e7cff,
-    0 0 92px #5e7cff,
-    0 0 102px #5e7cff,
-    0 0 151px #5e7cff;
-}
-  
-.flicker-slow{
-  animation: flicker 4.5s linear infinite;
-}
-
-.flicker-fast{
-  animation: flicker 2.5s linear infinite;
-}
-
-@keyframes flicker {
-  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
-    //text-shadow: none;
-    opacity: .99;
-  }
-  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
-    opacity: 0.4;
-  }
-}
-  
   /* Frost affect*/
 .frost {
   position: relative;
@@ -77,28 +32,31 @@ video {
   position:relative;
   display:flex;
 }
-  svg.animated{
+svg.animated{
   overflow: hidden;
   height: auto;
   top: 0vh;
   position: relative;
 }
-h3#howPE{
+h1#title{
   color:lavender;
   text-align: center;
-  text-shadow: 2px 2px 3px #fab935;  
-  font-size: 3rem;
+  text-shadow:
+    0 0 5px #fab935;
+  font-size: 8rem;
+  font-family: 'Lobster', cursive;
   animation: fadeIn 1s;
   animation-delay: 0s;
   animation-fill-mode: forwards;
   opacity:0;
 }
 h3.howwrk{
-  font-size: 2rem;
+  font-family: sans-serif;
+  font-size: 1.8rem;
   color:white;
-  text-shadow: 2px 2px 3px black;  
+  text-shadow: 4px 4px 2px black;
 }
-  
+
 /* What PolicyEdge Offers*/
 
 #con3{
@@ -106,12 +64,17 @@ h3.howwrk{
   width:70vw;
 }
 h3#offer{
+  color:lavender;
   text-align: center;
-  text-shadow: 4px 4px 2px black;
+  text-shadow:
+    0 0 5px #5e7cff;  
   font-size: 3rem;
+  font-family: 'Lobster', cursive;
+
 }
 p.subject {
   font-size: 2rem;
+  font-family: sans-serif;
   color: white;
   text-align: center;
   margin: 25px;
@@ -124,7 +87,7 @@ p.subject.\34 {
   animation-delay: 5s;
   animation-fill-mode: forwards;
 }
-  
+
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
@@ -138,9 +101,11 @@ p.subject.\34 {
 }
 h3#happening{
   color:white;
+  font-family: sans-serif;
   text-align: center;
   text-shadow: 4px 4px 2px black;
   font-size: 3rem;
+
 }
 
 /* Tables */
@@ -150,11 +115,13 @@ h3#happening{
   width:70vw;
   top:4vh;
 }
-h3#title{
-  color:white;
+h3#label{
+  color:lavender;
   text-align: center;
-  text-shadow: 2px 2px 3px #fab935;  
+  text-shadow:
+    0 0 3px black;  
   font-size: 3rem;
+  font-family: 'Lobster', cursive;
 }
 div#split{
   position: relative;
@@ -163,11 +130,12 @@ div#split{
   align-items: flex-start;
 }
 #table_1,#table_2,#table_3,#table_4,#table_5,#table_6,#table_7,#table_8{
-  width:80rem;
+  width:auto;
   transform: translateY(100px);
   opacity: 0;
   transition: 2s all ease;
   transition-timing-function: linear;
+  border: 0px;
 }
 
 #table_1.active,#table_2.active,#table_3.active,#table_4.active,#table_5.active,#table_6.active,#table_7.active,#table_8.active{
@@ -192,38 +160,41 @@ th {
   text-align: center;
 }
 td {
-  background-color: slategray;
+  background-color:rgba(255, 255, 255, .0);
   color:white;
   text-align: center;
   max-height: 12vh;
   font-size: .8em;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  text-shadow: 0px 1px 1px #FAB935;
+  text-shadow: 0px 1px 1px black;
 }
 .table thead tr th, .table tbody tr td {
   border: none;
 }
 tbody tr:nth-child(even){
-background-color: white;
+background-color: rgba(255, 255, 255, .15);
 }
-td.description:hover {
-  background-color: darkkhaki;
+tbody tr:nth-child(odd){
+  background-color:rgba(255, 255, 255, .0);
+}
+tr:hover td {
+  background-color: #5e7cff;
 }
 .description{
-display: block;
-overflow: hidden;
-justify-content: center;
-white-space: break-spaces;
-width:100%;
+  display: block;
+  overflow: hidden;
+  justify-content: center;
+  white-space: break-spaces;
+  width:100%;
 }
-.columns{ 
+.columns{
   display:none
 }
-.pagination-info{ 
+.pagination-info{
   color:white;
   font-size: .7em;
 }
-.page-list{ 
+.page-list{
   color:white;
   font-size: .7em;
 }
@@ -244,15 +215,15 @@ width:100%;
 	color:white;
 }
 .subMenu {
+  list-style-type: disclosure-closed;
 	text-align: inherit;
+  font-family: sans-serif;
 	height:auto;
 	font-size: 1.5rem;
   max-width: 18rem;
   text-shadow: 2px 2px 3px black;
 }
-.subMenu:hover {
-	background-color: darkkhaki;
-}
+
 div#split2{
 	position: relative;
   display:flex;
@@ -265,36 +236,44 @@ h3#trend{
   text-shadow: 2px 2px 3px black;
   text-align: center;
 }
-
 #trendColumn{
   columns: 3;
 }
-  
+
   /* ################################################# */
   /* ################################################# */
   /* ################################################# */
-  @media screen and (min-width: 250px){
+  @media screen and (max-width: 400px){
+  .jumbotron{
+    display:none;
+    }
   svg.animated{
     overflow: hidden;
     height: auto;
     top: 0vh;
     position: relative;
   }
-  
   .neon{
     top: 7vh;
   }
-  
+
   .jumbotron h1{
     font-size:2.4rem;
   }
-  p.subject {
-  font-size: 1.8rem;
-  color: white;
-  text-align: center;
+  .frost {
+    border-image: none;
+    width: 30rem;
+    top:3rem;
   }
-  
-  h3#howPE{
+  p.subjectLead{
+    font-size: 1.7rem;
+  }
+  p.subject {
+    font-size: 1.3rem;
+    color: white;
+    text-align: center;
+  }
+  h1#title{
     font-size: 3rem;
     color:floralwhite;
     text-align: center;
@@ -304,20 +283,24 @@ h3#trend{
   h3.howwrk{
     font-size: 1.4rem;
   }
+  h3#label{
+    text-align: center;
+    font-size: 2rem;
+  }
 
   h3#happening{
     font-size: 1.6rem;
   }
-  
+
   h3#happening.active{
     transform: translateY(0);
     opacity: 1;
   }
   div#split{
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   td.meetType{
     display:none
@@ -328,38 +311,63 @@ h3#trend{
   #trendColumn{
     columns: 2;
     }
+  #con4{
+    position:relative;
+    width:auto;
+    top:4vh;
+  }
+  h3#happening{
+    color:white;
+    font-family: sans-serif;
+    text-align: center;
+    text-shadow: 4px 4px 2px black;
+    font-size: 1.2rem;
+  }
+  #con5{
+    position:relative;
+    display:flex;
+    width:auto;
+    top:4vh;
+    align-items: center;
+    flex-direction: column;
+    }
   #table_1,#table_2,#table_3,#table_4,#table_5,#table_6,#table_7,#table_8{
-      width:30rem;
+    width:auto;
   }
   .description {
-    width: 18rem;
+    width: auto;
+  }
+  .subMenu {
+    height:auto;
+    font-size: 1rem;
+    max-width: 5rem;
+  }
 }
-    }
   /* ################################################# */
   /* ################################################# */
   /* ################################################# */
-  @media screen and (min-width: 768px) {  
+  @media screen and (min-width: 400px) and (max-width: 768px) { 
   video {
     position: relative;
     top: 0px;
     width:100%;
   }
-  
+
   .neon{
     top: 7vh;
   }
-  
+
   .jumbotron h1{
     font-size:4.5rem;
   }
-  
+
   p.subject {
     font-size: 1.2rem;
     text-align: center;
     margin: 25px;
     opacity:0;
   }
-  
+
   h3#happening{
     display:block;
     font-size: 2.2rem;
@@ -370,7 +378,7 @@ h3#trend{
     top: 0vh;
     position: relative;
   }
-  
+
   h3#happening.active{
     display:block;
     transform: translateY(0);
@@ -387,31 +395,31 @@ h3#trend{
     columns: 2;
   }
   #table_1,#table_2,#table_3,#table_4,#table_5,#table_6,#table_7,#table_8{
-    width:34rem;
+    width:auto;
   }
   .description{
     width:34rem;
     }
   }
-  
+
   /* ################################################# */
   /* ################################################# */
   /* ################################################# */
-  @media screen and (min-width: 1500px) {
+  @media screen and (min-width: 768px) and (max-width: 1500px) {
   video {
     position: relative;
     top: 0px;
     width:100%;
   }
-  
+
   .neon{
     top: 7vh;
   }
-  
+
   .jumbotron h1{
-    font-size:4.5rem;
+    font-size:8.8rem;
   }
-  
+
   p.subject {
     font-size: 1.4rem;
     text-align: center;
@@ -443,55 +451,52 @@ h3#trend{
     columns: 3;
   }
   #table_1,#table_2,#table_3,#table_4,#table_5,#table_6,#table_7,#table_8{
-    width:55rem;
+    width:auto;
 }
-.description{
-  width:100%;
-  }
+  .description{
+    width:100%;
+    }
 }
 
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
-  @media screen and (min-width: 2000px) {
+  @media screen and (min-width: 1500px) and (max-width: 2000px) {
   .neon{
-      top: 42px;
+    top: 42px;
   }
-  
+
   .jumbotron h1{
-      font-size:7.4rem;
+    font-size:8.8rem;
   }
-  
+
   p.subjectLead{
     font-size: 2rem;
   }
-  
+
   p.subject {
     font-size: 1.7rem;
     text-align: center;
     margin: 25px;
     opacity:0;
   }
-  
-  h3#howPE{
-      font-size: 5rem;
-      color: floralwhite;
-      text-align: center;
-      width: auto;
+
+  h1#title{
+    font-size: 6rem;
+    color: floralwhite;
+    text-align: center;
+    width: auto;
   }
-  
   h3#happening{
-      display:block;
-      font-size: 3rem;
+    display:block;
+    font-size: 3rem;
   }
-  
   svg.animated{
     overflow: hidden;
     height: 28rem;
     top: -2rem;
     position: relative;
   }
-  
   h3#happening.active{
     display:block;
     transform: translateY(0);
@@ -502,13 +507,13 @@ h3#trend{
     display: flex;
     justify-content: space-around;
   }
-    #trendColumn{
-      columns: 3;
+  #trendColumn{
+    columns: 3;
+  }
+  #table_1,#table_2,#table_3,#table_4,#table_5,#table_6,#table_7,#table_8{
+    width:auto;
+  }
+  .description{
+    width:100%;
     }
-    #table_1,#table_2,#table_3,#table_4,#table_5,#table_6,#table_7,#table_8{
-      width:80rem;
-    }
-    .description{
-      width:100%;
-      }
   }
