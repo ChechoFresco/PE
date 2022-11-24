@@ -6,15 +6,13 @@ html, body{
   background-color:#2d3237;
 }
 .page {
-  position: absolute;
-  min-height: 100vh;
-  min-width: 100%;
+  position: relative;
 }
 
 /* Navbar complete*/
 .navbar{
   background: transparent;
-  max-width: 1920px;
+  max-width: 221rem;
   position: relative;
   z-index: 2;
   margin: 0 auto;
@@ -34,8 +32,8 @@ a#alogo{
 
 svg#logo{
   position: absolute;
-  width: 40rem;
-  height: 9rem;
+  width: 46rem;
+  height: 12rem;
 }
 
 #path284{
@@ -128,58 +126,7 @@ svg#logo{
   100% { opacity:.1  }
 }
 
-#P{
-  animation: bounce 3s ease-in-out;
-  animation-iteration-count: 1;
-}
-
-#o{
-  animation: bounce 3s ease-in-out;
-  animation-iteration-count: 1;
-}
-
-
-#l{
-  animation: bounce 3s ease-in-out;
-  animation-iteration-count: 1;
-}
-
-
-#i{
-  animation: bounce 3s ease-in-out;
-  animation-iteration-count: 1;
-}
-
-
-#c{
-  animation: bounce 3s ease-in-out;
-  animation-iteration-count: 1;
-}
-
-
-#y{
-  animation: bounce 3s ease-in-out;
-  animation-iteration-count: 1;
-}
-
-
-#e{
-  animation: bounce 3s ease-in-out;
-  animation-iteration-count: 1;
-}
-
-
-#d{
-  animation: bounce 3s ease-in-out;
-  animation-iteration-count: 1;
-}
-
-#g{
-  animation: bounce 3s ease-in-out;
-  animation-iteration-count: 1;
-}
-
-#e2{
+#PolicyEdge{
   animation: bounce 3s ease-in-out;
   animation-iteration-count: 1;
 }
@@ -224,13 +171,13 @@ svg#logo{
 .navbar-right li a:hover{
     text-shadow:
     0 0 3px #fff,
-    0 0 7px #5e7cff,
-    0 0 16px #5e7cff,
-    0 0 42px #5e7cff,
-    0 0 82px #5e7cff,
-    0 0 92px #5e7cff,
-    0 0 102px #5e7cff,
-    0 0 151px #5e7cff;
+    0 0 7px #fab935,
+    0 0 16px #fab935,
+    0 0 42px #fab935,
+    0 0 82px #fab935,
+    0 0 92px #fab935,
+    0 0 102px #fab935,
+    0 0 151px #fab935;
 }
 
 div#myLinks {
@@ -241,7 +188,7 @@ div#myLinks {
 /* Navbar burger*/
 i.fa.fa-bars{
   position: relative;
-  font-size:6rem;
+  font-size:8rem;
   color:white;
   opacity:.6;
 }
@@ -267,65 +214,66 @@ li.icon{
 /* ################################################# */
 /* ################################################# */
 /* CSS for TOPNAV*/
-@media screen and (min-width: 001px) and (max-width: 375px)
+@media screen and (max-width: 400px)
 {
   i.fa.fa-bars{
     position: relative;
     font-size:3rem;
+    right:3rem;
   }
-div#myLinks{
-  top: 10vh;
-  position: relative;
-}
+  div#myLinks{
+    top: 6rem;
+    left: 3rem;
+    position: relative;
+  }
+  .navbar-right li a {
+    font-family: 'Neonderthaw';
+    padding: .4rem 1.1rem;
+    font-size: 1.4rem;
+    text-shadow:
+    0 0 3px #fff,
+    0 0 7px #5e7cff,
+    0 0 16px #5e7cff,
+    0 0 42px #5e7cff,
+    0 0 82px #5e7cff,
+    0 0 92px #5e7cff,
+    0 0 102px #5e7cff,
+    0 0 151px #5e7cff;
+  }
 
-.navbar-right li a {
-  font-family: 'Neonderthaw';
-  padding: 1rem 2rem;
-  font-size: 1.4rem;
-  text-shadow:
-  0 0 3px #fff,
-  0 0 7px #5e7cff,
-  0 0 16px #5e7cff,
-  0 0 42px #5e7cff,
-  0 0 82px #5e7cff,
-  0 0 92px #5e7cff,
-  0 0 102px #5e7cff,
-  0 0 151px #5e7cff;
-}
-
-svg#logo{
-  position: absolute;
-  width: 12rem;
-  height: 5rem;
-}
+  svg#logo{
+    position: absolute;
+    width: 21rem;
+    height: 4rem;
+  }
 }
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
-@media screen and (min-width: 376px) and (max-width: 800px)
+@media screen and (min-width: 401px) and (max-width: 768px)
 {
   i.fa.fa-bars{
     position: relative;
     font-size: 4rem;
-}
-.navbar-right li a {
-  padding: 1rem 2rem;
-  font-size: 2rem;
-}
-div#myLinks {
-  top: 8vh;
-  position: relative;
-}
-svg#logo{
-  position: absolute;
-  width: 17rem;
-  height: 7rem;
-}
+  }
+  .navbar-right li a {
+    padding: 1rem 2rem;
+    font-size: 2rem;
+  }
+  div#myLinks {
+    top: 8vh;
+    position: relative;
+  }
+  svg#logo{
+    position: absolute;
+    width: 17rem;
+    height: 7rem;
+  }
 }
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
-@media screen and (min-width: 801px) and (max-width: 1300px)
+@media screen and (min-width: 769px) and (max-width: 1500px)
 {
   .navbar-nav{
     font-size:1.5rem;
@@ -333,18 +281,18 @@ svg#logo{
 
   .navbar-right li a {
     padding: 22px 26px;
-    font-size: 2rem;
+    font-size: 3rem;
   }
   svg#logo{
     position: absolute;
     width: 40rem;
-    height: 8rem;
+    height: 10rem;
   }
 }
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
-@media screen and (min-width: 3840px)
+@media screen and (min-width: 1500px) and (min-width: 2000px)
 {
   i.fa.fa-bars{
     position: relative;
@@ -379,6 +327,9 @@ i.fa.fa-bars{
 /* ################################################# */
 /* ################################################# */
 /* FOOTER*/
+#footer{
+  position: relative;
+}
 p.text-justify{
   color:white;
 }
@@ -546,5 +497,6 @@ p.text-justify{
       text-align:center
     }
   }
+
 
 
