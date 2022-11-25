@@ -17,7 +17,7 @@ img {
 
 .frost {
     position: relative;
-    height: 80vh;
+    height: auto;
     background-color: rgba(255, 255, 255, .15);
     backdrop-filter: blur(5px);
 }
@@ -25,11 +25,13 @@ img {
 div.formdiv{
     position: relative;
     font-size:2vh;
-    height:100vh;
+    height:auto;
     top: 7vh;
     left:1vh;
 }
-
+label{
+    color:white;
+}
 input[type=submit] {
     margin: 0 auto;
     color: gray;
@@ -37,7 +39,7 @@ input[type=submit] {
 
 .info{
     position: relative;
-    height:42%;
+    height:auto;
     column-count: 6;
     width:100%;
     color: white;
@@ -50,19 +52,19 @@ h3{
 #committeeOpt{
     display:none;
 }
-#lbcommitteeOpt{
-    display:none;
-}
+
 #orangeOpt{
     display:none;
 }
+#lbcommitteeOpt{
+    display:none;
+}
 
-
-@media screen and (min-width: 250px){
+@media screen and (max-width: 400px){
 div.formdiv{
-    font-size: 1.2vh;
-    top: 1vh;
-
+    font-size: 1rem;
+    top: 1rem;
+    left: 8rem;
 }
 div.background {
     position: relative;
@@ -74,6 +76,9 @@ div.background {
     column-count: 6;
     width:100%;
 }
+h3{
+    font-size:.7rem;
+}
 div.background {
     height:0px;
 }
@@ -82,11 +87,12 @@ img {
 }
 .frost {
     top:3vh;
+    height:100vh;
 }
 }
 
-@media screen and (min-width: 768px) {
-div.formdiv{
+@media screen and (min-width: 400px) and (max-width: 768px) { 
+    div.formdiv{
     font-size: 1.2vh;
 }
 
@@ -103,8 +109,8 @@ img {
 }
 }
 
-@media screen and (min-width: 1500px) {
-div.formdiv{
+@media screen and (min-width: 768px) and (max-width: 1500px) {
+    div.formdiv{
     font-size:1.8vh;
 }
 .info{
@@ -121,8 +127,7 @@ img {
 }
 }
 
-@media screen and (min-width: 2000px) {
-
+@media screen and (min-width: 1500px) and (max-width: 2000px) {
 div.formdiv{
     font-size:1.8vh;
 }
