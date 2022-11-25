@@ -1,4 +1,4 @@
-@media screen and (min-width: 250px) {
+@media screen and (max-width: 400px) {
     div.package{
         position: relative;
         width:auto;
@@ -12,7 +12,6 @@
     form{
         margin: 0rem 0rem;
         font-size:1.5rem;
-        width: fit-content;
     }
     h1,h2{
         color:white;
@@ -23,7 +22,7 @@
     }
 }
 
-@media screen and (min-width: 765px) {
+@media screen and (min-width: 401px) and (max-width: 768px){
     div.package{
         position: relative;
     }
@@ -59,7 +58,7 @@
     }
 }
 
-@media screen and (min-width: 1300px) {
+@media screen and (min-width: 769px) and (max-width: 1500px){
     div.package{
         position: relative;
     }
@@ -94,7 +93,7 @@
         }
     }
 
-@media screen and (min-width: 2000px) {
+    @media screen and (min-width: 1500px) and (min-width: 2000px){
     div.package{
         position: relative;
     }
