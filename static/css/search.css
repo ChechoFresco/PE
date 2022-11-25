@@ -61,94 +61,98 @@ h3{
 }
 
 @media screen and (max-width: 400px){
-div.formdiv{
-    font-size: 1rem;
-    top: 1rem;
-    left: 8rem;
-}
-div.background {
-    position: relative;
-    height: 4vh;
-}
-.info{
-    position: absolute;
-    height:46%;
-    column-count: 6;
-    width:100%;
-}
-h3{
-    font-size:.7rem;
-}
-div.background {
-    height:0px;
-}
-img {
-    display: none;
-}
-.frost {
-    top:3vh;
-    height:100vh;
-}
+    div.formdiv{
+        font-size: 1rem;
+        top: 1rem;
+        left: 8rem;
+    }
+    div.background {
+        position: relative;
+        height: 4vh;
+    }
+    .info{
+        position: absolute;
+        height:46%;
+        column-count: 6;
+        width:100%;
+    }
+    h3{
+        font-size:.7rem;
+    }
+    div.background {
+        height:0px;
+    }
+    img {
+        display: none;
+    }
+    .frost {
+        top:3vh;
+        height:100vh;
+    }
 }
 
 @media screen and (min-width: 400px) and (max-width: 768px) { 
     div.formdiv{
     font-size: 1.2vh;
-}
-
-.info{
-    height:46%;
-    column-count: 6;
-    width:100%;
-}
-div.background {
-    height:80vh;
-}
-img {
-    display:block;
-}
+    }
+    .info{
+        height:46%;
+        column-count: 6;
+        width:100%;
+    }
+    div.background {
+        height:80vh;
+    }
+    img {
+        display:block;
+    }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1500px) {
+    .frost {
+        top:0vh;
+        height:80vh;
+    }
     div.formdiv{
-    font-size:1.8vh;
-}
-.info{
-    position: absolute;
-    height: 46%;
-    column-count: 6;
-    width:100%;
-}
-div.background {
-    height:80vh;
-}
-img {
-    display:block;
-}
+        font-size:1.8vh;
+        top:0vh;
+    }
+    .info{
+        position: absolute;
+        height: 46%;
+        column-count: 6;
+        width:100%;
+    }
+    div.background {
+        height:80vh;
+    }
+    img {
+        display:block;
+    }
 }
 
 @media screen and (min-width: 1500px) and (max-width: 2000px) {
-div.formdiv{
-    font-size:1.8vh;
-}
-.info{
-    position: absolute;
-    height: 46%;
-    column-count: 6;
-    width:100%;
+    div.formdiv{
+        font-size:1.8vh;
+    }
+    .info{
+        position: absolute;
+        height: 46%;
+        column-count: 6;
+        width:100%;
+    }
+    div.package{
+        position: relative;
+        width:100vw;
+    }
+    div.background {
+        height:80vh;
+    }
+    img {
+        display:block;
+    }
 }
 
-div.package{
-    position: relative;
-    width:100vw;
-}
-div.background {
-    height:80vh;
-}
-img {
-    display:block;
-}
-}
 
 
 
