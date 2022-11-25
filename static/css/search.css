@@ -86,14 +86,16 @@ h3{
         display: none;
     }
     .frost {
-        top:3vh;
-        height:100vh;
+        top: 3vh;
+        height: 100vh;
+        left: 2em;
+        width: 93vw;
     }
 }
 
 @media screen and (min-width: 400px) and (max-width: 768px) { 
     div.formdiv{
-    font-size: 1.2vh;
+        font-size: 1.2vh;
     }
     .info{
         height:46%;
