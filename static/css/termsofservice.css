@@ -10,33 +10,24 @@ body {
     margin: 0 auto;
 }
 
-p {
-    color:white;
-    font-size:2rem;
-}
-
 h1 {
-    font-size:3.5rem;
-    color: floralwhite;
+    font-size:2.8rem;
+    color:lavender;
     text-align: center;
+    text-shadow:
+      0 0 5px #fab935;
 }
-
 h2 {
     font-size:2rem;
-    color: floralwhite;
+    color:lavender;
     text-align: center;
+    text-shadow:
+      0 0 5px #fab935;
 }
 h3 {
-    font-size:2rem;
-    color: antiquewhite;
-    text-align: center;
-}
-ul {
-    font-size:1.5rem;
     color:white;
+    font-size:1.2rem;
+    text-shadow:
+    0 0 5px black;
 }
-h4 {
-    font-size:1.8rem;
-    text-align: center;
-    color: white;
-}
+
