@@ -2,22 +2,26 @@
     padding-right:0px;
     padding-left:0px;
 }
+
 div.background {
     position: relative;
     height: 80vh;
 }
+
 img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: 0% 71%;
 }
+
 .frost {
     position: relative;
-    height: 80vh;
+    height: 71rem;
     background-color: rgba(255, 255, 255, .15);
     backdrop-filter: blur(5px);
 }
+
 div.formdiv{
     position: relative;
     font-size:2vh;
@@ -32,16 +36,19 @@ input[type=submit] {
     margin: 0 auto;
     color: gray;
 }
+
 .info{
     position: relative;
-    height:auto;
-    column-count: 6;
+    height:40rem;
+    column-count: 7;
     width:100%;
     color: white;
 }
+
 h3{
     font-size:.8rem;
 }
+
 #committeeOpt{
     display:none;
 }
@@ -62,36 +69,35 @@ h3{
 }
 
 @media screen and (max-width: 400px){
-    div.formdiv{
-        font-size: 1rem;
-        top: 1rem;
-        left: 8rem;
-    }
-    div.background {
-        position: relative;
-        height: 4vh;
-    }
-    .info{
-        position: relative;
-        height:46%;
-        column-count: 6;
-        width:100%;
-    }
-    h3{
-        font-size:.7rem;
-    }
-    div.background {
-        height:0px;
-    }
-    img {
-        display: none;
-    }
-    .frost {
-        top: 3vh;
-        height: 100vh;
-        left: 2em;
-        width: 93vw;
-    }
+div.formdiv{
+    font-size: 1rem;
+    top: 1rem;
+    left: 8rem;
+}
+div.background {
+    position: relative;
+    height: 4vh;
+}
+.info{
+    height:50rem;
+    column-count: 6;
+    width:100%;
+}
+h3{
+    font-size:.7rem;
+}
+div.background {
+    height:0px;
+}
+img {
+    display: none;
+}
+.frost {
+    top: 3vh;
+    height: 100vh;
+    left: 2em;
+    width: 93vw;
+}
 }
 
 @media screen and (min-width: 400px) and (max-width: 768px) { 
@@ -100,8 +106,8 @@ h3{
     }
 
     .info{
-        height:46%;
-        column-count: 6;
+        height:50rem;
+        column-count: 9;
         width:100%;
     }
     div.background {
@@ -109,21 +115,21 @@ h3{
     }
     img {
         display:block;
-    }
+}
 }
 
 @media screen and (min-width: 768px) and (max-width: 1500px) {
     .frost {
         top:0vh;
-        height:80vh;
+        height:71rem;
     }
     div.formdiv{
         font-size:1.8vh;
         top:0vh;
     }
     .info{
-        height: 46%;
-        column-count: 6;
+        height: 55rem;
+        column-count: 8;
         width:100%;
     }
     div.background {
@@ -137,17 +143,16 @@ h3{
 @media screen and (min-width: 1500px) and (max-width: 2000px) {
     .frost {
         top:0vh;
-        height:80vh;
+        height:71rem;
     }
     div.formdiv{
         font-size:1.8vh;
     }
     .info{
-        height: 46%;
-        column-count: 6;
+        height: 40rem;
+        column-count: 7;
         width:100%;
     }
-
     div.package{
         position: relative;
         width:100vw;
@@ -159,7 +164,6 @@ h3{
         display:block;
     }
 }
-
 
 
 
