@@ -109,11 +109,13 @@ h3#happening{
 }
 
 /* Tables */
-#con5{
-  position:relative;
-  display:flex;
-  width:70vw;
-  top:4vh;
+caption{
+  color:lavender;
+  text-align: center;
+  text-shadow:
+    0 0 3px black;  
+  font-size: 3rem;
+  font-family: 'Lobster', cursive;
 }
 h3#label{
   color:lavender;
@@ -130,7 +132,7 @@ div#split{
   align-items: flex-start;
 }
 #table_1,#table_2,#table_3,#table_4,#table_5,#table_6,#table_7,#table_8{
-  width:auto;
+  max-width:80rem;
   transform: translateY(100px);
   opacity: 0;
   transition: 2s all ease;
@@ -451,7 +453,7 @@ h3#trend{
     columns: 3;
   }
   #table_1,#table_2,#table_3,#table_4,#table_5,#table_6,#table_7,#table_8{
-    width:auto;
+    width:53rem;
 }
   .description{
     width:100%;
