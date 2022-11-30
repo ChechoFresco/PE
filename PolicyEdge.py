@@ -1117,78 +1117,6 @@ def int2date(agDate: int) -> date:#Chages format of dates in charts
 
     return date(year,month,day)
 
-@app.route('/southBay', methods=['GET', 'POST'])
-def southbay():
-    if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(weeks=-2) 
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Torrance "," Carson "," Lomita "," Rancho Palos Verdes "," Rolling Hills "," Rolling Hills Estates "," Redondo Beach "," Hermosa Beach "," Manhattan Beach "," El Segundo "," Hawthorne "," Lawndale "," Gardena "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('southbay.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring Southbay Search Results")
-
-@app.route('/gateway', methods=['GET', 'POST'])
-def gateway():
-    if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(weeks=-2) 
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[ " Lakewood "," Long Beach "," Signal Hill "," Compton ", " Lynwood ", " South Gate ", " Cudahy ", " Bell ", " Maywood ", " Vernon ", " Bell Gardens ", " Commerce ", " Downey ", " Pico Rivera ", " Santa Fe Springs "," Whittier ", " Santa Fe Springs ", " Norwalk ", " La Mirada ", " Cerritos ", " Hawaiian Gardens ", " Bellflower ", " Paramount "," Artesia " ]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('gateway.html', agendas=agenda,  title = "PolicyEdge agenda Gateway Cities Search Results")
-
-@app.route('/westside', methods=['GET', 'POST'])
-def westside():
-    if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(weeks=-2)
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Beverly Hills " , " Culver City " , " Malibu " , " Santa Monica " , " West Hollywood "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('westside.html', agendas=agenda,  title = "PolicyEdge agenda Westside area Search Results")
-
-@app.route('/sangabrielCities', methods=['GET', 'POST'])
-def sangabriel():
-    if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(weeks=-2) 
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Alhambra "," Arcadia "," Azusa "," Baldwin Park "," Bradbury "," Covina "," Diamond Bar "," Duarte "," El Monte "," Glendora "," City of Industry "," Irwindale "," La Canada Flintridge "," La Puente "," La Verne "," Monrovia "," Montebello "," Monterey Park "," Pasadena "," Pomona "," Rosemead "," San Dimas "," San Gabriel "," San Marino "," Sierra Madre "," South El Monte ", " S Pasadena ", " Temple City "," Walnut "," West Covina "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('sangabrielCities.html', agendas=agenda,  title = "PolicyEdge agenda San Gabriel Area Search Results")
-
-@app.route('/sanfernandoCities', methods=['GET', 'POST'])
-def sanfernando():
-    if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(weeks=-2) 
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {"City":{'$in':[" Agoura Hills " , " Burbank " , " Calabasas " , " Glendale " , " Hidden Hills " , " San Fernando " , " Westlake Village "]}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('sanfernandoCities.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring San Fernando Search Results")
-
-@app.route('/cannabis', methods=['GET', 'POST'])
-def cannabis():
-    if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(weeks=-2) 
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'cannabis'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        return render_template('cannabis.html', agendas=agenda,  title = "Search Results")
-
 @app.route('/savedIssues', methods=['GET', 'POST'])
 def savedIssues():
     if "username" in session:
@@ -1358,6 +1286,66 @@ def termsofservice():
 def privacypolicy():
     return render_template('privacypolicy.html', title='PolicyEdge agenda tracking monitoring Privacy Policy')
 
+@app.route('/losangeles', methods=['GET', 'POST'])
+def losangeles():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(weeks=-2) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'LA County', '$options': 'i' }}]}).sort('Date').sort('City')
+        return render_template('losangeles.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring Los Angeles County Search Results")
+
+@app.route('/orange', methods=['GET', 'POST'])
+def orange():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(weeks=-2) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'Orange County', '$options': 'i' }}]}).sort('Date').sort('City')
+        return render_template('orange.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring Riverside County Search Results")
+
+@app.route('/riverside', methods=['GET', 'POST'])
+def riverside():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(weeks=-2) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'Riverside County', '$options': 'i' }}]}).sort('Date').sort('City')
+        return render_template('riverside.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring Orange County Search Results")
+
+@app.route('/sanbernandino', methods=['GET', 'POST'])
+def sanbernandino():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(weeks=-2) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'San Bernandino County', '$options': 'i' }}]}).sort('Date').sort('City')
+        return render_template('sanbernandino.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring San Bernandino County Search Results")
+
+@app.route('/sandiego', methods=['GET', 'POST'])
+def sandiego():
+    if request.method == 'GET':
+        a = date.today()
+        b= str(a).replace("-","")
+        today=int(b)
+        c = date.today() + relativedelta(weeks=-2) #Change month to 3
+        d= str(c).replace("-","")
+        lMonth=int(d)
+        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}]}).sort('Date').sort('City')
+        return render_template('sandiego.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring San Diego County Search Results")
+    
 if __name__ == '__main__':
     app.run(debug = True)
 
