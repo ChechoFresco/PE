@@ -294,11 +294,6 @@ li.icon{
 /* ################################################# */
 @media screen and (min-width: 1500px) and (min-width: 2000px)
 {
-  i.fa.fa-bars{
-    position: relative;
-    font-size:3rem;
-    right: -2em;
-}
 .navbar-right li a {
   padding: 22px 26px;
   font-size: 4.5rem;
