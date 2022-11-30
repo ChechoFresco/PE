@@ -165,7 +165,6 @@ def index():
         agendaf = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'healthcare'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
         agendag = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'climate'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
         agendah = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'military'}},{ 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendah = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'military'}},{ 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
         agendaLACounty = mongo.db.Agenda.find({'$and':[ {"County":" LA County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaSanBerCounty = mongo.db.Agenda.find({'$and':[ {"County":" San Bernandino County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaRiverCounty = mongo.db.Agenda.find({'$and':[ {"County":" Riverside County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
