@@ -12,7 +12,7 @@ html, body{
 /* Navbar complete*/
 .navbar{
   background: transparent;
-  max-width: 221rem;
+  max-width: 1920px;
   position: relative;
   z-index: 2;
   margin: 0 auto;
