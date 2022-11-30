@@ -169,9 +169,7 @@ def index():
         agendac = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'EV'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
         agendad = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'homeless'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
         agendae = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'rfp'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendaf = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'healthcare'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendag = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'climate'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendah = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'military'}},{ 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendaf = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'climate'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
         agendaLACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":" LA County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaSanBerCounty = mongo.db.Agenda.find({'$and':[ {"County":" San Bernandino County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaRiverCounty = mongo.db.Agenda.find({'$and':[ {"County":" Riverside County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
@@ -257,7 +255,7 @@ def index():
 
         fdist6 = nltk.FreqDist(grams6)
 
-    return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2,fdist3s=fdist3,fdist4s=fdist4,fdist5s=fdist5,fdist6s=fdist6,agendaas=agendaa,agendabs=agendab,agendacs=agendac,agendads=agendad,agendaes=agendae,agendafs=agendaf,agendags=agendag,agendahs=agendah, title="Welcome to my site")
+    return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2,fdist3s=fdist3,fdist4s=fdist4,fdist5s=fdist5,fdist6s=fdist6,agendaas=agendaa,agendabs=agendab,agendacs=agendac,agendads=agendad,agendaes=agendae,agendafs=agendaf, title="Welcome to my site")
 
 
 #@app.route('/', methods=['GET', 'POST'])
@@ -340,10 +338,7 @@ def loggedIn():
         agendac = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'EV'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
         agendad = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'homeless'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
         agendae = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'rfp'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendaf = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'healthcare'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendag = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'climate'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendah = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'military'}},{ 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendah = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'military'}},{ 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendaf = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'climate'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
         agendaLACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":" LA County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaSanBerCounty = mongo.db.Agenda.find({'$and':[ {"County":" San Bernandino County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaRiverCounty = mongo.db.Agenda.find({'$and':[ {"County":" Riverside County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
