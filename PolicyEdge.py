@@ -17,6 +17,7 @@ from nltk.corpus import stopwords
 import string
 import csv
 
+
 app = Flask(__name__,)
 
 app.config['MONGO_URI'] = os.environ.get("MONGO_URI")
@@ -29,6 +30,7 @@ app.config['MAIL_USE_SSL'] = True
 app.secret_key = os.environ.get("SESS_KEY")
 
 nltk.download('punkt')
+nltk.download('words')
 nltk.download('stopwords')
 
 mongo = PyMongo(app)
@@ -143,6 +145,11 @@ def index():
     if "username" in session:
         return redirect(url_for("loggedIn"))
     else:
+        words = set(nltk.corpus.words.words())
+        stop_words=set(stopwords.words("english") + list(string.punctuation))
+        SingleWord=('local emergency''legislative analyst''selection process''negotiator negotiator''financial analysis''categorical exemption''chapter reference''negative declaration''set forth''mechanical residential''taking additional''neither legislative''analyst financial''matter jurisdiction''separate discussion''south gate''three additional''none limit'
+'ability safely''removed considered''warrant register''form acceptable''undertake finalize''site review''floor area''street street''new business''doe doe''resolve find''find director''director determined''effectuate intent''mitigation program''master application''riverside county''member ending''conference litigation''waive full''parcel map''western riverside''update presentation''tentative map''adoption building''building fire''conference conference''quarter ending''initiate zoning''full waive''tentative parcel''see see''position member''ending member''district affected''contact person''result direct''san san''charter taken''aken contact''mayor taken''mayor designee''oceanside oceanside''association oceanside''change contact''orange county''pacific avenue''avenue pacific''waive full''provide direction''notice completion''parcel map''edition building''make necessary''measure expenditure''way way''specific plan''edition edition''determine result''result physical''physical change''change directly''introduce first''building edition''mayor behalf''costa mesa''direction regarding''specific plan''waive full ''neighborhood neighborhood''avenue avenue''alternatively discuss''discuss take''housing element''memorandum understanding''superior court''negotiation price''improvement project''purchase order''court case''one motion''take related''agenda ocean''cost account''account cost''grant funds''commission commission''listed agenda''article class''board airport''last day''project project''attachment attachment''land use''long beach''general fund''closed session''office department''regular meeting''community development''award contract''consent calendar''legal counsel''report relative''ordinance ordinance''reading ordinance''administrative officer''item consideration''staff report''recommendation recommendation''committee report''police department''exempt pursuant''chief executive''subject approval''second reading''real property''amendment agreement''successor agency''town town''city council''city manager''impact statement''authorize city''adopt resolution''code section''government code''city attorney''municipal code''code title''action approve''council city''resolution city''quality act ''public hearing''fiscal year''city clerk''environmental quality''receive file''public works''amount exceed''council action''resolution resolution''council consider''manager execute')  
+        
         a = date.today()+ relativedelta(weeks=2)
         b= str(a).replace("-","")
         today=int(b)
@@ -175,14 +182,12 @@ def index():
         box1=[]
         for x in agendaLACounty:
             box1.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord1=('conditions findings.applicant''2022.present setting''articles xiiic''xiiic xiiid''xiiid constitution''collected annually''annually starting''starting 2022-23''2022-23 dedicated''dedicated system.community''purposes 100/56''pdf " cc"''chair personnel''resolve environmentalmanagement''environmentalmanagement determined''supplemental tax-exempt''full ordinances''ability members''education neighborhoods''including errata''district.recommendations deny''deny protest''protest confirm''confirm assessments.present''assessments.present levying''levying assessments''assessments ordering''ordering 53753''plans specifications''common sense''web link''adoption intention''due covid-19''al. superior''independent judgment''650 676''656 medical''15308 class''site review''hearings held''subdivision security''security documents''documents bond''subdivider paid''processing 19.02''19.02 additional''additional needed.community''western avenue''avenue cdbg''roll call''september 2022.''new received''task force''adding chapter''incorporating amending''view onbase''agoura hills''cubic yards''silver lake''appellant representative''2021-22.fiscal 10-14-22''assessment district\\xad''22- repealing''andexecution authority''760 sewer''operations dept''dept no.50''no.50 appropriation''labor negotiator''metropolitan transportation''transportation authority''county metropolitan''proclamation declaring''measures promote''december december''lacity.org 213''citycouncil carson''human resources''proposed amendment''approving amendment''whole record''final l.a.''written comments''amendments thereto''teleconference meetings''mitigation monitoring''reports recommendations''list historic-cultural''recess 54956.9''recommended find''related findings''associates inc.''considered routine''safely person''within jurisdiction''make technical''corrections clarifications''president two''united states''minutes special''three years''continues directly''information technology''technical corrections''oaks initiative''march 2020''assembly bill''reap lahd''accounting requesting''south vicente''west neighborhood''negotiation price''motion reconsider''rent escrow''escrow account''account program''program reap''lahd accompanying''effectuate intent''police commissioners''form approved''local officials''reap.fiscal lahd''january 2023''june 2023''21city tuesday''2022city 411''411 ocean''ocean boulevardcivic''boulevardcivic chambers''chambers 5:00''palos verdes''sections 6.95-6.127''communication adopted''separate discussion''audits animal''substantial evidence''multifamily conduit''conduit revenue''exempt guidelines''existing litigation''expenditure none.recommendation''parks recreation''zone change''pico rivera''economic development''take place''successor agency''advisory board''extend term''submittedtime limit''thecity downey''floor area''development director''provide direction''negative declaration''categorical exemption''budget finance''notice completion''memorandum understanding''regulations title''regular minute''california quality''agenda items''property located''land use''warrant register''recommendation staff''award contract''removing property''santa monica''parcel map''waived consideration''purchase order''proposition 218''adopting reference''designee execute''committee waived''set forth''grant funds''second consideration''district accordance''consideration matter''court case''real property''improvement project''staff reportattachment''general fund''receive file''planning commission''subject approval''closed session''legal counsel''professional services''chief legislative''consent calendar''services agreement''pursuant ceqa''approval mayor''conference legal''first reading''amount exceed''legislative completed''ceqa pursuant''housing department''long beach''last day''attached file''reading ordinance''city council''impact statement''los angeles''statement none''city manager''council action''october 2022''november 2022''report dated''none submitted''administrative officer''municipal code''adopt resolution''city clerk''action approve''code section''fiscal year''authorize city''public works''government code''city administrative''street lighting''recommends city''public hearing''council meeting''impact statement''statement yescommunity''yescommunity impact''statement submittedreport''report.community impact''bureau lighting''financial analysis''analysis report.community''analyst financial''policies statement''neither administrative''square feet''administrative analyst''building standards''relative maintenance ''statement nocommunity ''nocommunity impact ''bureau sanitation ''water power ''assessor i.d''statement yesfinancial ''yesfinancial policies ''statement cao ''environmental article')
         tokens1=[]
         for w in box1:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord1:
-                    tokens1.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens1.append(w)
         grams1 = nltk.ngrams(tokens1, 2)
 
         fdist1 = nltk.FreqDist(grams1)
@@ -190,14 +195,12 @@ def index():
         box2=[]
         for x in agendaSanBerCounty:
             box2.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord2=()
         tokens2=[]
         for w in box2:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord2:
-                    tokens2.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens2.append(w)
         grams2 = nltk.ngrams(tokens2, 2)
 
         fdist2 = nltk.FreqDist(grams2)
@@ -205,14 +208,12 @@ def index():
         box3=[]
         for x in agendaRiverCounty:
             box3.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord3=('designee necessarydocuments.click''legislative bodies''text entirety''amending section''perris state''hemetand southern''amanda wells''wells director/city''director/city treasurerrecommended''management analystrecommended''hall avenue''improvement projects''real property''waring drive''conflict interest''sole discretion.2''pursuant §54956.9''§54956.9 and/or''wards 5-minute''propositions regarding''mustang way''open hearing''calling election''entitled ofthe''southeast corner''extend term''28214-9 exhibit''exhibit haul''32129 exhibit''fisher street''street lennar''2005-1 safety''rancho mcholland''mcholland llc''lake elsinore''investment september''conference legal''closed session''desertcity negotiator''negotiator todd''cejanegotiating parties''negotiation price''2025 two''proposed number''items listed''approving amendment''successor agency''notice completion''coachella valley''necessary documents.click''next order''approve purchase''establishment appropriations''take testimony''listed agenda''county riverside''approve amendment''approve contract''supplemental appropriation''appropriations limit''tax within''palm springs''click view''second reading''fiscal year''regular meeting''tract map''community development''development block''2022-02 saddle''saddle point''block grant''amount exceed''reading ordinance''documents related''authorizing finance''classification compensation''levy special''waive reading''read title''consent calendar''final tract''city council''city manager''council city''resolution city''city hemet''hemet california''manager execute''adopt resolution''services agreement''interim city''recommends city''authorize city''staff recommends''receive file''action staff''public works''recommended city''pdfrecommendation respectfully''respectfully recommended''october 2022''government code''authorize interim''facilities district''consideration resolution''warrant report')
         tokens3=[]
         for w in box3:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord3:
-                    tokens3.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens3.append(w)
         grams3 = nltk.ngrams(tokens3, 2)
 
         fdist3 = nltk.FreqDist(grams3)
@@ -220,14 +221,12 @@ def index():
         box4=[]
         for x in agendaSanDieCounty:
             box4.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord4=('block grant''meets minimum''requirements sbmc''found conditioned''council:1. hearing.2''hearing.2 find''find tosection''and3 makes''makes requisite''requisite findings''findings approves''track phase''approving tentative''tentative parcel''waiver full''conference legal''2022- approving''dispatch authority''certain provisions''office.solana page''thefinal office''efficiency committeemeeting''cate-yea elo-rivera-yea''miguel merrell''paid liability''liability fund.council''exemption two''servicesenvironmental 15378''15378 stateguidelines''accept quarterly''quarterly financial''requests excused''columbus statue''528 529''adopted budget''local agency''jpa primary-harless''commissiono commissiono''boards commissions''2nd pipelines''lacava-yea campbell-yea''actions.vote 3-0''3-0 lacava-yea''planning decision''independent budget''budget analyst''budget government''hilda mendoza''considered afternoon''afternoon session''session scheduledto''scheduledto begin''begin 2:00''2:00 p.m.total''proclaiming november''program coordinator''chula vista''next order''building fire''unified school''98-02 lighting''categorically exempt''approve minutes''.attachments election''conduct open''open disclosures''disclosures receive''receive testimony''testimony close''highway 101''reference mr.''consent calendar''ordinances resolutions''reason survive''subject n/adevelopment''n/adevelopment services''voted councilmember''von wilpert-yea''associated action.council''apportionment special''waive text''league cities''warrant register''following introduced''moreno-not present''vice chair''chamber commerce''parks recreation''provide direction''joint powers''citizen commission''appropriating funds''entitled national''not-to-exceed amount''amendment agreement''north county''general plan''amending title''regular agenda''montgomery steppe-yea''court case''153''guidelinessection''otay ranch''ranch village''note file''attached certifying''annexing theproperties''theproperties listed''listed community''annexation boundary''boundary map''property maps''method apportionmen''council approval''state guidelines''introduction ordinance''2022.action motion''recommend council''notice activity''activity project''project defined''defined''78''guidelines therefore''approval staff''ceqa guidelines''cfd 98-01''recommendation council1''staff recommends''submittals.the final''final clerk''solana beach''ordinance authorizing''adopting amended''specific geographic''geographic locationdepartment''15060 required.recommended''board directors''san diego''cost proposed''proposed action''action source''public hearing''attorney contact''quality act''district citywide.proposed''citywide.proposed actions''municipal code''adopt resolution''environmental quality''fiscal year''october 2022''san marcos''second reading''action adopt''pursuant section''environmental review''2022 california''thecalifornia environmental''cut time''time meeting''meeting new''actions item''estimated funding''affected citywide.propose''supplemental docs''posted reports''reports supplemental''docs contain''contain records''records prior''prior start''start processing''official record''record containing''containing handouts''handouts powerpoints''powerpoints etc''etc obtained''obtained records''records request''conflict interest''click posted''taken heard''mayor veto.committee''veto.committee taken''votes required''required charter')
         tokens4=[]
         for w in box4:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord4:
-                    tokens4.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens4.append(w)
         grams4 = nltk.ngrams(tokens4, 2)
 
         fdist4 = nltk.FreqDist(grams4)
@@ -235,14 +234,12 @@ def index():
         box5=[]
         for x in agendaOrangeCounty:
             box5.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord5=('legislative bodies''commissions committees''initiative uasi''resolutions approving''wire transfer''warrant registers''santa margarita''thecalifornia standards''regulations including''model codes''director designee''certificate recognition''lake forest''committee reports''transportation authority''advisory committee''titles appear''services agreements''related documents''potential cases''second adoption''works department''capital improvement''establishing classification''classification andcompensation''andcompensation policy''based 2021''chapman avenue''54956.9 number''wishing address''yorba linda''bella terra''september 2022recommended''project 21/22''dana point''treasurer monthly''take necessary''cityof anaheim''paragraph subdivision''closed session''name case''property located''final payment''certain amendments''laguna hills''planning commission''counsel existing''pay period''successor agency''exempt change''counsel anticipated''management association''san clemente''agenda report''community development''adopting reference''approval minutes''amending chapter''effective pay''period includes''minutes ofoctober''mission viejo''items removed''amount exceed''consent calendar''view item''item etai''entitled ordinance''staff recommends''quality ceqa''inc. amount''litigation pursuant''notice completion''check register''fiscal year''full ordinances''ceqa pursuant''provide direction''huntington beach''pursuant ceqa''mayor execute''execute agreement''introduce ordinance''city council''city manager''adopt resolution''council city''october 2022''code 2022''resolution city''authorize city''city clerk''receive file''november 2022''regular meeting''government code''municipal code''action approve''2022 california''council approve''2022 edition''conference legal''council member''city california''public hearing''orange county''waive reading''action receive''share tweet''physical environment''result physical''memorandum ofunderstanding''sections 15060''15060 15060''buena park''ofirvine memorandum''ofunderstanding irvine''determine environmental''environmental sections''15060 guidelinesbecause''guidelinesbecause result''environment directly''directly orindirectly''buildings construction''additions deletions''together additions''2025 confirm''performance evaluation''ratify accompanying')
         tokens5=[]
         for w in box5:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord5:
-                    tokens5.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens5.append(w)
         grams5 = nltk.ngrams(tokens5, 2)
 
         fdist5 = nltk.FreqDist(grams5)
@@ -250,14 +247,12 @@ def index():
         box6=[]
         for x in agendaLAcomm:
             box6.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord6=('conversion 2015\\xad2016''2015\\xad2016 lightingprojectrecommending''supplemental transmittalattachment''silver lake''regulations would''north westwood''transportation committees''melrose avenue''"o farrell" krekorian''calls trs''trs available''interest● requests●''continued friday''concur davisapproving''ocb amendthe''amendthe current''nuys series''series multiplehigh''recommended organizationapproval''covid-19 emergency''three years''local officials''please passcode''commissionaction matter.b''matter.b thecommission''waiver allow''penalty 8 360''holding via''via teleconferencemotion''teleconferencemotion 54953''54953 covid-19''accordance 361''zoning administrator''whole record''669 900-9128''recommendation transmit''motions make''previous consistently''consistently rule''rule 9.3''9.3 provided''provided retains''merits voted''voted majority''merits original''determination which:1.''march 2020''negative declaration''task force''fromthe requirements''communitybenefit foundation''mladen buntich''relates listed''listed beingconsidered''beingconsidered orcommission''orcommission copy''chair discretion''discretion councils''taken time''general commentthe''commentthe opportunity''opportunity open''open meetings''meetings address''cumulative total''total thirty''thirty minutes''minutes interest''commission.members wish''wish participate''participate offer''either access''access link''yesfinancial policies''resolve environmentalmanagement''operations 50w2wp''memorandum understanding''requiredproject site''conditions findings.applicant''cubic yards''subcontractor substitution''related findings''south robertson''resolution ____________''environmentalmanagement administratively''staff reportattachment''policies referred''advance calendar●''position statements''statements itemspresentations''itemspresentations representatives''representatives resolution''resolution orcommunity''orcommunity filed''change justice''justice river''economic development''draft ordinance''existing litigation''sherman oaks''appellant representative''lighting assessment''assessment district\\xad''district\\xad hearing''hearing november''fiscal 2021-22.fiscal''2021-22.fiscal''14-22''subject matter''matter jurisdiction''municipal lamc''development standards''director sanitation''grant program''pre\\xadqualified''bpw\\xad2022\\xad0647cd''on\\xadcall ''ecommendations adoption''adoption determine''designee said''funding sources''december''accounting requesting''requesting andexecution''andexecution authority''authority expenditure''june 2023''fund 760''760 sewer''maintenance fund''fund dept''dept no.50''no.50 appropriation''appropriation 50wx82''tos''pay annual''annual npdes''fees required''required stateof''stateof period''system modifications' 'modifications cip' 'cip 6163recommending' '6163recommending szd11204' 'szd11204 c\\xad129307' 'bpw\\xad2022\\xad0588cd onbehalf' 'world airports''airport commissioners''inwood drive''drive 13375''13375 bulkhead''contracting corporation''corporation amount''removal 11700''11700 11706''11706 charnock''charnock roadrecommending''roadrecommending categorically''categorically actguidelines''actguidelines willhave''willhave compliance''compliance thecalifornia''reclamation plantelectrical''plantelectrical power''lacity.org 213''find exceptions''exceptions setforth''setforth 15300.2''allthe mayor''mayor approved''approved authorized''relative entitled''property negotiators''negotiators 54956.8''obtained attorney.''conference property''54956.8 instructions''instructions negotiators''negotiators respect''negotiation price''price terms''limit file''construction budget''c.s legacy''second one\\xadyear''15332 class''committee may''real estate''deputy clerk''continues directly''safely person''significant effect''execute amendment''15303 class''may recess''recess 54956.9''54956.9 confer''lowest responsive''construction orders''execute thecontract''communication dated''last day''use meeting''motion reconsider''responsible bidder''attorney dated''pursuant article''closed session''agenda items''court case''five working''shall provide''instruct immediately''within five''substantial evidence''boecd 6contract''6contract acceptance''acceptance donald''donald tillman''land use''california pursuant''superior court''working days''and3 instruct'"neighborhood council""planning commission""administrative officer""area planning""relay service""and2 authorize""board:1. accept""attachments board""accept contract.""contract. w.o""department planning""commission action""authorize president""president two""board comment/correspondence""two members""members board""bureau street""proposed project""board works""categorical exemption""legal counsel""approval ""as\\xadto\\xadform""square feet""street services""act ceqa""city los""angeles""city""statement none ""government code""code section""statement impact""ceqa guidelines""Los Angeles""impact statement""environmental quality""2022""chief executive""nocommunity""letterpublic""submittedreport""yescommunity""2022""august""september""july""october")
         tokens6=[]
         for w in box6:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord6:
-                    tokens6.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens6.append(w)
         grams6 = nltk.ngrams(tokens6, 2)
 
         fdist6 = nltk.FreqDist(grams6)
@@ -321,6 +316,11 @@ def login():
 def loggedIn():
     if "username" in session:
         username = session["username"]
+        words = set(nltk.corpus.words.words())
+        stop_words=set(stopwords.words("english") + list(string.punctuation))
+        SingleWord=('local emergency''legislative analyst''selection process''negotiator negotiator''financial analysis''categorical exemption''chapter reference''negative declaration''set forth''mechanical residential''taking additional''neither legislative''analyst financial''matter jurisdiction''separate discussion''south gate''three additional''none limit'
+'ability safely''removed considered''warrant register''form acceptable''undertake finalize''site review''floor area''street street''new business''doe doe''resolve find''find director''director determined''effectuate intent''mitigation program''master application''riverside county''member ending''conference litigation''waive full''parcel map''western riverside''update presentation''tentative map''adoption building''building fire''conference conference''quarter ending''initiate zoning''full waive''tentative parcel''see see''position member''ending member''district affected''contact person''result direct''san san''charter taken''aken contact''mayor taken''mayor designee''oceanside oceanside''association oceanside''change contact''orange county''pacific avenue''avenue pacific''waive full''provide direction''notice completion''parcel map''edition building''make necessary''measure expenditure''way way''specific plan''edition edition''determine result''result physical''physical change''change directly''introduce first''building edition''mayor behalf''costa mesa''direction regarding''specific plan''waive full ''neighborhood neighborhood''avenue avenue''alternatively discuss''discuss take''housing element''memorandum understanding''superior court''negotiation price''improvement project''purchase order''court case''one motion''take related''agenda ocean''cost account''account cost''grant funds''commission commission''listed agenda''article class''board airport''last day''project project''attachment attachment''land use''long beach''general fund''closed session''office department''regular meeting''community development''award contract''consent calendar''legal counsel''report relative''ordinance ordinance''reading ordinance''administrative officer''item consideration''staff report''recommendation recommendation''committee report''police department''exempt pursuant''chief executive''subject approval''second reading''real property''amendment agreement''successor agency''town town''city council''city manager''impact statement''authorize city''adopt resolution''code section''government code''city attorney''municipal code''code title''action approve''council city''resolution city''quality act ''public hearing''fiscal year''city clerk''environmental quality''receive file''public works''amount exceed''council action''resolution resolution''council consider''manager execute')  
+        
         a = date.today()+ relativedelta(weeks=2)
         b= str(a).replace("-","")
         today=int(b)
@@ -354,14 +354,12 @@ def loggedIn():
         box1=[]
         for x in agendaLACounty:
             box1.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord1=('conditions findings.applicant''2022.present setting''articles xiiic''xiiic xiiid''xiiid constitution''collected annually''annually starting''starting 2022-23''2022-23 dedicated''dedicated system.community''purposes 100/56''pdf " cc"''chair personnel''resolve environmentalmanagement''environmentalmanagement determined''supplemental tax-exempt''full ordinances''ability members''education neighborhoods''including errata''district.recommendations deny''deny protest''protest confirm''confirm assessments.present''assessments.present levying''levying assessments''assessments ordering''ordering 53753''plans specifications''common sense''web link''adoption intention''due covid-19''al. superior''independent judgment''650 676''656 medical''15308 class''site review''hearings held''subdivision security''security documents''documents bond''subdivider paid''processing 19.02''19.02 additional''additional needed.community''western avenue''avenue cdbg''roll call''september 2022.''new received''task force''adding chapter''incorporating amending''view onbase''agoura hills''cubic yards''silver lake''appellant representative''2021-22.fiscal 10-14-22''assessment district\\xad''22- repealing''andexecution authority''760 sewer''operations dept''dept no.50''no.50 appropriation''labor negotiator''metropolitan transportation''transportation authority''county metropolitan''proclamation declaring''measures promote''december december''lacity.org 213''citycouncil carson''human resources''proposed amendment''approving amendment''whole record''final l.a.''written comments''amendments thereto''teleconference meetings''mitigation monitoring''reports recommendations''list historic-cultural''recess 54956.9''recommended find''related findings''associates inc.''considered routine''safely person''within jurisdiction''make technical''corrections clarifications''president two''united states''minutes special''three years''continues directly''information technology''technical corrections''oaks initiative''march 2020''assembly bill''reap lahd''accounting requesting''south vicente''west neighborhood''negotiation price''motion reconsider''rent escrow''escrow account''account program''program reap''lahd accompanying''effectuate intent''police commissioners''form approved''local officials''reap.fiscal lahd''january 2023''june 2023''21city tuesday''2022city 411''411 ocean''ocean boulevardcivic''boulevardcivic chambers''chambers 5:00''palos verdes''sections 6.95-6.127''communication adopted''separate discussion''audits animal''substantial evidence''multifamily conduit''conduit revenue''exempt guidelines''existing litigation''expenditure none.recommendation''parks recreation''zone change''pico rivera''economic development''take place''successor agency''advisory board''extend term''submittedtime limit''thecity downey''floor area''development director''provide direction''negative declaration''categorical exemption''budget finance''notice completion''memorandum understanding''regulations title''regular minute''california quality''agenda items''property located''land use''warrant register''recommendation staff''award contract''removing property''santa monica''parcel map''waived consideration''purchase order''proposition 218''adopting reference''designee execute''committee waived''set forth''grant funds''second consideration''district accordance''consideration matter''court case''real property''improvement project''staff reportattachment''general fund''receive file''planning commission''subject approval''closed session''legal counsel''professional services''chief legislative''consent calendar''services agreement''pursuant ceqa''approval mayor''conference legal''first reading''amount exceed''legislative completed''ceqa pursuant''housing department''long beach''last day''attached file''reading ordinance''city council''impact statement''los angeles''statement none''city manager''council action''october 2022''november 2022''report dated''none submitted''administrative officer''municipal code''adopt resolution''city clerk''action approve''code section''fiscal year''authorize city''public works''government code''city administrative''street lighting''recommends city''public hearing''council meeting''impact statement''statement yescommunity''yescommunity impact''statement submittedreport''report.community impact''bureau lighting''financial analysis''analysis report.community''analyst financial''policies statement''neither administrative''square feet''administrative analyst''building standards''relative maintenance ''statement nocommunity ''nocommunity impact ''bureau sanitation ''water power ''assessor i.d''statement yesfinancial ''yesfinancial policies ''statement cao ''environmental article')
         tokens1=[]
         for w in box1:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord1:
-                    tokens1.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens1.append(w)
         grams1 = nltk.ngrams(tokens1, 2)
 
         fdist1 = nltk.FreqDist(grams1)
@@ -369,14 +367,12 @@ def loggedIn():
         box2=[]
         for x in agendaSanBerCounty:
             box2.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord2=()
         tokens2=[]
         for w in box2:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord2:
-                    tokens2.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens2.append(w)
         grams2 = nltk.ngrams(tokens2, 2)
 
         fdist2 = nltk.FreqDist(grams2)
@@ -384,14 +380,12 @@ def loggedIn():
         box3=[]
         for x in agendaRiverCounty:
             box3.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord3=('designee necessarydocuments.click''legislative bodies''text entirety''amending section''perris state''hemetand southern''amanda wells''wells director/city''director/city treasurerrecommended''management analystrecommended''hall avenue''improvement projects''real property''waring drive''conflict interest''sole discretion.2''pursuant §54956.9''§54956.9 and/or''wards 5-minute''propositions regarding''mustang way''open hearing''calling election''entitled ofthe''southeast corner''extend term''28214-9 exhibit''exhibit haul''32129 exhibit''fisher street''street lennar''2005-1 safety''rancho mcholland''mcholland llc''lake elsinore''investment september''conference legal''closed session''desertcity negotiator''negotiator todd''cejanegotiating parties''negotiation price''2025 two''proposed number''items listed''approving amendment''successor agency''notice completion''coachella valley''necessary documents.click''next order''approve purchase''establishment appropriations''take testimony''listed agenda''county riverside''approve amendment''approve contract''supplemental appropriation''appropriations limit''tax within''palm springs''click view''second reading''fiscal year''regular meeting''tract map''community development''development block''2022-02 saddle''saddle point''block grant''amount exceed''reading ordinance''documents related''authorizing finance''classification compensation''levy special''waive reading''read title''consent calendar''final tract''city council''city manager''council city''resolution city''city hemet''hemet california''manager execute''adopt resolution''services agreement''interim city''recommends city''authorize city''staff recommends''receive file''action staff''public works''recommended city''pdfrecommendation respectfully''respectfully recommended''october 2022''government code''authorize interim''facilities district''consideration resolution''warrant report')
         tokens3=[]
         for w in box3:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord3:
-                    tokens3.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens3.append(w)
         grams3 = nltk.ngrams(tokens3, 2)
 
         fdist3 = nltk.FreqDist(grams3)
@@ -399,14 +393,12 @@ def loggedIn():
         box4=[]
         for x in agendaSanDieCounty:
             box4.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord4=('block grant''meets minimum''requirements sbmc''found conditioned''council:1. hearing.2''hearing.2 find''find tosection''and3 makes''makes requisite''requisite findings''findings approves''track phase''approving tentative''tentative parcel''waiver full''conference legal''2022- approving''dispatch authority''certain provisions''office.solana page''thefinal office''efficiency committeemeeting''cate-yea elo-rivera-yea''miguel merrell''paid liability''liability fund.council''exemption two''servicesenvironmental 15378''15378 stateguidelines''accept quarterly''quarterly financial''requests excused''columbus statue''528 529''adopted budget''local agency''jpa primary-harless''commissiono commissiono''boards commissions''2nd pipelines''lacava-yea campbell-yea''actions.vote 3-0''3-0 lacava-yea''planning decision''independent budget''budget analyst''budget government''hilda mendoza''considered afternoon''afternoon session''session scheduledto''scheduledto begin''begin 2:00''2:00 p.m.total''proclaiming november''program coordinator''chula vista''next order''building fire''unified school''98-02 lighting''categorically exempt''approve minutes''.attachments election''conduct open''open disclosures''disclosures receive''receive testimony''testimony close''highway 101''reference mr.''consent calendar''ordinances resolutions''reason survive''subject n/adevelopment''n/adevelopment services''voted councilmember''von wilpert-yea''associated action.council''apportionment special''waive text''league cities''warrant register''following introduced''moreno-not present''vice chair''chamber commerce''parks recreation''provide direction''joint powers''citizen commission''appropriating funds''entitled national''not-to-exceed amount''amendment agreement''north county''general plan''amending title''regular agenda''montgomery steppe-yea''court case''153''guidelinessection''otay ranch''ranch village''note file''attached certifying''annexing theproperties''theproperties listed''listed community''annexation boundary''boundary map''property maps''method apportionmen''council approval''state guidelines''introduction ordinance''2022.action motion''recommend council''notice activity''activity project''project defined''defined''78''guidelines therefore''approval staff''ceqa guidelines''cfd 98-01''recommendation council1''staff recommends''submittals.the final''final clerk''solana beach''ordinance authorizing''adopting amended''specific geographic''geographic locationdepartment''15060 required.recommended''board directors''san diego''cost proposed''proposed action''action source''public hearing''attorney contact''quality act''district citywide.proposed''citywide.proposed actions''municipal code''adopt resolution''environmental quality''fiscal year''october 2022''san marcos''second reading''action adopt''pursuant section''environmental review''2022 california''thecalifornia environmental''cut time''time meeting''meeting new''actions item''estimated funding''affected citywide.propose''supplemental docs''posted reports''reports supplemental''docs contain''contain records''records prior''prior start''start processing''official record''record containing''containing handouts''handouts powerpoints''powerpoints etc''etc obtained''obtained records''records request''conflict interest''click posted''taken heard''mayor veto.committee''veto.committee taken''votes required''required charter')
         tokens4=[]
         for w in box4:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord4:
-                    tokens4.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens4.append(w)
         grams4 = nltk.ngrams(tokens4, 2)
 
         fdist4 = nltk.FreqDist(grams4)
@@ -414,14 +406,12 @@ def loggedIn():
         box5=[]
         for x in agendaOrangeCounty:
             box5.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord5=('legislative bodies''commissions committees''initiative uasi''resolutions approving''wire transfer''warrant registers''santa margarita''thecalifornia standards''regulations including''model codes''director designee''certificate recognition''lake forest''committee reports''transportation authority''advisory committee''titles appear''services agreements''related documents''potential cases''second adoption''works department''capital improvement''establishing classification''classification andcompensation''andcompensation policy''based 2021''chapman avenue''54956.9 number''wishing address''yorba linda''bella terra''september 2022recommended''project 21/22''dana point''treasurer monthly''take necessary''cityof anaheim''paragraph subdivision''closed session''name case''property located''final payment''certain amendments''laguna hills''planning commission''counsel existing''pay period''successor agency''exempt change''counsel anticipated''management association''san clemente''agenda report''community development''adopting reference''approval minutes''amending chapter''effective pay''period includes''minutes ofoctober''mission viejo''items removed''amount exceed''consent calendar''view item''item etai''entitled ordinance''staff recommends''quality ceqa''inc. amount''litigation pursuant''notice completion''check register''fiscal year''full ordinances''ceqa pursuant''provide direction''huntington beach''pursuant ceqa''mayor execute''execute agreement''introduce ordinance''city council''city manager''adopt resolution''council city''october 2022''code 2022''resolution city''authorize city''city clerk''receive file''november 2022''regular meeting''government code''municipal code''action approve''2022 california''council approve''2022 edition''conference legal''council member''city california''public hearing''orange county''waive reading''action receive''share tweet''physical environment''result physical''memorandum ofunderstanding''sections 15060''15060 15060''buena park''ofirvine memorandum''ofunderstanding irvine''determine environmental''environmental sections''15060 guidelinesbecause''guidelinesbecause result''environment directly''directly orindirectly''buildings construction''additions deletions''together additions''2025 confirm''performance evaluation''ratify accompanying')
         tokens5=[]
         for w in box5:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord5:
-                    tokens5.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens5.append(w)
         grams5 = nltk.ngrams(tokens5, 2)
 
         fdist5 = nltk.FreqDist(grams5)
@@ -429,14 +419,12 @@ def loggedIn():
         box6=[]
         for x in agendaLAcomm:
             box6.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-        stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord6=('conversion 2015\\xad2016''2015\\xad2016 lightingprojectrecommending''supplemental transmittalattachment''silver lake''regulations would''north westwood''transportation committees''melrose avenue''"o farrell" krekorian''calls trs''trs available''interest● requests●''continued friday''concur davisapproving''ocb amendthe''amendthe current''nuys series''series multiplehigh''recommended organizationapproval''covid-19 emergency''three years''local officials''please passcode''commissionaction matter.b''matter.b thecommission''waiver allow''penalty 8 360''holding via''via teleconferencemotion''teleconferencemotion 54953''54953 covid-19''accordance 361''zoning administrator''whole record''669 900-9128''recommendation transmit''motions make''previous consistently''consistently rule''rule 9.3''9.3 provided''provided retains''merits voted''voted majority''merits original''determination which:1.''march 2020''negative declaration''task force''fromthe requirements''communitybenefit foundation''mladen buntich''relates listed''listed beingconsidered''beingconsidered orcommission''orcommission copy''chair discretion''discretion councils''taken time''general commentthe''commentthe opportunity''opportunity open''open meetings''meetings address''cumulative total''total thirty''thirty minutes''minutes interest''commission.members wish''wish participate''participate offer''either access''access link''yesfinancial policies''resolve environmentalmanagement''operations 50w2wp''memorandum understanding''requiredproject site''conditions findings.applicant''cubic yards''subcontractor substitution''related findings''south robertson''resolution ____________''environmentalmanagement administratively''staff reportattachment''policies referred''advance calendar●''position statements''statements itemspresentations''itemspresentations representatives''representatives resolution''resolution orcommunity''orcommunity filed''change justice''justice river''economic development''draft ordinance''existing litigation''sherman oaks''appellant representative''lighting assessment''assessment district\\xad''district\\xad hearing''hearing november''fiscal 2021-22.fiscal''2021-22.fiscal''14-22''subject matter''matter jurisdiction''municipal lamc''development standards''director sanitation''grant program''pre\\xadqualified''bpw\\xad2022\\xad0647cd''on\\xadcall ''ecommendations adoption''adoption determine''designee said''funding sources''december''accounting requesting''requesting andexecution''andexecution authority''authority expenditure''june 2023''fund 760''760 sewer''maintenance fund''fund dept''dept no.50''no.50 appropriation''appropriation 50wx82''tos''pay annual''annual npdes''fees required''required stateof''stateof period''system modifications' 'modifications cip' 'cip 6163recommending' '6163recommending szd11204' 'szd11204 c\\xad129307' 'bpw\\xad2022\\xad0588cd onbehalf' 'world airports''airport commissioners''inwood drive''drive 13375''13375 bulkhead''contracting corporation''corporation amount''removal 11700''11700 11706''11706 charnock''charnock roadrecommending''roadrecommending categorically''categorically actguidelines''actguidelines willhave''willhave compliance''compliance thecalifornia''reclamation plantelectrical''plantelectrical power''lacity.org 213''find exceptions''exceptions setforth''setforth 15300.2''allthe mayor''mayor approved''approved authorized''relative entitled''property negotiators''negotiators 54956.8''obtained attorney.''conference property''54956.8 instructions''instructions negotiators''negotiators respect''negotiation price''price terms''limit file''construction budget''c.s legacy''second one\\xadyear''15332 class''committee may''real estate''deputy clerk''continues directly''safely person''significant effect''execute amendment''15303 class''may recess''recess 54956.9''54956.9 confer''lowest responsive''construction orders''execute thecontract''communication dated''last day''use meeting''motion reconsider''responsible bidder''attorney dated''pursuant article''closed session''agenda items''court case''five working''shall provide''instruct immediately''within five''substantial evidence''boecd 6contract''6contract acceptance''acceptance donald''donald tillman''land use''california pursuant''superior court''working days''and3 instruct'"neighborhood council""planning commission""administrative officer""area planning""relay service""and2 authorize""board:1. accept""attachments board""accept contract.""contract. w.o""department planning""commission action""authorize president""president two""board comment/correspondence""two members""members board""bureau street""proposed project""board works""categorical exemption""legal counsel""approval ""as\\xadto\\xadform""square feet""street services""act ceqa""city los""angeles""city""statement none ""government code""code section""statement impact""ceqa guidelines""Los Angeles""impact statement""environmental quality""2022""chief executive""nocommunity""letterpublic""submittedreport""yescommunity""2022""august""september""july""october")
         tokens6=[]
         for w in box6:
             if w not in stop_words and len(w)>2:
-                if w not in SingleWord6:
-                    tokens6.append(w)
+                if w not in SingleWord:
+                    if w in words:
+                        tokens6.append(w)
         grams6 = nltk.ngrams(tokens6, 2)
 
         fdist6 = nltk.FreqDist(grams6)
