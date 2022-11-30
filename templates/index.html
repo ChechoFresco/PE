@@ -9,7 +9,7 @@
 
 <head>
     <script>function reveal() {
-            var reveals = document.querySelectorAll("#table_1,#table_2,#table_3,#table_4,#table_5,#table_6);
+            var reveals = document.querySelectorAll("#table_1,#table_2,#table_3,#table_4,#table_5,#table_6");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
@@ -26,7 +26,7 @@
 
     <script>
         $(document).ready(function () {
-            $("#table_1,#table_2,#table_3,#table_4,#table_5,#table_6).on("click", ".description", function () {
+            $("#table_1,#table_2,#table_3,#table_4,#table_5,#table_6").on("click", ".description", function () {
                 if (this.style.display === "flex") {
                     this.style.display = "revert";
                 }
