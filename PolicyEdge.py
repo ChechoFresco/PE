@@ -423,7 +423,7 @@ def loggedIn():
         grams6 = nltk.ngrams(tokens6, 2)
 
         fdist6 = nltk.FreqDist(grams6)
-        return render_template('loggedIn.html', username = username,fdist1s=fdist1,fdist2s=fdist2,fdist3s=fdist3,fdist4s=fdist4,fdist5s=fdist5,fdist6s=fdist6,agendaas=agendaa,agendabs=agendab,agendacs=agendac,agendads=agendad,agendaes=agendae,agendafs=agendaf,agendags=agendag,agendahs=agendah, title = "Welcome back!")
+        return render_template('loggedIn.html', username = username,fdist1s=fdist1,fdist2s=fdist2,fdist3s=fdist3,fdist4s=fdist4,fdist5s=fdist5,fdist6s=fdist6,agendaas=agendaa,agendabs=agendab,agendacs=agendac,agendads=agendad,agendaes=agendae,agendafs=agendaf, title = "Welcome back!")
     else:
         return redirect(url_for("login"))
 
