@@ -996,7 +996,7 @@
 
         <table id="table_6" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
             data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
-            <caption>Climate Change</caption>
+            <caption>Climate</caption>
             <thead class='h-10'>
                 <tr class='col-sm-6'>
                     <th data-field='row-City' data-sortable="true">City</th>
@@ -1018,56 +1018,6 @@
         </table>
     </div>
     <br></br>
-<!--Fourth table-->
-
-    <br></br>
-    <div id="split">
-        <table id="table_7" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
-            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
-            <caption>Climate Change</caption>
-            <thead class='h-10'>
-                <tr class='col-sm-6'>
-                    <th data-field='row-City' data-sortable="true">City</th>
-                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
-                    <th data-field='row-Date' data-sortable="False">Date</th>
-                    <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for agendag in agendags %}
-                <tr>
-                    <td class="city">{{agendag.City}}</td>
-                    <td class="meetType">{{agendag.MeetingType}} </td>
-                    <td type='text' class="date">{{agendag.Date|aTime}}</td>
-                    <td class="description">{{agendag.Description}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <table id="table_8" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
-            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='5' class="table-responsive">
-            <caption>Military</caption>
-            <thead class='h-10'>
-                <tr class='col-sm-6'>
-                    <th data-field='row-City' data-sortable="true">City</th>
-                    <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
-                    <th data-field='row-Date' data-sortable="False">Date</th>
-                    <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for agendah in agendahs %}
-                <tr>
-                    <td class="city">{{agendah.City}}</td>
-                    <td class="meetType">{{agendah.MeetingType}} </td>
-                    <td type='text'>{{agendah.Date|aTime}}</td>
-                    <td class="description">{{agendah.Description}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
     <br></br>
     <!--First trend-->
 
