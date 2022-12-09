@@ -431,7 +431,7 @@ def loggedIn():
 def logout():
     for key in list(session.keys()):
         session.pop(key) #logs user out
-    return render_template('index.html', title='PolicyEdge has signed you out of your account')
+    return redirect(url_for("index"))
 
 @app.route('/subscription', methods=['GET'])# Subscription page is needed so existing users can re-subscribe.
 def get_index():
