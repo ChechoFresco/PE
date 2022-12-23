@@ -148,12 +148,12 @@ def index():
         words = set(nltk.corpus.words.words())
         stop_words=set(stopwords.words("english") + list(string.punctuation))
         SingleWord=('local emergency''legislative analyst''selection process''negotiator negotiator''financial analysis''categorical exemption''chapter reference''negative declaration''set forth''mechanical residential''taking additional''neither legislative''analyst financial''matter jurisdiction''separate discussion''south gate''three additional''none limit'
-'ability safely''removed considered''warrant register''form acceptable''undertake finalize''site review''floor area''street street''new business''doe doe''resolve find''find director''director determined''effectuate intent''mitigation program''master application''riverside county''member ending''conference litigation''waive full''parcel map''western riverside''update presentation''tentative map''adoption building''building fire''conference conference''quarter ending''initiate zoning''full waive''tentative parcel''see see''position member''ending member''district affected''contact person''result direct''san san''charter taken''aken contact''mayor taken''mayor designee''oceanside oceanside''association oceanside''change contact''orange county''pacific avenue''avenue pacific''waive full''provide direction''notice completion''parcel map''edition building''make necessary''measure expenditure''way way''specific plan''edition edition''determine result''result physical''physical change''change directly''introduce first''building edition''mayor behalf''costa mesa''direction regarding''specific plan''waive full ''neighborhood neighborhood''avenue avenue''alternatively discuss''discuss take''housing element''memorandum understanding''superior court''negotiation price''improvement project''purchase order''court case''one motion''take related''agenda ocean''cost account''account cost''grant funds''commission commission''listed agenda''article class''board airport''last day''project project''attachment attachment''land use''long beach''general fund''closed session''office department''regular meeting''community development''award contract''consent calendar''legal counsel''report relative''ordinance ordinance''reading ordinance''administrative officer''item consideration''staff report''recommendation recommendation''committee report''police department''exempt pursuant''chief executive''subject approval''second reading''real property''amendment agreement''successor agency''town town''city council''city manager''impact statement''authorize city''adopt resolution''code section''government code''city attorney''municipal code''code title''action approve''council city''resolution city''quality act ''public hearing''fiscal year''city clerk''environmental quality''receive file''public works''amount exceed''council action''resolution resolution''council consider''manager execute')  
-        
+'ability safely''removed considered''warrant register''form acceptable''undertake finalize''site review''floor area''street street''new business''doe doe''resolve find''find director''director determined''effectuate intent''mitigation program''master application''riverside county''member ending''conference litigation''waive full''parcel map''western riverside''update presentation''tentative map''adoption building''building fire''conference conference''quarter ending''initiate zoning''full waive''tentative parcel''see see''position member''ending member''district affected''contact person''result direct''san san''charter taken''aken contact''mayor taken''mayor designee''oceanside oceanside''association oceanside''change contact''orange county''pacific avenue''avenue pacific''waive full''provide direction''notice completion''parcel map''edition building''make necessary''measure expenditure''way way''specific plan''edition edition''determine result''result physical''physical change''change directly''introduce first''building edition''mayor behalf''costa mesa''direction regarding''specific plan''waive full ''neighborhood neighborhood''avenue avenue''alternatively discuss''discuss take''housing element''memorandum understanding''superior court''negotiation price''improvement project''purchase order''court case''one motion''take related''agenda ocean''cost account''account cost''grant funds''commission commission''listed agenda''article class''board airport''last day''project project''attachment attachment''land use''long beach''general fund''closed session''office department''regular meeting''community development''award contract''consent calendar''legal counsel''report relative''ordinance ordinance''reading ordinance''administrative officer''item consideration''staff report''recommendation recommendation''committee report''police department''exempt pursuant''chief executive''subject approval''second reading''real property''amendment agreement''successor agency''town town''city council''city manager''impact statement''authorize city''adopt resolution''code section''government code''city attorney''municipal code''code title''action approve''council city''resolution city''quality act ''public hearing''fiscal year''city clerk''environmental quality''receive file''public works''amount exceed''council action''resolution resolution''council consider''manager execute')
+
         a = date.today()+ relativedelta(weeks=2)
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(weeks=-1)
+        c = date.today() + relativedelta(weeks=-16)
         d= str(c).replace("-","")
         lMonth=int(d)
 
@@ -164,12 +164,12 @@ def index():
         h= str(g).replace("-","")
         timeBefore=int(h)
 
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'water'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendab = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'cannabis'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendac = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'EV'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendad = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'homeless'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendae = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'rfp'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendaf = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'climate'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        items = ["water", "cannabis", "EV", "homeless","climate", "oil","waste","gas","utility","retail","financial"]
+        chosen = items.pop(random.randrange(len(items)))
+        chosen2=random.choice(items)
+
+        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendab = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen2}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
         agendaLACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":" LA County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaSanBerCounty = mongo.db.Agenda.find({'$and':[ {"County":" San Bernandino County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaRiverCounty = mongo.db.Agenda.find({'$and':[ {"County":" Riverside County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
@@ -255,7 +255,7 @@ def index():
 
         fdist6 = nltk.FreqDist(grams6)
 
-    return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2,fdist3s=fdist3,fdist4s=fdist4,fdist5s=fdist5,fdist6s=fdist6,agendaas=agendaa,agendabs=agendab,agendacs=agendac,agendads=agendad,agendaes=agendae,agendafs=agendaf, title="Welcome to my site")
+    return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2,fdist3s=fdist3,fdist4s=fdist4,fdist5s=fdist5,fdist6s=fdist6,agendaas=agendaa,agendabs=agendab,chosen=chosen, chosen2=chosen2, title="Welcome to my site")
 
 
 #@app.route('/', methods=['GET', 'POST'])
@@ -314,15 +314,15 @@ def login():
 def loggedIn():
     if "username" in session:
         username = session["username"]
-        words = set(nltk.corpus.words.words())
+       words = set(nltk.corpus.words.words())
         stop_words=set(stopwords.words("english") + list(string.punctuation))
-        SingleWord=('local emergency''legislative analyst''selection process''negotiator negotiator''financial analysis''categorical exemption''chapter reference''negative declaration''set forth''mechanical residential''taking additional''neither legislative''analyst financial''matter jurisdiction''separate discussion''south gate''three additional''none limit'
-'ability safely''removed considered''warrant register''form acceptable''undertake finalize''site review''floor area''street street''new business''doe doe''resolve find''find director''director determined''effectuate intent''mitigation program''master application''riverside county''member ending''conference litigation''waive full''parcel map''western riverside''update presentation''tentative map''adoption building''building fire''conference conference''quarter ending''initiate zoning''full waive''tentative parcel''see see''position member''ending member''district affected''contact person''result direct''san san''charter taken''aken contact''mayor taken''mayor designee''oceanside oceanside''association oceanside''change contact''orange county''pacific avenue''avenue pacific''waive full''provide direction''notice completion''parcel map''edition building''make necessary''measure expenditure''way way''specific plan''edition edition''determine result''result physical''physical change''change directly''introduce first''building edition''mayor behalf''costa mesa''direction regarding''specific plan''waive full ''neighborhood neighborhood''avenue avenue''alternatively discuss''discuss take''housing element''memorandum understanding''superior court''negotiation price''improvement project''purchase order''court case''one motion''take related''agenda ocean''cost account''account cost''grant funds''commission commission''listed agenda''article class''board airport''last day''project project''attachment attachment''land use''long beach''general fund''closed session''office department''regular meeting''community development''award contract''consent calendar''legal counsel''report relative''ordinance ordinance''reading ordinance''administrative officer''item consideration''staff report''recommendation recommendation''committee report''police department''exempt pursuant''chief executive''subject approval''second reading''real property''amendment agreement''successor agency''town town''city council''city manager''impact statement''authorize city''adopt resolution''code section''government code''city attorney''municipal code''code title''action approve''council city''resolution city''quality act ''public hearing''fiscal year''city clerk''environmental quality''receive file''public works''amount exceed''council action''resolution resolution''council consider''manager execute')  
-        
+        SingleWord=('text text''tweet load''fountain valley''page page''activity defined''text text''time place''lake forest''upon execution''without limitation''defined therefore''local emergency''legislative analyst''selection process''negotiator negotiator''financial analysis''categorical exemption''chapter reference''negative declaration''set forth''mechanical residential''taking additional''neither legislative''analyst financial''matter jurisdiction''separate discussion''south gate''three additional''none limit'
+'ability safely''removed considered''warrant register''form acceptable''undertake finalize''site review''floor area''street street''new business''doe doe''resolve find''find director''director determined''effectuate intent''mitigation program''master application''riverside county''member ending''conference litigation''waive full''parcel map''western riverside''update presentation''tentative map''adoption building''building fire''conference conference''quarter ending''initiate zoning''full waive''tentative parcel''see see''position member''ending member''district affected''contact person''result direct''san san''charter taken''aken contact''mayor taken''mayor designee''oceanside oceanside''association oceanside''change contact''orange county''pacific avenue''avenue pacific''waive full''provide direction''notice completion''parcel map''edition building''make necessary''measure expenditure''way way''specific plan''edition edition''determine result''result physical''physical change''change directly''introduce first''building edition''mayor behalf''costa mesa''direction regarding''specific plan''waive full ''neighborhood neighborhood''avenue avenue''alternatively discuss''discuss take''housing element''memorandum understanding''superior court''negotiation price''improvement project''purchase order''court case''one motion''take related''agenda ocean''cost account''account cost''grant funds''commission commission''listed agenda''article class''board airport''last day''project project''attachment attachment''land use''long beach''general fund''closed session''office department''regular meeting''community development''award contract''consent calendar''legal counsel''report relative''ordinance ordinance''reading ordinance''administrative officer''item consideration''staff report''recommendation recommendation''committee report''police department''exempt pursuant''chief executive''subject approval''second reading''real property''amendment agreement''successor agency''town town''city council''city manager''impact statement''authorize city''adopt resolution''code section''government code''city attorney''municipal code''code title''action approve''council city''resolution city''quality act ''public hearing''fiscal year''city clerk''environmental quality''receive file''public works''amount exceed''council action''resolution resolution''council consider''manager execute')
+
         a = date.today()+ relativedelta(weeks=2)
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(weeks=-1)
+        c = date.today() + relativedelta(weeks=-16)
         d= str(c).replace("-","")
         lMonth=int(d)
 
@@ -333,14 +333,14 @@ def loggedIn():
         h= str(g).replace("-","")
         timeBefore=int(h)
 
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'water'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendab = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'cannabis'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendac = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'EV'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendad = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'homeless'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendae = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'rfp'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendaf = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": 'climate'}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendaLACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":" LA County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaSanBerCounty = mongo.db.Agenda.find({'$and':[ {"County":" San Bernandino County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
+        items = ["water", "cannabis", "EV", "homeless","climate", "oil","waste","gas","utility","retail","financial"]
+        chosen=random.choice(items)
+        chosen2=random.choice(items)
+
+        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendab = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen2}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendaLACounty = mongo.db.Agenda.find({'$and':[ {"County":" LA County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
+        agendaSanBerCounty = mongo.db.Agenda.find({'$and':[ {"County":" San Bernadino County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaRiverCounty = mongo.db.Agenda.find({'$and':[ {"County":" Riverside County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaSanDieCounty = mongo.db.Agenda.find({'$and':[ {"County":" San Diego County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaOrangeCounty = mongo.db.Agenda.find({'$and':[ {"County":" Orange County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
@@ -423,7 +423,8 @@ def loggedIn():
         grams6 = nltk.ngrams(tokens6, 2)
 
         fdist6 = nltk.FreqDist(grams6)
-        return render_template('loggedIn.html', username = username,fdist1s=fdist1,fdist2s=fdist2,fdist3s=fdist3,fdist4s=fdist4,fdist5s=fdist5,fdist6s=fdist6,agendaas=agendaa,agendabs=agendab,agendacs=agendac,agendads=agendad,agendaes=agendae,agendafs=agendaf, title = "Welcome back!")
+
+        return render_template('loggedIn.html', username = username,fdist1s=fdist1,fdist2s=fdist2,fdist3s=fdist3,fdist4s=fdist4,fdist5s=fdist5,fdist6s=fdist6,agendaas=agendaa,agendabs=agendab, title = "Welcome back!")
     else:
         return redirect(url_for("login"))
 
