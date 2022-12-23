@@ -16,6 +16,7 @@ from nltk.probability import FreqDist
 from nltk.corpus import stopwords
 import string
 import csv
+import random
 
 
 app = Flask(__name__,)
