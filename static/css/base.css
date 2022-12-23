@@ -32,8 +32,9 @@ a#alogo{
 
 svg#logo{
   position: absolute;
-  width: 46rem;
-  height: 12rem;
+  width: 57rem;
+  height: 14rem;
+  overflow: auto;
 }
 
 #path284{
@@ -286,7 +287,7 @@ li.icon{
   svg#logo{
     position: absolute;
     width: 40rem;
-    height: 10rem;
+    height: 14rem;
   }
 }
 /* ################################################# */
@@ -304,8 +305,8 @@ div#myLinks {
 }
 svg#logo{
   position: absolute;
-  width: 48rem;
-  height: 16rem;
+  width: 57rem;
+  height: 14rem;
 }
 
 i.fa.fa-bars{
@@ -492,6 +493,7 @@ p.text-justify{
       text-align:center
     }
   }
+
 
 
 
