@@ -159,18 +159,18 @@ def index():
         timeBefore=int(h)
 
         items = ["water", "cannabis", "EV", "homeless","climate", "oil","waste","gas","utility","retail","financial"]
+        items2 = [" San Bernandino County ", " Riverside County ", " Orange County ", " San Diego County "]
+
         chosen = items.pop(random.randrange(len(items)))
         chosen2=random.choice(items)
+        chosen3= items.pop(random.randrange(len(items2)))
+        chosen4=random.choice(items2)
 
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]}).sort('Date').sort('City')
-        agendab = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen2}}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]}).sort('Date').sort('City')
-        agendaLACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":" LA County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaSanBerCounty = mongo.db.Agenda.find({'$and':[ {"County":" San Bernandino County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaRiverCounty = mongo.db.Agenda.find({'$and':[ {"County":" Riverside County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaSanDieCounty = mongo.db.Agenda.find({'$and':[ {"County":" San Diego County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaOrangeCounty = mongo.db.Agenda.find({'$and':[ {"County":" Orange County "}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaLAcomm = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not': {'$regex': " City Council ", '$options': 'i' }}}, {"City": " Los Angeles "},{ 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-
+        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendab = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen2}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosen3}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
+        agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosen4}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
+ 
         box1=[]
         for x in agendaLACounty:
             box1.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
@@ -185,7 +185,7 @@ def index():
         fdist1 = nltk.FreqDist(grams1)
 
         box2=[]
-        for x in agendaSanBerCounty:
+        for x in agendaBCounty:
             box2.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
         tokens2=[]
         for w in box2:
@@ -197,60 +197,7 @@ def index():
 
         fdist2 = nltk.FreqDist(grams2)
 
-        box3=[]
-        for x in agendaRiverCounty:
-            box3.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-        tokens3=[]
-        for w in box3:
-            if w not in stop_words and len(w)>2:
-                if w not in SingleWord:
-                    if w in words:
-                        tokens3.append(w)
-        grams3 = nltk.ngrams(tokens3, 2)
-
-        fdist3 = nltk.FreqDist(grams3)
-
-        box4=[]
-        for x in agendaSanDieCounty:
-            box4.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-        tokens4=[]
-        for w in box4:
-            if w not in stop_words and len(w)>2:
-                if w not in SingleWord:
-                    if w in words:
-                        tokens4.append(w)
-        grams4 = nltk.ngrams(tokens4, 2)
-
-        fdist4 = nltk.FreqDist(grams4)
-
-        box5=[]
-        for x in agendaOrangeCounty:
-            box5.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-        tokens5=[]
-        for w in box5:
-            if w not in stop_words and len(w)>2:
-                if w not in SingleWord:
-                    if w in words:
-                        tokens5.append(w)
-        grams5 = nltk.ngrams(tokens5, 2)
-
-        fdist5 = nltk.FreqDist(grams5)
-
-        box6=[]
-        for x in agendaLAcomm:
-            box6.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-        tokens6=[]
-        for w in box6:
-            if w not in stop_words and len(w)>2:
-                if w not in SingleWord:
-                    if w in words:
-                        tokens6.append(w)
-        grams6 = nltk.ngrams(tokens6, 2)
-
-        fdist6 = nltk.FreqDist(grams6)
-
-    return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2,fdist3s=fdist3,fdist4s=fdist4,fdist5s=fdist5,fdist6s=fdist6,agendaas=agendaa,agendabs=agendab,chosen=chosen, chosen2=chosen2, title="Welcome to my site")
-
+    return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2,agendaas=agendaa,agendabs=agendab,chosen=chosen, chosen2=chosen2, chosen3=chosen3, title="Welcome to my site")
 
 #@app.route('/', methods=['GET', 'POST'])
 #def index():
