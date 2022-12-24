@@ -163,7 +163,7 @@ def index():
 
         chosen = items.pop(random.randrange(len(items)))
         chosen2=random.choice(items)
-        chosen3= items.pop(random.randrange(len(items2)))
+        chosen3= items2.pop(random.randrange(len(items2)))
         chosen4=random.choice(items2)
 
         agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]}).sort('Date').sort('City')
