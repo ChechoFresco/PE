@@ -159,7 +159,7 @@ def index():
         timeBefore=int(h)
 
         items = ["water", "cannabis", "EV", "homeless","climate", "oil","waste","gas","utility","retail","financial"]
-        items2 = [" San Bernandino County ", " Riverside County ", " Orange County ", " San Diego County "]
+        items2 = [" San Bernandino County ", " Riverside County ", " Orange County ", " San Diego County ", " LA County "]
 
         chosen = items.pop(random.randrange(len(items)))
         chosen2=random.choice(items)
