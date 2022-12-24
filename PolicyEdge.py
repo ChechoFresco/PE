@@ -154,7 +154,7 @@ def index():
         a = date.today()+ relativedelta(weeks=2)
         b= str(a).replace("-","")
         today=int(b)
-        c = date.today() + relativedelta(weeks=-16)
+        c = date.today() + relativedelta(weeks=-8)
         d= str(c).replace("-","")
         lMonth=int(d)
 
