@@ -197,7 +197,7 @@ def index():
 
         fdist2 = nltk.FreqDist(grams2)
 
-    return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2,agendaas=agendaa,agendabs=agendab,chosen=chosen, chosen2=chosen2, chosen3=chosen3, title="Welcome to my site")
+    return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2,agendaas=agendaa,agendabs=agendab,chosen=chosen,chosen2=chosen2,chosen3=chosen3,chosen4=chosen4, title="Welcome to my site")
 
 #@app.route('/', methods=['GET', 'POST'])
 #def index():
