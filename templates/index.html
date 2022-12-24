@@ -997,65 +997,6 @@
             </div>
         </div>
     </div>
-    <br></br>
-
-    <!--- Second trend-->
-
-    <div class="container" id="split2">
-        <div class="row">
-            <div class="col-sm-12">
-                <h3 id="title">Riverside County</h3>
-            </div>
-            <div class="col-sm-12" id="trendColumn" >
-                {% for x in fdist3s.most_common(25)%}
-                <ul class= 'subrow'>
-                    <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
-                </ul>
-                {% endfor %}
-            </div>
-
-            <div class="col-sm-12">
-                <h3 id="title">San Diego County</h3>
-            </div>
-            <div class="col-sm-12" id="trendColumn">
-                {% for x in fdist4s.most_common(25)%}
-                <ul class= 'subrow'>
-                    <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
-                </ul>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-    <br></br>
-    <!--Third trend-->
-
-    <div class="container" id="split2">
-        <div class="row">
-            <div class="col-sm-12">
-                <h3 id="title">Orange County</h3>
-            </div>
-            <div class="col-sm-12" id="trendColumn" >
-                    {% for x in fdist5s.most_common(25)%}
-                    <ul class= 'subrow'>
-                        <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
-                    </ul>
-                    {% endfor %}
-            </div>
-
-            <div class="col-sm-12">
-                <h3 id="title">City of Los Angeles Committee</h3>
-            </div>
-            <div class="col-sm-12" id="trendColumn" >
-                <table>
-                    {% for x in fdist6s.most_common(25)%}
-                    <ul class= 'subrow'>
-                        <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
-                    </ul>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
-    </div>
 </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
