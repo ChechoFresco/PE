@@ -166,8 +166,8 @@ def index():
         chosen3= items.pop(random.randrange(len(items2)))
         chosen4=random.choice(items2)
 
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
-        agendab = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen2}}, { 'Date':{'$lte':today, '$gte':lMonth}}]}).sort('Date').sort('City')
+        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]}).sort('Date').sort('City')
+        agendab = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen2}}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]}).sort('Date').sort('City')
         agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosen3}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosen4}, { 'Date':{'$lte':weekAhead, '$gte':timeBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
  
