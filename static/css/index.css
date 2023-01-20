@@ -8,9 +8,9 @@
   }
 
   /* Height of Headline*/
-  .jumbotron .container {
-    top: 17rem;
-  }
+.jumbotron .container {
+  top: 17rem;
+}
 
 video {
   width: 100%;
@@ -28,7 +28,7 @@ video {
   top: -13rem;
   left: 7%;
   border: 4px solid;
-  padding: 1rem;
+  padding: 3rem;
   border-image: linear-gradient(100deg, #fab935, dodgerblue) 20 round;
 }
 
@@ -53,8 +53,8 @@ h3.howwrk{
   text-shadow: 4px 4px 2px black;
 }
 
-/* FrontTile*/
-#con2{
+/* MainTitle*/
+#conMain{
   position:relative;
   width:80vw;
 }
@@ -62,8 +62,8 @@ h1#title{
   color:lavender;
   text-align: center;
   text-shadow:
-    0 0 5px #fab935;
-  font-size: 7rem;
+    0 0 5px #f6ad1d;
+  font-size: 6.1rem;
   font-family: 'Merriweather', serif;
   animation: fadeIn 1s;
   animation-delay: 0s;
@@ -71,13 +71,157 @@ h1#title{
   opacity:0;
 }
 
+/*Happening next week banner*/
+#conHappening{
+  position:relative;
+  width:80vw;
+  top:-6rem;
+  height:auto;
+}
+h3#happening{
+  color:white;
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+  text-shadow: 4px 4px 2px black;
+  font-size: 2.6rem;
+}
+/* IssueChange */
+#changeIssue {
+  display: none;
+  position: relative;
+  margin: auto;
+  width: max-content;
+}
+
+/* Tables */
+.frost.Table {
+  top: 0rem;
+  padding: 0rem;
+
+}
+caption{
+  color:lavender;
+  text-align: center;
+  text-shadow:
+    0 0 5px #5e7cff;  
+  text-transform: capitalize;
+  font-size: 5.2rem;
+  font-family: 'Merriweather', serif;
+}
+h3#label{
+  color:lavender;
+  text-align: center;
+  text-shadow:
+    0 0 5px #5e7cff;  
+  font-size: 3rem;
+  font-family: 'Merriweather', serif;
+}
+label{
+  color:white;
+  text-shadow: 4px 4px 2px black;
+}
+
+
+
+/* Tables Row options */
+div#conTable{
+  top:3rem;
+  position: relative;
+  display: flex;
+}
+
+#table_1,#table_2{
+  max-width:1920px;
+  border: 0px;
+  margin:auto;
+}
+th {
+  color: white;
+  text-shadow: 1px 2px 1px #5e7cff;
+  background: linear-gradient(0deg, #fab935 0%, rgba(255, 255, 255, 0.592) 50%, #fab835 100%);
+  text-align: center;
+}
+td {
+  background-color:rgba(255, 255, 255, .0);
+  color:white;
+  text-align: center;
+  max-height: 15vh;
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+  text-shadow: 0px 1px 1px black;
+  padding: 0px;
+  margin: 0px auto;
+}
+.city{
+  width: .1em;
+}
+.hidden-xs{
+  width: .1em;
+}
+.date{
+  width: .1em;
+}
+.meetType{
+  width: .1em;
+}
+.description{
+  display: block;
+  overflow: hidden;
+  justify-content: center;
+  white-space: break-spaces;
+  width:auto;
+}
+.padding-0{
+  padding-right:0;
+  padding-left:0;
+}
+.table thead tr th, .table tbody tr td {
+  border: none;
+}
+tbody tr:nth-child(even){
+  background-color: rgba(255, 255, 255, .15);
+}
+tbody tr:nth-child(odd){
+  background-color:rgba(255, 255, 255, .0);
+}
+tr:hover td {
+  background-color: #5e7cff;
+}
+.columns{
+  display:none
+}
+.pagination-info{
+  color:white;
+  font-size: .7em;
+}
+.page-list{
+  color:white;
+  font-size: .7em;
+}
+.btn{
+  padding: 3px 0px;
+}
+.pagination>li>a, .pagination>li>span{
+  padding: 1px 11px;
+}
+
+.subrow {
+	color:white;
+}
+span.page-size{
+  color:black
+}
+.table-responsive {
+  overflow-x: none;
+}
+
 
 /* Three Wise Offers*/
-
-#con3{
+#conOffer{
   position:relative;
   width:70vw;
-  height:61rem
+  height:auto;
+  top:8rem;
 }
 #icon1,#icon2,#icon3{
   height: 14rem;
@@ -109,142 +253,28 @@ p.subject {
   100% { opacity: 1; }
 }
 
-/*Happening next week banner*/
-#con4{
+/* IssueTrend */
+.frost.Trend{
+  top: 7rem;
+  padding: 2rem;
+}
+#con5{
   position:relative;
-  width:70vw;
-  top:4vh;
+  width:80vw;
 }
-h3#happening{
-  color:white;
-  font-family: "Open Sans", sans-serif;
-  text-align: center;
-  text-shadow:
-    0 0 5px black;  
-  font-size: 1.8rem;
-
-}
-
-/* Tables */
-caption{
-  color:lavender;
-  text-align: center;
-  text-shadow:
-    0 0 5px #5e7cff;  
-  text-transform: capitalize;
-  font-size: 3rem;
-  font-family: 'Merriweather', serif;
-  width:58rem;
-}
-h3#label{
-  color:lavender;
-  text-align: center;
-  text-shadow:
-    0 0 5px #5e7cff;  
-  font-size: 3rem;
-  font-family: 'Merriweather', serif;
-}
-
-
-
-/* Tables Row options */
-div#split{
+#changeTrend {
   position: relative;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: flex-start;
+  display: none;
+  margin: auto;
+  width: fit-content;
 }
-#table_1,#table_2{
-  max-width:80rem;
-  border: 0px;
-}
-th {
-  color: white;
-  text-shadow: 1px 2px 1px #5e7cff;
-  background: linear-gradient(0deg, #fab935 0%, rgba(255, 255, 255, 0.592) 50%, #fab835 100%);
-  text-align: center;
-}
-td {
-  background-color:rgba(255, 255, 255, .0);
-  color:white;
-  text-align: center;
-  max-height: 12vh;
-  font-size: .8em;
-  font-family: "Open Sans", sans-serif;
-  text-shadow: 0px 1px 1px black;
-  padding: 0px;
-  margin: 0px auto;
-}
-.city{
-  width: .1em;
-}
-.hidden-xs{
-  width: .1em;
-}
-.date{
-  width: .1em;
-}
-.meetType{
-  width: .1em;
-}
-.description{
-  display: block;
-  overflow: hidden;
-  justify-content: center;
-  white-space: break-spaces;
-  width:auto;
-}
-
-.padding-0{
-  padding-right:0;
-  padding-left:0;
-}
-.table thead tr th, .table tbody tr td {
-  border: none;
-}
-tbody tr:nth-child(even){
-background-color: rgba(255, 255, 255, .15);
-}
-tbody tr:nth-child(odd){
-  background-color:rgba(255, 255, 255, .0);
-}
-tr:hover td {
-  background-color: #5e7cff;
-}
-
-.columns{
-  display:none
-}
-.pagination-info{
-  color:white;
-  font-size: .7em;
-}
-.page-list{
-  color:white;
-  font-size: .7em;
-}
-.btn{
-  padding: 3px 0px;
-}
-.pagination>li>a, .pagination>li>span{
-  padding: 1px 11px;
-}
-
-.subrow {
-	color:white;
-}
-span.page-size{
-  color:black
-}
-.table-responsive {
-  overflow-x: none;
-}
-
 
  /* Trends */
 div#split2{
   position:relative;
   display: grid;
+  top:2rem;
+  width: auto;
 }
 h3#title{
   color:lavender;
@@ -255,18 +285,18 @@ h3#title{
   font-family: 'Merriweather', serif;
 }
 #trendColumn{
-  columns: 5;
   text-align:end;
-  width: auto;
 }
 .subMenu {
   list-style-type: none;
   font-family: "Open Sans", sans-serif;
 	height:auto;
 	font-size: 1.5rem;
-  max-width: 27rem;
+  text-align: center;
   text-shadow: 2px 2px 3px black;
+  background-color: #5e7cff;
 }
+
 
 
   /* ################################################# */
@@ -350,10 +380,7 @@ h3#title{
     height: 10rem;
     width: 99.3%;
   }
-  #trendColumn{
-    columns: 2;
-    }
-  #con4{
+  #conHappening{
     position:relative;
     width:auto;
     top:4vh;
@@ -372,7 +399,7 @@ h3#title{
     top:4vh;
     align-items: center;
     flex-direction: column;
-    }
+  }
   #table_1,#table_2{
     width:53rem;
   }
@@ -385,11 +412,11 @@ h3#title{
   }
   h3#title {
     font-size: 1.7rem;
-}
-caption {
-  font-size: 2.8rem;
-  width: 35rem;
-}
+  }
+  caption {
+    font-size: 2.8rem;
+    width: 35rem;
+  }
   }
   /* ################################################# */
   /* ################################################# */
@@ -427,22 +454,12 @@ caption {
     position: relative;
   }
 
-  h3#happening.active{
-    display:block;
-    transform: translateY(0);
-    opacity: 1;
-  }
   div#split{
     position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+    display: block;
   }
   td {
     max-height: 3vh;
-  }
-  #trendColumn{
-    columns: 2;
   }
   #table_1,#table_2{
     width:auto;
@@ -484,12 +501,7 @@ caption {
   }
   h3#happening{
     display:block;
-    font-size: 3rem;
-  }
-  h3#happening.active{
-    display:block;
-    transform: translateY(0);
-    opacity: 1;
+    font-size: 1.5rem;
   }
   div#split{
     position: relative;
@@ -498,13 +510,10 @@ caption {
     align-items: flex-start;
   }
   td {
-    max-height: 6vh;
-  }
-  #trendColumn{
-    columns: 3;
+    max-height: 15vh;
   }
   #table_1,#table_2{
-    width:53rem;
+    width:100%;
 }
   .description{
     width:100%;
@@ -542,7 +551,7 @@ caption {
   }
   h3#happening{
     display:block;
-    font-size: 3rem;
+    font-size: 2.6rem;
   }
   svg.animated{
     overflow: hidden;
@@ -550,23 +559,15 @@ caption {
     top: -2rem;
     position: relative;
   }
-  h3#happening.active{
-    display:block;
-    transform: translateY(0);
-    opacity: 1;
-  }
   div#split{
     position: relative;
     display: flex;
     justify-content: space-around;
-  }
-  #trendColumn{
-    columns: 3;
   }
   #table_1,#table_2{
     width:auto;
   }
   .description{
     width:100%;
-    }
   }
+}
