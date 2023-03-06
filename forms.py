@@ -21,3 +21,11 @@ class notificationForm(Form):
 
 class secondnotificationForm(Form):
         secondnotificationsearch = StringField('What would you like notifications for?:', validators=[Length(min=1, max=25),DataRequired()])
+
+class newIssue(Form):
+        choices = [('', ''), ('water', 'Water'), ('EV', 'EV'), ('homeless', 'Homeless'), ('waste', 'Waste'), ('retail', 'Retail'),('utility', 'Utility'),('cannabis', 'Cannabis'),('gas', 'Gas'),('climate', 'Climate')]
+        select = SelectField('Issues of Interest', choices=choices)
+
+class newTrend(Form):
+        choices = [('', ''), ('San Diego County', ' San Diego County '), ('Los Angeles County', ' LA County '), ('Riverside County', ' Riverside County '), ('San Bernandino County', ' San Bernandino County '), ('Orange County', ' Orange County ')]
+        select = SelectField('Change County', choices=choices)
