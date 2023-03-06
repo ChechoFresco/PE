@@ -10,6 +10,9 @@ import os
 import re
 from os import environ
 from apscheduler.schedulers.background import BackgroundScheduler
+nltk.download('words')
+nltk.download('stopwords')
+nltk.download('punkt')
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.probability import FreqDist
@@ -30,9 +33,6 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.secret_key = os.environ.get("SESS_KEY")
 
-nltk.download('words')
-nltk.download('stopwords')
-nltk.download('punkt')
 
 mongo = PyMongo(app)
 mail = Mail(app)
