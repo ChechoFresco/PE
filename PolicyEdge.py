@@ -32,6 +32,7 @@ app.secret_key = os.environ.get("SESS_KEY")
 
 nltk.download('words')
 nltk.download('stopwords')
+nltk.download('punkt')
 
 mongo = PyMongo(app)
 mail = Mail(app)
