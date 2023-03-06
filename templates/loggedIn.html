@@ -6,34 +6,66 @@
 {% endblock %}
 {% block content %}
 <head>
-    <script>function reveal() {
-        var reveals = document.querySelectorAll("#table_1,#table_2,#table_3,#table_4,#table_5,#table_6");
-        for (var i = 0; i < reveals.length; i++) {
-            var windowHeight = window.innerHeight;
-            var elementTop = reveals[i].getBoundingClientRect().top;
-            var elementVisible = 150;
-            if (elementTop < windowHeight - elementVisible) {
-                reveals[i].classList.add("active");
-            } else {
-                reveals[i].classList.remove("active");
-            }
-        }
-    }
-    window.addEventListener("scroll", reveal);
-</script>
-
-<script>
-    $(document).ready(function () {
-        $("#table_1,#table_2,#table_3,#table_4,#table_5,#table_6").on("click", ".description", function () {
-            if (this.style.display === "flex") {
-                this.style.display = "revert";
-            }
-            else {
-                this.style.display = "flex";
-            }
+    <script>
+        $(document).ready(function () {
+            $("#table_1").on("click", ".description", function () {
+                if (this.style.display === "flex") {
+                    this.style.display = "revert";
+                }
+                else {
+                    this.style.display = "flex";
+                }
+            });
         });
-    });
-</script>
+    </script>
+    <script>
+        var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change","transportaion", "financial", "retail"];
+        var count = 0;
+        function changeText() {
+            $("#example").text(texts[count]);
+            $("#example").css("font-family", 'Kalam');
+            count < 3 ? count++ : count = 0;
+        }
+        setInterval(changeText, 4000);
+        </script>
+    <script>
+        $(document).ready(function () {
+            $("#table_1").on("click", "caption", function () {
+                var x = document.getElementById("changeIssue");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                }
+                else {
+                    x.style.display = "none";
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#table_1).on("click", ".description", function () {
+                if (this.style.display === "flex") {
+                    this.style.display = "revert";
+                }
+                else {
+                    this.style.display = "flex";
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#con5").on("click", "#title", function () {
+                var y = document.getElementById("changeTrend");
+                if (y.style.display === "none") {
+                    y.style.display = "block";
+                }
+                else {
+                    y.style.display = "none";
+                }
+            });
+        });
+    </script>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
