@@ -30,9 +30,8 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.secret_key = os.environ.get("SESS_KEY")
 
-nltk.download('words')
-nltk.download('stopwords')
-nltk.download('punkt')
+nltk.download('popular')
+
 
 mongo = PyMongo(app)
 mail = Mail(app)
