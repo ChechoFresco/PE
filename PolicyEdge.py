@@ -235,8 +235,9 @@ def index():
 
         topics = ["water", "cannabis", "EV", "homeless","climate", "oil","waste","gas","utility","retail","financial"]
         chosen = topics.pop(random.randrange(len(topics)))
-        chosen2= ' LA County '
+       
         if request.method == 'GET':
+            chosen2= ' LA County '
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':lMonth}}]}).sort('Date').sort('City')
             return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosen2=chosen2,chosen3=chosen3, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'cannabis':
