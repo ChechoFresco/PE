@@ -299,7 +299,7 @@ h3#title{
   text-align: center;
   text-shadow: 2px 2px 3px black;
   border-style: solid;
-  border-color: #5e7cff;
+  border-image: linear-gradient(100deg, #fab935, dodgerblue) 2;
 }
 
 
