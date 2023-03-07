@@ -214,7 +214,11 @@ span.page-size{
 .table-responsive {
   overflow-x: none;
 }
-
+a.dropdown-item {
+    color: #337ab7;
+    text-decoration: none;
+    margin: 0 4px;
+}
 
 /* Three Wise Offers*/
 #conOffer{
