@@ -11,6 +11,9 @@
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <div class="package">
+    {% with messages = get_flashed_messages() %}
+        {{ messages }}
+    {% endwith %}
     <div class="row">
         <div class="col-sm-offset-1 col-sm-5">
             <div class="background">
@@ -20,7 +23,7 @@
         <div class="col-sm-offset-0 col-sm-5">
             <div class= 'frost'>
                 <h1>Start a PolicyEdge membership today!</h1>
-                <h2>$50.00 for a one month subscription.</h2>
+                <h2>Free seven day trial!</h2>
                 <form action="/create-checkout-session" method="post" class="form-line">
                     <div class="form-group">
                         <label for="username">Username</label>
