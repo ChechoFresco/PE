@@ -1,35 +1,12 @@
-/* First Container Jumbo*/
-.jumbotron{
-  height:35vh;
-  position: relative;
-  background-color: transparent;
-  padding-top: 0px;
-  top: -15vh;
-  }
-
-  /* Height of Headline*/
-.jumbotron .container {
-  top: 17rem;
-}
-
-video {
-  width: 100%;
-  object-fit: cover;
-  height: 116%;
-  object-position: 0% 63%;
-}
-
-  /* Frost affect*/
+ /* Frost affect*/
 .frost {
   position: relative;
   width: 86vw;
   height:auto;
   background-color: rgba(255, 255, 255, .15);
-  top: -13rem;
   left: 7%;
   border: 4px solid;
   padding: 3rem;
-  border-image: linear-gradient(100deg, #fab935, dodgerblue) 20 round;
 }
 
 /* Main Animation*/
@@ -51,6 +28,109 @@ h3.howwrk{
   font-size: 1.8rem;
   color:white;
   text-shadow: 4px 4px 2px black;
+}
+a#signup{
+color: white;
+font-family: 'Big Shoulders Inline Text', cursive;
+padding: 22px 26px;
+font-size: 3rem;
+}
+
+.portfolio-experiment {
+  background: transparent;
+}
+.portfolio-experiment a {
+  color: white;
+  padding: 0.7em calc(0.7em * 1.2);
+  display: inline-block;
+  border: 3px solid transparent;
+  position: relative;
+  font-size: 1.5em;
+  cursor: pointer;
+  letter-spacing: 0.07em;
+}
+.portfolio-experiment a .text {
+  font-family: proxima-nova, monospace;
+  transform: translate3d(0, 0.7em, 0);
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1) 0.4s;
+}
+.portfolio-experiment a:after {
+  position: absolute;
+  content: '';
+  bottom: -3px;
+  left: calc(0.7em * 1.2);
+  right: calc(0.7em * 1.2);
+  height: 3px;
+  background: #fab935;
+  transition: transform 0.8s cubic-bezier(1, 0, 0.37, 1) 0.2s, right 0.2s cubic-bezier(0.04, 0.48, 0, 1) 0.6s, left 0.4s cubic-bezier(0.04, 0.48, 0, 1) 0.6s;
+  transform-origin: left;
+}
+.portfolio-experiment .line {
+  position: absolute;
+  background: #fab935;
+}
+.portfolio-experiment .line.-right, .portfolio-experiment .line.-left {
+  width: 3px;
+  bottom: -3px;
+  top: -3px;
+  transform: scale3d(1, 0, 1);
+}
+.portfolio-experiment .line.-top, .portfolio-experiment .line.-bottom {
+  height: 3px;
+  left: -3px;
+  right: -3px;
+  transform: scale3d(0, 1, 1);
+}
+.portfolio-experiment .line.-right {
+  right: -3px;
+  transition: transform 0.1s cubic-bezier(1, 0, 0.65, 1.01) 0.23s;
+  transform-origin: top;
+}
+.portfolio-experiment .line.-top {
+  top: -3px;
+  transition: transform 0.08s linear 0.43s;
+  transform-origin: left;
+}
+.portfolio-experiment .line.-left {
+  left: -3px;
+  transition: transform 0.08s linear 0.51s;
+  transform-origin: bottom;
+}
+.portfolio-experiment .line.-bottom {
+  bottom: -3px;
+  transition: transform 0.3s cubic-bezier(1, 0, 0.65, 1.01);
+  transform-origin: right;
+}
+.portfolio-experiment a:hover .text, .portfolio-experiment a:active .text {
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1) 0.4s;
+}
+.portfolio-experiment a:hover:after, .portfolio-experiment a:active:after {
+  transform: scale3d(0, 1, 1);
+  right: -3px;
+  left: -3px;
+  transform-origin: right;
+  transition: transform 0.2s cubic-bezier(1, 0, 0.65, 1.01) 0.17s, right 0.2s cubic-bezier(1, 0, 0.65, 1.01), left 0s 0.3s;
+}
+.portfolio-experiment a:hover .line, .portfolio-experiment a:active .line {
+  transform: scale3d(1, 1, 1);
+}
+.portfolio-experiment a:hover .line.-right, .portfolio-experiment a:active .line.-right {
+  transition: transform 0.1s cubic-bezier(1, 0, 0.65, 1.01) 0.2s;
+  transform-origin: bottom;
+}
+.portfolio-experiment a:hover .line.-top, .portfolio-experiment a:active .line.-top {
+  transition: transform 0.08s linear 0.4s;
+  transform-origin: right;
+}
+.portfolio-experiment a:hover .line.-left, .portfolio-experiment a:active .line.-left {
+  transition: transform 0.08s linear 0.48s;
+  transform-origin: top;
+}
+.portfolio-experiment a:hover .line.-bottom, .portfolio-experiment a:active .line.-bottom {
+  transition: transform 0.5s cubic-bezier(0, 0.53, 0.29, 1) 0.56s;
+  transform-origin: left;
 }
 
 /* MainTitle*/
@@ -75,7 +155,6 @@ h1#title{
 #conHappening{
   position:relative;
   width:80vw;
-  top:-6rem;
   height:auto;
 }
 h3#happening{
@@ -85,6 +164,8 @@ h3#happening{
   text-shadow: 4px 4px 2px black;
   font-size: 2.6rem;
 }
+
+
 /* IssueChange */
 #changeIssue {
   display: none;
@@ -93,83 +174,69 @@ h3#happening{
   width: max-content;
 }
 
-/* Tables */
+/* Main Table*/
 .frost.Table {
   top: 0rem;
   padding: 0rem;
-
 }
+
+div#conTable{
+  top:3rem;
+  position: relative;
+}
+
 caption{
   color:lavender;
   text-align: center;
   text-shadow:
-    0 0 5px #5e7cff;  
+    0 0 5px #5e7cff;
   text-transform: capitalize;
   font-size: 5.2rem;
   font-family: 'Merriweather', serif;
 }
-h3#label{
-  color:lavender;
-  text-align: center;
-  text-shadow:
-    0 0 5px #5e7cff;  
-  font-size: 3rem;
-  font-family: 'Merriweather', serif;
-}
+
 label{
   color:white;
   text-shadow: 4px 4px 2px black;
 }
 
-
-
-/* Tables Row options */
-div#conTable{
-  top:3rem;
-  position: relative;
-  display: flex;
-}
-
-#table_1,#table_2{
+#table_1{
   max-width:1920px;
   border: 0px;
   margin:auto;
 }
 th {
+  display: none;
   color: white;
-  text-shadow: 1px 2px 1px #5e7cff;
-  background: linear-gradient(0deg, #fab935 0%, rgba(255, 255, 255, 0.592) 50%, #fab835 100%);
+  text-shadow:
+  1px 2px 1px #fab935;
   text-align: center;
 }
 td {
+  display: block;
+  clear:both;
   background-color:rgba(255, 255, 255, .0);
   color:white;
   text-align: center;
-  max-height: 15vh;
   font-size: 1em;
   font-family: "Open Sans", sans-serif;
-  text-shadow: 0px 1px 1px black;
+  text-shadow: 3px 3px 2px black;
   padding: 0px;
   margin: 0px auto;
-}
-.city{
-  width: .1em;
-}
-.hidden-xs{
-  width: .1em;
-}
-.date{
-  width: .1em;
-}
-.meetType{
-  width: .1em;
-}
-.description{
-  display: block;
-  overflow: hidden;
-  justify-content: center;
-  white-space: break-spaces;
   width:auto;
+}
+td.infoLocation{
+  display: flex;
+  justify-content: space-evenly;
+}
+td.description{
+  overflow: hidden;
+  max-height: 9rem;
+  white-space: break-spaces;
+}
+
+span#prettyTable{
+  color:silver;
 }
 .padding-0{
   padding-right:0;
@@ -185,7 +252,7 @@ tbody tr:nth-child(odd){
   background-color:rgba(255, 255, 255, .0);
 }
 tr:hover td {
-  background-color:  #5e7cff;
+  background-color: #5e7cff;
 }
 .columns{
   display:none
@@ -206,7 +273,7 @@ tr:hover td {
 }
 
 .subrow {
-  color:white;
+	color:white;
 }
 span.page-size{
   color:black
@@ -214,11 +281,7 @@ span.page-size{
 .table-responsive {
   overflow-x: none;
 }
-a.dropdown-item {
-    color: #337ab7;
-    text-decoration: none;
-    margin: 0 4px;
-}
+
 
 /* Three Wise Offers*/
 #conOffer{
@@ -235,7 +298,7 @@ h3#offer{
   color:lavender;
   text-align: center;
   text-shadow:
-    0 0 5px #5e7cff;  
+    0 0 5px #5e7cff;
   font-size: 3rem;
   font-family: 'Merriweather', serif;
 }
@@ -262,7 +325,7 @@ p.subject {
   top: 7rem;
   padding: 2rem;
 }
-#con5{
+#trendContainer{
   position:relative;
   width:80vw;
 }
@@ -284,7 +347,7 @@ h3#title{
   color:lavender;
   text-align: center;
   text-shadow:
-    0 0 5px #5e7cff;  
+    0 0 5px #5e7cff;
   font-size: 3rem;
   font-family: 'Merriweather', serif;
 }
@@ -299,39 +362,28 @@ h3#title{
   text-align: center;
   text-shadow: 2px 2px 3px black;
   border-style: solid;
-  border-image: linear-gradient(100deg, #fab935, dodgerblue) 2;
+  border-image: silver;
 }
-
 
 
   /* ################################################# */
   /* ################################################# */
   /* ################################################# */
   @media screen and (max-width: 400px){
-  .jumbotron{
-    display:none;
-    }
+
   svg.animated{
     overflow: hidden;
     height: auto;
     top: 0vh;
     position: relative;
   }
-  .neon{
-    top: 7vh;
-  }
-  .jumbotron h1{
-    font-size:2.4rem;
-  }
+
   .frost {
     border-image: none;
-    width: 100%;
-    top:3rem;
+    width: auto;
     left: 0%;
   }
-  p.subjectLead{
-    font-size: 1.7rem;
-  }
+
   p.subject {
     font-size: 1.3rem;
     color: white;
@@ -347,10 +399,6 @@ h3#title{
   h3.howwrk{
     font-size: 1.4rem;
   }
-  h3#label{
-    text-align: center;
-    font-size: 2rem;
-  }
 
   h3#happening{
     font-size: 1.6rem;
@@ -360,32 +408,9 @@ h3#title{
     transform: translateY(0);
     opacity: 1;
   }
-  div#split{
-    display: flex;
-    justify-content: start;
-    overflow: auto;
-  }
-  #table_1,#table_2{
-    border: 0px;
-  }
 
-  td.meetType{
-    display:none
-  }
-  th:nth-child(2){
-  display:none
-  }
-  #con3{
-    position:relative;
-    width:70vw;
-    height:119rem;
-    top:4rem;
-  }
-  #icon1,#icon2,#icon3{
-    height: 10rem;
-    width: 99.3%;
-  }
-  #conHappening{
+/* Main Table Change Title*/
+    #conHappening{
     position:relative;
     width:auto;
     top:4vh;
@@ -397,19 +422,31 @@ h3#title{
     text-shadow: 4px 4px 2px black;
     font-size: 1.2rem;
   }
-  #con5{
-    position:relative;
-    display:flex;
-    width:auto;
-    top:4vh;
-    align-items: center;
-    flex-direction: column;
+
+/* Main Table*/
+  div#conTable {
+    display: block;
+}
+  #table_1{
+    border: 0px;
   }
-  #table_1,#table_2{
-    width:53rem;
+
+  td {
+    text-align: center;
+    font-size: 1em;
+    font-family: "Open Sans", sans-serif;
+    text-shadow: 3px 3px 2px black;
+    padding: 0px;
+    margin: 0px auto;
   }
-  .description {
-    width: auto;
+  td.infoLocation{
+    display: flex;
+    justify-content: start;
+  }
+  td.description{
+    overflow: hidden;
+    max-height: 9rem;
+    white-space: none;
   }
   .subMenu {
     height:auto;
@@ -422,11 +459,31 @@ h3#title{
     font-size: 2.8rem;
     width: 35rem;
   }
+
+
+/* 3 SVG Animations*/
+  #icon1,#icon2,#icon3{
+    height: 10rem;
+    width: 99.3%;
+  }
+
+
+/*Trend container*/
+  #trendContainer{
+    position:relative;
+    display:flex;
+    width:auto;
+    top:4vh;
+    align-items: center;
+    flex-direction: column;
+  }
+
+
   }
   /* ################################################# */
   /* ################################################# */
   /* ################################################# */
-  @media screen and (min-width: 400px) and (max-width: 768px) { 
+  @media screen and (min-width: 400px) and (max-width: 768px) {
   video {
     position: relative;
     top: 0px;
@@ -463,15 +520,14 @@ h3#title{
     position: relative;
     display: block;
   }
-  td {
-    max-height: 3vh;
-  }
-  #table_1,#table_2{
+
+  div#conTable {
+    display: block;
+}
+  #table_1{
     width:auto;
   }
-  .description{
-    width:34rem;
-    }
+
   }
 
   /* ################################################# */
