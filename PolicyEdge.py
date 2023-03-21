@@ -933,7 +933,7 @@ def loggedIn():
             agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':monthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge") title="Welcome to Policy Edge")
+            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
     else:
         return redirect(url_for("login"))
 
