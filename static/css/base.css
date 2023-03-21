@@ -16,6 +16,7 @@ html, body{
   position: relative;
   z-index: 2;
   margin: 0 auto;
+  height:14rem;
 }
 
 .navbar-nav{
@@ -25,16 +26,11 @@ div.navbar-header{
   position: relative;
 }
 
-a#alogo{
-  position: relative;
-  height: 70px;
-}
-
 svg#logo{
   position: absolute;
   width: 57rem;
-  height: 14rem;
   overflow: auto;
+  height:10rem;
 }
 
 #path284{
@@ -162,28 +158,44 @@ svg#logo{
   }
 }
 
-.navbar-right li a {
+div#myLinks {
+  display: flex;
+  background-color:transparent;
   color: white;
-  font-family: 'Neonderthaw', cursive;
   padding: 22px 26px;
   font-size: 3rem;
 }
 
-.navbar-right li a:hover{
-    text-shadow:
-    0 0 3px #fff,
-    0 0 7px #fab935,
-    0 0 16px #fab935,
-    0 0 42px #fab935,
-    0 0 82px #fab935,
-    0 0 92px #fab935,
-    0 0 102px #fab935,
-    0 0 151px #fab935;
+li.icon{
+  top: 0vh;
+  float: right;
+}
+.navbar-right li a{
+  color: white;
+  font-family: 'Big Shoulders Inline Text', cursive;
+  padding: 22px 26px;
+  font-size: 3rem;
 }
 
-div#myLinks {
-  display: none;
-  background-color:transparent;
+.navbar-right li:hover{
+  text-shadow:
+  0 0 3px #fff,
+  0 0 7px blue,
+  0 0 16px blue,
+  0 0 42px blue,
+  0 0 82px blue;
+}
+
+a#login{
+  text-shadow:
+  0 0 3px #fff,
+  0 0 7px #fab935,
+  0 0 16px #fab935,
+  0 0 42px #fab935,
+  0 0 82px #fab935,
+  0 0 92px #fab935,
+  0 0 102px #fab935,
+  0 0 151px #fab935;
 }
 
 /* Navbar burger*/
@@ -207,10 +219,7 @@ i.fa.fa-bars:hover{
   0 0 151px #5e7cff;
 }
 
-li.icon{
-  top: 0vh;
-  float: right;
-}
+
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
@@ -219,16 +228,26 @@ li.icon{
 {
   i.fa.fa-bars{
     position: relative;
-    font-size:3rem;
-    right:3rem;
+    font-size: 4rem;
+    float:right;
+  }
+  .navbar{
+    background: transparent;
+    max-width: 1920px;
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+    height: 3rem;
   }
   div#myLinks{
-    top: 6rem;
-    left: 3rem;
+    display: none;
+    top: 2rem;
+    left: 2rem;
     position: relative;
+    padding: 28px 19px;
   }
   .navbar-right li a {
-    font-family: 'Neonderthaw';
+    font-family: 'Big Shoulders Inline Text', cursive;
     padding: .4rem 1.1rem;
     font-size: 1.4rem;
     text-shadow:
@@ -245,30 +264,37 @@ li.icon{
   svg#logo{
     position: absolute;
     width: 21rem;
-    height: 4rem;
+    height: 5rem;
   }
+
 }
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
-@media screen and (min-width: 401px) and (max-width: 768px)
+@media screen and (min-width: 400px) and (max-width: 768px)
 {
+  .navbar{
+    height:10rem;
+  }
   i.fa.fa-bars{
     position: relative;
-    font-size: 4rem;
+    font-size: 6rem;
+    right: 1rem;
+    top: 1rem;
   }
   .navbar-right li a {
     padding: 1rem 2rem;
     font-size: 2rem;
   }
   div#myLinks {
-    top: 8vh;
+    top: 2rem ;
     position: relative;
+    float:right;
   }
   svg#logo{
     position: absolute;
-    width: 17rem;
-    height: 7rem;
+    width: 31rem;
+    height: 8rem;
   }
 }
 /* ################################################# */
@@ -276,6 +302,9 @@ li.icon{
 /* ################################################# */
 @media screen and (min-width: 769px) and (max-width: 1500px)
 {
+  i.fa.fa-bars{
+    display: none;
+  }
   .navbar-nav{
     font-size:1.5rem;
   }
@@ -287,33 +316,28 @@ li.icon{
   svg#logo{
     position: absolute;
     width: 40rem;
-    height: 14rem;
   }
 }
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
-@media screen and (min-width: 1500px) and (min-width: 2000px)
+@media screen and (min-width: 1500px) and (max-width: 4000px)
 {
+  i.fa.fa-bars{
+    display: none;
+  }
 .navbar-right li a {
   padding: 22px 26px;
   font-size: 4.5rem;
 }
 div#myLinks {
-  top: 5em;
+  top: 0em;
   position: relative;
 }
 svg#logo{
   position: absolute;
   width: 57rem;
   height: 14rem;
-}
-
-i.fa.fa-bars{
-  position: relative;
-  font-size:9rem;
-  color:white;
-  opacity:.6;
 }
 }
 /* ################################################# */
@@ -347,12 +371,20 @@ p.text-justify{
   margin:20px 0
 }
 
-.site-footer h6{
-  color:#fff;
+h2{
   font-size:16px;
   text-transform:uppercase;
   margin-top:5px;
-  letter-spacing:2px
+  letter-spacing:2px;
+  text-shadow:
+  0 0 3px #fff,
+  0 0 7px #5e7cff,
+  0 0 16px #5e7cff,
+  0 0 42px #5e7cff,
+  0 0 82px #5e7cff,
+  0 0 92px #5e7cff,
+  0 0 102px #5e7cff,
+  0 0 151px #5e7cff;
 }
 
 .site-footer a{
@@ -493,6 +525,7 @@ p.text-justify{
       text-align:center
     }
   }
+
 
 
 
