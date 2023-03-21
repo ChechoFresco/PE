@@ -6,34 +6,19 @@
 {% endblock %}
 {% block content %}
 <head>
-    
-    
-    <script>
-        $(document).ready(function () {
-            $("#table_1").on("click", ".description", function () {
-                if (this.style.display === "flex") {
-                    this.style.display = "revert";
-                }
-                else {
-                    this.style.display = "flex";
-                }
-            });
-        });
-    </script>
-    
-    
-    <script>
+     <script>
         var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change","transportaion", "financial", "retail"];
         var count = 0;
         function changeText() {
             $("#example").text(texts[count]);
             $("#example").css("font-family", 'Kalam');
+            $("#example").css("text-shadow", '4px 3px 5px #5e7cff');
             count < 3 ? count++ : count = 0;
         }
         setInterval(changeText, 4000);
     </script>
-    
-    
+
+    <!--Expand Issue-->
     <script>
         $(document).ready(function () {
             $("#table_1").on("click", "caption", function () {
@@ -47,25 +32,25 @@
             });
         });
     </script>
-    
-    
+
+    <!--Expand Description-->
     <script>
         $(document).ready(function () {
-            $("#table_1).on("click", ".description", function () {
-                if (this.style.display === "flex") {
-                    this.style.display = "revert";
+            $("#table_1").on("click", "td.description", function () {
+                if (this.style.maxHeight === "9rem") {
+                    this.style.maxHeight = "fit-content";
                 }
                 else {
-                    this.style.display = "flex";
+                    this.style.maxHeight = "9rem";
                 }
             });
         });
     </script>
-    
-    
+
+    <!--Expand Bottom Trend-->
     <script>
         $(document).ready(function () {
-            $("#con5").on("click", "#title", function () {
+            $("#trendContainer").on("click", "#title", function () {
                 var y = document.getElementById("changeTrend");
                 if (y.style.display === "none") {
                     y.style.display = "block";
@@ -76,19 +61,13 @@
             });
         });
     </script>
-    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cardo:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Monoton&family=Neonderthaw&family=Plaster&family=Sonsie+One&display=swap" rel="stylesheet">
-</head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather|Open+Sans">
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Permanent+Marker&display=swap" rel="stylesheet">
 <!--Head portion-->
-<div class="jumbotron jumbotron-fluid">
-    <video id="bg-video" autoplay="true" loop="loop" preload="metadata" muted="muted" autoplay loop muted playsinline>
-        <source src="static/pexels-Henrique.mp4" type="video/mp4">
-    </video>
-</div>
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         <script>
@@ -863,10 +842,17 @@
                 </svg>
             </div>
             <div class="col-sm-offset-0 col-sm-4">
-                <h3 class='howwrk'>We rely on a combination of staff, local expertise, and software to keep track of the
-                    latest developments in local city council’s, planning departments, and municipalities. We can cast
-                    a wide net or a spotlight on city government to find information pertinent to your industry,
-                    depending on your needs. </h3>
+                <h3 class='howwrk'>Keep tabs on your local city or cast a wide net on entire counties. Follow issues as they span across California or spot oppurtunities before competitors. Save time by maintaing an edge.
+                </h3>
+                <section class="portfolio-experiment">
+                    <a href="/register">
+                        <span class="text">Start for free</span>
+                        <span class="line -right"></span>
+                        <span class="line -top"></span>
+                        <span class="line -left"></span>
+                        <span class="line -bottom"></span>
+                    </a>
+                </section>
             </div>
         </div>
     </div>
@@ -876,7 +862,7 @@
 <div class="container" id='conHappening'>
     <div class="row">
         <div class="col-sm-4">
-            <h3 id="happening">Check out other interesting issues by double-clicking on the current issue highlighted blue centered below</h3>
+            <h3 id="happening">Check out other issues by double-clicking on the issue highlighted blue centered below</h3>
         </div>
         <div class="col-sm-4">
             <div id = "changeIssue" class="formdiv">
@@ -890,7 +876,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <h3 id="happening">If item section does not display entire text. Double-click on item to expand.</h3>
+            <h3 id="happening">If item section does not display entire text. Double-click to expand entire item.</h3>
         </div>
     </div>
 </div>
@@ -905,24 +891,19 @@
                 <thead class='h-12'>
                     <tr>
                         <th data-field='row-City' data-sortable="true">City</th>
-                        <th class="hidden-xs County" data-field= 'row-County' data-sortable="False">County</th>
+                        <th class="hidden-xs" data-field= 'row-County' data-sortable="False">County</th>
                         <th data-field='row-Date' data-sortable="False">Date</th>
-                        <th data-field='row-Meeting' data-sortable="true">Meeting Type</th>
-                        <th class='hidden-xs Item' data-field= 'row-Item' data-sortable="true">Item Type</th>
-                        <th class='hidden-xs Num' data-field= 'row-Num' data-sortable="true">Number</th>
+                        <th class="hidden-xs" data-sortable="true">Meeting Type</th>
+                        <th class="hidden-xs" data-field= 'row-Item' data-sortable="true">Item Type</th>
+                        <th class='hidden-xs' data-field= 'row-Num' data-sortable="true">Number</th>
                         <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for agendaa in agendaas %}
                     <tr>
-                        <td class="city">{{agendaa.City}}</td>
-                        <td class='hidden-xs'>{{agendaa.County}} </td> <!Hidden hides in compact phone mode!>
-                        <td type='text' class="date">{{agendaa.Date|aTime}}</td>
-                        <td class="meetType">{{agendaa.MeetingType}} </td>
-                        <td class='hidden-xs'>{{agendaa.ItemType}} </td>
-                        <td class='hidden-xs'>{{agendaa.Num}} </td>
                         <td class='description'>{{agendaa.Description}}</td>
+                        <td class='infoLocation'><span id='prettyTable'>Date: </span>{{agendaa.Date|aTime}} <span id='prettyTable'>County: </span>{{agendaa.County}} <span id='prettyTable'>City: </span>{{agendaa.City}} <span id='prettyTable'>Meeting Type: </span>{{agendaa.MeetingType}}<span id='prettyTable'> Item Type: </span>{{agendaa.ItemType}} <span id='prettyTable'>Number: </span>{{agendaa.Num}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -930,6 +911,9 @@
         </div>
     </div>
 </div>
+
+
+
 <!--Three Wise Offers-->
 <div class="container" id='conOffer'>
     <div class="row">
@@ -983,9 +967,9 @@
 </div>
 <div class="frost Trend">
     <!--Trends-->
-    <div class="container" id='con5'>
+    <div class="container" id='trendContainer'>
         <div class="col-sm-12">
-            <h1 id="title">{{chosen2}} Trends</h1>
+            <h1 id="title">{{chosencountyList}} Trends</h1>
         </div>
     </div>
     <div class="row">
