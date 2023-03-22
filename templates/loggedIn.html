@@ -882,25 +882,30 @@
 </div>
 
 <!--First table-->
-<div class="frost Table">
+<div class="frost">
     <div id="conTable">
         <table id="table_1" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
-            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='8' class="table-responsive">
+            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='12' class="table-responsive">
             <caption>{{chosen}}</caption>
             <thead class='h-12'>
                 <tr>
+                    <th data-field='row-Date' data-sortable="true">Date</th>
+                    <th  data-field= 'row-County' data-sortable="true">County</th>
                     <th data-field='row-City' data-sortable="true">City</th>
-                    <th class="hidden-xs" data-field= 'row-County' data-sortable="False">County</th>
-                    <th data-field='row-Date' data-sortable="False">Date</th>
-                    <th class="hidden-xs" data-sortable="true">Meeting Type</th>
-                    <th class="hidden-xs" data-field= 'row-Item' data-sortable="true">Item Type</th>
-                    <th class='hidden-xs' data-field= 'row-Num' data-sortable="true">Number</th>
-                    <th class='.text-center' data-field='row-Description' data-sortable="true">Item</th>
+                    <th  data-sortable="true">Meeting Type</th>
+                    <th  data-field= 'row-Item' data-sortable="true">Item Type</th>
+                    <th data-field= 'row-Num' data-sortable="False">Item</th>
+                    <th class='none' data-field='row-Description' data-sortable="true">Item</th>
                 </tr>
             </thead>
             <tbody>
                 {% for agendaa in agendaas %}
                 <tr>
+                    <td class='none'>{{agendaa.Date}}</td>
+                    <td class='none'>{{agendaa.County}}</td>
+                    <td class='none'>{{agendaa.City}}</td>
+                    <td class='none'>{{agendaa.MeetingType}}</td>
+                    <td class='none'>{{agendaa.ItemType}}</td>
                     <td class='description'>{{agendaa.Description}}</td>
                     <td class='infoLocation'><span id='prettyTable'>Date: </span>{{agendaa.Date|aTime}} <span id='prettyTable'>County: </span>{{agendaa.County}} <span id='prettyTable'>City: </span>{{agendaa.City}} <span id='prettyTable'>Meeting Type: </span>{{agendaa.MeetingType}}<span id='prettyTable'> Item Type: </span>{{agendaa.ItemType}} <span id='prettyTable'>Number: </span>{{agendaa.Num}}</td>
                 </tr>
