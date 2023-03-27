@@ -439,6 +439,8 @@ h3#title{
 /* Main Table*/
   div#conTable {
     display: block;
+    width: fit-content;
+    left: -2rem;
 }
   #table_1{
     border: 0px;
