@@ -890,12 +890,12 @@
             <caption>{{chosen}}</caption>
             <thead class='h-12'>
                 <tr>
-                    <th data-field='row-Date' data-sortable="true">Date</th>
-                    <th  data-field= 'row-County' data-sortable="true">County</th>
-                    <th data-field='row-City' data-sortable="true">City</th>
-                    <th  data-sortable="true">Meeting Type</th>
-                    <th  data-field= 'row-Item' data-sortable="true">Item Type</th>
-                    <th data-field= 'row-Num' data-sortable="False">Item</th>
+                    <th class='hidden-xs'data-field='row-Date' data-sortable="true">Date</th>
+                    <th  class='hidden-xs'data-field= 'row-County' data-sortable="true">County</th>
+                    <th class='hidden-xs'data-field='row-City' data-sortable="true">City</th>
+                    <th  class='hidden-xs'data-sortable="true">Meeting Type</th>
+                    <th  class='hidden-xs'data-field= 'row-Item' data-sortable="true">Item Type</th>
+                    <th class='hidden-xs'data-field= 'row-Num' data-sortable="False">Item</th>
                     <th class='none' data-field='row-Description' data-sortable="true">Item</th>
                 </tr>
             </thead>
@@ -908,7 +908,7 @@
                     <td class='none'>{{agendaa.MeetingType}}</td>
                     <td class='none'>{{agendaa.ItemType}}</td>
                     <td class='description'>{{agendaa.Description}}</td>
-                    <td class='infoLocation'><span id='prettyTable'>Date: </span>{{agendaa.Date|aTime}} <span id='prettyTable'>County: </span>{{agendaa.County}} <span id='prettyTable'>City: </span>{{agendaa.City}} <span id='prettyTable'>Meeting Type: </span>{{agendaa.MeetingType}}<span id='prettyTable'> Item Type: </span>{{agendaa.ItemType}} <span id='prettyTable'>Number: </span>{{agendaa.Num}}</td>
+                    <td class='infoLocation'><span id='prettyTable' class='hidden-xs'>Date: </span>{{agendaa.Date|aTime}} <span id='prettyTable' class='hidden-xs'>County: </span>{{agendaa.County}} <span id='prettyTable' class='hidden-xs'>City: </span>{{agendaa.City}} <span id='prettyTable' class='hidden-xs'>Meeting Type: </span>{{agendaa.MeetingType}}<span id='prettyTable' class='hidden-xs'> Item Type: </span>{{agendaa.ItemType}} <span id='prettyTable' class='hidden-xs'>Number: </span>{{agendaa.Num}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
