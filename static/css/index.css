@@ -393,6 +393,7 @@ h3#title{
     border-image: none;
     width: auto;
     left: 0%;
+    top: 4rem;
   }
 
   p.subject {
@@ -400,6 +401,7 @@ h3#title{
     color: white;
     text-align: center;
   }
+	  
   h1#title{
     font-size: 3rem;
     color:floralwhite;
