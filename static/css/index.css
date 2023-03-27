@@ -372,10 +372,10 @@ h3#title{
 	font-size: 1.5rem;
   text-align: center;
   text-shadow: 2px 2px 3px black;
-  border-style: solid;
-  border-image: silver;
+  color: antiquewhite;
+  left: -2rem;
+  position: relative;
 }
-
 
   /* ################################################# */
   /* ################################################# */
@@ -397,7 +397,7 @@ h3#title{
   }
 
   p.subject {
-    font-size: 1.3rem;
+    font-size: 1.6rem;
     color: white;
     text-align: center;
   }
@@ -440,7 +440,6 @@ h3#title{
   div#conTable {
     display: block;
     width: fit-content;
-    left: -2rem;
 }
   #table_1{
     border: 0px;
@@ -495,7 +494,9 @@ h3#title{
     align-items: center;
     flex-direction: column;
   }
-
+  h1#title{
+    font-size:3.6rem;
+  }
 
   }
   /* ################################################# */
