@@ -207,13 +207,15 @@ label{
   border: 0px;
   margin:auto;
 }
+tr{
+  text-align: -webkit-center;
+}
 
 th {
   display: inline-block;
   position: relative;
   color: white;
   text-shadow: 3px 3px 2px black;
-  left: 68rem;
 }
 td {
   display: block;
@@ -237,8 +239,6 @@ th.none{
 td.infoLocation{
   display: flex;
   justify-content: space-evenly;
-  text-shadow: 1px 1px 2px #fab935;
-
 }
 td.description{
   overflow: hidden;
@@ -252,7 +252,8 @@ span#prettyTable {
   border: none;
 }
 tbody tr:nth-child(even){
-  background-color: rgba(255, 255, 255, .15);
+  background-color:rgba(255, 255, 255, .25);
+
 }
 tbody tr:nth-child(odd){
   background-color:rgba(255, 255, 255, .0);
@@ -385,10 +386,11 @@ h3#title{
   position: relative;
 }
 
+
   /* ################################################# */
   /* ################################################# */
   /* ################################################# */
-  @media screen and (max-width: 400px){
+  @media screen and (max-width: 420px){
 
   svg.animated{
     overflow: hidden;
@@ -409,7 +411,6 @@ h3#title{
     color: white;
     text-align: center;
   }
-	  
   h1#title{
     font-size: 3rem;
     color:floralwhite;
@@ -492,8 +493,6 @@ h3#title{
 
 
 /* Trend*/
-
-
   #trendContainer{
     position:relative;
     display:flex;
@@ -561,20 +560,9 @@ h3#title{
   /* ################################################# */
   /* ################################################# */
   @media screen and (min-width: 768px) and (max-width: 1500px) {
-  video {
-    position: relative;
-    top: 0px;
-    width:100%;
-  }
-
   .neon{
     top: 7vh;
   }
-
-  .jumbotron h1{
-    font-size:8.8rem;
-  }
-
   p.subject {
     font-size: 1.5rem;
     text-align: center;
@@ -596,9 +584,6 @@ h3#title{
   }
   #table_1{
     width:100%;
-}
-th {
-  left: 26rem;
 }
 }
 
@@ -646,7 +631,5 @@ th {
     display: flex;
     justify-content: space-around;
   }
-  th {
-    left: 50rem;
-  }
+}
 }
