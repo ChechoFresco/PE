@@ -245,9 +245,8 @@ td.description{
   max-height: 9rem;
   white-space: break-spaces;
 }
-span#prettyTable{
-  text-shadow:
-    0 0 5px #5e7cff;
+span#prettyTable {
+  text-shadow: 1px 1px 2px #fab935;
 }
 .table thead tr th, .table tbody tr td {
   border: none;
@@ -258,9 +257,18 @@ tbody tr:nth-child(even){
 tbody tr:nth-child(odd){
   background-color:rgba(255, 255, 255, .0);
 }
+
 tr:hover td {
-  background-color: #5e7cff;
+  background-color:lightslategray;
+  box-shadow: lightsteelblue 0px 5px, 0px 1px, lightsteelblue 0px 6px, lightsteelblue 0px 14px, lightsteelblue -3px 13px, lightsteelblue -11px 10px;
+  transform: translate3d(4px, -10px, 0);
+  transform: translate3d(4px, -10px, 0);
+  transition-delay: 0s;
+  transition-duration: 0.4s;
+  transition-property: all;
+  transition-timing-function: line;
 }
+
 /* Pagination */
 
 .padding-0{
