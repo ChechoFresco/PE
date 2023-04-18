@@ -927,7 +927,7 @@
 
     <div class="row" id= 'inExp'>
         <div class="col-sm-4" >
-                {% for agenda in agendas | sort(attribute=0)|reverse %}
+                {% for stat in stats | sort(attribute=0)|reverse %}
                 <ul >
                     <li id='expList'>{{agenda| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("[", '')| replace("]", ' ')}}</li>
                 </ul>
