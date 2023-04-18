@@ -302,6 +302,31 @@ span.page-size{
 }
 
 
+/* Stats Occurance*/
+
+h1#titleOccurance{
+  color:lavender;
+  text-align: center;
+  text-shadow:
+    0 0 5px #f6ad1d;
+  font-size: 4rem;
+  font-family: 'Merriweather', serif;
+  animation: fadeIn 1s;
+  animation-delay: 0s;
+  animation-fill-mode: forwards;
+  opacity:0;
+  text-transform: capitalize;
+}
+#exp{
+  color:white;
+}
+#inExp{
+  column-count: 5;
+}
+#expList{
+  width: 33rem;
+}
+
 
 /* Three Wise Offers*/
 #conOffer{
