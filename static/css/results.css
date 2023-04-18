@@ -1,84 +1,137 @@
-.containerOut{
-    height: auto;
-    width: 100vw;
-    position: relative;
-    overflow:auto;
+.frost {
+  position: relative;
+  width: 86vw;
+  height:auto;
+  background-color: rgba(255, 255, 255, .15);
+  left: 7%;
+  border: 4px solid;
+  padding: 3rem;
 }
 
-.containerTable{
-    position: relative;
-    max-width: 100vw;
-    padding:1%;
+div#conTable{
+  top:3rem;
+  position: relative;
+}
+
+caption{
+  color:lavender;
+  text-align: center;
+  text-shadow:
+    0 0 5px #5e7cff;
+  text-transform: capitalize;
+  font-size: 5.2rem;
+  font-family: 'Merriweather', serif;
+}
+
+label{
+  color:white;
+  text-shadow: 4px 4px 2px black;
 }
 
 #table{
-    max-width: 180rem;
-    height: auto;
-    margin: 0 auto
+  max-width:1920px;
+  border: 0px;
+  margin:auto;
+}
+tr {
+  text-align: -webkit-center;
 }
 
-td.meetType{
-    width: .1em;
-  }
-  td.city{
-    width: .1em;
-  }
-  td.date{
-    width: .1em;
-  }
-  th {
-    color: #5e7cff;
-    text-shadow: 1px 0px 5px white;
-    background-color: #FAB935;
-    text-align: center;
-  }
-  td {
-    background-color: slategray;
-    color:white;
-    text-align: center;
-    max-height: 20rem;
-    white-space: break-spaces;
-    font-size: .8em;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    text-shadow: 0px 1px 1px #FAB935;
-  }
-  
-  .table thead tr th, .table tbody tr td {
-    border: none;
-  }
-  
-  tbody tr:nth-child(even){
-  background-color: white;
-  }
-  td.description:hover {
-    background-color: white;
-    color:slategray;
-
-  }
-  .description{
+th {
+  display: inline-block;
+  position: relative;
+  color: white;
+  text-shadow: 3px 3px 2px black;
+}
+td {
   display: block;
+  clear:both;
+  background-color:rgba(255, 255, 255, .0);
+  color:white;
+  text-align: center;
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+  text-shadow: 3px 3px 2px black;
+  padding: 0px;
+  margin: 0px auto;
+  width:auto;
+}
+td.none{
+  display:none;
+}
+th.none{
+  display:none;
+}
+td.infoLocation{
+  display: flex;
+  justify-content: space-evenly;
+  text-transform: capitalize;
+}
+
+td.description{
   overflow: hidden;
-  width: auto;
-  justify-content: center;
+  max-height: 9rem;
   white-space: break-spaces;
-  }
-  .columns{ 
-    display:none
-  }
-  .pagination-info{ 
-    color:white;
-    font-size: .7em;
-  }
-  .page-list{ 
+  text-transform: capitalize;
+}
+
+span#prettyTable {
+  text-shadow: 1px 1px 2px #fab935;
+}
+.table thead tr th, .table tbody tr td {
+  border: none;
+}
+tbody tr:nth-child(even){
+  background-color:rgba(255, 255, 255, .25);
+
+}
+tbody tr:nth-child(odd){
+  background-color:rgba(255, 255, 255, .0);
+}
+
+tr:hover td {
+  background-color:lightslategrey;
+  box-shadow: cornflowerblue 0px 5px, 0px 1px, cornflowerblue  0px 6px, cornflowerblue  0px 14px, cornflowerblue  -3px 13px, cornflowerblue  -11px 10px;
+  transform: translate3d(4px, -10px, 0);
+  transform: translate3d(4px, -10px, 0);
+  transition-delay: 0s;
+  transition-duration: 0.4s;
+  transition-property: all;
+  transition-timing-function: line;
+}
+
+/* Pagination */
+
+.padding-0{
+  padding-right:0;
+  padding-left:0;
+}
+
+.columns{
+  display:none
+}
+.pagination-info{
   color:white;
   font-size: .7em;
-  }
-  .btn{
+}
+.page-list{
+  color:white;
+  font-size: .7em;
+}
+.btn{
   padding: 3px 0px;
-  }
-  .pagination>li>a, .pagination>li>span{
+}
+.pagination>li>a, .pagination>li>span{
   padding: 1px 11px;
-  }
+}
+.subrow {
+	color:white;
+}
+span.page-size{
+  color:black
+}
+
+
 
 @media screen and (min-width: 001px) and (max-width: 400px){
     td {
