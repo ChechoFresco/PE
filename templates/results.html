@@ -3,54 +3,49 @@
 {% block content %}
 <head>
     <!-- JavaScript table expand -->
+
     <script>
         $(document).ready(function () {
-            $("#table").on("click", ".description", function () {
-                if (this.style.display === "flex") {
-                    this.style.display = "revert";
+            $("#table").on("click", "td.description", function () {
+                if (this.style.maxHeight === "9rem") {
+                    this.style.maxHeight = "fit-content";
                 }
                 else {
-                    this.style.display = "flex";
+                    this.style.maxHeight = "9rem";
                 }
             });
         });
     </script>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}" >
 </head>
 <br></br>
-<div class="containerOut" >
-    <div class="containerTable" >
-        <table id="table"
-            data-toggle="table"
-            data-filter-control="true"
-            data-sortable="true"
-            data-pagination="true"
-            data-show-columns="true"
-            data-show-columns-toggle-all="true"
-            class="table-responsive">
-            <thead class='h-10'>
-                <tr class='col-sm-6'>
-                    <th data-field= 'row-City' class='city'data-sortable="true">City</th>
-                    <th class="hidden-xs County" data-field= 'row-County' data-sortable="False">County</th>
-                    <th data-field= 'row-Date' class='date'data-sortable="False">Date</th>
-                    <th data-field= 'row-Meeting' class='meeting' data-sortable="true">Meeting Type</th>
-                    <th class='hidden-xs Item' data-field= 'row-Item' data-sortable="true">Item Type</th>
-                    <th class='hidden-xs Num' data-field= 'row-Num' data-sortable="true">Number</th>
-                    <th data-field= 'row-Description' data-sortable="true" >Item</th>
+<div class="frost">
+    <div id="conTable">
+        <table id="table" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
+            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='12' class="table-responsive">
+            <caption>{{searchKey}}  {{deepKey}}</caption>
+            <thead class='h-12'>
+                <tr>
+                    <th class='hidden-xs'data-field='row-Date' data-sortable="true">Date</th>
+                    <th  class='hidden-xs'data-field= 'row-County' data-sortable="true">County</th>
+                    <th class='hidden-xs'data-field='row-City' data-sortable="true">City</th>
+                    <th  class='hidden-xs'data-sortable="true">Meeting Type</th>
+                    <th  class='hidden-xs'data-field= 'row-Item' data-sortable="true">Item Type</th>
+                    <th class='hidden-xs'data-field= 'row-Num' data-sortable="False">Item</th>
+                    <th class='none' data-field='row-Description' data-sortable="true">Item</th>
                 </tr>
             </thead>
             <tbody>
                 {% for agenda in agendas %}
-                    <tr>
-                        <td>{{agenda.City}}</td>
-                        <td class='hidden-xs'>{{agenda.County}} </td> <!Hidden hides in compact phone mode!>
-                        <td type='text'>{{agenda.Date|aTime}}</td>
-                        <td>{{agenda.MeetingType}} </td>
-                        <td class='hidden-xs'>{{agenda.ItemType}} </td>
-                        <td class='hidden-xs'>{{agenda.Num}} </td>
-                        <td class='description'>{{agenda.Description}}</td>
-                    </tr>
+                <tr>
+                    <td class='none'>{{agenda.Date}}</td>
+                    <td class='none'>{{agenda.County}}</td>
+                    <td class='none'>{{agenda.City}}</td>
+                    <td class='none'>{{agenda.MeetingType}}</td>
+                    <td class='none'>{{agenda.ItemType}}</td>
+                    <td class='description'>{{agenda.Description}}</td>
+                    <td class='infoLocation'><span id='prettyTable' class='hidden-xs'>Date: </span>{{agenda.Date|aTime}} <span id='prettyTable' class='hidden-xs'>County: </span>{{agenda.County}} <span id='prettyTable' class='hidden-xs'>City: </span>{{agenda.City}} <span id='prettyTable' class='hidden-xs'>Meeting Type: </span>{{agenda.MeetingType}}<span id='prettyTable' class='hidden-xs'> Item Type: </span>{{agenda.ItemType}} <span id='prettyTable' class='hidden-xs'>Number: </span>{{agenda.Num}}</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
