@@ -916,7 +916,25 @@
     </div>
 </div>
 
+<!--Stats Occurance-->
 
+<div class="container" id='exp'>
+    <div class="container" id='trendContainer'>
+        <div class="col-sm-12">
+            <h1 id="titleOccurance">{{chosen}} occurances in local City Councils over last year</h1>
+        </div>
+    </div>
+
+    <div class="row" id= 'inExp'>
+        <div class="col-sm-4" >
+                {% for agenda in agendas | sort(attribute=0)|reverse %}
+                <ul >
+                    <li id='expList'>{{agenda| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("[", '')| replace("]", ' ')}}</li>
+                </ul>
+                {% endfor %}
+        </div>
+    </div>
+</div>
 
 <!--Three Wise Offers-->
 <div class="container" id='conOffer'>
