@@ -197,15 +197,16 @@ def index():
         box2=[]
         box3=[]
         for x in agendaACounty:
-            if x["Date"] > oneyearBefore:
+            if x["Date"] > weekBefore:
                 box1.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
             if x["Date"] > monthBefore:
                 box2.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
             if x["Date"] > threemonthBefore:
                 box3.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
-            #######Box 1##########
         week1=[]
+        monthOne=[]
+        monthThree=[]
+            #######Box 1##########
         prev=None
         for w in box1:
             if w not in stop_words and len(w)>2:
@@ -220,7 +221,6 @@ def index():
 
 
         #######Box 2##########
-        monthOne=[]
         prev=None
         for aa in box2:
             if aa not in stop_words and len(aa)>2:
@@ -235,7 +235,6 @@ def index():
 
 
         #######Box 3##########
-        monthThree=[]
         prev=None
         for bb in box3:
             if bb not in stop_words and len(bb)>2:
