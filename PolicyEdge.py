@@ -176,7 +176,10 @@ def index():
         k = date.today() + relativedelta(weeks=-4)
         l= str(k).replace("-","")
         monthBefore=int(l)
-
+        
+        c = date.today() + relativedelta(weeks=-52)
+        d= str(c).replace("-","")
+        oneyearBefore=int(d)
 ####TREND SET-UP#######
         cityList=[" Adelanto ", " Apple Valley ", " Barstow ", " Big Bear Lake ", " Chino ", " Chino Hills ", " Colton ", " Fontana ", " Grand Terrace ", " Hesperia ", " Highland ", " Loma Linda ", " Montclair ", " Needles ", " Ontario ", " Rancho Cucamonga ", " Redlands ", " Rialto ", " San Bernandino ", " Twnentynine Palms ", " Upland ", " Victorville ", " Yucaipa ", " Yucca Valley ",
         " Carlsbad ", " Chula Vista ", " Coronado ", " Del Mar ", " El Cajon ", " Encinitas ", " Escondido ", " Imprial Beach ", " La Mesa ", " Lemon Grove ", " National City ", " Oceanside ", " Poway ", " San Diego ", " San Marcos ", " Santee ", " Solana Beach ", " Vista ", " Aliso Viejo " , " Anaheim " , " Brea " , " Buena Park " , " Costa Mesa " , " Cypress " , " Dana Point " , " Fountain Valley " , 
