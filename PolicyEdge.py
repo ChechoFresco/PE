@@ -253,84 +253,93 @@ def index():
         topics = ["water", "cannabis", "EV", "homeless","climate", "oil","waste","gas","utility","retail","financial"]
         chosen = topics.pop(random.randrange(len(topics)))
 
+            #######Stats Occurancer##########
+
+        stat=[]
+        for z in range(len(cityList)):
+            Multiquery=mongo.db.Agenda.count_documents({'$and':[ {'$text': { "$search": chosen}}, {"MeetingType":" City Council "}, {"City": cityList[z]}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]})
+            if Multiquery == 0:
+                continue
+            else:
+                stat.append([Multiquery, cityList[z]] )
         if request.method == 'GET':
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen,chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen,chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'cannabis':
             chosen= 'cannabis'
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'water':
             chosen= 'water'
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'EV':
             chosen= 'EV'
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'homeless':
             chosen= 'homeless'
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'climate':
             chosen= 'climate'
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'oil':
             chosen= 'oil'
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'waste':
             chosen= 'waste'
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'gas':
             chosen= 'gas'
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'utility':
             chosen= 'utility'
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'retail':
             chosen= 'retail'
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'Los Angeles County':
             chosencountyList= ' LA County '
             agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':weekAhead, '$gte':weekBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':monthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'Orange County':
             chosencountyList= ' Orange County '
             agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':weekAhead, '$gte':weekBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':monthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'Riverside County':
             chosencountyList= ' Riverside County '
             agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':weekAhead, '$gte':weekBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':monthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'San Bernandino County':
             chosencountyList= ' San Bernandino County '
             agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':weekAhead, '$gte':weekBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':monthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'San Diego County':
             chosencountyList= ' San Diego County '
             agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':weekAhead, '$gte':weekBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':monthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
-            return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
+            return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
 
 @app.route('/loggedIn', methods=['GET', 'POST'])
 def loggedIn():
