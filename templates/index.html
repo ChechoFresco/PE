@@ -929,7 +929,7 @@
         <div class="col-sm-4" >
                 {% for stat in stats | sort(attribute=0)|reverse %}
                 <ul >
-                    <li id='expList'>{{agenda| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("[", '')| replace("]", ' ')}}</li>
+                    <li id='expList'>{{stat| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("[", '')| replace("]", ' ')}}</li>
                 </ul>
                 {% endfor %}
         </div>
