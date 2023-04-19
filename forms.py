@@ -23,7 +23,7 @@ class secondnotificationForm(Form):
         secondnotificationsearch = StringField('What would you like notifications for?:', validators=[Length(min=1, max=25),DataRequired()])
 
 class newIssue(Form):
-        choices = [('', ''), ('water', 'Water'), ('EV', 'EV'), ('homeless', 'Homeless'), ('waste', 'Waste'), ('retail', 'Retail'),('utility', 'Utility'),('cannabis', 'Cannabis'),('gas', 'Gas'),('climate', 'Climate')]
+        choices = [('', ''), ('EV', 'EV'), ('homeless', 'Homeless'), ('waste', 'Waste'), ('financial', 'Financial'),('cannabis', 'Cannabis'),('gas', 'Gas'),('climate', 'Climate'), ('reap', 'REAP'), ('rfp','RFPs'), ('solicit', 'Bids')]
         select = SelectField('Issues of Interest', choices=choices)
 
 class newTrend(Form):
