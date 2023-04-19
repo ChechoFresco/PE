@@ -69,7 +69,7 @@
             });
         });
     </script>
-    <link rel="stylesheet" href="/path/to/my.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" media="print" onload="this.media='all'">
 
 <!--Head portion-->
 {% with messages = get_flashed_messages() %}
