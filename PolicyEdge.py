@@ -199,61 +199,9 @@ def index():
 
 #######TRENDING SECTION##########
 
-        agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}, {'City': {'$not':{'$regex': " Los Angeles "}}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-
-        box1=[]
-        box2=[]
-        box3=[]
-        for x in agendaACounty:
-            if x["Date"] > weekBefore:
-                box1.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-            if x["Date"] > monthBefore:
-                box2.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-            if x["Date"] > threemonthBefore:
-                box3.extend(word_tokenize(str(x).lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-        week1=[]
-        monthOne=[]
-        monthThree=[]
-            #######Box 1##########
-        prev=None
-        for w in box1:
-            if w not in stop_words and len(w)>2:
-                if w not in SingleWord:
-                    if w in words:
-                        if str(w) != str(prev):
-                            week1.append(w)
-                        prev = w
-        grams1 = nltk.ngrams(week1, 2)
-
-        fdist1 = nltk.FreqDist(grams1)
-
-
-        #######Box 2##########
-        prev=None
-        for aa in box2:
-            if aa not in stop_words and len(aa)>2:
-                if aa not in SingleWord:
-                    if aa in words:
-                        if str(aa) != str(prev):
-                            monthOne.append(aa)
-                        prev = aa
-        grams2 = nltk.ngrams(monthOne, 2)
-
-        fdist2 = nltk.FreqDist(grams2)
-
-
-        #######Box 3##########
-        prev=None
-        for bb in box3:
-            if bb not in stop_words and len(bb)>2:
-                if bb not in SingleWord:
-                    if bb in words:
-                        if str(bb) != str(prev):
-                            monthThree.append(bb)
-                        prev = bb
-        grams3 = nltk.ngrams(monthThree, 2)
-
-        fdist3 = nltk.FreqDist(grams3)
+        fdist1='none'
+        fdist2='none'
+        fdist3='none'
 
 
 #######TOPIC SELECTION##########
