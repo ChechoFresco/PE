@@ -885,39 +885,6 @@
     </div>
 </div>
 
-<!--First table-->
-<div class="frost">
-    <div id="conTable">
-        <table id="table_1" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
-            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='6' class="table-responsive">
-            <caption>{{chosen}}</caption>
-            <thead class='h-12'>
-                <tr>
-                    <th class='hidden-xs'data-field='row-Date' data-sortable="true">Date</th>
-                    <th  class='hidden-xs'data-field= 'row-County' data-sortable="true">County</th>
-                    <th class='hidden-xs'data-field='row-City' data-sortable="true">City</th>
-                    <th  class='hidden-xs'data-sortable="true">Meeting Type</th>
-                    <th  class='hidden-xs'data-field= 'row-Item' data-sortable="true">Item Type</th>
-                    <th class='hidden-xs'data-field= 'row-Num' data-sortable="False">Item</th>
-                    <th class='none' data-field='row-Description' data-sortable="true">Item</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for agendaa in agendaas %}
-                <tr>
-                    <td class='none'>{{agendaa.Date}}</td>
-                    <td class='none'>{{agendaa.County}}</td>
-                    <td class='none'>{{agendaa.City}}</td>
-                    <td class='none'>{{agendaa.MeetingType}}</td>
-                    <td class='none'>{{agendaa.ItemType}}</td>
-                    <td class='description'>{{agendaa.Description}}</td>
-                    <td class='infoLocation'><span id='prettyTable' class='hidden-xs'>Date: </span>{{agendaa.Date|aTime}} <span id='prettyTable' class='hidden-xs'>County: </span>{{agendaa.County}} <span id='prettyTable' class='hidden-xs'>City: </span>{{agendaa.City}} <span id='prettyTable' class='hidden-xs'>Meeting Type: </span>{{agendaa.MeetingType}}<span id='prettyTable' class='hidden-xs'> Item Type: </span>{{agendaa.ItemType}} <span id='prettyTable' class='hidden-xs'>Number: </span>{{agendaa.Num}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
 
 <!--Stats Occurance-->
 
