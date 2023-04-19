@@ -271,7 +271,7 @@ def index():
             else:
                 stat.append([Multiquery, cityList[z]] )
         if request.method == 'GET':
-            agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
+            agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, {"MeetingType":" City Council "}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date').sort('City')
             return render_template('index.html',stats=stat,fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen,chosencountyList=chosencountyList, form=form, form2=form2, title="Welcome to Policy Edge")
         elif request.method == 'POST' and request.form['select'] == 'cannabis':
             chosen= 'cannabis'
