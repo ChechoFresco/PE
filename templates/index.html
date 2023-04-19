@@ -7,6 +7,13 @@
 {% endblock %}
 {% block content %}
 <head>
+    <link rel="stylesheet" media="none" onload="if(media!='all')media='all'" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather|Open+Sans">
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
     <script>
         var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change","transportaion", "financial", "retail"];
         var count = 0;
@@ -62,12 +69,6 @@
             });
         });
     </script>
-    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" media="none" onload="if(media!='all')media='all'" href="{{ url_for('static', filename='css/index.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather|Open+Sans">
-    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Permanent+Marker&display=swap" rel="stylesheet">
 <!--Head portion-->
 {% with messages = get_flashed_messages() %}
     {% if messages %}
