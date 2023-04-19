@@ -14,6 +14,17 @@
     <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
     <script>
+    var cb = function() {
+    var l = document.createElement('link'); l.rel = 'stylesheet';
+    l.href = "{{ url_for('static', filename='css/index.css'';
+    var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h); };
+    var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+              webkitRequestAnimationFrame || msRequestAnimationFrame;
+    if (raf) raf(cb);
+    else window.addEventListener('load', cb);
+</script>
+    
+    <script>
         var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change","transportaion", "financial", "retail"];
         var count = 0;
         function changeText() {
@@ -68,8 +79,6 @@
             });
         });
     </script>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
 
 <!--Head portion-->
 {% with messages = get_flashed_messages() %}
