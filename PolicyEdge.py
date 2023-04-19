@@ -265,7 +265,7 @@ def index():
 
         stat=[]
         for z in range(len(cityList)):
-            Multiquery=mongo.db.Agenda.count_documents({'$and':[ {'$text': { "$search": chosen}}, {"MeetingType":" City Council "}, {"City": cityList[z]}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]})
+            Multiquery=mongo.db.Agenda.count_documents({'$and':[ {'$text': { "$search": chosen}}, {"MeetingType":" City Council "}, {"City": cityList[z]}, { 'Date':{'$lte':today, '$gte':twoweekAhead}}]})
             if Multiquery == 0:
                 continue
             else:
