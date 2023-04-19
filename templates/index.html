@@ -1013,6 +1013,37 @@
         <div class="col-sm-4">
             <h3 id="happening">Click on County highlighted orange above.</h3>
         </div>
+            <div class="container" id="split2">
+                
+        <div class="row">
+            <div class="col-sm-4" id="trendColumn">
+                <h3 id="title">One week</h3>
+                    {% for x in fdist1s.most_common(25)%}
+                    <ul class= 'subrow'>
+                        <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
+                    </ul>
+                    {% endfor %}
+            </div>
+
+            <div class="col-sm-4" id="trendColumn">
+                <h3 id="title">One Month</h3>
+                {% for x in fdist2s.most_common(25)%}
+                <ul class= 'subrow'>
+                    <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
+                </ul>
+                {% endfor %}
+            </div>
+
+            <div class="col-sm-4" id="trendColumn">
+                <h3 id="title">Three Months</h3>
+                {% for x in fdist3s.most_common(25)%}
+                <ul class= 'subrow'>
+                    <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
+                </ul>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
     </div>
 
 
