@@ -7,8 +7,6 @@
 {% endblock %}
 {% block content %}
 <head>
-    <link rel="preload" href="index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"></noscript>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather|Open+Sans">
@@ -70,6 +68,9 @@
             });
         });
     </script>
+
+    <link rel="preload" href="index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"></noscript>
 <!--Head portion-->
 {% with messages = get_flashed_messages() %}
     {% if messages %}
