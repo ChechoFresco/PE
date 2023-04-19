@@ -69,8 +69,8 @@
         });
     </script>
 
-    <link rel="preload" href="index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"></noscript>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+
 <!--Head portion-->
 {% with messages = get_flashed_messages() %}
     {% if messages %}
