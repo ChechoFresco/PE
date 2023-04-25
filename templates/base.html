@@ -292,7 +292,9 @@ function myFunction() {
 			{% if not session['username'] %}
 			<div href="#" class="nav navbar-nav navbar-right">
 				<li href="javascript:void(0);" class="icon" onclick="myFunction()">
-					<i class="fa fa-bars"></i>
+					<i class="fa fa-bars">-</i>
+					<i class="fa fa-bars">-</i>
+					<i class="fa fa-bars">-</i>
 				</li>
 				<div id="myLinks">
 					<li><a href="/search">Search</a></li>
@@ -306,8 +308,9 @@ function myFunction() {
 			{% if session['username'] %}
 			<div href="#" class="nav navbar-nav navbar-right">
 				<li href="javascript:void(0);" class="icon" onclick="myFunction()">
-					<i class="fa fa-bars"></i>
-				</li>
+					<i class="fa fa-bars">-</i>
+					<i class="fa fa-bars">-</i>
+					<i class="fa fa-bars">-</i>				</li>
 				<div id="myLinks">
 					<li><a href="/search">Search</a></li>
 					<li><a href="/savedIssues">Notification</a></li>
