@@ -224,12 +224,18 @@ i.fa.fa-bars:hover{
 /* ################################################# */
 /* ################################################# */
 /* CSS for TOPNAV*/
-@media screen and (max-width: 400px)
+@media screen and (max-width: 575px)
 {
+  li.icon{
+    display: flex;
+    flex-direction: column;
+  }
   i.fa.fa-bars{
     position: relative;
-    font-size: 4rem;
-    float:right;
+    font-size: 10rem;
+    float: right;
+    height: 1.5rem;
+    top: -7rem;
   }
   .navbar{
     background: transparent;
@@ -238,6 +244,12 @@ i.fa.fa-bars:hover{
     z-index: 2;
     margin: 0 auto;
     height: 3rem;
+  }
+  .navbar-header{
+    float:left;
+    }
+  .navbar-right{
+  float:right;
   }
   div#myLinks{
     display: none;
@@ -271,16 +283,13 @@ i.fa.fa-bars:hover{
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
-@media screen and (min-width: 400px) and (max-width: 768px)
+@media screen and (min-width: 576px) and (max-width: 768px)
 {
   .navbar{
     height:10rem;
   }
   i.fa.fa-bars{
-    position: relative;
-    font-size: 6rem;
-    right: 1rem;
-    top: 1rem;
+    display: none;
   }
   .navbar-right li a {
     padding: 1rem 2rem;
