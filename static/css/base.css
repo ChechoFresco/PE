@@ -3,14 +3,14 @@ html, body{
   height: 100%;
   margin: auto;
   padding: 0px;
-  background-color:var(--white);
+  background-color:var(--black);
   max-width: 1920px;
 }
 :root {
   --blue: linear-gradient(131deg, #7569f9 0%, #58b3f8 100%);
   --white: ghostwhite;
   --lightgray:#f4f0f0;
-  --black: blackolive;
+  --black: #2d3237;
   --gray: #616d75;
 }
 
