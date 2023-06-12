@@ -130,7 +130,7 @@ html, body{
 .topnav a:not(:first-child,#login){
   float: right;
   top:2rem;
-  color:var(--white);
+  color:red;
 
 }
 #login{
