@@ -6,6 +6,7 @@
   background-color: rgba(255, 255, 255, .15);
   border: 4px solid;
   padding: 3rem;
+  border-radius:2ch;
 }
 
 /* Main Animation*/
@@ -260,12 +261,15 @@ tbody tr:nth-child(odd){
 tr:hover td {
   background-color:lightslategray;
   box-shadow: lightsteelblue 0px 5px, 0px 1px, lightsteelblue 0px 6px, lightsteelblue 0px 14px, lightsteelblue -3px 13px, lightsteelblue -11px 10px;
-  transform: translate3d(4px, -10px, 0);
+  -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+    -moz-box-shadow: 0 2px 2px -2px #0E1119;
+      box-shadow: 0 2px 2px -2px #0E1119;  
   transform: translate3d(4px, -10px, 0);
   transition-delay: 0s;
   transition-duration: 0.4s;
   transition-property: all;
   transition-timing-function: line;
+  font-size: 1.rem;
 }
 
 /* Pagination */
