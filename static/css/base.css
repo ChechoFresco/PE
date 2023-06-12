@@ -1,36 +1,17 @@
 html, body{
   width: 100%;
   height: 100%;
-  margin: 0px;
+  margin: auto;
   padding: 0px;
-  background-color:#2d3237;
-}
-.page {
-  position: relative;
-}
-
-/* Navbar complete*/
-.navbar{
-  background: transparent;
+  background-color:var(--white);
   max-width: 1920px;
-  position: relative;
-  z-index: 2;
-  margin: 0 auto;
-  height:14rem;
 }
-
-.navbar-nav{
-  margin: 0px 0px;
-}
-div.navbar-header{
-  position: relative;
-}
-
-svg#logo{
-  position: absolute;
-  width: 57rem;
-  overflow: auto;
-  height:10rem;
+:root {
+  --blue: linear-gradient(131deg, #7569f9 0%, #58b3f8 100%);
+  --white: ghostwhite;
+  --lightgray:#f4f0f0;
+  --black: blackolive;
+  --gray: #616d75;
 }
 
 #path284{
@@ -83,9 +64,9 @@ svg#logo{
 }
 
 @keyframes colorChange {
-  0%{fill:yellow}
+  0%{fill:darkgray}
   50%{fill:white}
-  100%{fill: #5e7cff}
+  100%{fill: blue}
 }
 
 #twinkle1{
@@ -123,70 +104,37 @@ svg#logo{
   100% { opacity:.1  }
 }
 
-#PolicyEdge{
-  animation: bounce 3s ease-in-out;
-  animation-iteration-count: 1;
+
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: transparent;
+  overflow: hidden;
+  max-width: 1920px;
+  margin: auto;
 }
 
-@keyframes bounce {
-  11.1% {
-    transform: none
-  }
-  22.2% {
-    transform: skewX(-12.5deg) skewY(-12.5deg)
-  }
-  33.3% {
-    transform: skewX(6.25deg) skewY(6.25deg)
-  }
-  44.4% {
-    transform: skewX(-3.125deg) skewY(-3.125deg)
-  }
-  55.5% {
-    transform: skewX(1.5625deg) skewY(1.5625deg)
-  }
-  66.6% {
-    transform: skewX(-0.78125deg) skewY(-0.78125deg)
-  }
-  77.7% {
-    transform: skewX(0.390625deg) skewY(0.390625deg)
-  }
-  88.8% {
-    transform: skewX(-0.1953125deg) skewY(-0.1953125deg)
-  }
-  100% {
-    transform: none
-  }
-}
-
-div#myLinks {
-  display: flex;
-  background-color:transparent;
-  color: white;
-  padding: 22px 26px;
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
   font-size: 3rem;
-}
-
-li.icon{
-  top: 0vh;
-  float: right;
-}
-.navbar-right li a{
-  color: white;
+  border-radius:1ch;
+  position: relative;
   font-family: 'Big Shoulders Inline Text', cursive;
-  padding: 22px 26px;
-  font-size: 3rem;
 }
 
-.navbar-right li:hover{
-  text-shadow:
-  0 0 3px #fff,
-  0 0 7px blue,
-  0 0 16px blue,
-  0 0 42px blue,
-  0 0 82px blue;
-}
+.topnav a:not(:first-child,#login){
+  float: right;
+  top:2rem;
+  color:var(--white);
 
-a#login{
+}
+#login{
+  float: right;
+  color:var(--white);
   text-shadow:
   0 0 3px #fff,
   0 0 7px #fab935,
@@ -196,29 +144,64 @@ a#login{
   0 0 92px #fab935,
   0 0 102px #fab935,
   0 0 151px #fab935;
+  top:2rem;
 }
 
-/* Navbar burger*/
-i.fa.fa-bars{
-  position: relative;
-  font-size:8rem;
-  color:white;
-  opacity:.6;
-}
-
-i.fa.fa-bars:hover{
-  opacity:1;
+/* Change the color of links on hover */
+.topnav a:hover {
   text-shadow:
   0 0 3px #fff,
-  0 0 7px #5e7cff,
-  0 0 16px #5e7cff,
-  0 0 42px #5e7cff,
-  0 0 82px #5e7cff,
-  0 0 92px #5e7cff,
-  0 0 102px #5e7cff,
-  0 0 151px #5e7cff;
+  0 0 7px blue,
+  0 0 16px blue,
+  0 0 42px blue,
+  0 0 82px blue;
+}
+.topnav a {
+  float: left;
+}
+/* Add an active class to highlight the current page */
+.topnav a.active {
+  background-color: transparent;
+  color: var(--white);
 }
 
+/* Hide the link that should open and close the topnav on small screens */
+.topnav .icon {
+  display: none;
+}
+
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
+/* CSS for TOPNAV*/
+/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+  svg#logo{
+    height:7rem;
+    width: 24rem;
+  }
+}
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a:not(.icon)  {
+    float: none;
+    display: block;
+    text-align: left;
+    width:100%
+  }
+}
 
 /* ################################################# */
 /* ################################################# */
