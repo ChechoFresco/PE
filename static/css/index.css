@@ -209,8 +209,8 @@ label{
 tr{
   text-align: -webkit-center;
 }
-tr:hover{
-	background-color: (var--orange);
+.table-hover>tbody>tr:hover{	
+	background-color:var(--orange);
 }
 th {
   display: inline-block;
