@@ -259,8 +259,7 @@ tbody tr:nth-child(odd){
 }
 
 tr:hover td {
-  background-color:black;
-  box-shadow: black 0px 5px, 0px 1px, black 0px 6px, black 0px 14px, black -3px 13px, black -11px 10px;
+  background-color:lavender;
   -webkit-box-shadow: 0 2px 2px -2px #0E1119;
     -moz-box-shadow: 0 2px 2px -2px #0E1119;
       box-shadow: 0 2px 2px -2px #0E1119;  
