@@ -208,9 +208,10 @@ label{
 }
 tr{
   text-align: -webkit-center;
-background-color:var(--orange);
 }
-
+tr:hover{
+	background-color: (var--orange);
+}
 th {
   display: inline-block;
   position: relative;
