@@ -256,8 +256,10 @@ h2{
 }
 
 .site-footer a:hover{
-  color:#3366cc;
   text-decoration:none;
+    text-shadow:
+    0 0 3px #fff,
+    0 0 7px (var--blue),
 }
 
 .footer-links{
