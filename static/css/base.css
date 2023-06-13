@@ -257,9 +257,6 @@ h2{
 
 .site-footer a:hover{
   text-decoration:none;
-    text-shadow:
-    0 0 3px #fff,
-    0 0 7px (var--blue),
 }
 
 .footer-links{
@@ -277,7 +274,9 @@ h2{
 }
 
 .footer-links a:active,.footer-links a:focus,.footer-links a:hover{
-  text-shadow: 1px 1px 4px #blue;
+    text-shadow:
+    0 0 3px #fff,
+    0 0 7px (var--blue),
 }
 
 
