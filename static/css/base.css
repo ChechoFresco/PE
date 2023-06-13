@@ -216,6 +216,11 @@ html, body{
 }
 p.text-justify{
   color:white;
+   text-shadow: 3px 3px 2px black;
+}
+p.copyright-text{
+  color:white;
+   text-shadow: 3px 3px 2px black;
 }
 .site-footer{
   background-color:#4f5861;
