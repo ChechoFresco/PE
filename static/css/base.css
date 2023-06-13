@@ -138,13 +138,13 @@ html, body{
   color:var(--white);
   text-shadow:
   0 0 3px #fff,
-  0 0 7px #fab935,
-  0 0 16px #fab935,
-  0 0 42px #fab935,
-  0 0 82px #fab935,
-  0 0 92px #fab935,
-  0 0 102px #fab935,
-  0 0 151px #fab935;
+  0 0 7px var(--orange),
+  0 0 16px var(--orange),
+  0 0 42px var(--orange),
+  0 0 82px var(--orange),
+  0 0 92px var(--orange),
+  0 0 102px var(--orange),
+  0 0 151px var(--orange),
   top:2rem;
 }
 
@@ -152,10 +152,10 @@ html, body{
 .topnav a:hover {
   text-shadow:
   0 0 3px #fff,
-  0 0 7px blue,
-  0 0 16px blue,
-  0 0 42px blue,
-  0 0 82px blue;
+  0 0 7px var(--blue),
+  0 0 16px var(--blue),
+  0 0 42px var(--blue),
+  0 0 82px var(--blue),
 }
 .topnav a {
   float: left;
