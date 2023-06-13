@@ -274,10 +274,9 @@ h2{
 }
 
 .footer-links a:active,.footer-links a:focus,.footer-links a:hover{
-  color:#3366cc;
-  text-shadow:
-  0 0 7px white;
+  text-shadow: 1px 1px 4px #blue;
 }
+
 
 .footer-links.inline li{
   display:inline-block
