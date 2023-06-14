@@ -15,95 +15,96 @@ html, body{
   --orange: #fab935;
 }
 
-#path284{
-  animation: colorChange 5.2s ease-in-out infinite;
-}
-#path64{
-  animation: colorChange 5.8s ease-in-out infinite;
-}
-#path90{
-  animation: colorChange 6.5s ease-in-out infinite;
-}
-#path94{
-  animation: colorChange 6.8s ease-in-out infinite;
-}
-#path126{
-  animation: colorChange 7.2s ease-in-out infinite;
-}
-#path132{
-  animation: colorChange 7.4s ease-in-out infinite;
-}
-#path174{
-  animation: colorChange 8s ease-in-out infinite;
-}
-#path190{
-  animation: colorChange 8s ease-in-out infinite;
-}
-#path192{
-  animation: colorChange 9s ease-in-out infinite;
-}
-#path220{
-  animation: colorChange 9s ease-in-out infinite;
-}
-#path268{
-  animation: colorChange 2.3s ease-in-out infinite;
-}
-#path278{
-  animation: colorChange 3.6s ease-in-out infinite;
-}
-#path284{
-  animation: colorChange 3.4s ease-in-out infinite;
-}
-#path286{
-  animation: colorChange 5.4s ease-in-out infinite;
-}
-#light12{
-  animation: colorChange 6.3s ease-in-out infinite;
-}
-#light5{
-  animation: colorChange 5.2s ease-in-out infinite;
-}
+/* Lights SVG*/
+  #path284{
+    animation: colorChange 5.2s ease-in-out infinite;
+  }
+  #path64{
+    animation: colorChange 5.8s ease-in-out infinite;
+  }
+  #path90{
+    animation: colorChange 6.5s ease-in-out infinite;
+  }
+  #path94{
+    animation: colorChange 6.8s ease-in-out infinite;
+  }
+  #path126{
+    animation: colorChange 7.2s ease-in-out infinite;
+  }
+  #path132{
+    animation: colorChange 7.4s ease-in-out infinite;
+  }
+  #path174{
+    animation: colorChange 8s ease-in-out infinite;
+  }
+  #path190{
+    animation: colorChange 8s ease-in-out infinite;
+  }
+  #path192{
+    animation: colorChange 9s ease-in-out infinite;
+  }
+  #path220{
+    animation: colorChange 9s ease-in-out infinite;
+  }
+  #path268{
+    animation: colorChange 2.3s ease-in-out infinite;
+  }
+  #path278{
+    animation: colorChange 3.6s ease-in-out infinite;
+  }
+  #path284{
+    animation: colorChange 3.4s ease-in-out infinite;
+  }
+  #path286{
+    animation: colorChange 5.4s ease-in-out infinite;
+  }
+  #light12{
+    animation: colorChange 6.3s ease-in-out infinite;
+  }
+  #light5{
+    animation: colorChange 5.2s ease-in-out infinite;
+  }
 
-@keyframes colorChange {
-  0%{fill:darkgray}
-  50%{fill:white}
-  100%{fill: blue}
-}
+  @keyframes colorChange {
+    0%{fill:darkgray}
+    50%{fill:white}
+    100%{fill: blue}
+  }
 
-#twinkle1{
-  animation: star 1.1s ease;
-  animation-iteration-count: infinite;
-}
-#twinkle2{
-  animation: star 1.2s ease;
-  animation-iteration-count: infinite;
-}
-#twinkle3{
-  animation: star 1.5s ease;
-  animation-iteration-count: infinite;
-}
-#twinkle4{
-  animation: star 1.6s ease;
-  animation-iteration-count: infinite;
-}
-#twinkle5{
-  animation: star 2s ease;
-  animation-iteration-count: infinite;
-}
-#twinkle6{
-  animation: star 2.2s ease;
-  animation-iteration-count: infinite;
-}
+  #twinkle1{
+    animation: star 1.1s ease;
+    animation-iteration-count: infinite;
+  }
+  #twinkle2{
+    animation: star 1.2s ease;
+    animation-iteration-count: infinite;
+  }
+  #twinkle3{
+    animation: star 1.5s ease;
+    animation-iteration-count: infinite;
+  }
+  #twinkle4{
+    animation: star 1.6s ease;
+    animation-iteration-count: infinite;
+  }
+  #twinkle5{
+    animation: star 2s ease;
+    animation-iteration-count: infinite;
+  }
+  #twinkle6{
+    animation: star 2.2s ease;
+    animation-iteration-count: infinite;
+  }
 
-@keyframes star {
-  0%   {opacity:.1 }
-  10%  {opacity:.3  }
-  30%  { opacity:.6 }
-  50%  {opacity:.1  }
-  57%  {opacity:.7 }
-  64%  {opacity:.5 }
-  100% { opacity:.1  }
-}
+  @keyframes star {
+    0%   {opacity:.1 }
+    10%  {opacity:.3  }
+    30%  { opacity:.6 }
+    50%  {opacity:.1  }
+    57%  {opacity:.7 }
+    64%  {opacity:.5 }
+    100% { opacity:.1  }
+  }
 
 
 /* Add a black background color to the top navigation */
@@ -115,62 +116,101 @@ html, body{
 }
 
 /* Style the links inside the navigation bar */
-.topnav a {
-  float: left;
-  display: block;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 3rem;
-  border-radius:1ch;
-  position: relative;
-  font-family: 'Big Shoulders Inline Text', cursive;
-}
+  .topnav a {
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 3rem;
+    border-radius:1ch;
+    position: relative;
+    font-family: 'Big Shoulders Inline Text', cursive;
+  }
 
-.topnav a:not(:first-child,#login){
-  float: right;
-  top:2rem;
-  color:var(--white);
+  .topnav a:not(:first-child,#login){
+    float: right;
+    top:2rem;
+    color:var(--white);
 
-}
-#login{
-  float: right;
-  color:var(--white);
-  text-shadow:
-  0 0 3px #fff,
-  0 0 7px var(--orange),
-  0 0 16px var(--orange),
-  0 0 42px var(--orange),
-  0 0 82px var(--orange),
-  0 0 92px var(--orange),
-  0 0 102px var(--orange),
-  0 0 151px var(--orange);
-  top:2rem;
-}
+  }
+  #login{
+    float: right;
+    color:var(--white);
+    text-shadow:
+    0 0 3px #fff,
+    0 0 7px #fab935,
+    0 0 16px #fab935,
+    0 0 42px #fab935,
+    0 0 82px #fab935,
+    0 0 92px #fab935,
+    0 0 102px #fab935,
+    0 0 151px #fab935;
+    top:2rem;
+  }
 
 /* Change the color of links on hover */
-.topnav a:hover {
-  text-shadow:
-  0 0 3px #fff,
-  0 0 7px var(--blue),
-  0 0 16px var(--blue),
-  0 0 42px var(--blue),
-  0 0 82px var(--blue);
-}
-.topnav a {
-  float: left;
-}
+  .topnav a:hover {
+    text-shadow:
+    0 0 3px #fff,
+    0 0 7px blue,
+    0 0 16px blue,
+    0 0 42px blue,
+    0 0 82px blue;
+  }
+  .topnav a {
+    float: left;
+  }
 /* Add an active class to highlight the current page */
-.topnav a.active {
-  background-color: transparent;
-  color: var(--white);
-}
+  .topnav a.active {
+    background-color: transparent;
+    color: var(--white);
+  }
 
 /* Hide the link that should open and close the topnav on small screens */
-.topnav .icon {
-  display: none;
-}
+  .topnav a.menu-button {
+    display: none;
+  }
 
+  .menu-icon {
+    position: relative;
+    max-width:  5.5rem;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+  }
+
+  .menu-icon path {
+    stroke: white;
+    stroke-width: 5;
+    stroke-linecap: round;
+    transition: all 250ms ease-in-out;
+    transform: rotate(0deg);
+    transform-origin: 50% 50%;
+    will-change: transform, opacity;
+  }
+
+  .menu-button:hover path,
+  .menu-button:focus path,
+  .menu-button:active path {
+      stroke: var(--orange);
+  }
+
+  .menu-icon.is-active path:nth-child(1) {
+    opacity: 0;
+  }
+
+  .menu-icon.is-active path:nth-child(4) {
+    opacity: 0;
+  }
+
+  .menu-icon.is-active path:nth-child(2) {
+      transform: rotate(45deg);
+  }
+
+  .menu-icon.is-active path:nth-child(3) {
+    transform: rotate(-45deg);
+  }
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
@@ -178,7 +218,7 @@ html, body{
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
 @media screen and (max-width: 600px) {
   .topnav a:not(:first-child) {display: none;}
-  .topnav a.icon {
+  .topnav a.menu-button{
     float: right;
     display: block;
   }
@@ -191,9 +231,9 @@ html, body{
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 600px) {
   .topnav.responsive {position: relative;}
-  .topnav.responsive a.icon {
+  .topnav.responsive a.menu-button{
     position: absolute;
-    right: 0;
+    left: 30rem;
     top: 0;
   }
   .topnav.responsive a:not(.icon)  {
