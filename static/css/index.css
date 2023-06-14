@@ -1,5 +1,4 @@
-
-  /* Frost affect*/
+/* Frost affect*/
 .frost {
   position: relative;
   height:auto;
@@ -373,7 +372,6 @@ p.subject {
 
 /* IssueTrend */
 .frost.Trend{
-  top: 7rem;
   padding: 2rem;
 }
 #trendContainer{
@@ -465,7 +463,6 @@ h3#title{
     #conHappening{
     position:relative;
     width:auto;
-    top:4vh;
   }
   h3#happening{
     color:white;
@@ -661,5 +658,4 @@ h3#title{
     display: flex;
     justify-content: space-around;
   }
-}
 }
