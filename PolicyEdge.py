@@ -1258,12 +1258,10 @@ def results():
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
 
 @app.template_filter('aTime')
-def int2date(agDate: int) -> date:#Chages format of dates in charts
-    year = int(agDate / 10000)
-    month = int((agDate % 10000) / 100)
-    day = int(agDate % 100)
-
-    return date(year,month,day)
+def int2date(agDate: int) -> date:
+    agDate=(str(agDate))
+    dt = datetime.strptime(agDate, '%Y%m%d')
+    return (dt.strftime('%B %d, %Y'))
 
 @app.route('/savedIssues', methods=['GET', 'POST'])
 def savedIssues():
