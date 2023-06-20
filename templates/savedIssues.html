@@ -7,107 +7,113 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}">
 <script>
     $(document).ready(function () {
-        $('td').click(function(){
+        $('tr').click(function(){
             var issue = $(this).text();
             var maybe =  issue.split("\n");
-            var is =  (JSON.stringify(maybe[0]));
-            var is2 =  (JSON.stringify(maybe[1]));
-            var is3 =  (JSON.stringify(maybe[2]));
-            var is4 =  (JSON.stringify(maybe[3]));
-
-            $(".input-issue").val(is.replace("Issue :","").replace('"    ','').replace(' "','')); 
-            $(".input-city").val(is2.replace("City :","").replace('"    ','').replace(' "',''));
-            $(".input-committee").val(is3.replace("committee :","").replace('"    ','').replace(' "',''));  
-            $(".input-county").val(is4.replace("County :","").replace('"    ','').replace('  "',''));  
+            var is =  (JSON.stringify(maybe[1]));
+            var is2 =  (JSON.stringify(maybe[2]));
+            var is3 =  (JSON.stringify(maybe[3]));
+            var is4 =  (JSON.stringify(maybe[4]));
+            $(".input-issue").val(is.replace("Issue:","").replace('                ',"").replace("                ", "").replace('"', '').replace('"', '').replace(' ', ''));
+            $(".input-city").val(is2.replace("City:","").replace('                ',"").replace("                ", "").replace('"', '').replace('"', '').replace(' ', ''));
+            $(".input-committee").val(is3.replace("Committee:","").replace('                ',"").replace("                ", "").replace('"', '').replace('"', '').replace(' ', ''));
+            $(".input-county").val(is4.replace("County:","").replace('                ',"").replace("                ", "").replace('"', '').replace('"', '').replace(' ', ''));
         });
     });
 </script>
 
 <script>
-    $(document).ready(function(){
-        $("#table").on("click", "#desc", function() {
-            if (this.style.display === "block") {
-                this.style.display = "revert";} 
+    $(document).ready(function () {
+        $("#table_1").on("click", "td.description", function () {
+            if (this.style.maxHeight === "9rem") {
+                this.style.maxHeight = "fit-content";
+            }
             else {
-                this.style.display = "block";}        
+                this.style.maxHeight = "9rem";
+            }
         });
     });
 </script>
 
 </head>
 
-    <div class="containeraddDelete" >
-        <table>
-            {% for x in issues_placeholders%}
-            <tr class= 'subrow'>
-                <td class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("searchWord", "Issue") }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-<br></br>
+    <div class="row">
+        <div class="col-sm-3">
+            <h2 id="Message1">Fill in the form highlighted white to create email notification based on issue, location, and/or committee's</h2>
+        </div>
 
-<br></br>
-    <div class="container" id='con2'>
-        <div class="col-sm-12">
-            <h2 id="delMessage">To delete items click on highlighted issue above and it will prefill form below for deletion.</h2>
+        <div class="col-sm-6">
+            <div id="form">
+                {% from "_formhelpers.html" import render_field %}
+                <form method="post">
+                    {{ render_field(form.monitor_search, class='input-issue' )}}
+                    {{ render_field(form.city_search, class='input-city')}}
+                    {{ render_field(form.committee_search, class='input-committee')}}
+                    {{ render_field(form.county_search, class='input-county')}}
+                    <p><input class="add" type="submit" value="Add" name='action' id="monitorListform" ></p>
+                    <p><input class="delete" type='submit' value="Delete" name='action'id="monitorListform" ></p>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <h2 id="delMessage">Item will appear below once details are provided and entered into form.</h2>
         </div>
     </div>
 
-    <div id="form">
-        {% from "_formhelpers.html" import render_field %}
-        <form method="post">
-            {{ render_field(form.monitor_search, class='input-issue' )}}
-            {{ render_field(form.city_search, class='input-city')}}
-            {{ render_field(form.committee_search, class='input-committee')}}
-            {{ render_field(form.county_search, class='input-county')}}
-            <p><input type="submit" value="Add" name='action' id="monitorListform" ></p>
-            <p><input type='submit' value="Delete" name='action'id="monitorListform" ></p>
-        </form>
+    <div class="containeraddDelete" >
+        {% for x in issues_placeholders%}
+        <table class='border'>
+            <tr class= 'subrow'>
+                <td class='subMenu'>Issue: {{x['searchWord']}}</td>
+                <td class='subMenu'>City:{{x['City']}}</td>
+                <td class='subMenu'>Committee:{{x['Committee']}}</td>
+                <td class='subMenu'>County:{{x['County']}}</td>
+            </tr>
+        </table>
+        {% endfor %}
+
     </div>
 
-    <div class="containerOut" >
-        <div class="containerTable" >
-            <table id="table"
-                data-toggle="table"
-                data-filter-control="true"
-                data-sortable="true"
-                data-pagination="true"
-                data-show-columns="true"
-                data-show-columns-toggle-all="true"
-                class="table-responsive">
-                <thead class='h-10'>
-                    <tr class='col-sm-6'>
-                        <th data-field= 'row-City' class='city'data-sortable="true">City</th>
-                        <th class="hidden-xs County" data-field= 'row-County' data-sortable="False">County</th>
-                        <th data-field= 'row-Date' class='date'data-sortable="False">Date</th>
-                        <th data-field= 'row-Meeting' class='meeting' data-sortable="true">Meeting Type</th>
-                        <th class='hidden-xs Item' data-field= 'row-Item' data-sortable="true">Item Type</th>
-                        <th class='hidden-xs Num' data-field= 'row-Num' data-sortable="true">Number</th>
-                        <th class='description'data-field= 'row-Description' data-sortable="true" >Description</th>
+
+    <div class="frost">
+        <div id="conTable">
+            <table id="table_1" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
+                data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='6' class="table-responsive">
+                <caption>{{chosen}}</caption>
+                <thead class='h-12'>
+                    <tr>
+                        <th class='hidden-xs'data-field='row-Date' data-sortable="true">Date</th>
+                        <th  class='hidden-xs'data-field= 'row-County' data-sortable="true">County</th>
+                        <th class='hidden-xs'data-field='row-City' data-sortable="true">City</th>
+                        <th  class='hidden-xs'data-sortable="true">Meeting Type</th>
+                        <th  class='hidden-xs'data-field= 'row-Item' data-sortable="true">Item Type</th>
+                        <th class='hidden-xs'data-field= 'row-Num' data-sortable="False">Item</th>
+                        <th class='none' data-field='row-Description' data-sortable="true">Item</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for agenda in agendas %}
-                        <tr class="agendaRow">
-                            <td>{{agenda.City}}</td>
-                            <td class='hidden-xs' id='Count'>{{agenda.County}} </td> <!Hidden hides in compact phone mode!>
-                            <td type='text'>{{agenda.Date|aTime}}</td>
-                            <td id='meetTyp'>{{agenda.MeetingType}}</td>
-                            <td id='itemTyp'class='hidden-xs'>{{agenda.ItemType}} </td>
-                            <td class='hidden-xs'>{{agenda.Num}} </td>
-                            <td id='desc'>{{agenda.Description}}</td>
-                        </tr>
+                    {% for agendaa in agendaas %}
+                    <tr>
+                        <td class='none'>{{agendaa.Date}}</td>
+                        <td class='none'>{{agendaa.County}}</td>
+                        <td class='none'>{{agendaa.City}}</td>
+                        <td class='none'>{{agendaa.MeetingType}}</td>
+                        <td class='none'>{{agendaa.ItemType}}</td>
+                        <td class='description'>{{agendaa.Description}}</td>
+                        <td class='infoLocation'><span id='prettyTable' class='hidden-xs'>Date: </span>{{agendaa.Date|aTime}} <span id='prettyTable' class='hidden-xs'>County: </span>{{agendaa.County}} <span id='prettyTable' class='hidden-xs'>City: </span>{{agendaa.City}} <span id='prettyTable' class='hidden-xs'>Meeting Type: </span>{{agendaa.MeetingType}}<span id='prettyTable' class='hidden-xs'> Item Type: </span>{{agendaa.ItemType}} <span id='prettyTable' class='hidden-xs'>Number: </span>{{agendaa.Num}}</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+    </div>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 {% endblock %}
-
 
 
 
