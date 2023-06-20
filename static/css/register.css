@@ -1,12 +1,55 @@
-@media screen and (max-width: 400px) {
+div.package{
+    position: relative;
+    height: 65vh;
+}
+
+div#size{
+    position: relative;
+    height: 60vh;
+}
+svg#cartoon{
+    display:block;
+    width: 120%;
+    height: 110%;
+}
+
+.frost {
+    position: relative;
+    height: 100%;
+    width:auto;
+    border-radius: 8%;
+    background-color: rgba(255, 255, 255, .15);
+    backdrop-filter: blur(5px);
+    padding: 3%;
+}
+
+form{
+    margin: 0rem 0rem;
+    font-size:1.4rem;
+    width: fit-content;
+}
+h1,h2{
+    color:white;
+    font-size:2.4rem;
+    text-shadow: 3px 3px 2px black;
+}
+label{
+    color:white;
+    text-shadow: 3px 3px 2px black;
+
+}
+.form-text {
+    color:white;
+    text-shadow: 3px 3px 2px black;
+
+}
+
+@media screen and (max-width: 600px) {
     div.package{
         position: relative;
         width:auto;
     }
-    div.background {
-        position: relative;
-    }
-    svg#cartoon{
+    div#size{
         display:none;
     }
     form{
@@ -15,119 +58,9 @@
     }
     h1,h2{
         color:white;
-        font-size: 1.5rem;
+        font-size: 2.4rem;
     }
     label{
         color:white;
-    }
-}
-
-@media screen and (min-width: 401px) and (max-width: 768px){
-    div.package{
-        position: relative;
-    }
-    
-    div.background {
-        position: relative;
-    }
-    svg#cartoon{
-        display:block;
-        width: 34rem;
-        height: 65rem;
-    }
-    form{
-        margin: 0rem 0rem;
-        font-size:1.5rem;
-        width: fit-content;
-    }
-    h1,h2{
-        color:white;
-        font-size: 1.5rem;
-    }
-    .frost {
-        position: relative;
-        height: auto;
-        width:auto;
-        border-radius: 8%;
-        background-color: rgba(255, 255, 255, .15);
-        backdrop-filter: blur(5px);
-        padding: 3%;
-    }
-    label{
-        color:white;
-    }
-}
-
-@media screen and (min-width: 769px) and (max-width: 1500px){
-    div.package{
-        position: relative;
-    }
-    div.background {
-        position: relative;
-    }
-    form{
-        margin: 0rem 0rem;
-        font-size:1.5rem;
-        width: fit-content;
-    }
-    h1,h2{
-        color:white;
-        font-size: 1.5rem;
-    }
-    svg#cartoon{
-        display:block;
-        width: 52rem;
-        height: 63rem;
-    }
-    .frost {
-        position: relative;
-        height: auto;
-        width:auto;
-        border-radius: 8%;
-        background-color: rgba(255, 255, 255, .15);
-        backdrop-filter: blur(5px);
-        padding: 3%;
-    }
-    label{
-        color:white;
-        }
-    }
-
-    @media screen and (min-width: 1500px) and (min-width: 2000px){
-    div.package{
-        position: relative;
-    }
-    
-    div.background {
-        position: relative;
-    }
-    
-    svg#cartoon{
-        display:block;
-        width: 53rem;
-        height: 73rem;
-    }
-    
-    .frost {
-        position: relative;
-        height: auto;
-        width:auto;
-        border-radius: 8%;
-        background-color: rgba(255, 255, 255, .15);
-        backdrop-filter: blur(5px);
-        padding: 3%;
-    }
-    
-    form{
-        margin: 0rem 0rem;
-        font-size:1.5rem;
-        width: fit-content;
-    }
-    h1,h2{
-        color:white;
-        font-size: 1.5rem;
-    }
-    label{
-    color:white;
     }
 }
