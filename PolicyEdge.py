@@ -1,6 +1,6 @@
 from flask_pymongo import PyMongo
 from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, json
-from forms import searchForm, monitorListform, newIssue, newTrend
+from forms import searchForm, monitorListform, newTrend
 import bcrypt
 from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
