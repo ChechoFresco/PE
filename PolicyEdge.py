@@ -132,7 +132,7 @@ def check4Issues2email():
                 pass
 
 sched = BackgroundScheduler(timezone='UTC')
-sched.add_job(check4Issues2email, 'interval', seconds=3600)
+sched.add_job(check4Issues2email, 'interval', seconds=86400)
 sched.start()
 
 @app.route('/', methods=['GET', 'POST'])
@@ -144,7 +144,6 @@ def index():
     if "username" in session:
         return redirect(url_for("loggedIn"))
     else:
-        ##Trend Pre-Load#####
         ##Trend Pre-Load#####
         form2 = newTrend()
     ###DATE SETUP#######
