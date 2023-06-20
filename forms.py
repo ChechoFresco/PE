@@ -1,9 +1,9 @@
 from wtforms import StringField, SelectField, Form
-from wtforms.fields.html5 import DateField
+from wtforms.fields import DateField
 from wtforms.validators import ValidationError, DataRequired, Length
 
 class searchForm(Form):
-        choices = [('LA County', 'LA County'), ('Orange County', 'Orange County'), ('Riverside County', 'Riverside County'), ('San Diego County', 'San Diego County'), ('San Bernandino County', 'San Bernandino County'), ('LA Committees', 'LA Committees'), ('Long Beach Committees', 'Long Beach Committees'),('Issue', 'Issue')]
+        choices = [('LA County', 'LA County'),('Issue', 'Issue'), ('LA Committees', 'LA Committees'), ('Orange County', 'Orange County'), ('Long Beach Committees', 'Long Beach Committees'), ('Riverside County', 'Riverside County'), ('San Diego County', 'San Diego County'), ('San Bernandino County', 'San Bernandino County')]
         select = SelectField('Criteria:', choices=choices)
         primary_search = StringField('City:')
         secondary_search = StringField('Issue:')
@@ -15,16 +15,6 @@ class monitorListform(Form):
         city_search = StringField('City:')
         committee_search= StringField('Committee:')
         county_search= StringField('County:')
-        
-class notificationForm(Form):
-        notification_search = StringField('What would you like notifications for?:', validators=[Length(min=1, max=25),DataRequired()])
-
-class secondnotificationForm(Form):
-        secondnotificationsearch = StringField('What would you like notifications for?:', validators=[Length(min=1, max=25),DataRequired()])
-
-class newIssue(Form):
-        choices = [('', ''), ('EV', 'EV'), ('homeless', 'Homeless'), ('waste', 'Waste'), ('financial', 'Financial'),('cannabis', 'Cannabis'),('gas', 'Gas'),('climate', 'Climate'), ('reap', 'REAP'), ('rfp','RFPs'), ('solicit', 'Bids')]
-        select = SelectField('Issues of Interest', choices=choices)
 
 class newTrend(Form):
         choices = [('', ''), ('San Diego County', ' San Diego County '), ('Los Angeles County', ' LA County '), ('Riverside County', ' Riverside County '), ('San Bernandino County', ' San Bernandino County '), ('Orange County', ' Orange County ')]
