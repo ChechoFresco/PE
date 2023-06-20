@@ -1,4 +1,4 @@
-.col-sm-5{
+#panel{
     padding-right:0px;
     padding-left:0px;
 }
@@ -13,24 +13,29 @@ img {
     height: 100%;
     object-fit: cover;
     object-position: 0% 71%;
+    border-radius: 2rem;
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
 }
 
 .frost {
     position: relative;
-    height: auto;
+    height: 80vh;
     background-color: rgba(255, 255, 255, .15);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(3px);
+    border-radius: 2rem;
 }
 
 div.formdiv{
     position: relative;
-    font-size:2vh;
+    font-size:2.2rem;
     height:auto;
-    top: 7vh;
     left:1vh;
+    top:3rem;
 }
 label{
     color:white;
+    text-shadow: 3px 3px 2px black;
 }
 input[type=submit] {
     margin: 0 auto;
@@ -38,15 +43,16 @@ input[type=submit] {
 }
 
 .info{
-    position: relative;
-    height:40rem;
-    column-count: 7;
+    position: absolute;
+    column-count: 5;
     width:100%;
-    color: white;
+    top:1rem;
 }
 
 h3{
-    font-size:.8rem;
+    font-size:1.5rem;
+    color: white;
+    text-shadow: 3px 3px 2px black;
 }
 
 #committeeOpt{
@@ -67,104 +73,26 @@ h3{
 #sandiegoOpt{
     display:none;
 }
-
-@media screen and (max-width: 400px){
-div.formdiv{
-    font-size: 1rem;
-    top: 1rem;
-}
-div.background {
-    position: relative;
-    height: 4vh;
-}
-.info{
-    height:50rem;
-    column-count: 6;
-    width:100%;
-}
-h3{
-    font-size:.7rem;
-}
-div.background {
-    height:0px;
-}
-img {
-    display: none;
-}
-.frost {
-    top: 3vh;
-    left: 2em;
-    width: 93vw;
-}
-}
-
-@media screen and (min-width: 400px) and (max-width: 768px) { 
-    div.formdiv{
-        font-size: 1.2vh;
-        }
-    .info{
-        height:50rem;
-        column-count: 9;
-        width:100%;
+/* CSS for TOPNAV*/
+/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 600px) {
+    #panel{
+        height:auto;
     }
     div.background {
-        height:80vh;
+        height:auto;
     }
-    img {
-        display:block;
+    .info {
+        width: 100vw;
+        top: 1rem;
+        left: 19px;
     }
-}
+    h3{
+        font-size:1.1rem;
+    }
+    }
 
-@media screen and (min-width: 768px) and (max-width: 1500px) {
-    .frost {
-        top:0vh;
-    }
-    div.formdiv{
-        font-size:1.8vh;
-        top:0vh;
-    }
-    .info{
-        height: 55rem;
-        column-count: 8;
-        width:100%;
-    }
-    div.background {
-        height:80vh;
-    }
-    img {
-        display:block;
-    }
-}
-
-@media screen and (min-width: 1500px) and (max-width: 2000px) {
-    .frost {
-        top:0vh;
-    }
-    div.formdiv{
-        font-size:1.8vh;
-    }
-    .info{
-        height: 40rem;
-        column-count: 7;
-        width:100%;
-    }
-    div.package{
-        position: relative;
-        width:100vw;
-    }
-    div.background {
-        height:80vh;
-    }
-    img {
-        display:block;
-    }
-}
-
-
-
-
-
-
+  /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 
 
 
