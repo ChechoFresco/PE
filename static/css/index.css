@@ -1,11 +1,16 @@
 /* Frost affect*/
 .frost {
+  max-width: 1920px;
+  margin: auto;
   position: relative;
   height:auto;
-  background-color: rgba(255, 255, 255, .15);
+  background: rgba(255, 255, 255, .15);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
   border: 4px solid;
   padding: 3rem;
   border-radius:2ch;
+  -webkit-backdrop-filter: blur(2px);
 }
 
 /* Main Animation*/
@@ -135,7 +140,7 @@ font-size: 3rem;
 /* MainTitle*/
 #conMain{
   position:relative;
-  width:80vw;
+  max-width:1920px;
 }
 h1#title{
   color:lavender;
@@ -153,7 +158,7 @@ h1#title{
 /*Happening next week banner*/
 #conHappening{
   position:relative;
-  width:80vw;
+  max-width:1920px;
   height:auto;
 }
 h3#happening{
@@ -165,21 +170,44 @@ h3#happening{
 }
 
 
-/* IssueChange */
-#changeIssue {
-  display: none;
-  position: relative;
-  margin: auto;
-  width: max-content;
-}
-
 /* Main Table*/
-.frost.Table {
-  top: 0rem;
-  padding: 0rem;
-  position: relative;
+#calculator{
+  top:2rem;
 }
 
+.row-button {
+  display: flex;
+  margin: auto;
+  max-width: 100rem;
+}
+
+input[type=submit] {
+  cursor: pointer;
+  height: 3rem;
+  width: 8rem;
+  margin-right: 3rem;
+  color: var(--white);
+  text-align: center;
+  text-shadow: 0 0 5px var(--blue);
+  border-radius: 0.45em;
+  background: none;
+  font-family: "Raleway", sans-serif;
+  font-size: 1em;
+  -webkit-box-shadow: inset 0 0 3px var(--gray),
+  0 0 7px var(--white),
+  0 0 16px var(--gray);
+  -moz-box-shadow: inset 0 0 3px var(--gray),
+  0 0 7px var(--white),
+  0 0 16px var(--gray);
+  box-shadow: inset 0 0 3px var(--gray),
+  0 0 7px var(--white),
+  0 0 16px var(--gray);
+}
+
+
+div.row-button input[type=submit]:hover  {
+  text-shadow: 0 0 5px var(--orange);
+}
 div#conTable{
   top:3rem;
   position: relative;
@@ -201,24 +229,26 @@ label{
 }
 
 #table_1{
-  max-width:1920px;
   border: 0px;
+  margin:auto;
+  width:75%;
   margin:auto;
 }
 tr{
   text-align: -webkit-center;
 }
-.table-hover>tbody>tr{	
+.table-hover>tbody>tr{
 	background-color:var(--gray);
 }
-.table-hover>tbody>tr:hover{	
-	background-color:var(--orange);
+.table-hover>tbody>tr:hover{
+	background-color:#232E60;
 }
 th {
   display: inline-block;
   position: relative;
   color: white;
   text-shadow: 3px 3px 2px black;
+
 }
 td {
   display: block;
@@ -232,6 +262,7 @@ td {
   padding: 0px;
   margin: 0px auto;
   width:auto;
+
 }
 td.none{
   display:none;
@@ -247,6 +278,8 @@ td.description{
   overflow: hidden;
   max-height: 9rem;
   white-space: break-spaces;
+  box-shadow: 0px 6px 9px 0px rgba(0,0,0,0.1);
+
 }
 span#prettyTable {
   text-shadow: 1px 1px 2px #fab935;
@@ -263,16 +296,15 @@ tbody tr:nth-child(odd){
 }
 
 tr:hover td {
-  background-color:steelblue;
   -webkit-box-shadow: 0 2px 2px -2px #0E1119;
     -moz-box-shadow: 0 2px 2px -2px #0E1119;
-      box-shadow: 0 2px 2px -2px #0E1119;  
+      box-shadow: 0 2px 2px -2px #0E1119;
   transform: translate3d(4px, -10px, 0);
   transition-delay: 0s;
   transition-duration: 0.4s;
   transition-property: all;
   transition-timing-function: line;
-  font-size: 1.2 em;
+  font-size: 1.1em;
 }
 
 /* Pagination */
@@ -336,9 +368,9 @@ h1#titleOccurance{
 /* Three Wise Offers*/
 #conOffer{
   position:relative;
-  width:70vw;
+  max-width:1920px;
   height:auto;
-  top:8rem;
+  top:1rem;
 }
 #icon1,#icon2,#icon3{
   height: 14rem;
@@ -371,12 +403,9 @@ p.subject {
 }
 
 /* IssueTrend */
-.frost.Trend{
-  padding: 2rem;
-}
 #trendContainer{
   position:relative;
-  width:80vw;
+  width:auto;
 }
 #changeTrend {
   position: relative;
@@ -419,7 +448,7 @@ h3#title{
   /* ################################################# */
   /* ################################################# */
   /* ################################################# */
-  @media screen and (max-width: 420px){
+  @media screen and (max-width: 600px) {
 
   svg.animated{
     overflow: hidden;
@@ -477,6 +506,11 @@ h3#title{
     display: block;
     width: fit-content;
 }
+.row-button {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
   #table_1{
     border: 0px;
   }
@@ -533,129 +567,4 @@ h3#title{
   }
 
   }
-  /* ################################################# */
-  /* ################################################# */
-  /* ################################################# */
-  @media screen and (min-width: 400px) and (max-width: 768px) {
-  video {
-    position: relative;
-    top: 0px;
-    width:100%;
-  }
 
-  .neon{
-    top: 7vh;
-  }
-
-  .jumbotron h1{
-    font-size:4.5rem;
-  }
-
-  p.subject {
-    font-size: 1.2rem;
-    text-align: center;
-    margin: 25px;
-    opacity:0;
-  }
-
-  h3#happening{
-    display:block;
-    font-size: 2.2rem;
-  }
-  svg.animated{
-    overflow: hidden;
-    height: auto;
-    top: 0vh;
-    position: relative;
-  }
-
-  div#split{
-    position: relative;
-    display: block;
-  }
-
-  div#conTable {
-    display: block;
-}
-  #table_1{
-    width:auto;
-  }
-
-  }
-
-  /* ################################################# */
-  /* ################################################# */
-  /* ################################################# */
-  @media screen and (min-width: 768px) and (max-width: 1500px) {
-  .neon{
-    top: 7vh;
-  }
-  p.subject {
-    font-size: 1.5rem;
-    text-align: center;
-    margin: 25px;
-    opacity:0;
-  }
-  svg.animated{
-    overflow: hidden;
-    height: auto;
-    top: 0vh;
-    position: relative;
-  }
-  h3#happening{
-    display:block;
-    font-size: 1.5rem;
-  }
-  td {
-    max-height: 15vh;
-  }
-  #table_1{
-    width:100%;
-}
-}
-
-/* ################################################# */
-/* ################################################# */
-/* ################################################# */
-  @media screen and (min-width: 1500px) and (max-width: 2000px) {
-  .neon{
-    top: 42px;
-  }
-
-  .jumbotron h1{
-    font-size:8.8rem;
-  }
-
-  p.subjectLead{
-    font-size: 2rem;
-  }
-
-  p.subject {
-    font-size: 1.7rem;
-    text-align: center;
-    margin: 25px;
-    opacity:0;
-  }
-
-  h1#title{
-    font-size: 6rem;
-    color: floralwhite;
-    text-align: center;
-    width: auto;
-  }
-  h3#happening{
-    display:block;
-    font-size: 2.6rem;
-  }
-  svg.animated{
-    overflow: hidden;
-    height: 28rem;
-    top: -2rem;
-    position: relative;
-  }
-  div#split{
-    position: relative;
-    display: flex;
-    justify-content: space-around;
-  }
-}
