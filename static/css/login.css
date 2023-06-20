@@ -1,94 +1,54 @@
-@media screen and (min-width: 250px) {
-.frost {
-    position: relative;
-    height: 100vh;
-    border-radius: 8%;
-    background-color: rgba(255, 255, 255, .15);
-    backdrop-filter: blur(5px);
-    padding: 3%;
-}
-
-form{
-    margin: 8vh 0vh;
-    font-size:1.5vh;
-    width: fit-content;
-}
-
-div.background {
-    position: relative;
-    height: 4vh;
-}
-
-svg.animated{
-    position: relative;
-    width: 97%;
-    top:-68vh
-}
-}
-
-@media screen and (min-width: 1250px) {
 div.package{
     position: relative;
     width:100vw;
-    height:100vh;
-}
-
-
-form{
-    margin: 27vh 16vh;
-    font-size:1.5vh;
-    width: fit-content;
-}
-
-div.background {
-    position: relative;
-    height: 100vh;
+    height:50vh;
 }
 
 .frost {
     position: relative;
-    height: 100vh;
     border-radius: 8%;
     background-color: rgba(255, 255, 255, .15);
     backdrop-filter: blur(5px);
     padding: 3%;
+    top:10rem
 }
-svg.animated{
-    width: 97%;
-    height: 222vh;}
-}
-@media screen and (min-width: 2000px) {
-div.package{
-    position: relative;
-    width:100vw;
-}
-
-div.background {
-    position: relative;
-    height: 100vh;
-}
-
-
 form{
-    margin: 27vh 16vh;
-    font-size:1.5vh;
+    height: 34vh;
+    position: relative;
+    top: 4rem;
+    margin: auto;
+    font-size: 1.5vh;
     width: fit-content;
 }
 
-.frost {
+#conBG {
     position: relative;
-    height: 100vh;
-    border-radius: 8%;
-    background-color: rgba(255, 255, 255, .15);
-    backdrop-filter: blur(5px);
-    padding: 3%;
+    height: 100%;
 }
-
-svg.animated{
-    width: 70%;
-    height: 222vh;}
+label{
+    color:white;
+    text-shadow: 4px 4px 2px black;
+    font-size:1.2rem;
 }
-
+#userHelp{
+    color:white;
+    text-shadow: 4px 4px 2px black;
+    font-size:1.2rem;
+}
+@media screen and (max-width: 600px) {
+    form{
+        height: 34vh;
+        top: 3rem;
+        font-size: 1.5vh;
+        width: auto;
+    }
+    .frost {
+        top:0rem
+    }
+    div.package{
+        height:100%;
+    }
+}
 
 
 
