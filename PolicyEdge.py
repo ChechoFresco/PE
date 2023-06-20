@@ -199,7 +199,6 @@ def index():
         chosencityList3= cityList.pop(random.randrange(len(cityList)))
         ####Naughty Words#######
         words = set(nltk.corpus.words.words())
-        brown = set(nltk.corpus.brown.words())
 
         stop_words=set(stopwords.words("english") + list(string.punctuation))
         SingleWord=('virtually''during''such''you''then''any''further''was''will''been''only''included''known''which''these''this''that''from''conduit revenue''civic center''travel tourism''trade travel''publicly live''comprehensive comprehensive''parking culver''signal hill''peter attendance''found conditioned''could found''access distributed''labor bond''release labor''applicable release''days applicable''approximately percent''potential recess'
@@ -421,7 +420,6 @@ def loggedIn():
         chosencityList3= cityList.pop(random.randrange(len(cityList)))
         ####Naughty Words#######
         words = set(nltk.corpus.words.words())
-        brown = set(nltk.corpus.brown.words())
 
         stop_words=set(stopwords.words("english") + list(string.punctuation))
         SingleWord=('virtually''during''such''you''then''any''further''was''will''been''only''included''known''which''these''this''that''from''conduit revenue''civic center''travel tourism''trade travel''publicly live''comprehensive comprehensive''parking culver''signal hill''peter attendance''found conditioned''could found''access distributed''labor bond''release labor''applicable release''days applicable''approximately percent''potential recess'
