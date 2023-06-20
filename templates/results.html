@@ -3,20 +3,21 @@
 {% block content %}
 <head>
     <!-- JavaScript table expand -->
-
-    <script>
-        $(document).ready(function () {
-            $("#table").on("click", "td.description", function () {
-                if (this.style.maxHeight === "9rem") {
-                    this.style.maxHeight = "fit-content";
-                }
-                else {
-                    this.style.maxHeight = "9rem";
-                }
-            });
+<script>
+    $(document).ready(function () {
+        $("#table").on("click", "td.description", function () {
+            if (this.style.maxHeight === "9rem") {
+                this.style.maxHeight = "fit-content";
+            }
+            else {
+                this.style.maxHeight = "9rem";
+            }
         });
-    </script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}" >
+    });
+</script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}" >
+
 </head>
 <br></br>
 <div class="frost">
@@ -44,7 +45,7 @@
                     <td class='none'>{{agenda.MeetingType}}</td>
                     <td class='none'>{{agenda.ItemType}}</td>
                     <td class='description'>{{agenda.Description}}</td>
-                    <td class='infoLocation'><span id='prettyTable' class='hidden-xs'>Date: </span>{{agenda.Date|aTime}} <span id='prettyTable' class='hidden-xs'>County: </span>{{agenda.County}} <span id='prettyTable' class='hidden-xs'>City: </span>{{agenda.City}} <span id='prettyTable' class='hidden-xs'>Meeting Type: </span>{{agenda.MeetingType}}<span id='prettyTable' class='hidden-xs'> Item Type: </span>{{agenda.ItemType}} <span id='prettyTable' class='hidden-xs'>Number: </span>{{agenda.Num}}</td>
+                    <td class='infoLocation'><span id='prettyTable' class='hidden-xs'>Date: </span>{{agenda.Date}} <span id='prettyTable' class='hidden-xs'>County: </span>{{agenda.County}} <span id='prettyTable' class='hidden-xs'>City: </span>{{agenda.City}} <span id='prettyTable' class='hidden-xs'>Meeting Type: </span>{{agenda.MeetingType}}<span id='prettyTable' class='hidden-xs'> Item Type: </span>{{agenda.ItemType}} <span id='prettyTable' class='hidden-xs'>Number: </span>{{agenda.Num}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
