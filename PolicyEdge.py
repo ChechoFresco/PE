@@ -1335,30 +1335,31 @@ def savedIssues():
                 a = date.today()+ relativedelta(days=30)
                 b= str(a).replace("-","")
                 today=int(b) #add 30 so new agendas will be caught
-                c = date.today() + relativedelta(days=-7) #Change day to 7 otherwise too many emails.
+                c = date.today() + relativedelta(days=-7)
                 d= str(c).replace("-","")
                 today_1month= int(d)
 
                 ######Returns user saved issues#####
                 issues_placeholder= []
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.searchWord':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
                 for x in user_issues:
                     for y in range(len(x['issues'])):
                         issues_placeholder.append(x['issues'][y]) #Sends sub-document issues to issue_placeholder
+
                 ######Returns matching agendas from for loop below#####
-                agenda=[]
-                ####returns exact amount of items to loop through####
+                agendaa=[]
                 for y in range(len(issues_placeholder)):
                     city_Search= (issues_placeholder[y]['City'])
-                    issue_Search= (issues_placeholder[y]['Issue'])
+                    issue_Search= (issues_placeholder[y]['searchWord'])
                     committee_Search= (issues_placeholder[y]['Committee'])
                     county_Search= (issues_placeholder[y]['County'])
 
                     Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i'}}, {"County":{'$regex': county_Search, '$options': 'i'}}  ,{'Description': { "$regex": issue_Search,  '$options': 'i' }}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
                     for z in Multiquery:
-                        agenda.append(z)
-                return render_template('savedIssues.html', issues_placeholders=issues_placeholder, form=form, agendas=agenda,  title='Monitor List')
+                        agendaa.append(z)
+
+                return render_template('savedIssues.html', issues_placeholders=issues_placeholder, form=form, agendaas=agendaa,  title='Monitor List')
 
             elif request.method == 'POST' and request.form['action'] == 'Add':
                 form = monitorListform()
@@ -1368,7 +1369,7 @@ def savedIssues():
                 a = date.today()+ relativedelta(days=30)
                 b= str(a).replace("-","")
                 today=int(b) #add 30 so new agendas will be caught
-                c = date.today() + relativedelta(days=-7) #Change day to 7 otherwise too many emails.
+                c = date.today() + relativedelta(days=-7)
                 d= str(c).replace("-","")
                 today_1month= int(d)
 
@@ -1379,7 +1380,7 @@ def savedIssues():
                 countyKey = request.form['county_search']
 
                 CompleteIssue = {
-                    "Issue": issue,
+                    "searchWord": issue,
                     "City": cityKey,
                     "Committee": committeeKey,
                     "County": countyKey,
@@ -1390,27 +1391,26 @@ def savedIssues():
                 ######Returns user saved issues#####
                 issues_placeholder= []
 
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.searchWord':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
                 for x in user_issues:
                     for y in range(len(x['issues'])):
                         issues_placeholder.append(x['issues'][y]) #Sends sub-document issues to issue_placeholder
 
 
                 ######Returns matching agendas from for loop below#####
-                agenda=[]
-                ####returns exact amount of items to loop through####
+                agendaa=[]
                 for y in range(len(issues_placeholder)):
                     city_Search= (issues_placeholder[y]['City'])
-                    issue_Search= (issues_placeholder[y]['Issue'])
+                    issue_Search= (issues_placeholder[y]['searchWord'])
                     committee_Search= (issues_placeholder[y]['Committee'])
                     county_Search= (issues_placeholder[y]['County'])
 
                     Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i'}}, {"County":{'$regex': county_Search, '$options': 'i'}}  ,{'Description': { "$regex": issue_Search,  '$options': 'i' }}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
                     for z in Multiquery:
-                        agenda.append(z)
+                        agendaa.append(z)
 
-                return render_template('savedIssues.html',issues_placeholders=issues_placeholder, form=form, agendas=agenda,  title='Monitor List')
+                return render_template('savedIssues.html',issues_placeholders=issues_placeholder, form=form, agendaas=agendaa,  title='Monitor List')
 
 
             elif request.method == 'POST' and request.form['action']  == 'Delete':
@@ -1421,7 +1421,7 @@ def savedIssues():
                 a = date.today()+ relativedelta(days=30)
                 b= str(a).replace("-","")
                 today=int(b) #add 30 so new agendas will be caught
-                c = date.today() + relativedelta(days=-7) #Change day to 7 otherwise too many emails.
+                c = date.today() + relativedelta(days=-15)
                 d= str(c).replace("-","")
                 today_1month= int(d)
 
@@ -1431,7 +1431,7 @@ def savedIssues():
                 committeeKey = request.form['committee_search']
                 countyKey = request.form['county_search']
                 CompleteIssue = {
-                    "Issue": issue,
+                    "searchWord": issue,
                     "City": cityKey,
                     "Committee": committeeKey,
                     "County": countyKey,
@@ -1442,27 +1442,27 @@ def savedIssues():
                 ######Returns user saved issues#####
                 issues_placeholder= []
 
-                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.Issue':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
+                user_issues= mongo.db.User.find({'username':user}, {'_id': 0, 'issues.searchWord':1, 'issues.City':1, 'issues.Committee':1, 'issues.County':1}) #projects sub-documents to run in search
                 for x in user_issues:
                     for y in range(len(x['issues'])):
                         issues_placeholder.append(x['issues'][y]) #Sends sub-document issues to issue_placeholder
 
 
                 ######Returns matching agendas from for loop below#####
-                agenda=[]
-                ####returns exact amount of items to loop through####
+                agendaa=[]
+                ####returns exact amount of topics to loop through####
                 for y in range(len(issues_placeholder)):
                     city_Search= (issues_placeholder[y]['City'])
-                    issue_Search= (issues_placeholder[y]['Issue'])
+                    issue_Search= (issues_placeholder[y]['searchWord'])
                     committee_Search= (issues_placeholder[y]['Committee'])
                     county_Search= (issues_placeholder[y]['County'])
 
                     Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i'}}, {"County":{'$regex': county_Search, '$options': 'i'}}  ,{'Description': { "$regex": issue_Search,  '$options': 'i' }}, { 'Date':{'$lte':int(today), '$gte':int(today_1month)}}]})
 
                     for z in Multiquery:
-                        agenda.append(z)
+                        agendaa.append(z)
 
-                return render_template('savedIssues.html', form=form, issues_placeholders=issues_placeholder, agendas=agenda,  title='Monitor List')
+                return render_template('savedIssues.html', form=form, issues_placeholders=issues_placeholder, agendaas=agendaa,  title='Monitor List')
         else:
             return render_template('noSubscription.html')
     else:
