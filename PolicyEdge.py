@@ -57,7 +57,7 @@ def check4Issues2email():
 
         for x in all_users: #For each instance of a user
             if x['subscriptionActive'] == True: #Checks to see if user is subscribed
-                storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0, 'issues.Issue':1, 'issues.County':1, 'issues.City':1, 'issues.committee':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
+                storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0, 'issues.Issue':1, 'issues.County':1, 'issues.City':1, 'issues.Committee':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
 
                 issues_placeholder= []#List of user subscribed issues
                 userStoredAgendaId=[]#List of user previous items
@@ -72,7 +72,7 @@ def check4Issues2email():
                 for z in range(len(issues_placeholder[0])): #For every item in issues_placeholder, breaks down into individual parts in order for Multiquery to function
                     city_Search= (issues_placeholder[0][z]['City'])#Grabs City
                     issue_Search= (issues_placeholder[0][z]['Issue'])#Grabs Issue
-                    committee_Search= (issues_placeholder[0][z]['committee'])#Grabs Committee
+                    committee_Search= (issues_placeholder[0][z]['Committee'])#Grabs Committee
                     county_Search= (issues_placeholder[0][z]['County'])
 
         ##################Multiquery uses each _Search to run individual db.finds to create multiquery
