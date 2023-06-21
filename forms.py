@@ -1,5 +1,5 @@
 from wtforms import StringField, SelectField, Form
-from wtforms.fields import DateField
+from wtforms.fields.html5 import DateField, TimeField
 from wtforms.validators import ValidationError, DataRequired, Length
 
 class searchForm(Form):
