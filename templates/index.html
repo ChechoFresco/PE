@@ -990,53 +990,45 @@
                 <h1 id="title">{{chosencountyList}} Trends</h1>
             </div>
         </div>
+        <form method="post" action="">
+            <div class="row-button" >
+                <input id='countyChange' type="submit" name="select" value="San Bernandino" transition-style="in:square:hesitate">
+
+                <input id='countyChange'type="submit" name="select" value="Los Angeles" transition-style="in:square:hesitate">
+
+                <input id='countyChange'type="submit" name="select" value="Orange County" transition-style="in:square:hesitate">
+
+                <input id='countyChange'type="submit" name="select" value="San Diego" transition-style="in:square:hesitate">
+
+                <input id='countyChange'type="submit" name="select" value="Riverside" transition-style="in:square:hesitate">
+            </div>
+        </form>
         <div class="row">
-            <div class="col-sm-4">
-                <h3 id="happening">To check out other parts of Southern California</h3>
-            </div>
-            <div class="col-sm-4">
-                <div id = "changeTrend" class="formdiv">
-                    {% from "_formhelpers.html" import render_field %}
-                    <form method="post">
-                        <ul>
-                            {{ render_field(form2.select) }}
-                            <input type="submit" value="Search">
-                        </ul>
-                    </form>
-                </div>
-            </div>
-
-            <div class="col-sm-4">
-                <h3 id="happening">Click on County highlighted orange above.</h3>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-4" id="trendColumn">
-                    <h3 id="title">One week</h3>
-                        {% for x in fdist1s.most_common(25)%}
-                        <ul class= 'subrow'>
-                            <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
-                        </ul>
-                        {% endfor %}
-                </div>
-
-                <div class="col-sm-4" id="trendColumn">
-                    <h3 id="title">One Month</h3>
-                    {% for x in fdist2s.most_common(25)%}
+            <div class="col-sm-4" id="trendColumn">
+                <h3 id="title">One week</h3>
+                    {% for x in fdist1s.most_common(25)%}
                     <ul class= 'subrow'>
                         <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
                     </ul>
                     {% endfor %}
-                </div>
+            </div>
 
-                <div class="col-sm-4" id="trendColumn">
-                    <h3 id="title">Three Months</h3>
-                    {% for x in fdist3s.most_common(25)%}
-                    <ul class= 'subrow'>
-                        <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
-                    </ul>
-                    {% endfor %}
-                </div>
+            <div class="col-sm-4" id="trendColumn">
+                <h3 id="title">One Month</h3>
+                {% for x in fdist2s.most_common(25)%}
+                <ul class= 'subrow'>
+                    <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
+                </ul>
+                {% endfor %}
+            </div>
+
+            <div class="col-sm-4" id="trendColumn">
+                <h3 id="title">Three Months</h3>
+                {% for x in fdist3s.most_common(25)%}
+                <ul class= 'subrow'>
+                    <li class='subMenu'>{{x| replace("'", ' ')| replace("{", ' ')| replace("}", ' ')| replace(",", "\n")| replace("((", '')| replace(")", ' ') }}</li>
+                </ul>
+                {% endfor %}
             </div>
         </div>
     </div>
