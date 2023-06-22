@@ -458,9 +458,8 @@ h3#title{
   }
 
   .frost {
-    border-image: none;
     width: auto;
-    left: 0%;
+    padding: 0rem;
   }
 
   p.subject {
@@ -504,7 +503,7 @@ h3#title{
 /* Main Table*/
   div#conTable {
     display: block;
-    width: fit-content;
+    width: 100vw;
 }
 .row-button {
   flex-wrap: wrap;
@@ -513,6 +512,7 @@ h3#title{
 
   #table_1{
     border: 0px;
+    width:100vw;
   }
 
   td {
