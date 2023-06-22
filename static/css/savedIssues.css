@@ -24,7 +24,7 @@ h2#Message1{
 	text-shadow: 4px 4px 2px black;
 	font-size: 2rem;
 	background: rgba(255, 255, 255, .15);
-	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
 	backdrop-filter: blur(2px);
 	padding: 3rem;
 	border-radius:2ch;
@@ -36,7 +36,7 @@ h2#delMessage{
 	text-shadow: 4px 4px 2px black;
 	font-size: 2rem;
 	background: rgba(255, 255, 255, .15);
-	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
 	backdrop-filter: blur(2px);
 	padding: 3rem;
 	border-radius:2ch;
@@ -55,7 +55,7 @@ div#form {
 	box-sizing: border-box;
 	background: rgba(255, 255, 255, .15);
 	margin: 0 auto;
-	box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+	box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
 }
 label{
 	color:white;
