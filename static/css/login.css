@@ -46,13 +46,17 @@ label{
         height: 34vh;
         top: 3rem;
         font-size: 1.5vh;
-        width: auto;
+        width: 100vw;
     }
     .frost {
-        top:0rem
+        top:0rem;
+        left:0rem;
     }
     div.package{
         height:100%;
+    }
+    div.background{
+        width: 100vw;
     }
 }
 
