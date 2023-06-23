@@ -619,8 +619,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if "username" in session:
-        return render_template('loggedIn.html', username = session['username'])
-
+        return redirect(url_for('index'))
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -640,19 +639,19 @@ def login():
 
                 if subscription_check == True:
                     session['subscribed'] = True
-                    return redirect(url_for('loggedIn'))
+                    return redirect(url_for('index'))
                 else:
                     session['subscribed'] = False
-                    return redirect(url_for('loggedIn'))
+                    return redirect(url_for('index'))
             else:
                 if "username" in session:
-                    return redirect(url_for("loggedIn"))
+                    return redirect(url_for("index"))
                 flash('Wrong password')
                 return render_template('login.html')
         else:
             flash('Username not found')
             return render_template('login.html')
-    return render_template('login.html', title="Please Log into PolicyEdge for agenda tracking services")
+    return render_template('login.html', title="Please Login")
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
