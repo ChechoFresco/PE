@@ -846,6 +846,7 @@
                 <div class="col-sm-offset-0 col-sm-4">
                     <h3 class='howwrk'>Track local regulatory and legislative issues across Southern California. Keep tabs on your local city or cast a wide net on entire counties. Follow issues as they span across California or spot oppurtunities before your competitors. Save time with PolicyEdge.
                     </h3>
+                    {% if not session['username'] %}
                     <section class="portfolio-experiment" transition-style="in:wipe:top-right">
                         <a href="/register">
                             <span class="text">Start for free</span>
@@ -855,6 +856,12 @@
                             <span class="line -bottom"></span>
                         </a>
                     </section>
+                    {% endif %}
+
+                    {% if session['username'] %}
+                    <h3 class='howwrk'>Welcome back <span style= "text-shadow: 3px 2px 3px var(--orange);">{{session['username']}}</span>
+                    </h3>
+                    {% endif %}
                 </div>
             </div>
         </div>
