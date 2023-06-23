@@ -15,7 +15,3 @@ class monitorListform(Form):
         city_search = StringField('City:')
         committee_search= StringField('Committee:')
         county_search= StringField('County:')
-
-class newTrend(Form):
-        choices = [('', ''), ('San Diego County', ' San Diego County '), ('Los Angeles County', ' LA County '), ('Riverside County', ' Riverside County '), ('San Bernandino County', ' San Bernandino County '), ('Orange County', ' Orange County ')]
-        select = SelectField('Change County', choices=choices)
