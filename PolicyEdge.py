@@ -159,7 +159,7 @@ def httpsroute():
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     if "username" in session:
-        return redirect(url_for("loggedIn"))
+        return redirect(url_for("index"))
     else:
         ##Trend Pre-Load#####
         form2 = newTrend()
