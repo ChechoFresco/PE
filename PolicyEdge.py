@@ -387,7 +387,7 @@ def index():
 def register():
     if "username" in session:
         flash(session["username"])
-        return redirect(url_for("loggedIn"))
+        return redirect(url_for("index"))
     return render_template("register.html", title="Become a member of PolicyEdge's agenda monitoring services")
 
 @app.route('/login', methods=['GET', 'POST'])
