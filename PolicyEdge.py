@@ -1674,7 +1674,12 @@ def sandiego():
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}]}).sort('Date').sort('City')
         return render_template('sandiego.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring San Diego County Search Results")
-    
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
+
 if __name__ == '__main__':
     app.run(debug = True)
 
