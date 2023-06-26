@@ -196,6 +196,8 @@ def index():
 ####TREND SET-UP#######
     countyList = [" San Bernandino County ", " Riverside County ", " Orange County ", " San Diego County ", " LA County "]
     chosencountyList= countyList.pop(random.randrange(len(countyList)))
+    chosencountyList2= countyList.pop(random.randrange(len(countyList)))
+    chosencountyList3= countyList.pop(random.randrange(len(countyList)))
 
     ####Select Cities#######
     cityList=[" Corona "" Del Mar "," Jurupa Valley ", " Beaumont "," Adelanto ", " Apple Valley ", " Barstow ", " Big Bear Lake ", " Chino ", " Chino Hills ", " Colton ", " Fontana ", " Grand Terrace ", " Hesperia ", " Highland ", " Loma Linda ", " Montclair ", " Needles ", " Ontario ", " Rancho Cucamonga ", " Redlands ", " Rialto ", " San Bernandino ", " Twentynine Palms ", " Upland ", " Victorville ", " Yucaipa ", " Yucca Valley ",
@@ -230,9 +232,9 @@ def index():
                 'article class''board airport''last day''land use''long beach''general fund''closed session''office department''regular meeting''community development''award contract''consent calendar''legal counsel''report relative''reading ordinance''administrative officer''item consideration''staff report''recommendation recommendation''committee report''police department''exempt pursuant''chief executive''subject approval''second reading''real property''amendment agreement''successor agency''city council'
                 'city manager''impact statement''authorize city''adopt resolution''code section''government code''city attorney''municipal code''code title''action approve''council city''resolution city''quality act ''public hearing''fiscal year''city clerk''environmental quality''receive file''public works''amount exceed''council action''council consider''manager execute')
 
-    agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencityList2}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-    agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"City":chosencityList3}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-    agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County": " Orange County "}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
+    agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
+    agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList2}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
+    agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County": chosencountyList3}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
 ####### SECTION 1##########
     box1=[]
     box2=[]
