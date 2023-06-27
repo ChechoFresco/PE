@@ -411,15 +411,15 @@ def get_index():
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():#register link to this page to create both profile for User and Stripe User db
     stripe.api_key = stripe_keys['secret_key']
+
     username = request.form["username"]
     email = request.form["email"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
-    
-    username_found = mongo.db.User.find_one({"username": username}#####Checks if user has used site before########
+
+    username_found = mongo.db.User.find_one({"username": username})#Checks if username exist
     email_found = mongo.db.User.find_one({"email": email})#Check if email exist
     stripe_email_found = mongo.db.stripe_user.find_one({"email": email})
-
     if username_found:
         flash('There already is a user by that name')
         return render_template('register.html')
