@@ -91,8 +91,8 @@ def check4Issues2email():
                 description=[]
                 issueTopics=[]
                 city=[]
-                Date=[]
-                County=[]
+                date=[]
+                county=[]
                 meeting_type=[]
                 item_type=[]
                 issueLinks=[]
@@ -109,7 +109,7 @@ def check4Issues2email():
                         mongo.db.User.find_one_and_update({'username':x['username']}, {'$addToSet': {'agendaUnique_id':{'_id':i['_id'],'Date':i['Date']}}})# updates database with topics uniqueid
                         description.append(i['Description'])
                         city.append(i['City'])
-                        County.append(i['County'])
+                        county.append(i['County'])
                         meeting_type.append(i['MeetingType'])
                         item_type.append(i['ItemType'])
                         ###Date object#######
@@ -117,7 +117,7 @@ def check4Issues2email():
                         start_year = str(intDate[0:4])
                         start_month = str(intDate[4:6])
                         start_day = str(intDate[6:8])
-                        Date.append(start_month+'/'+start_day+'/'+start_year)
+                        date.append(start_month+'/'+start_day+'/'+start_year)
                         ###Weblink object#######
                         links=mongo.db.doc.find_one({"City":{'$regex': i['City'][1:-1], '$options': 'i'}},{'_id': 0,'webAdress': 1} )
                         issueLink= str(links).replace("{'webAdress': '","").replace("'}","")
@@ -125,7 +125,7 @@ def check4Issues2email():
                         
                 ###Loop to fill in all issues for email#######
                 for y in range(len(city)):#range(len)city is used because it gives accurate count of topics being sent
-                    email_body.append("<p>The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(issueTopics[y],city[y],meeting_type[y],County[y],Date[y],description[y], issueLinks[y]))
+                    email_body.append("<p>The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(issueTopics[y],city[y],meeting_type[y],county[y],date[y],description[y], issueLinks[y]))
 
                 if len(email_body)==0:
                     pass
