@@ -192,25 +192,10 @@ input[type=submit] {
   background: none;
   font-family: "Raleway", sans-serif;
   font-size: 1em;
-  -webkit-box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
-  -moz-box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
-  box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
+  -webkit-box-shadow: rgba(94, 124, 255, 0.4) 0px 3px, rgba(94, 124, 255, 0.3) 0px 6px, rgba(94, 124, 255, 0.2) 0px 9px, rgba(94, 124, 255, 0.1) 0px 12px, rgba(94, 124, 255, 0.05) 0px 15px;
+  -moz-box-shadow: rgba(94, 124, 255, 0.4) 0px 3px, rgba(94, 124, 255, 0.3) 0px 6px, rgba(94, 124, 255, 0.2) 0px 9px, rgba(94, 124, 255, 0.1) 0px 12px, rgba(94, 124, 255, 0.05) 0px 15px;
+  box-shadow: rgba(94, 124, 255, 0.4) 0px 3px, rgba(94, 124, 255, 0.3) 0px 6px, rgba(94, 124, 255, 0.2) 0px 9px, rgba(94, 124, 255, 0.1) 0px 12px, rgba(94, 124, 255, 0.05) 0px 15px;
 }
-#countyChange{
-  cursor: pointer;
-  height: 3rem;
-  width: 8rem;
-  margin-right: 3rem;
-  color: var(--white);
-  text-align: center;
-  text-shadow: 0 0 5px var(--blue);
-  border-radius: 0.45em;
-  background: none;
-  font-family: "Raleway", sans-serif;
-  font-size: .7em;
-  -webkit-box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
-  -moz-box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
-  box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;}
 
 div.row-button input[type=submit]:hover  {
   text-shadow: 0 0 5px var(--orange);
