@@ -185,88 +185,7 @@ def index():
     c = date.today() + relativedelta(weeks=-52)
     d= str(c).replace("-","")
     oneyearBefore=int(d)
-    ####TREND SET-UP#######
-    countyList = [" San Bernandino County ", " Riverside County ", " Orange County ", " San Diego County ", " LA County "]
-    chosencountyList= countyList.pop(random.randrange(len(countyList)))
-    chosencountyList2= countyList.pop(random.randrange(len(countyList)))
-    chosencountyList3= countyList.pop(random.randrange(len(countyList)))
 
-    ####Naughty Words#######
-    words = set(nltk.corpus.words.words())
-    stop_words=set(stopwords.words("english") + list(string.punctuation))
-    SingleWord=('virtually''during''such''you''then''any''further''was''will''been''only''included''known''which''these''this''that''from''conduit revenue''civic center''travel tourism''trade travel''publicly live''comprehensive comprehensive''parking culver''signal hill''peter attendance''found conditioned''could found''access distributed''labor bond''release labor''applicable release''days applicable''approximately percent''potential recess'
-                'recess purpose''back subsequent''recess purpose''information back''back subsequent''approach podium''disruptive approach''profane disruptive''slanderous profane''personal slanderous''extended another''expense local' 'keep informed''acting length''message longer''clarification response''question clarification''terrace grand'
-                'grand terrace''walnut inclusive''directed reflect''eft manual''manual wire''wire eft''accepted ensure''aggregate sierra''possible bellflower''titled bell''authorized mike''mike waterfront''authorized privilege''various vista''communication oral ''oral communication ''every regularly''joint delegate''tiled seal'
-                'together certain''instruct appropriate''categorically maintenance''assistant jeff ''tweedy mile' 'remote telephonic''right rebuttal''excepting right''speaking excepting''restricted speaking''documentation conclude''supporting documentation''minute initiation''single vote''category single''participation category'
-                'reserved participation''possibility sense''finding possibility''made exception''link web''web link''forward individual''discretion come''come forward''previously enter''added president''president steppe''classified responsible''opportunity docket''body however''completely body''briefly completely''proceed briefly''permission proceed''status codify'
-                'significant paragraph''bulletin outside''posting bulletin''refrain making''respectively buffy''buffy payroll''routine without''pending fletcher''total respectively''designed require''priority transferred''desired phone''transfer councilman''transfer councilwoman''citizen input''roll mark''mark larry''aside audience''also include''future reconvene'
-                'needs voice''hold virtual''support oppose''would like''like formal''verbal brief''readily available''allegiance announcement''finding open''assembly social''allow continued''continued brown''authorization receipt''testimony beginning' 'disclosure constituent''constituent correspondence''need assistance''pertaining established''replacement respect'
-                'method appointment''five please''bear letter''please basket''invocation pledge''portion oppurtunity''waiver accordance''policy administration''based favorable''favorable civil''assigned liason''best best''determination common''advance disposla''month ended''whether except''emergency due''pleace complete''submit written''adisory advisory''speaker slip''advisory advisory''within today'
-                'comment limited''comment recieved''comment received 6''declare said''conflict interest''source associated''activity defined''defined therefore''activity indirect''posted supplemental''supplemental contain''contain start''start official'
-                'official record''click posted''number geographic''organizational activity''afternoon begin''begin source''interest source''task force''permit attached''palm desert''greater chamber''appendices thereto''fact provided''oath newly''time address''governing must''prior must''upon service''group offset''tabulation place'
-                'january''august''june''speak queue''share tweet''zoom call''vice chair''unless otherwise''appear shall''continue conduct''vacant formerly''appoint serve''lake forest''tweet load''appropriation adjustment''finance authority''fountain valley''implement administer''subdivision name''alternate vacant''request speak''wishing speak''give card''formerly alternate''appointment currently''plus contingency'
-                'period four''four optional''legislative analyst''selection process''financial analysis''categorical exemption''chapter reference''negative declaration''set forth''mechanical residential''taking additional''neither legislative''analyst financial''matter jurisdiction''separate discussion''south gate''three additional'
-                'none limit''ability safely''removed considered''warrant register''form acceptable''undertake finalize''site review''floor area''new business''resolve find''find director''director determined''effectuate intent''mitigation program''master application''riverside county''member ending''conference litigation''waive full''parcel map''western riverside''update presentation''tentative map''adoption building''building fire'
-                'conference conference''quarter ending''initiate zoning''full waive''tentative parcel''position member''ending member''district affected''contact person''result direct''charter taken''aken contact''mayor taken''mayor designee''oceanside oceanside''association oceanside''change contact''orange county''pacific avenue''avenue pacific''waive full''provide direction''notice completion''parcel map''edition building''make necessary''measure expenditure'
-                'specific plan''determine result''result physical''physical change''change directly''introduce first''building edition''mayor behalf''costa mesa''direction regarding''specific plan''waive full''alternatively discuss''discuss take''housing element''memorandum understanding''superior court''negotiation price''improvement project''purchase order''court case''one motion''take related''agenda ocean''cost account''account cost''grant funds''listed agenda'
-                'article class''board airport''last day''land use''long beach''general fund''closed session''office department''regular meeting''community development''award contract''consent calendar''legal counsel''report relative''reading ordinance''administrative officer''item consideration''staff report''recommendation recommendation''committee report''police department''exempt pursuant''chief executive''subject approval''second reading''real property''amendment agreement''successor agency''city council'
-                'city manager''impact statement''authorize city''adopt resolution''code section''government code''city attorney''municipal code''code title''action approve''council city''resolution city''quality act ''public hearing''fiscal year''city clerk''environmental quality''receive file''public works''amount exceed''council action''council consider''manager execute')
-
-    agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-    agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList2}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-    agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County": chosencountyList3}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-    ####### Main Table##########
-    box1=[]
-    box2=[]
-    box3=[]
-    for x in agendaACounty:
-        y=str(x)
-        if x["Date"] > monthBefore:
-            box1.extend(word_tokenize(y[34:150].lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-        if x["Date"] > oneyearBefore:
-            box2.extend(word_tokenize(y[34:150].lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-        if x["Date"] > threemonthBefore:
-            box3.extend(word_tokenize(y[34:150].lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-    week1=[]
-    monthOne=[]
-    monthThree=[]
-    
-    #######Box 1##########
-    prev=None
-    for w in box1:
-        if w not in stop_words and len(w)>2:
-            if w not in SingleWord:
-                if w in words:
-                    if str(w) != str(prev):
-                        week1.append(w)
-                    prev = w
-    grams1 = nltk.ngrams(week1, 2)
-    fdist1 = nltk.FreqDist(grams1)
-
-    #######Box 2##########
-    prev=None
-    for aa in box2:
-        if aa not in stop_words and len(aa)>2:
-            if aa not in SingleWord:
-                if aa in words:
-                    if str(aa) != str(prev):
-                        monthOne.append(aa)
-                    prev = aa
-    grams2 = nltk.ngrams(monthOne, 2)
-    fdist2 = nltk.FreqDist(grams2)
-
-    #######Box 3##########
-    prev=None
-    for bb in box3:
-        if bb not in stop_words and len(bb)>2:
-            if bb not in SingleWord:
-                if bb in words:
-                    if str(bb) != str(prev):
-                        monthThree.append(bb)
-                    prev = bb
-    grams3 = nltk.ngrams(monthThree, 2)
-    fdist3 = nltk.FreqDist(grams3)
-    
     #######TOPIC SELECTION##########
     topics = ["reap","bids","solicit","cannabis", "EV", "homelessness","climate", "oil","waste","outdoor dining","financial"]
     chosen = topics.pop(random.randrange(len(topics)))
@@ -313,41 +232,6 @@ def index():
         return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, title="Welcome to Policy Edge")
     elif request.method == 'POST' and 'Retail' in request.form['select']:
         chosen= 'retail'
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
-        return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, title="Welcome to Policy Edge")
-    elif request.method == 'POST' and 'Los Angeles' in request.form['select'] :
-        chosencountyList= ' LA County '
-        agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':weekAhead, '$gte':weekBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':monthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
-        return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, title="Welcome to Policy Edge")
-    elif request.method == 'POST' and 'San Bernandino' in request.form['select']:
-        chosencountyList= ' San Bernandino County '
-        agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':weekAhead, '$gte':weekBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':monthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
-        return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, title="Welcome to Policy Edge")
-    elif request.method == 'POST' and 'Orange County' in request.form['select']:
-        chosencountyList= ' Orange County '
-        agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':weekAhead, '$gte':weekBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':monthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
-        return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, title="Welcome to Policy Edge")
-    elif request.method == 'POST' and 'San Diego' in request.form['select']:
-        chosencountyList= ' San Diego County '
-        agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':weekAhead, '$gte':weekBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':monthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
-        return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, title="Welcome to Policy Edge")
-    elif request.method == 'POST' and 'Riverside' in request.form['select']:
-        chosencountyList= ' Riverside County '
-        agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':weekAhead, '$gte':weekBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':monthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-        agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
         return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, title="Welcome to Policy Edge")
 
