@@ -29,21 +29,21 @@
                 <form action="/create-checkout-session" method="post" class="form-line">
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input name="username" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Enter username">
+                        <input name="username" autocomplete="on" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Enter username">
                         <small id="username" class="form-text text-muted">Please enter a username</small>
                     </div>
                     <div class="form-group">
                         <label transition-style="in:wipe:top-right" for="InputEmail">Email</label>
-                        <input name="email" class="form-control" id="InputEmail"  placeholder="Enter email">
+                        <input name="email" autocomplete="on" class="form-control" id="InputEmail"  placeholder="Enter email">
                         <small id="emailHelp" class="form-text text-muted">Please enter a email</small>
                     </div>
                     <div class="form-group">
                         <label transition-style="in:wipe:top-right" for="InputPassword">Password</label>
-                        <input type="password" name="password1" class="form-control" id="InputPassword" placeholder="Password">
+                        <input type="password" autocomplete="on" name="password1" class="form-control" id="InputPassword" placeholder="Password">
                     </div>
                     <div class="form-group">
                         <label transition-style="in:wipe:top-right" for="InputPassword2">Repeat Password</label>
-                        <input type="password" name="password2" class="form-control" id="InputPassword2" placeholder="Repeat Password">
+                        <input type="password" autocomplete="on" name="password2" class="form-control" id="InputPassword2" placeholder="Repeat Password">
                     </div>
                         <button transition-style="in:wipe:top-right" type="submit" class="btn btn-primary">Submit</button>
                 </form>
