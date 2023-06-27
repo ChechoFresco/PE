@@ -103,7 +103,7 @@ def check4Issues2email():
                 itemCount=0
 
                 for issueTopic in agenda2:
-                    issue.append(issueTopic)
+                    issueTopics.append(issueTopic)
 
                 for i in agenda: #Items selected to be sent
                     if i['_id'] not in userStoredAgendaId:#Checks to see item wasn't sent before
