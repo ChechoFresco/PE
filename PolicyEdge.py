@@ -193,26 +193,14 @@ def index():
     c = date.today() + relativedelta(weeks=-52)
     d= str(c).replace("-","")
     oneyearBefore=int(d)
-####TREND SET-UP#######
+    ####TREND SET-UP#######
     countyList = [" San Bernandino County ", " Riverside County ", " Orange County ", " San Diego County ", " LA County "]
     chosencountyList= countyList.pop(random.randrange(len(countyList)))
     chosencountyList2= countyList.pop(random.randrange(len(countyList)))
     chosencountyList3= countyList.pop(random.randrange(len(countyList)))
 
-    ####Select Cities#######
-    cityList=[" Corona "" Del Mar "," Jurupa Valley ", " Beaumont "," Adelanto ", " Apple Valley ", " Barstow ", " Big Bear Lake ", " Chino ", " Chino Hills ", " Colton ", " Fontana ", " Grand Terrace ", " Hesperia ", " Highland ", " Loma Linda ", " Montclair ", " Needles ", " Ontario ", " Rancho Cucamonga ", " Redlands ", " Rialto ", " San Bernandino ", " Twentynine Palms ", " Upland ", " Victorville ", " Yucaipa ", " Yucca Valley ",
-    " Carlsbad ", " Chula Vista ", " Coronado ", " Del Mar ", " El Cajon ", " Encinitas ", " Escondido ", " Imprial Beach ", " La Mesa ", " Lemon Grove ", " National City ", " Oceanside ", " Poway ", " San Diego ", " San Marcos ", " Santee ", " Solana Beach ", " Vista ", " Aliso Viejo " , " Anaheim " , " Brea " , " Buena Park " , " Costa Mesa " , " Cypress " , " Dana Point " , " Fountain Valley " , 
-    " Fullerton " , " Huntington Beach " , " Irvine " , " La Habra " , " La Palma " , " Laguna Beach " , " Laguna Hills " , " Laguna Niguel " , " Laguna Woods " , " Lake Forest " , " Los Alamitos " , " Mission Viejo " , " Newport Beach " , " Orange " , " Placentia " , " Rancho Santa Margarita " , " San Clemente " , " San Juan Capistrano " , " Santa Ana " , " Seal Beach " , " Stanton " , " Tustin " , 
-    " Villa Park " , " Westminister " , " Yorba Linda ", " Agoura Hills " , "Alhambra ", " Arcadia ", " Artesia ", " Azusa ", " Baldwin Park ", " Bell ", " Bell Gardens ", " Bellflower ", " Beverly Hills ", " Bradbury ", " Burbank ", " Calabasas ", " Carson ", " Cerritos ", " City of Industry ", " Claremont ", " Commerce ", " Compton ", " Covina ", " Cudahy ", " Culver City ", " Diamond Bar ", " Downey ", 
-    " Duarte ", " El Monte ", " El Segundo ", " Gardena ", " Glendale ", " Glendora ", " Hawaiian Gardens ", " Hawthorne ", " Hermosa Beach ", " Hidden Hills ", " Huntington Park ", " Inglewood ", " Irwindale ", " La Canada Flintridge ", " La Habra Heights ", " La Mirada ", " La Puente ", " La Verne ", " Lakewood ", " Lancaster ", " Lawndale ", " Lomita ", " Long Beach ", " Los Angeles ", " Lynwood ", " Malibu ", 
-    " Manhattan Beach ", " Maywood ", " Monrovia ", " Montebello ", " Monterey Park ", " Norwalk ", " Palmdale ", " Palos Verdes Estates ", " Paramount", " Pasadena ", " Pico Rivera ", " Pomona ", " Rancho Palos Verdes ", " Redondo Beach ", " Rolling Hills ", " Rolling Hills Estate ", " Rosemead ", " San Dimas ", " San Fernando ", " San Gabriel ", " San Marino ", " Santa Clarita ", " Santa Fe Springs ", " Santa Monica ", 
-    " Sierra Madre ", " Signal Hill ", " South El Monte ", " South Gate ", " S Pasadena ", " Temple City ", " Torrance ", " Vernon ", " Walnut ", " West Covina ", " West Hollywood ", " Westlake Village ", " Whittier "]
-    chosencityList= cityList.pop(random.randrange(len(cityList)))
-    chosencityList2= cityList.pop(random.randrange(len(cityList)))
-    chosencityList3= cityList.pop(random.randrange(len(cityList)))
     ####Naughty Words#######
     words = set(nltk.corpus.words.words())
-
     stop_words=set(stopwords.words("english") + list(string.punctuation))
     SingleWord=('virtually''during''such''you''then''any''further''was''will''been''only''included''known''which''these''this''that''from''conduit revenue''civic center''travel tourism''trade travel''publicly live''comprehensive comprehensive''parking culver''signal hill''peter attendance''found conditioned''could found''access distributed''labor bond''release labor''applicable release''days applicable''approximately percent''potential recess'
                 'recess purpose''back subsequent''recess purpose''information back''back subsequent''approach podium''disruptive approach''profane disruptive''slanderous profane''personal slanderous''extended another''expense local' 'keep informed''acting length''message longer''clarification response''question clarification''terrace grand'
@@ -235,7 +223,7 @@ def index():
     agendaBCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
     agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList2}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
     agendaACounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County": chosencountyList3}, { 'Date':{'$lte':today, '$gte':oneyearBefore}}]}, {'_id': 0, 'County':0, 'City':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
-####### SECTION 1##########
+    ####### Main Table##########
     box1=[]
     box2=[]
     box3=[]
@@ -247,11 +235,11 @@ def index():
             box2.extend(word_tokenize(y[34:150].lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
         if x["Date"] > threemonthBefore:
             box3.extend(word_tokenize(y[34:150].lower().replace('\\n','').replace('\\xa0','').replace('\\t','').replace('description','')))
-
     week1=[]
     monthOne=[]
     monthThree=[]
-        #######Box 1##########
+    
+    #######Box 1##########
     prev=None
     for w in box1:
         if w not in stop_words and len(w)>2:
@@ -261,9 +249,7 @@ def index():
                         week1.append(w)
                     prev = w
     grams1 = nltk.ngrams(week1, 2)
-
     fdist1 = nltk.FreqDist(grams1)
-
 
     #######Box 2##########
     prev=None
@@ -275,9 +261,7 @@ def index():
                         monthOne.append(aa)
                     prev = aa
     grams2 = nltk.ngrams(monthOne, 2)
-
     fdist2 = nltk.FreqDist(grams2)
-
 
     #######Box 3##########
     prev=None
@@ -289,15 +273,13 @@ def index():
                         monthThree.append(bb)
                     prev = bb
     grams3 = nltk.ngrams(monthThree, 2)
-
     fdist3 = nltk.FreqDist(grams3)
-#######TOPIC SELECTION##########
-
+    
+    #######TOPIC SELECTION##########
     topics = ["reap","bids","solicit","cannabis", "EV", "homelessness","climate", "oil","waste","outdoor dining","financial"]
     chosen = topics.pop(random.randrange(len(topics)))
 
-        #######Stats Occurancer##########
-
+    ######Stats Occurancer##########
     if request.method == 'GET':
         agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, {"MeetingType":" City Council "}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
         return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3,chosencountyList=chosencountyList, agendaas=agendaa,chosen=chosen, title="Welcome to Policy Edge")
@@ -399,7 +381,7 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-
+        ##Check to see if user exist####
         username_found = mongo.db.User.find_one({"username": username })
 
         if username_found:
@@ -441,6 +423,87 @@ def get_index():
         return render_template('subscription.html', title='Please re-subscribe to PolicyEdge at any time. Los Angeles agenda monitoring service')
     else:
         return redirect(url_for("login"))
+
+@app.route('/create-checkout-session', methods=['POST'])
+def create_checkout_session():# first section creates user on Mongo and Stripe db at the same time but with subscription set to False
+    stripe.api_key = stripe_keys['secret_key']
+
+    username = request.form["username"]
+    email = request.form["email"]
+    password1 = request.form["password1"]
+    password2 = request.form["password2"]
+    username_found = mongo.db.User.find_one({"username": username})#Checks if username exist
+    email_found = mongo.db.User.find_one({"email": email})#Check if email exist
+    stripe_email_found = mongo.db.stripe_user.find_one({"email": email})
+
+    if username_found:
+        flash('There already is a user by that name')
+        return render_template('register.html')
+    if email_found:
+        flash('This email already exists in our user database')
+        return render_template('register.html')
+    if stripe_email_found:
+        flash('This email already exists in our Stripe database')
+        return render_template('register.html')
+    if password1 != password2:
+        flash('Passwords should match!')
+        return render_template('register.html')
+    else:
+        hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
+        policy_user_input = {'username': username, 'email': email, 'password': hashed, 'stripe_id': [],'issues': [], 'agendaUnique_id': [], 'subscriptionActive': False}
+        stripe_user_input = {'username': username, 'email': email, 'stripeCustomerId' : [], 'stripeSubscriptionId':[]}
+        mongo.db.User.insert_one(policy_user_input)
+        mongo.db.stripe_user.insert_one(stripe_user_input)
+        session['username'] = username
+        session['email'] = email
+
+    ############Checks if user has account with Stripe########
+    noStripeId = mongo.db.User.find_one({'$and':[ {"email": session['email'] }, {"stripe_id" : {"$exists" : True, '$eq': [] }}]}) 
+
+     ########The user was found not to have account with Stripe yet#####
+    if noStripeId:
+        checkout_session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=[
+            {
+                'price': os.environ.get("STRIPE_MONTH_PRICE_ID"),
+                'quantity': 1}
+        ],
+        mode='subscription',
+        success_url=YOUR_DOMAIN +
+        'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
+        cancel_url=YOUR_DOMAIN+ 'cancel',
+        customer= stripe.Customer.create(      # Creates customer on Stripe
+            description="First time subscriber",
+            email=session['email']
+            )
+        )
+        return redirect(checkout_session.url, code=303)
+
+    else: #User has a Stripe account on mongo record db
+        have_stripe_id = mongo.db.User.find_one({'$and':[ {"email": email }, {"stripe_id" : {"$exists" : True, '$type': 'array', '$size': 1} }]}) #Checks if user has account with Stripe
+        placeholder=[]
+
+        for x in have_stripe_id['stripe_id']:
+            placeholder.append(x)
+            j= str(placeholder)
+
+        stripe_customer= j.replace("'",'').replace("[","").replace("]","").replace(",", "")
+
+        checkout_session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=[
+            {
+                'price': os.environ.get("STRIPE_MONTH_PRICE_ID"),
+                'quantity': 1}
+        ],
+        mode='subscription',
+        customer= stripe_customer, #places existing User Stripe_id to create checkout session
+        success_url=YOUR_DOMAIN  +
+        'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
+        cancel_url=YOUR_DOMAIN + 'cancel',
+        )
+        return redirect(checkout_session.url, code=303)
 
 @app.route('/create-checkout-session2', methods=['POST'])
 def create_checkout_session2(): # Second checkout is for existing users who want to re-subscribe
@@ -497,85 +560,6 @@ def create_checkout_session2(): # Second checkout is for existing users who want
     else:
         return redirect(url_for("login"))
 
-@app.route('/create-checkout-session', methods=['POST'])
-def create_checkout_session():# first section creates user on Mongo and Stripe db at the same time but with subscription set to False
-    stripe.api_key = stripe_keys['secret_key']
-
-    username = request.form["username"]
-    email = request.form["email"]
-    password1 = request.form["password1"]
-    password2 = request.form["password2"]
-
-    username_found = mongo.db.User.find_one({"username": username})#Checks if username exist
-    email_found = mongo.db.User.find_one({"email": email})#Check if email exist
-    stripe_email_found = mongo.db.stripe_user.find_one({"email": email})
-
-    if username_found:
-        flash('There already is a user by that name')
-        return render_template('register.html')
-    if email_found:
-        flash('This email already exists in our user database')
-        return render_template('register.html')
-    if stripe_email_found:
-        flash('This email already exists in our Stripe database')
-        return render_template('register.html')
-    if password1 != password2:
-        flash('Passwords should match!')
-        return render_template('register.html')
-    else:
-        hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
-        policy_user_input = {'username': username, 'email': email, 'password': hashed, 'stripe_id': [],'issues': [], 'agendaUnique_id': [], 'subscriptionActive': False}
-        stripe_user_input = {'username': username, 'email': email, 'stripeCustomerId' : [], 'stripeSubscriptionId':[]}
-        mongo.db.User.insert_one(policy_user_input)
-        mongo.db.stripe_user.insert_one(stripe_user_input)
-        session['username'] = username
-        session['email'] = email
-
-    noStripeId = mongo.db.User.find_one({'$and':[ {"email": session['email'] }, {"stripe_id" : {"$exists" : True, '$eq': [] }}]}) #Checks if user has account with Stripe
-
-    if noStripeId: #The user was found not to have account with Stripe yet
-        checkout_session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[
-            {
-                'price': os.environ.get("STRIPE_MONTH_PRICE_ID"),
-                'quantity': 1}
-        ],
-        mode='subscription',
-        success_url=YOUR_DOMAIN +
-        'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
-        cancel_url=YOUR_DOMAIN+ 'cancel',
-        customer= stripe.Customer.create(      # Creates customer on Stripe
-            description="First time subscriber",
-            email=session['email']
-            )
-        )
-        return redirect(checkout_session.url, code=303)
-
-    else: #User has a Stripe account on mongo record db
-        have_stripe_id = mongo.db.User.find_one({'$and':[ {"email": email }, {"stripe_id" : {"$exists" : True, '$type': 'array', '$size': 1} }]}) #Checks if user has account with Stripe
-        placeholder=[]
-
-        for x in have_stripe_id['stripe_id']:
-            placeholder.append(x)
-            j= str(placeholder)
-
-        stripe_customer= j.replace("'",'').replace("[","").replace("]","").replace(",", "")
-
-        checkout_session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[
-            {
-                'price': os.environ.get("STRIPE_MONTH_PRICE_ID"),
-                'quantity': 1}
-        ],
-        mode='subscription',
-        customer= stripe_customer, #places existing User Stripe_id to create checkout session
-        success_url=YOUR_DOMAIN  +
-        'success?session_id={CHECKOUT_SESSION_ID}', #GOD DAMN!
-        cancel_url=YOUR_DOMAIN + 'cancel',
-        )
-        return redirect(checkout_session.url, code=303)
 
 @app.route('/create-portal-session', methods=['POST'])
 def customer_portal():
