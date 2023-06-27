@@ -10,10 +10,6 @@ import os
 import re
 from os import environ
 from apscheduler.schedulers.background import BackgroundScheduler
-import nltk
-from nltk.tokenize import word_tokenize
-from nltk.probability import FreqDist
-from nltk.corpus import stopwords
 import string
 import csv
 import random
