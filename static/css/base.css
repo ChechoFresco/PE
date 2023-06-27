@@ -263,7 +263,7 @@ p.copyright-text{
    text-shadow: 3px 3px 2px black;
 }
 .site-footer{
-  background-color:#4f5861;
+  background-color: transparent;
   padding:0px 0 0px;
   font-size:15px;
   line-height:24px;
