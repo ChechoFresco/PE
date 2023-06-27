@@ -425,7 +425,7 @@ def get_index():
         return redirect(url_for("login"))
 
 @app.route('/create-checkout-session', methods=['POST'])
-def create_checkout_session():# first section creates user on Mongo and Stripe db at the same time but with subscription set to False
+def create_checkout_session():#register creates user on Mongo and Stripe db at the same time but with subscription set to False
     stripe.api_key = stripe_keys['secret_key']
 
     username = request.form["username"]
