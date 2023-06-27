@@ -1530,7 +1530,7 @@ def sandiego():
 
 @app.route('/favicon.ico')
 def favicon():
-    return url_for('static', filename='image/favicon.ico')
+    return url_for('static', filename='/favicon.ico')
     
 @app.errorhandler(404)
 def page_not_found(e):
