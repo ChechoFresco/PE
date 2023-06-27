@@ -427,7 +427,6 @@ def get_index():
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():#register creates user on Mongo and Stripe db at the same time but with subscription set to False
     stripe.api_key = stripe_keys['secret_key']
-
     username = request.form["username"]
     email = request.form["email"]
     password1 = request.form["password1"]
@@ -450,7 +449,7 @@ def create_checkout_session():#register creates user on Mongo and Stripe db at t
         return render_template('register.html')
     else:
         hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
-        policy_user_input = {'username': username, 'email': email, 'password': hashed, 'stripe_id': [],'issues': [], 'agendaUnique_id': [], 'subscriptionActive': False}
+        policy_user_input = {'username': username, 'email': email, 'password': hashed, 'stripe_id': [],'issues': [], 'agendaUnique_id': [], 'subscriptionActive': False}#Creates db Model including Subscription check
         stripe_user_input = {'username': username, 'email': email, 'stripeCustomerId' : [], 'stripeSubscriptionId':[]}
         mongo.db.User.insert_one(policy_user_input)
         mongo.db.stripe_user.insert_one(stripe_user_input)
@@ -808,11 +807,9 @@ def results():
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']:
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
         return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
-
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']=="":# Allows user to not input End date ==today
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]})
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
-
     if request.form['select'] == 'Issue' and request.form['startdate_field'] =="" and request.form['enddate_field']=="":# Allows user to not input date
         agenda = mongo.db.Agenda.find({ '$text': { "$search": searchKey}})
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
@@ -1161,6 +1158,7 @@ def results():
     if request.form['select'] == 'San Bernandino County' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search']  and request.form['secondary_search']:
         agenda = mongo.db.Agenda.find({'$and':[ { '$or':[{"MeetingType":{'$regex': "City Council" }},{"MeetingType":{'$regex': "Special Meeting", '$options': 'i' }}]}, {'County': {'$regex': 'San Bernandino County', '$options': 'i' }},{'$text': { "$search": deepKey}}, {'City': {'$regex': searchKey, '$options': 'i' }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date',-1)
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
+
 @app.template_filter('aTime')
 def int2date(agDate: int) -> date:
     agDate=(str(agDate))
