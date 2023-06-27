@@ -223,7 +223,7 @@ label{
 #table_1{
   border: 0px;
   margin:auto;
-  width:75%;
+  width:90%;
 }
 tr{
   text-align: -webkit-center;
@@ -329,33 +329,6 @@ span.page-size{
   color:black
 }
 
-
-/* Stats Occurance*/
-
-h1#titleOccurance{
-  color:lavender;
-  text-align: center;
-  text-shadow:
-    0 0 5px #f6ad1d;
-  font-size: 4rem;
-  font-family: 'Merriweather', serif;
-  animation: fadeIn 1s;
-  animation-delay: 0s;
-  animation-fill-mode: forwards;
-  opacity:0;
-  text-transform: capitalize;
-}
-#exp{
-  color:white;
-}
-#inExp{
-  column-count: 5;
-}
-#expList{
-  width: 33rem;
-}
-
-
 /* Three Wise Offers*/
 #conOffer{
   position:relative;
@@ -391,48 +364,6 @@ p.subject {
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
-}
-
-/* IssueTrend */
-#trendContainer{
-  position:relative;
-  width:auto;
-}
-#changeTrend {
-  position: relative;
-  display: none;
-  margin: auto;
-  width: fit-content;
-}
-
- /* Trends */
-div#split2{
-  position:relative;
-  display: grid;
-  top:2rem;
-  width: auto;
-}
-h3#title{
-  color:lavender;
-  text-align: center;
-  text-shadow:
-    0 0 5px #5e7cff;
-  font-size: 3rem;
-  font-family: 'Merriweather', serif;
-}
-#trendColumn{
-  text-align:end;
-}
-.subMenu {
-  list-style-type: none;
-  font-family: "Open Sans", sans-serif;
-  height:auto;
-  font-size: 1.5rem;
-  text-align: center;
-  text-shadow: 3px 3px 2px black;
-  color: var(--white);
-  left: -2rem;
-  position: relative;
 }
 
 
