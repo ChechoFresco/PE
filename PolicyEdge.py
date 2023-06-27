@@ -230,8 +230,8 @@ def index():
         chosen= 'utility'
         agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
         return render_template('index.html',agendaas=agendaa,chosen=chosen, title="Welcome to Policy Edge")
-    elif request.method == 'POST' and 'Retail' in request.form['select']:
-        chosen= 'retail'
+    elif request.method == 'POST' and 'RFP' in request.form['select']:
+        chosen= 'solicit'
         agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
         return render_template('index.html',agendaas=agendaa,chosen=chosen,  title="Welcome to Policy Edge")
 
