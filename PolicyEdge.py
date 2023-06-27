@@ -97,7 +97,7 @@ def check4Issues2email():
                 County=[]
                 meeting_type=[]
                 item_type=[]
-                text=[]
+                issueLinks=[]
 
                 email_body=[]
                 itemCount=0
@@ -117,14 +117,14 @@ def check4Issues2email():
                         start_month = str(intDate[4:6])
                         start_day = str(intDate[6:8])
                         links=mongo.db.doc.find_one({"City":{'$regex': i['City'][1:-1], '$options': 'i'}},{'_id': 0,'webAdress': 1} )
-                        links2= str(links).replace("{'webAdress': '","").replace("'}","")
-                        text.append(links2)
+                        issueLink= str(links).replace("{'webAdress': '","").replace("'}","")
+                        issueLinks.append(issueLink)
                         Date.append(start_month+'/'+start_day+'/'+start_year)
                         meeting_type.append(i['MeetingType'])
                         item_type.append(i['ItemType'])
 
                 for y in range(len(city)):#range(len)city is used because it gives accurate count of topics being sent
-                    email_body.append("<p>The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(issueTopics[y],city[y],meeting_type[y],County[y],Date[y],description[y], text[y]))
+                    email_body.append("<p>The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(issueTopics[y],city[y],meeting_type[y],County[y],Date[y],description[y], issueLinks[y]))
 
                 if len(email_body)==0:
                     pass
