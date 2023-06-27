@@ -425,13 +425,15 @@ def get_index():
         return redirect(url_for("login"))
 
 @app.route('/create-checkout-session', methods=['POST'])
-def create_checkout_session():#register creates user on Mongo and Stripe db at the same time but with subscription set to False
+def create_checkout_session():#register link to this page to create both profile for User and Stripe User db
     stripe.api_key = stripe_keys['secret_key']
     username = request.form["username"]
     email = request.form["email"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
-    username_found = mongo.db.User.find_one({"username": username})#Checks if username exist
+
+    #####Checks if user has used site before########
+    username_found = mongo.db.User.find_one({"username": username}
     email_found = mongo.db.User.find_one({"email": email})#Check if email exist
     stripe_email_found = mongo.db.stripe_user.find_one({"email": email})
 
