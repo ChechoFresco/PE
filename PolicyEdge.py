@@ -18,7 +18,6 @@ import string
 import csv
 import random
 
-
 app = Flask(__name__,)
 
 app.config['MONGO_URI'] = os.environ.get("MONGO_URI")
@@ -30,8 +29,6 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.secret_key = os.environ.get("SESS_KEY")
 
-
-
 mongo = PyMongo(app)
 mail = Mail(app)
 
@@ -41,7 +38,6 @@ stripe_keys = {
     'secret_key': os.environ['SECRET_KEY'],
     'publishable_key': os.environ['PUBLISHABLE_KEY']
 }
-
 stripe.api_key = stripe_keys['secret_key']
 
 def check4Issues2email():
@@ -52,14 +48,12 @@ def check4Issues2email():
         today=int(b)
 
         ##########User roundup###############
-
         all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, 'agendaUnique_id':1, 'email':1, 'subscriptionActive':1, 'issues':1})#Creates list af all emails and usernames for sequence
 
         for x in all_users: #For each instance of a user
             if x['subscriptionActive'] == True: #Checks to see if user is subscribed
 
-        ##################Deletes old id for issues###############
-
+        ##################Deletes old object_id for users###############
                 check=mongo.db.User.find({'username':x['username']},{'_id':0 , 'agendaUnique_id': 1})
                 for q in check:
                     for qq in q['agendaUnique_id']:
@@ -69,15 +63,12 @@ def check4Issues2email():
                                 "Date": qq['Date'] ,
                             }
                             mongo.db.User.find_one_and_update({'username':x['username']}, {'$pull': {'agendaUnique_id': stuff}}, upsert = True)
-
+    
         ##########Item roundup###############
-
                 storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0, 'issues.searchWord':1, 'issues.County':1, 'issues.City':1, 'issues.Committee':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
-
 
                 issues_placeholder= []#List of user subscribed issues
                 userStoredAgendaId=[]#List of user previous topics
-
                 for y in storedIssues:
                     issues_placeholder.append(y['issues'])#subscribed issues
                     for yy in y['agendaUnique_id']:
@@ -85,23 +76,22 @@ def check4Issues2email():
 
                 agenda=[]
                 agenda2=[]
-
                 for z in range(len(issues_placeholder[0])): #For every item in issues_placeholder, breaks down into individual parts in order for Multiquery to function
                     issue_Search= (issues_placeholder[0][z]['searchWord'])#Grabs Issue
                     county_Search= (issues_placeholder[0][z]['County'])
                     city_Search= (issues_placeholder[0][z]['City'])#Grabs City
                     committee_Search= (issues_placeholder[0][z]['Committee'])
 
-        ##################Multiquery uses each _Search to run individual db.finds to create multiquery
-
+        ###########Multiquery uses each _Search to run individual db.finds to create multiquery#########
                     Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i'}}, {"County":{'$regex': county_Search, '$options': 'i'}}  ,{'Description': { "$regex": issue_Search,  '$options': 'i' }}, { 'Date':{'$gte':int(today)}}]})
 
                     for query in Multiquery:#Places individualised results in agenda from Multiquery
                         agenda.append(query)
                         agenda2.append(issue_Search)
-
-                description=[]###Information is grabbed from loop done below
-                issue=[]
+                        
+        ###Information is grabbed from loop done below#######
+                description=[]
+                issueTopics=[]
                 city=[]
                 Date=[]
                 County=[]
@@ -112,11 +102,11 @@ def check4Issues2email():
                 email_body=[]
                 itemCount=0
 
-                for zz in agenda2:
-                    issue.append(zz)
+                for issueTopic in agenda2:
+                    issue.append(issueTopic)
 
-                for i in agenda: #returned criteria
-                    if i['_id'] not in userStoredAgendaId:
+                for i in agenda: #Items selected to be sent
+                    if i['_id'] not in userStoredAgendaId:#Checks to see item wasn't sent before
                         itemCount+=1
                         mongo.db.User.find_one_and_update({'username':x['username']}, {'$addToSet': {'agendaUnique_id':{'_id':i['_id'],'Date':i['Date']}}})# updates database with topics uniqueid
                         description.append(i['Description'])
@@ -134,7 +124,7 @@ def check4Issues2email():
                         item_type.append(i['ItemType'])
 
                 for y in range(len(city)):#range(len)city is used because it gives accurate count of topics being sent
-                    email_body.append("<p>The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(issue[y],city[y],meeting_type[y],County[y],Date[y],description[y], text[y]))
+                    email_body.append("<p>The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(issueTopics[y],city[y],meeting_type[y],County[y],Date[y],description[y], text[y]))
 
                 if len(email_body)==0:
                     pass
@@ -358,14 +348,6 @@ def index():
         agendaCCounty = mongo.db.Agenda.find({'$and':[ {"MeetingType":" City Council "}, {"County":chosencountyList}, { 'Date':{'$lte':today, '$gte':threemonthBefore}}]},{'_id': 0, 'County':0, 'City':0, 'Date':0, 'Num':0, 'MeetingType':0, 'ItemType':0})
         agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
         return render_template('index.html',fdist1s=fdist1,fdist2s=fdist2, fdist3s=fdist3, agendaas=agendaa,chosen=chosen, chosencountyList=chosencountyList, title="Welcome to Policy Edge")
-
-
-#@app.route('/', methods=['GET', 'POST'])
-#def index():
-#    if "username" in session:
-#        return redirect(url_for("loggedIn"))
-
-#    return render_template('index.html' ,title="PolicyEdge agenda monitoring tracking service")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
