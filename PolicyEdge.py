@@ -416,8 +416,7 @@ def create_checkout_session():#register link to this page to create both profile
     password1 = request.form["password1"]
     password2 = request.form["password2"]
 
-    #####Checks if user has used site before########
-    username_found = mongo.db.User.find_one({"username": username}
+    username_found = mongo.db.User.find_one({"username": username}#####Checks if user has used site before########
     email_found = mongo.db.User.find_one({"email": email})#Check if email exist
     stripe_email_found = mongo.db.stripe_user.find_one({"email": email})
 
