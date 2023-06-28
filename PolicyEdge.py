@@ -535,6 +535,7 @@ def results():
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']:
         if len(request.form['select'])<1:
             flash("please eneter input")
+            return render_template('search.html')
         else:
             agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
             return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
