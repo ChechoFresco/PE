@@ -237,17 +237,31 @@ def create_checkout_session():#register link to this page to create both profile
     username_found = mongo.db.User.find_one({"username": username})#Checks if username exist
     email_found = mongo.db.User.find_one({"email": email})#Check if email exist
     stripe_email_found = mongo.db.stripe_user.find_one({"email": email})
+    match = re.match('^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$', email)
+
     if username_found:
         flash('There already is a user by that name')
         return render_template('register.html')
     if email_found:
         flash('This email already exists in our user database')
         return render_template('register.html')
+    if (' ' in username):
+        flash('Please no whitespaces in username')
+        return render_template('register.html')
+    if (' ' in email):
+        flash('Please no whitespaces in email address')
+        return render_template('register.html')
+    if match == None:
+        flash('Please use a valid email address')
+        return render_template('register.html')
     if stripe_email_found:
         flash('This email already exists in our Stripe database')
         return render_template('register.html')
     if password1 != password2:
         flash('Passwords should match!')
+        return render_template('register.html')
+    if len(password1) < 8:
+        flash('Please make sure password is longer than 8 characters')
         return render_template('register.html')
     else:
         hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
