@@ -538,6 +538,9 @@ def results():
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']=="":# Allows user to not input End date ==today
         agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]})
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
+    if request.form['select'] == 'Issue' and request.form['startdate_field']='' and request.form['enddate_field']:# Allows user to not input End date ==today
+        agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]})
+        return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field'] =="" and request.form['enddate_field']=="":# Allows user to not input date
         agenda = mongo.db.Agenda.find({ '$text': { "$search": searchKey}})
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
