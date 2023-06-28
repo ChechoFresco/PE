@@ -1551,7 +1551,7 @@ def page_not_found(e):
 
 @app.errorhandler(500)
 def internal_error(error):
-    return "500 error"
+    return render_template('500.html'), 500
     
 if __name__ == '__main__':
     app.run(debug = True)
