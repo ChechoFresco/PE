@@ -38,8 +38,10 @@ label{
     text-shadow: 3px 3px 2px black;
 }
 input[type=submit] {
+    position: relative;
     margin: 0 auto;
     color: gray;
+    left:4rem;
 }
 
 .info{
