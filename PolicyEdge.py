@@ -146,38 +146,31 @@ def httpsroute():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    ###DATE SETUP#######
-    ##Main Issue three month#####
-    a = date.today()+ relativedelta(weeks=2)
-    b= str(a).replace("-","")
-    twoweekAhead=int(b)
-
+    ##Three months before#####
     c = date.today() + relativedelta(weeks=-12)
     d= str(c).replace("-","")
     threemonthBefore=int(d)
-
-    ##One week Trend#####
-
-    e = date.today()+ relativedelta(weeks=1)
-    f= str(e).replace("-","")
-    weekAhead=int(f)
-
-    g = date.today() + relativedelta(weeks=-1)
-    h= str(g).replace("-","")
-    weekBefore=int(h)
-
-    ##One month Trend#####
-
-    i = date.today()
-    j= str(i).replace("-","")
-    today=int(j)
-
+    ##One month Before#####
     k = date.today() + relativedelta(weeks=-4)
     l= str(k).replace("-","")
     monthBefore=int(l)
-
+    ##One week Before#####
+    g = date.today() + relativedelta(weeks=-1)
+    h= str(g).replace("-","")
+    weekBefore=int(h)
+    ##Today#####
+    i = date.today()
+    j= str(i).replace("-","")
+    today=int(j)
+    ##One week After#####
+    e = date.today()+ relativedelta(weeks=1)
+    f= str(e).replace("-","")
+    weekAhead=int(f)
+    ##Two weeks After#####
+    a = date.today()+ relativedelta(weeks=2)
+    b= str(a).replace("-","")
+    twoweekAhead=int(b)
     ##One year Trend#####
-
     c = date.today() + relativedelta(weeks=-52)
     d= str(c).replace("-","")
     oneyearBefore=int(d)
