@@ -228,11 +228,17 @@ label{
 tr{
   text-align: -webkit-center;
 }
-.table-hover>tbody>tr{
-	background-color:var(--gray);
+.table-hover>tbody>tr:hover td {
+  text-shadow: 2px 2px 2px black;
+  font-size: 1.2em;
 }
-.table-hover>tbody>tr:hover{
-	background-color:#232E60;
+.table-hover>tbody>tr:hover td.description{
+  background-color: white;
+  color: black;
+  text-shadow: 0px 0px 2px white;
+}
+.table-hover>tbody>tr:hover td.infoLocation{
+	background-color: rgb(33 70 171 / 83%);
 }
 th {
   display: inline-block;
@@ -286,17 +292,6 @@ tbody tr:nth-child(odd){
   background-color:rgba(255, 255, 255, .0);
 }
 
-tr:hover td {
-  -webkit-box-shadow: 0 2px 2px -2px #0E1119;
-    -moz-box-shadow: 0 2px 2px -2px #0E1119;
-      box-shadow: 0 2px 2px -2px #0E1119;
-  transform: translate3d(4px, -10px, 0);
-  transition-delay: 0s;
-  transition-duration: 0.4s;
-  transition-property: all;
-  transition-timing-function: line;
-  font-size: 1.1em;
-}
 
 /* Pagination */
 
