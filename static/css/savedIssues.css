@@ -24,7 +24,7 @@ h2#Message1{
 	text-shadow: 4px 4px 2px black;
 	font-size: 2rem;
 	background: rgba(255, 255, 255, .15);
-	box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
+	box-shadow: rgba(94, 124, 255, 0.4) 0px 3px, rgba(94, 124, 255, 0.3) 0px 6px, rgba(94, 124, 255, 0.2) 0px 9px, rgba(94, 124, 255, 0.1) 0px 12px, rgba(94, 124, 255, 0.05) 0px 15px;
 	backdrop-filter: blur(2px);
 	padding: 3rem;
 	border-radius:2ch;
