@@ -530,6 +530,7 @@ def results():
     start = (start_year+start_month+start_day)
     end = (end_year+end_month+end_day)
 
+    
     ############################################
     ##Issue onlys###
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']:
@@ -542,18 +543,21 @@ def results():
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']=="":# Allows user to not input End date ==today
         if searchKey <1:
             flash("please eneter input")
+            return render_template('search.html')
         else:
             agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]})
             return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field']=="" and request.form['enddate_field']:# Allows user to not input End date ==today
         if searchKey <1:
             flash("please eneter input")
+            return render_template('search.html')
         else:
             agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]})
             return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field'] =="" and request.form['enddate_field']=="":# Allows user to not input date
         if searchKey <1:
             flash("please eneter input")
+            return render_template('search.html')
         else:
             agenda = mongo.db.Agenda.find({ '$text': { "$search": searchKey}})
             return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
