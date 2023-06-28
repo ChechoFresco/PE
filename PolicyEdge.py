@@ -534,28 +534,28 @@ def results():
     ############################################
     ##Issue onlys###
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']:
-        if searchKey <1:
+        if len(searchKey) <1:
             flash("please eneter input")
             return redirect(url_for("search"))
         else:
             agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
             return render_template('results.html', agendas=agenda,  title = "PolicyEdge Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']=="":# Allows user to not input End date ==today
-        if searchKey <1:
+        if len(searchKey) <1:
             flash("please eneter input")
             return redirect(url_for("search"))
         else:
             agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]})
             return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field']=="" and request.form['enddate_field']:# Allows user to not input End date ==today
-        if searchKey <1:
+        if len(searchKey) <1:
             flash("please eneter input")
             return redirect(url_for("search"))
         else:
             agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]})
             return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field'] =="" and request.form['enddate_field']=="":# Allows user to not input date
-        if searchKey <1:
+        if len(searchKey) <1:
             flash("please eneter input")
             return redirect(url_for("search"))
         else:
