@@ -146,34 +146,14 @@ def httpsroute():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    ##Three months before#####
-    c = date.today() + relativedelta(weeks=-12)
-    d= str(c).replace("-","")
-    threemonthBefore=int(d)
-    ##One month Before#####
-    k = date.today() + relativedelta(weeks=-4)
-    l= str(k).replace("-","")
-    monthBefore=int(l)
-    ##One week Before#####
-    g = date.today() + relativedelta(weeks=-1)
-    h= str(g).replace("-","")
-    weekBefore=int(h)
-    ##Today#####
-    i = date.today()
-    j= str(i).replace("-","")
-    today=int(j)
-    ##One week After#####
-    e = date.today()+ relativedelta(weeks=1)
-    f= str(e).replace("-","")
-    weekAhead=int(f)
     ##Two weeks After#####
     a = date.today()+ relativedelta(weeks=2)
     b= str(a).replace("-","")
     twoweekAhead=int(b)
-    ##One year Trend#####
-    c = date.today() + relativedelta(weeks=-52)
+    ##Three months before#####
+    c = date.today() + relativedelta(weeks=-12)
     d= str(c).replace("-","")
-    oneyearBefore=int(d)
+    threemonthBefore=int(d)
 
     #######TOPIC SELECTION##########
     topics = ["reap","bids","solicit","cannabis", "EV", "homelessness","climate", "oil","waste","outdoor dining","financial"]
