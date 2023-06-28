@@ -51,12 +51,18 @@ label{
     .frost {
         top:0rem;
         left:0rem;
+        width:auto;
+    }
+            
     }
     div.package{
         height:100%;
     }
     div.background{
         width: 100vw;
+    }
+    .form-control{
+        width: 92%;
     }
 }
 
