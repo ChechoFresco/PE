@@ -154,7 +154,10 @@ h1#title{
   animation-fill-mode: forwards;
   opacity:0;
 }
-
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 /*Happening next week banner*/
 #conHappening{
   position:relative;
@@ -334,7 +337,7 @@ span.page-size{
   top:1rem;
 }
 #icon1,#icon2,#icon3{
-  height: 14rem;
+  height: 8rem;
   width: 99.3%;
 }
 h3#offer{
@@ -352,17 +355,7 @@ p.subject {
   text-align: center;
   margin: 25px;
   text-shadow: 4px 4px 2px black;
-  opacity:0;
-  animation: fadeIn 3s;
-  animation-delay: 5s;
-  animation-fill-mode: forwards;
 }
-
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
 
   /* ################################################# */
   /* ################################################# */
