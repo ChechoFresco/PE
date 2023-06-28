@@ -47,7 +47,8 @@ label{
 @media screen and (max-width: 600px) {
     div.package{
         position: relative;
-        width:auto;
+        width:100vw;
+        height:auto;
     }
     div#size{
         display:none;
