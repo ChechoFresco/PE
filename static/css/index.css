@@ -236,6 +236,8 @@ tr{
   background-color: white;
   color: black;
   text-shadow: 0px 0px 2px white;
+  max-height:fit-content;
+}
 }
 .table-hover>tbody>tr:hover td.infoLocation{
 	background-color: rgb(33 70 171 / 83%);
