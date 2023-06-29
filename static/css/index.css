@@ -231,9 +231,12 @@ label{
 tr{
   text-align: -webkit-center;
 }
+.table-hover>tbody>tr{
+	background-color:var(--gray);
+}
 .table-hover>tbody>tr:hover td {
   text-shadow: 2px 2px 2px black;
-  font-size: 1.2em;
+  font-size: 1.1em;
 }
 .table-hover>tbody>tr:hover td.description{
   background-color: white;
@@ -241,16 +244,14 @@ tr{
   text-shadow: 0px 0px 2px white;
   max-height:fit-content;
 }
-}
 .table-hover>tbody>tr:hover td.infoLocation{
-  background-color: rgb(33 70 171 / 83%);
+	background-color: rgb(33 70 171 / 83%);
 }
 th {
   display: inline-block;
   position: relative;
   color: white;
   text-shadow: 3px 3px 2px black;
-
 }
 td {
   display: block;
