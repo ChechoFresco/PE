@@ -243,7 +243,7 @@ tr{
 }
 }
 .table-hover>tbody>tr:hover td.infoLocation{
-	background-color: rgb(33 70 171 / 83%);
+  background-color: rgb(33 70 171 / 83%);
 }
 th {
   display: inline-block;
@@ -345,15 +345,15 @@ h3#offer{
   text-align: center;
   text-shadow:
     0 0 5px #5e7cff;
-  font-size: 3rem;
+  font-size: 2rem;
   font-family: 'Merriweather', serif;
 }
 p.subject {
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-family: "Open Sans", sans-serif;
   color: white;
   text-align: center;
-  margin: 25px;
+  margin: 5px;
   text-shadow: 4px 4px 2px black;
 }
 
