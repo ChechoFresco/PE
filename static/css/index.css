@@ -378,129 +378,117 @@ p.subject {
   /* ################################################# */
   /* ################################################# */
   @media screen and (max-width: 600px) {
-
   svg.animated{
-    overflow: hidden;
-    height: auto;
-    top: 0vh;
-    position: relative;
+	overflow: hidden;
+	height: auto;
+	top: 0vh;
+	position: relative;
   }
-
   .frost {
-    border-image: none;
-    width: auto;
-    left: 0%;
+	border-image: none;
+	width: auto;
+	left: 0%;
   }
-
   p.subject {
-    font-size: 1.6rem;
-    color: white;
-    text-align: center;
+	font-size: 1.6rem;
+	color: white;
+	text-align: center;
   }
   h1#title{
-    font-size: 3rem;
-    color:floralwhite;
-    text-align: center;
-    width:auto;
+	font-size: 3rem;
+	color:floralwhite;
+	text-align: center;
+	width:auto;
   }
-
   h3.howwrk{
-    font-size: 1.4rem;
+	font-size: 1.4rem;
   }
-
   h3#happening{
-    font-size: 1.6rem;
+	font-size: 1.6rem;
   }
-
   h3#happening.active{
-    transform: translateY(0);
-    opacity: 1;
+	transform: translateY(0);
+	opacity: 1;
   }
 
 /* Main Table Change Title*/
     #conHappening{
-    position:relative;
-    width:auto;
+	position:relative;
+	width:auto;
   }
   h3#happening{
-    color:white;
-    font-family: "Open Sans", sans-serif;
-    text-align: center;
-    text-shadow: 4px 4px 2px black;
-    font-size: 1.2rem;
+	color:white;
+	font-family: "Open Sans", sans-serif;
+	text-align: center;
+	text-shadow: 4px 4px 2px black;
+	font-size: 1.2rem;
   }
 
 /* Main Table*/
   div#conTable {
-    display: block;
-    width: fit-content;
+	display: block;
+	width: fit-content;
 }
   #issueRow {
-  top: 0rem;
-  height: 46vh;
-  width: 100vw;
+	top: 0rem;
+	height: 46vh;
+	width: 100vw;
 }
 .row-button {
-  flex-wrap: wrap;
-  justify-content: space-between;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
-
   #table_1{
-    border: 0px;
+	border: 0px;
+	width: 100%;
   }
-
   td {
-    text-align: center;
-    font-size: 1em;
-    font-family: "Open Sans", sans-serif;
-    text-shadow: 3px 3px 2px black;
-    padding: 0px;
-    margin: 0px auto;
+	text-align: center;
+	font-size: 1em;
+	font-family: "Open Sans", sans-serif;
+	text-shadow: 3px 3px 2px black;
+	padding: 0px;
+	margin: 0px auto;
   }
   td.infoLocation{
-    display: flex;
-    justify-content: start;
+	display: flex;
+	justify-content: start;
   }
   td.description{
-    overflow: hidden;
-    max-height: 9rem;
-    white-space: none;
+	overflow: hidden;
+	max-height: 9rem;
+	white-space: none;
   }
   .subMenu {
-    height:auto;
-    font-size: 1.4rem;
+	height:auto;
+	font-size: 1.4rem;
   }
   h3#title {
-    font-size: 1.7rem;
+	font-size: 1.7rem;
   }
   caption {
-    font-size: 2.8rem;
-    width: auto;
+	font-size: 2.8rem;
+	width: auto;
   }
-
 
 /* 3 SVG Animations*/
-
   #icon1,#icon2,#icon3{
-    height: 10rem;
-    width: 99.3%;
+	height: 10rem;
+	width: 99.3%;
   }
-
 
 /* Trend*/
-  #trendContainer{
-    position:relative;
-    display:flex;
-    width:auto;
-    top:4vh;
-    align-items: center;
-    flex-direction: column;
+#trendContainer{
+	position:relative;
+	display:flex;
+	width:auto;
+	top:4vh;
+	align-items: center;
+	flex-direction: column;
   }
   h1#title{
-    font-size:3.6rem;
+	font-size:3.6rem;
   }
+}
 
-  }
-
-  }
 
