@@ -27,6 +27,10 @@ form{
     width: fit-content;
 }
 
+.form-control {
+    width: fit-content;
+}
+
 #conBG {
     position: relative;
     height: 100%;
