@@ -174,19 +174,34 @@ h3#happening{
 
 
 /* Main Table*/
-#calculator{
-  top:2rem;
-}
-
-.row-button {
-  display: flex;
-  justify-content: space-around;
+#issueRow{
+  top: 10rem;
+  display: grid;
+  column-count: 2;
+  height: 38vh;
+  overflow: scroll;
 }
 
 input[type=submit] {
   cursor: pointer;
-  height: 3rem;
+  height: 4rem;
   width: 8rem;
+  color: var(--white);
+  text-shadow: 1px 2px 4px black;
+  background-color:rgba(255, 255, 255, .25);
+  text-align: center;
+  border-radius: 0.45em;
+  font-family: "Raleway", sans-serif;
+  font-size: .7em;
+
+}
+input[type=submit]:nth-child(even){
+  background-color:rgba(255, 255, 255, .0);
+}
+#countyChange{
+  cursor: pointer;
+  height: 7rem;
+  width: 10rem;
   margin-right: 3rem;
   color: var(--white);
   text-align: center;
@@ -194,17 +209,15 @@ input[type=submit] {
   border-radius: 0.45em;
   background: none;
   font-family: "Raleway", sans-serif;
-  font-size: 1em;
-  -webkit-box-shadow: rgba(94, 124, 255, 0.4) 0px 3px, rgba(94, 124, 255, 0.3) 0px 6px, rgba(94, 124, 255, 0.2) 0px 9px, rgba(94, 124, 255, 0.1) 0px 12px, rgba(94, 124, 255, 0.05) 0px 15px;
-  -moz-box-shadow: rgba(94, 124, 255, 0.4) 0px 3px, rgba(94, 124, 255, 0.3) 0px 6px, rgba(94, 124, 255, 0.2) 0px 9px, rgba(94, 124, 255, 0.1) 0px 12px, rgba(94, 124, 255, 0.05) 0px 15px;
-  box-shadow: rgba(94, 124, 255, 0.4) 0px 3px, rgba(94, 124, 255, 0.3) 0px 6px, rgba(94, 124, 255, 0.2) 0px 9px, rgba(94, 124, 255, 0.1) 0px 12px, rgba(94, 124, 255, 0.05) 0px 15px;
-}
+  font-size: .7em;
+  -webkit-box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
+  -moz-box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
+  box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;}
 
 div.row-button input[type=submit]:hover  {
   text-shadow: 0 0 5px var(--orange);
 }
 div#conTable{
-  top:3rem;
   position: relative;
 }
 
@@ -226,7 +239,7 @@ label{
 #table_1{
   border: 0px;
   margin:auto;
-  width:90%;
+  width:85%;
 }
 tr{
   text-align: -webkit-center;
@@ -247,11 +260,13 @@ tr{
 .table-hover>tbody>tr:hover td.infoLocation{
 	background-color: rgb(33 70 171 / 83%);
 }
+
 th {
   display: inline-block;
   position: relative;
   color: white;
   text-shadow: 3px 3px 2px black;
+
 }
 td {
   display: block;
@@ -297,6 +312,7 @@ tbody tr:nth-child(even){
 tbody tr:nth-child(odd){
   background-color:rgba(255, 255, 255, .0);
 }
+
 
 
 /* Pagination */
