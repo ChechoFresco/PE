@@ -216,11 +216,13 @@ html, body{
 /* ################################################# */
 /* CSS for TOPNAV*/
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
-@media screen and (max-width: 600px) {
+
   .topnav a:not(:first-child) {display: none;}
-  .topnav a.menu-button{
+  .topnav a#ham{
+    top:2rem;
     float: right;
     display: block;
+    background-color: transparent;
   }
   svg#logo{
     height:7rem;
@@ -230,17 +232,26 @@ html, body{
 
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 600px) {
-  .topnav.responsive {position: relative;}
-  .topnav.responsive a.menu-button{
-    position: absolute;
-    left: 30rem;
-    top: 0;
+  .topnav.responsive {
+    position: relative;
+    padding-bottom:2rem;
+    border-radius: 4rem;
   }
-  .topnav.responsive a:not(.icon)  {
-    float: none;
+  #login {
+    border-radius: 3rem 3rem 0rem 0rem;
+}
+  .topnav.responsive a#ham{
+    position: absolute;
+    right:0rem;
+  }
+  .topnav.responsive a:not(.icon,#ham)  {
     display: block;
     text-align: left;
-    width:100%
+    width:100%;
+    top:0rem;
+  }
+  .topnav a:not(:first-child){
+    background-color: rgba(255, 255, 255, .15);
   }
 }
 
