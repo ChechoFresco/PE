@@ -24,7 +24,7 @@ label{
 	text-shadow: 4px 4px 2px black;
 }
 #table_1{
-	border: 0px;
+    	border: none;
 	margin:auto;
 	width:85%;
 }
