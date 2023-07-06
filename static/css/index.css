@@ -172,13 +172,18 @@ h3#happening{
 }
 
 
-/* Main Table*/
+/* Table Div*/
+
+  /* Select Options*/
 #issueRow{
   top: 10rem;
   display: grid;
   column-count: 2;
-  height: 38vh;
+  height: 60vh;
   overflow: scroll;
+}
+#issueRow:hover {
+  box-shadow: 0px -1px 15px 4px var(--lightgray);
 }
 
 input[type=submit] {
@@ -192,34 +197,19 @@ input[type=submit] {
   border-radius: 0.45em;
   font-family: "Raleway", sans-serif;
   font-size: .7em;
-
 }
 input[type=submit]:nth-child(even){
   background-color:rgba(255, 255, 255, .0);
 }
-#countyChange{
-  cursor: pointer;
-  height: 7rem;
-  width: 10rem;
-  margin-right: 3rem;
-  color: var(--white);
-  text-align: -webkit-center;
-  text-shadow: 0 0 5px var(--blue);
-  border-radius: 0.45em;
-  background: none;
-  font-family: "Raleway", sans-serif;
-  font-size: .7em;
-  -webkit-box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
-  -moz-box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;
-  box-shadow: rgba(94, 124, 255, 0.4) 0px 5px, rgba(94, 124, 255, 0.3) 0px 10px, rgba(94, 124, 255, 0.2) 0px 15px, rgba(94, 124, 255, 0.1) 0px 20px, rgba(94, 124, 255, 0.05) 0px 25px;}
-
 div.row-button input[type=submit]:hover  {
   text-shadow: 0 0 5px var(--orange);
 }
+
+    /* Table*/
+
 div#conTable{
   position: relative;
 }
-
 caption{
   color:lavender;
   text-align: center;
@@ -229,12 +219,10 @@ caption{
   font-size: 5.2rem;
   font-family: 'Merriweather', serif;
 }
-
 label{
   color:white;
   text-shadow: 4px 4px 2px black;
 }
-
 #table_1{
   border: 0px;
   margin:auto;
@@ -244,20 +232,22 @@ tr{
   text-align: -webkit-center;
 }
 .table-hover>tbody>tr{
-	background-color:var(--gray);
+  background-color:gray;
 }
 .table-hover>tbody>tr:hover td {
-  text-shadow: 2px 2px 2px black;
-  font-size: 1.1em;
+  text-shadow: 2px 2px 2px #52555a;
+  font-size: 1.2em;
 }
 .table-hover>tbody>tr:hover td.description{
-  background-color: lightslategray;
-  color: white;
-  text-shadow: 3px 3px 2px black;
-  max-height:fit-content;
+  background-color: #52555a;
+  max-height: fit-content;
+  text-shadow: 0 0 5px var(--blue);
+  box-shadow: 0px -1px 15px 4px var(--lightgray);
 }
 .table-hover>tbody>tr:hover td.infoLocation{
-	background-color: rgb(33 70 171 / 83%);
+  background-color:#52555a;
+  font-size: 1rem;
+  box-shadow: 0px 6px 9px 0px var(--lightgray);
 }
 
 th {
@@ -265,7 +255,6 @@ th {
   position: relative;
   color: white;
   text-shadow: 3px 3px 2px black;
-
 }
 td {
   display: block;
@@ -279,7 +268,6 @@ td {
   padding: 0px;
   margin: 0px auto;
   width:auto;
-
 }
 td.none{
   display:none;
@@ -296,10 +284,12 @@ td.description{
   max-height: 9rem;
   white-space: break-spaces;
   box-shadow: 0px 6px 9px 0px rgba(0,0,0,0.1);
-
 }
 span#prettyTable {
-  text-shadow: 1px 1px 2px #fab935;
+  text-shadow: 1px 1px 2px var(--orange);
+}
+span#prettyTable2 {
+  text-shadow: 1px 1px 2px var(--blue);
 }
 .table thead tr th, .table tbody tr td {
   border: none;
@@ -311,7 +301,6 @@ tbody tr:nth-child(even){
 tbody tr:nth-child(odd){
   background-color:rgba(255, 255, 255, .0);
 }
-
 
 
 /* Pagination */
