@@ -493,28 +493,28 @@ def results():
             flash("Please enter input")
             return redirect(url_for("search"))
         else:
-            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date').sort('City')
+            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('City').sort('Date',-1)
             return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']=="":# Allows user to not input End date ==today
         if len(searchKey) <1:
             flash("Please enter input")
             return redirect(url_for("search"))
         else:
-            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]})
+            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]}).sort('Date',-1)
             return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field']=="" and request.form['enddate_field']:# Allows user to not input End date ==today
         if len(searchKey) <1:
             flash("Please enter input")
             return redirect(url_for("search"))
         else:
-            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]})
+            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": searchKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]}).sort('Date',-1)
             return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'Issue' and request.form['startdate_field'] =="" and request.form['enddate_field']=="":# Allows user to not input date
         if len(searchKey) <1:
             flash("Please enter input")
             return redirect(url_for("search"))
         else:
-            agenda = mongo.db.Agenda.find({ '$text': { "$search": searchKey}})
+            agenda = mongo.db.Agenda.find({ '$text': { "$search": searchKey}}).sort('Date',-1)
             return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
 
     ############################################
@@ -602,139 +602,139 @@ def results():
         agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': chosen, '$options': 'i' }},{'$text': { "$search": deepKey}}, {'City': {'$regex': searchKey, '$options': 'i' }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('Date',-1)
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search']=="" and request.form['secondary_search']=="" :
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}},{'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}},{'City': {'$regex': 'Los Angeles', '$options': 'i' }}]})..sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA No selection just Start Date###
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search']=="" and request.form['secondary_search']=="" :
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA No selection just End Date###
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search']=="" and request.form['secondary_search']=="" :
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA No selection just Both dates###
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search']=="" and request.form['secondary_search']=="" :
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
 
     ##LA ISSue search only no dates##
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search']=="" and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA ISSue search and Start Date##
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search']=="" and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA ISSue search and End Date##
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search']=="" and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA ISSue search and both dates##
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search']=="" and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
 
     ##LA Committee Search only no dates###
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form['secondary_search']=="":
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} ,{'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} ,{'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA Committee search and Start Date##
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form['secondary_search']=="":
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA Committee search and End Date##
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form['secondary_search']=="":
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA Committee search and both dates##
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form['secondary_search']=="":
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
 
     ##LA Committee and Issue No dates###
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} ,{'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} ,{'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA Committee and Issue search and Start Date##
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} , {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} , {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA Committee and Issue search and End Date##
     if request.form['select'] == 'LA Committees' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##LA Committee and Issue search and both dates##
     if request.form['select'] == 'LA Committees' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} , {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} , {'City': {'$regex': 'Los Angeles', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     
     ############################################
     ##Long Beach  No selection just Criteria no dates###
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search']=="" and request.form['secondary_search']=="" :
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}},{'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}},{'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach No selection just Start Date###
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search']=="" and request.form['secondary_search']=="" :
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach No selection just End Date###
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search']=="" and request.form['secondary_search']=="" :
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach No selection just Both dates###
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search']=="" and request.form['secondary_search']=="" :
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
 
     ##Long Beach ISSue search only no dates##
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search']=="" and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach ISSue search and Start Date##
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search']=="" and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach ISSue search and End Date##
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search']=="" and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach ISSue search and both dates##
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search']=="" and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
 
     ##Long Beach Committee Search only no dates###
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form['secondary_search']=="":
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} ,{'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} ,{'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach Committee search and Start Date##
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form['secondary_search']=="":
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach Committee search and End Date##
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form['secondary_search']=="":
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach Committee search and both dates##
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form['secondary_search']=="":
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {"MeetingType":{'$regex': searchKey, '$options': 'i' }} , {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
 
     ##Long Beach Committee and Issue No dates###
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} ,{'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} ,{'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach Committee and Issue search and Start Date##
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} , {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(start)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} , {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach Committee and Issue search and End Date##
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':today, '$gte':int(end)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}}, {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
     ##Long Beach Committee and Issue search and both dates##
     if request.form['select'] == 'Long Beach Committees' and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form['secondary_search']:
-        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} , {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, {'$text': { "$search": deepKey}} , {'City': {'$regex': 'Long Beach', '$options': 'i' }}]}).sort('Date',-1).sort('City')
         return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
 
 
