@@ -204,7 +204,7 @@ input[type=submit]:nth-child(even){
   width: 10rem;
   margin-right: 3rem;
   color: var(--white);
-  text-align: center;
+  text-align: -webkit-center;
   text-shadow: 0 0 5px var(--blue);
   border-radius: 0.45em;
   background: none;
