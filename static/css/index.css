@@ -185,11 +185,10 @@ h3#happening{
 input[type=submit] {
 	cursor: pointer;
 	height: 4rem;
-	width: 8rem;
+	min-width: 13rem;
 	color: var(--white);
 	text-shadow: 1px 2px 4px black;
-	background-color:rgba(255, 255, 255, .25);
-	text-align: center;
+	background-color: rgba(255, 255, 255, .25);
 	border-radius: 0.45em;
 	font-family: "Raleway", sans-serif;
 	font-size: .7em;
