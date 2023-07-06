@@ -1,19 +1,20 @@
 html{
-  width: 100vw;
+	width: 100vw;
 	height: 100vh;
-  background-color: var(--black);
+	background-color: var(--black);
 }
 body{
 	max-width: 1920px;
-  margin: auto;
-  background-color: var(--black);
+	margin: auto;
+	background-color: var(--black);
 }
 :root {
-  --blue: #5e7cff;
-  --white: ghostwhite;
-  --lightgray:#f4f0f0;
-  --black: #2d3237;
-  --orange: #fab935;
+	--blue: #5e7cff;
+	--white: ghostwhite;
+	--lightgray:#f4f0f0;
+	--black: #2d3237;
+	--orange: #fab935;
+	--gray:#52555a;
 }
 
 #path284{
