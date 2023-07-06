@@ -5,7 +5,7 @@
   position: relative;
   height:auto;
   background: rgba(255, 255, 255, .15);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(94, 124, 255, 0.4) -15px -26px 18px, var(--orange) 0px 0px 33px, rgba(94, 124, 255, 0.2) 3px 3px 9px, rgba(94, 124, 255, 0.1) 4px 4px 12px, rgba(94, 124, 255, 0.05) 2px 8px 16px;
   backdrop-filter: blur(2px);
   border: 4px solid;
   padding: 3rem;
