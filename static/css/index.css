@@ -299,34 +299,32 @@ tbody tr:nth-child(odd){
 
 
 /* Pagination */
-
 .padding-0{
 	padding-right:0;
 	padding-left:0;
 }
-
 .columns{
-  display:none
+	display:none
 }
 .pagination-info{
-  color:white;
-  font-size: .7em;
+	color:white;
+	font-size: .7em;
 }
 .page-list{
-  color:white;
-  font-size: .7em;
+	color:white;
+	font-size: .7em;
 }
 .btn{
-  padding: 3px 0px;
+	padding: 3px 0px;
 }
 .pagination>li>a, .pagination>li>span{
-  padding: 1px 11px;
+	padding: 1px 11px;
 }
 .subrow {
 	color:white;
 }
 span.page-size{
-  color:black
+	color:black
 }
 
 /* Three Wise Offers*/
@@ -421,11 +419,11 @@ p.subject {
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
-  #table_1{
+#table_1{
 	border: 0px;
 	width: 100%;
   }
-  td {
+td {
 	text-align: center;
 	font-size: 1em;
 	font-family: "Open Sans", sans-serif;
@@ -433,29 +431,29 @@ p.subject {
 	padding: 0px;
 	margin: 0px auto;
   }
-  td.infoLocation{
+td.infoLocation{
 	display: flex;
 	justify-content: start;
-  }
-  td.description{
+}
+td.description{
 	overflow: hidden;
 	max-height: 9rem;
 	white-space: none;
   }
-  .subMenu {
+.subMenu {
 	height:auto;
 	font-size: 1.4rem;
   }
-  h3#title {
+h3#title {
 	font-size: 1.7rem;
   }
-  caption {
+caption {
 	font-size: 2.8rem;
 	width: auto;
   }
 
 /* 3 SVG Animations*/
-  #icon1,#icon2,#icon3{
+#icon1,#icon2,#icon3{
 	height: 10rem;
 	width: 99.3%;
   }
