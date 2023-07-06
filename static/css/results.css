@@ -1,12 +1,11 @@
 .frost {
-  position: relative;
-  max-width:1920px;
-  height:auto;
-  background-color: rgba(255, 255, 255, .15);
-  border: 4px solid;
-  padding: 3rem;
+	position: relative;
+	max-width:1920px;
+	height:auto;
+	background-color: rgba(255, 255, 255, .15);
+	border: 4px solid;
+	padding: 3rem;
 }
-
     /* Table*/
 div#conTable{
 	position: relative;
@@ -131,5 +130,12 @@ tbody tr:nth-child(odd){
 span.page-size{
 	color:black
 }
-
+  /* ################################################# */
+  /* ################################################# */
+  /* ################################################# */
+@media screen and (max-width: 600px) {
+.frost {
+	padding: 0rem;
+	}
+}
 
