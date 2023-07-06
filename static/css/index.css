@@ -254,7 +254,7 @@ tr{
 .table-hover>tbody>tr:hover td.description{
   background-color: lightslategray;
   color: white;
-  text-shadow: 0px 0px 2px white;
+  text-shadow: 3px 3px 2px black;
   max-height:fit-content;
 }
 .table-hover>tbody>tr:hover td.infoLocation{
