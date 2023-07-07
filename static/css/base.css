@@ -240,7 +240,7 @@ body{
 	position: absolute;
 	padding-bottom:2rem;
 	border-radius: 2rem;
-	height:90vh;
+	height:45vh;
 	padding-bottom: 6rem;
 	background-color: var(--gray);
 	z-index: 2;
