@@ -257,7 +257,6 @@ td {
 	background-color:rgba(255, 255, 255, .0);
 	color:white;
 	text-align: center;
-	font-size: 1em;
 	font-family: "Open Sans", sans-serif;
 	text-shadow: 3px 3px 2px black;
 	padding: 0px;
@@ -273,12 +272,16 @@ th.none{
 td.infoLocation{
 	display: flex;
 	justify-content: space-evenly;
+	font-size: 1em;
+
 }
 td.description{
 	overflow: hidden;
 	max-height: 9rem;
 	white-space: break-spaces;
 	box-shadow: 0px 6px 9px 0px rgba(0,0,0,0.1);
+	font-size: 1em;
+
 }
 span#prettyTable {
 	text-shadow: 1px 1px 2px var(--orange);
