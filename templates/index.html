@@ -7,6 +7,49 @@
 {% endblock %}
 {% block content %}
 <head>
+        <script>
+        $(window).scroll(function() {
+            var scroll = $(window).scrollTop();
+            $(".frost.Main").css({
+            'border-radius': (.1 + scroll/5) + "ch"
+            })
+            if (scroll>=200)
+            {
+                $('.frost.Main').css("border-radius","40ch");
+            }
+        })
+    </script>
+    <script>
+    $(window).scroll(function(){
+        var wScroll = $(this).scrollTop();
+        if (wScroll>=250)
+        {
+            $('.frost.Main').css("box-shadow","rgba(94, 124, 255, 0.4) 0px 3px, rgba(94, 124, 255, 0.3) 0px 6px, rgba(94, 124, 255, 0.2) 0px 9px, rgba(94, 124, 255, 0.1) 0px 12px, rgba(94, 124, 255, 0.05) 0px 15px");
+        }
+        if (wScroll<=250)
+        {
+            $('.frost.Main').css("box-shadow","none");
+        }
+        })
+        ;
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('button#plus').click(function() {
+                var currentSize= parseInt($("td.description").css("font-size"));
+                $("td.description").css("font-size", currentSize +=1);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('button#minus').click(function() {
+                var currentSize= parseInt($("td.description").css("font-size"));
+                $("td.description").css("font-size", currentSize -=1);
+            });
+        });
+    </script>
     <script>
         var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change","transportaion", "financial", "retail"];
         var count = 0;
@@ -1085,7 +1128,9 @@
                 </form>
             </div>
             <div class="col-sm-10">
-                
+                <label>Change Font Size</label>
+                <button id= 'plus'>+</button>
+                <button id = 'minus'>-</button>
                 <div id="conTable">
                     <table id="table_1" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
                         data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='6' class="table-responsive">
