@@ -16,7 +16,21 @@ body{
 	--orange: #fab935;
 	--gray:#52555a;
 }
+svg#logo{
+  animation-name: spin;
+  animation-duration: 10000ms;
+  animation-iteration-count:infinite;
+  animation-timing-function: linear;
+  }
 
+@keyframes spin {
+from {
+    transform:rotateY(0deg);
+}
+to {
+    transform:rotateY(360deg);
+}
+}
 #path284{
   animation: colorChange 5.2s ease-in-out infinite;
 }
