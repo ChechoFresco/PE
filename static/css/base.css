@@ -19,7 +19,7 @@ body{
 svg#logo{
   animation-name: spin;
   animation-duration: 10000ms;
-  animation-iteration-count:infinite;
+  animation-iteration-count:1;
   animation-timing-function: linear;
   }
 
