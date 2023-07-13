@@ -300,33 +300,44 @@ tbody tr:nth-child(odd){
 
 
 /* Pagination */
+
 .padding-0{
-	padding-right:0;
-	padding-left:0;
-}
+    padding-right:0;
+    padding-left:0;
+  }
 .columns{
-	display:none
-}
+    display:none
+  }
 .pagination-info{
-	color:white;
-	font-size: .7em;
-}
+    color: var(--textColor);
+    font-size: var(--font3);
+  }
 .page-list{
-	color:white;
-	font-size: .7em;
-}
+    color: var(--textColor);
+    font-size: var(--font3);
+  }
+.pagination>.active>a{
+    background-color: var(--blue);
+    color: var(--textColor);
+  }
+.pagination>li>a{
+    color: var(--textColor);
+    background-color: var(--gray);
+  }
 .btn{
-	padding: 3px 0px;
-}
+    padding: 3px 0px;
+    background-color: var(--gray);
+  }
 .pagination>li>a, .pagination>li>span{
-	padding: 1px 11px;
-}
+    padding: 1px 11px;
+  }
 .subrow {
-	color:white;
-}
+    color: var(--textColor);
+  }
 span.page-size{
-	color:black
-}
+    color:var(--textColor);
+  }
+
 
 /* Three Wise Offers*/
 #conOffer{
