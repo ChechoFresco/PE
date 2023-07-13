@@ -29,11 +29,11 @@ svg.animated{
 h3.howwrk{
 	font-family: "Open Sans", sans-serif;
 	font-size: 1.8rem;
-	color:white;
+	:white;
 	text-shadow: 4px 4px 2px black;
 }
 a#signup{
-	color: white;
+	color: var(textColor);
 	font-family: 'Big Shoulders Inline Text', cursive;
 	padding: 22px 26px;
 	font-size: 3rem;
@@ -42,7 +42,7 @@ a#signup{
 	background: transparent;
 }
 .portfolio-experiment a {
-	color: white;
+	color: var(textColor);
 	padding: 0.7em calc(0.7em * 1.2);
 	display: inline-block;
 	border: 3px solid transparent;
@@ -141,7 +141,7 @@ a#signup{
 	max-width:1920px;
 }
 h1#title{
-	color:lavender;
+	color:var(--textColor);
 	text-align: center;
 	text-shadow:
 	0 0 5px #f6ad1d;
@@ -163,7 +163,7 @@ h1#title{
 	height:auto;
 }
 h3#happening{
-	color:white;
+	color:var(--textColor);
 	font-family: "Open Sans", sans-serif;
 	text-align: center;
 	text-shadow: 4px 4px 2px black;
@@ -186,7 +186,7 @@ input[type=submit] {
 	cursor: pointer;
 	height: 4rem;
 	min-width: 13rem;
-	color: var(--white);
+	color: var(--textColor);
 	text-shadow: 1px 2px 4px black;
 	background-color: rgba(255, 255, 255, .25);
 	border-radius: 0.45em;
@@ -207,7 +207,7 @@ div#conTable{
 	position: relative;
 }
 caption{
-	color:white;
+	color:var(--textColor);
 	text-align: center;
 	text-shadow:
 	0 0 5px var(--orange);
@@ -216,7 +216,7 @@ caption{
 	font-family: 'Merriweather', serif;
 }
 label{
-	color:white;
+	color:var(--textColor);
 	text-shadow: 4px 4px 2px black;
 }
 #table_1{
@@ -246,14 +246,14 @@ tr{
 th {
 	display: inline-block;
 	position: relative;
-	color: white;
+	color: var(textColor);
 	text-shadow: 3px 3px 2px black;
 }
 td {
 	display: block;
 	clear:both;
 	background-color:rgba(255, 255, 255, .0);
-	color:white;
+	var(--textColor);
 	text-align: center;
 	font-family: "Open Sans", sans-serif;
 	text-shadow: 3px 3px 2px black;
@@ -351,7 +351,7 @@ span.page-size{
   width: 99.3%;
 }
 h3#offer{
-  color:lavender;
+  var(--textColor);
   text-align: center;
   text-shadow:
     0 0 5px #5e7cff;
@@ -361,7 +361,7 @@ h3#offer{
 p.subject {
   font-size: 1.6rem;
   font-family: "Open Sans", sans-serif;
-  color: white;
+  color: var(textColor);
   text-align: center;
   margin: 5px;
   text-shadow: 4px 4px 2px black;
@@ -384,12 +384,12 @@ p.subject {
   }
   p.subject {
 	font-size: 1.6rem;
-	color: white;
+	color: var(textColor);
 	text-align: center;
   }
   h1#title{
 	font-size: 3rem;
-	color:floralwhite;
+	color:var(--textColor);
 	text-align: center;
 	width:auto;
   }
@@ -410,7 +410,7 @@ p.subject {
 	width:auto;
   }
   h3#happening{
-	color:white;
+	color:var(--textColor);
 	font-family: "Open Sans", sans-serif;
 	text-align: center;
 	text-shadow: 4px 4px 2px black;
