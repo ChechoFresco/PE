@@ -59,7 +59,7 @@ svg.animated{
 h3.howwrk{
 	font-family: "Open Sans", sans-serif;
 	font-size: 1.8rem;
-	:white;
+	color:var(--textColor);
 	text-shadow: 4px 4px 2px black;
 }
 a#signup{
@@ -283,7 +283,7 @@ td {
 	display: block;
 	clear:both;
 	background-color:rgba(255, 255, 255, .0);
-	var(--textColor);
+	color: var(--textColor);
 	text-align: center;
 	font-family: "Open Sans", sans-serif;
 	text-shadow: 3px 3px 2px black;
