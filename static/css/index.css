@@ -207,7 +207,7 @@ div#conTable{
 	position: relative;
 }
 caption{
-	color:lavender;
+	color:white;
 	text-align: center;
 	text-shadow:
 	0 0 5px var(--orange);
@@ -237,8 +237,6 @@ tr{
 .table-hover>tbody>tr:hover td.description{
 	background-color: #52555a;
 	max-height: fit-content;
-	text-shadow: 0 0 5px var(--blue);
-	box-shadow: 0px -1px 15px 4px var(--lightgray);
 }
 .table-hover>tbody>tr:hover td.infoLocation{
 	background-color:#52555a;
