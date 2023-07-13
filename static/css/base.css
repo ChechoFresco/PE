@@ -256,9 +256,9 @@ to {
 	position: absolute;
 	padding-bottom:2rem;
 	border-radius: 2rem;
-	height:45vh;
+	height:90vh;
 	padding-bottom: 6rem;
-	background-color: var(--gray);
+	background-color: rgb(0 0 0 / 85%);
 	z-index: 2;
 	left:100rem;
 	-webkit-animation: slide 1s forwards;
