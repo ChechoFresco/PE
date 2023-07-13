@@ -11,6 +11,7 @@ body{
 :root {
 	--blue: #5e7cff;
 	--textColor: white;
+	--textShadow: 1px 1px 1px black;
 	--white: ghostwhite;
 	--lightgray:#f4f0f0;
 	--black: #2d3237;
