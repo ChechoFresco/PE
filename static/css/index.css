@@ -63,7 +63,7 @@ h3.howwrk{
 	text-shadow: 4px 4px 2px black;
 }
 a#signup{
-	color: var(textColor);
+	color: var(--textColor);
 	font-family: 'Big Shoulders Inline Text', cursive;
 	padding: 22px 26px;
 	font-size: 3rem;
@@ -72,7 +72,7 @@ a#signup{
 	background: transparent;
 }
 .portfolio-experiment a {
-	color: var(textColor);
+	color: var(--textColor);
 	padding: 0.7em calc(0.7em * 1.2);
 	display: inline-block;
 	border: 3px solid transparent;
@@ -276,7 +276,7 @@ tr{
 th {
 	display: inline-block;
 	position: relative;
-	color: var(textColor);
+	color: var(--textColor);
 	text-shadow: 3px 3px 2px black;
 }
 td {
@@ -391,7 +391,7 @@ h3#offer{
 p.subject {
   font-size: 1.6rem;
   font-family: "Open Sans", sans-serif;
-  color: var(textColor);
+  color: var(--textColor);
   text-align: center;
   margin: 5px;
   text-shadow: 4px 4px 2px black;
@@ -414,7 +414,7 @@ p.subject {
   }
   p.subject {
 	font-size: 1.6rem;
-	color: var(textColor);
+	color: var(--textColor);
 	text-align: center;
   }
   h1#title{
