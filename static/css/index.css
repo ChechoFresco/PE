@@ -381,7 +381,7 @@ span.page-size{
   width: 99.3%;
 }
 h3#offer{
-  var(--textColor);
+  color: var(--textColor);
   text-align: center;
   text-shadow:
     0 0 5px #5e7cff;
