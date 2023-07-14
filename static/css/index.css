@@ -243,6 +243,10 @@ div.row-button input[type=submit]:hover  {
 }
 
     /* Table*/
+.fontSize{
+	float: right;
+	right:5rem;
+}
 div#conTable{
 	position: relative;
 }
