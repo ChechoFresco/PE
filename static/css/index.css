@@ -202,15 +202,21 @@ h3#happening{
 
 /* Table Div*/
   /* Select Options*/
-#issueRow{
-	top: 10rem;
-	display: grid;
-	column-count: 2;
-	height: 60vh;
-	overflow: scroll;
+#issueRow {
+  top: 10rem;
+  height: 60vh;
+  overflow: scroll;
 }
+
 #issueRow:hover {
-	box-shadow: 0px -1px 15px 4px var(--lightgray);
+  box-shadow: 0px -1px 15px 4px var(--gray);
+}
+
+.row-button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 input[type=submit] {
 	cursor: pointer;
@@ -278,6 +284,8 @@ th {
 	position: relative;
 	color: var(--textColor);
 	text-shadow: 3px 3px 2px black;
+	text-decoration: underline;
+	text-decoration-color: var(--blue);
 }
 td {
 	display: block;
