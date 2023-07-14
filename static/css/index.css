@@ -221,7 +221,7 @@ h3#happening{
 input[type=submit] {
 	cursor: pointer;
 	height: 4rem;
-	min-width: 13rem;
+	min-width: 7rem;
 	color: var(--textColor);
 	text-shadow: 1px 2px 4px black;
 	background-color: rgba(255, 255, 255, .25);
