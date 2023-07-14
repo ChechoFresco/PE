@@ -224,14 +224,14 @@ h3#happening{
 }
 input[type=submit] {
 	cursor: pointer;
-	height: 4rem;
+	height: 8rem;
 	min-width: 7rem;
 	color: var(--textColor);
 	text-shadow: 1px 2px 4px black;
 	background-color: rgba(255, 255, 255, .25);
 	border-radius: 0.45em;
 	font-family: "Raleway", sans-serif;
-	font-size: .7em;
+	font-size: .8em;
 }
 input[type=submit]:nth-child(even){
 	background-color:rgba(255, 255, 255, .0);
