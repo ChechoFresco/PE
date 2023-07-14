@@ -240,7 +240,7 @@ caption{
 	color:var(--textColor);
 	text-align: center;
 	text-shadow:
-	0 0 5px var(--orange);
+	    5px 3px 2px black;
 	text-transform: capitalize;
 	font-size: 5.2rem;
 	font-family: 'Merriweather', serif;
@@ -312,10 +312,11 @@ td.description{
 
 }
 span#prettyTable {
-	text-shadow: 1px 1px 2px var(--orange);
+  text-decoration-line: underline;
+  text-decoration-color: var(--orange);
 }
 span#prettyTable2 {
-	text-shadow: 1px 1px 2px var(--blue);
+	color:(var--textColor);
 }
 .table thead tr th, .table tbody tr td {
 	border: none;
