@@ -186,19 +186,6 @@ h1#title{
 	0% { opacity: 0; }
 	100% { opacity: 1; }
 }
-/*Happening next week banner*/
-#conHappening{
-	position:relative;
-	max-width:1920px;
-	height:auto;
-}
-h3#happening{
-	color:var(--textColor);
-	font-family: "Open Sans", sans-serif;
-	text-align: center;
-	text-shadow: 4px 4px 2px black;
-	font-size: 2.6rem;
-	}
 
 /* Table Div*/
   /* Select Options*/
@@ -231,7 +218,7 @@ input[type=submit] {
     background-color: rgba(255, 255, 255, .25);
     border-radius: 0.45em;
     font-family: "Raleway", sans-serif;
-    font-size: .8em;
+    font-size: .7em;
 }
 input[type=submit]:nth-child(even){
 	background-color:rgba(255, 255, 255, .0);
@@ -239,16 +226,12 @@ input[type=submit]:nth-child(even){
 div.row-button input[type=submit]:hover  {
 	text-shadow: 0 0 5px var(--orange);
 	font-size: 1em;
-
 }
 
     /* Table*/
 .fontSize{
 	float: right;
 	right:5rem;
-}
-div#conTable{
-	position: relative;
 }
 caption{
 	color:var(--textColor);
