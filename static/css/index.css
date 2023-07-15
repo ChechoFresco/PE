@@ -227,6 +227,7 @@ div.row-button input[type=submit]:hover  {
 
     /* Table*/
 .fontSize{
+	position:relative;
 	float: right;
 	right:5rem;
 }
