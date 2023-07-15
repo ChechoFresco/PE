@@ -274,7 +274,7 @@ th {
 	text-shadow: 3px 3px 2px black;
 	text-decoration: underline;
 	text-decoration-color: var(--blue);
-	text-decoration-thickness: 2px;
+	text-decoration-thickness: 3px;
 }
 td {
 	display: block;
@@ -311,7 +311,7 @@ td.description{
 span#prettyTable {
   text-decoration-line: underline;
   text-decoration-color: var(--orange);
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: 3px;
 }
 span#prettyTable2 {
 	color:(var--textColor);
