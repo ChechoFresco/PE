@@ -256,7 +256,7 @@ tr.packed:after {
 	  content: "";
 	  width: 45%;
 	  height: 1px;
-	  background: lightgray;
+	  background: radial-gradient(var(--orange), var(--blue));
 	  left: 26%;
 	  position: absolute;
 }
