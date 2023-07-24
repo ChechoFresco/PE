@@ -265,7 +265,6 @@ tr.packed:after {
 }
 .table-hover>tbody>tr:hover td {
 	text-shadow: 2px 2px 2px #52555a;
-	font-size: 1.2em;
 	background-color: var(--black);
 
 }
@@ -316,9 +315,9 @@ td.description{
 
 }
 span#prettyTable {
-  text-decoration-line: underline;
-  text-decoration-color: var(--orange);
-  text-decoration-thickness: 3px;
+	  text-decoration-line: underline;
+	  text-decoration-color: var(--orange);
+	  text-decoration-thickness: 3px;
 }
 span#prettyTable2 {
 	color:(var--textColor);
