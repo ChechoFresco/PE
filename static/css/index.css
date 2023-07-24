@@ -274,7 +274,6 @@ tr.packed:after {
 }
 .table-hover>tbody>tr:hover td.infoLocation{
 	box-shadow: 0px 6px 9px 0px var(--lightgray);
-	font-size: 1.2em;
 }
 th {
 	display: inline-block;
