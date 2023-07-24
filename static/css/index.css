@@ -266,6 +266,8 @@ tr.packed:after {
 .table-hover>tbody>tr:hover td {
 	text-shadow: 2px 2px 2px #52555a;
 	font-size: 1.2em;
+	background-color: var(--black);
+
 }
 .table-hover>tbody>tr:hover td.description{
 	max-height: fit-content;
