@@ -339,18 +339,16 @@ p.copyright-text{
 
 .footer-links a{
   color: var(--white);
-  text-shadow:
-  0 0 3px #fff,
-  0 0 7px var(--orange),
-  0 0 16px var(--orange);
+  text-decoration-line: underline;
+  text-decoration-color: var(--orange);
+  text-decoration-thickness: 3px;
 }
 
 .footer-links a:active,.footer-links a:focus,.footer-links a:hover{
   color: var(--white);
-  text-shadow:
-  0 0 3px #fff,
-  0 0 7px var(--blue),
-  0 0 16px var(--blue);
+  text-decoration-line: underline;
+  text-decoration-color: var(--blue);
+  text-decoration-thickness: 3px;
 }
 
 
