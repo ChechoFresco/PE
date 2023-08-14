@@ -17,7 +17,7 @@ caption{
     text-align: center;
     text-shadow: 5px 3px 2px black;
     text-transform: capitalize;
-    font-size: var(--font1);
+    font-size: 6.1rem;
     font-family: 'Merriweather', serif;
 }
 label{
