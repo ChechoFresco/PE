@@ -46,9 +46,6 @@ tr.packed:after {
 	text-shadow: 2px 2px 2px #52555a;
   	background-color: var(--black);
 }
-.table-hover>tbody>tr:hover td.description{
-	max-height: fit-content;
-}
 .table-hover>tbody>tr:hover td.infoLocation{
 	box-shadow: 0px 6px 9px 0px var(--lightgray);
 }
