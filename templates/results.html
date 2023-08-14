@@ -20,37 +20,35 @@
 
 </head>
 <br></br>
-<div class="frost">
-    <div id="conTable">
-        <table id="table" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
-            data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='12' class="table-responsive">
-            <caption>{{searchKey}}  {{deepKey}}</caption>
-            <thead class='h-12'>
-                <tr>
-                    <th class='hidden-xs'data-field='row-Date' data-sortable="true">Date</th>
-                    <th  class='hidden-xs'data-field= 'row-County' data-sortable="true">County</th>
-                    <th class='hidden-xs'data-field='row-City' data-sortable="true">City</th>
-                    <th  class='hidden-xs'data-sortable="true">Meeting Type</th>
-                    <th  class='hidden-xs'data-field= 'row-Item' data-sortable="true">Item Type</th>
-                    <th class='hidden-xs'data-field= 'row-Num' data-sortable="False">Item</th>
-                    <th class='none' data-field='row-Description' data-sortable="true">Item</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for agenda in agendas %}
-                <tr class='packed'>
-                    <td class='none'>{{agenda.Date}}</td>
-                    <td class='none'>{{agenda.County}}</td>
-                    <td class='none'>{{agenda.City}}</td>
-                    <td class='none'>{{agenda.MeetingType}}</td>
-                    <td class='none'>{{agenda.ItemType}}</td>
-                    <td class='description'>{{agenda.Description}}</td>
-                    <td class='infoLocation'><span id='prettyTable' class='hidden-xs'>Date: </span><span id='prettyTable2'>{{agenda.Date|aTime}}</span> <span id='prettyTable' class='hidden-xs'>County: </span><span id='prettyTable2'>{{agenda.County}}</span> <span id='prettyTable' class='hidden-xs'>City: </span><span id='prettyTable2'>{{agenda.City}}</span> <span id='prettyTable' class='hidden-xs'>Meeting Type: </span><span id='prettyTable2'>{{agenda.MeetingType}}</span><span id='prettyTable' class='hidden-xs'> Item Type: </span><span id='prettyTable2'>{{agenda.ItemType}}</span> <span id='prettyTable' class='hidden-xs'>Number: </span><span id='prettyTable2'>{{agenda.Num}}</span></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div id="conTable">
+    <table id="table" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
+        data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='12' class="table-responsive">
+        <caption>{{searchKey}}  {{deepKey}}</caption>
+        <thead class='h-12'>
+            <tr>
+                <th class='hidden-xs'data-field='row-Date' data-sortable="true">Date</th>
+                <th  class='hidden-xs'data-field= 'row-County' data-sortable="true">County</th>
+                <th class='hidden-xs'data-field='row-City' data-sortable="true">City</th>
+                <th  class='hidden-xs'data-sortable="true">Meeting Type</th>
+                <th  class='hidden-xs'data-field= 'row-Item' data-sortable="true">Item Type</th>
+                <th class='hidden-xs'data-field= 'row-Num' data-sortable="False">Item</th>
+                <th class='none' data-field='row-Description' data-sortable="true">Item</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agenda in agendas %}
+            <tr class='packed'>
+                <td class='none'>{{agenda.Date}}</td>
+                <td class='none'>{{agenda.County}}</td>
+                <td class='none'>{{agenda.City}}</td>
+                <td class='none'>{{agenda.MeetingType}}</td>
+                <td class='none'>{{agenda.ItemType}}</td>
+                <td class='description'>{{agenda.Description}}</td>
+                <td class='infoLocation'><span id='prettyTable' class='hidden-xs'>Date: </span><span id='prettyTable2'>{{agenda.Date|aTime}}</span> <span id='prettyTable' class='hidden-xs'>County: </span><span id='prettyTable2'>{{agenda.County}}</span> <span id='prettyTable' class='hidden-xs'>City: </span><span id='prettyTable2'>{{agenda.City}}</span> <span id='prettyTable' class='hidden-xs'>Meeting Type: </span><span id='prettyTable2'>{{agenda.MeetingType}}</span><span id='prettyTable' class='hidden-xs'> Item Type: </span><span id='prettyTable2'>{{agenda.ItemType}}</span> <span id='prettyTable' class='hidden-xs'>Number: </span><span id='prettyTable2'>{{agenda.Num}}</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
