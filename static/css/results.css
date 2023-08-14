@@ -9,6 +9,8 @@
     /* Table*/
 div#conTable{
 	position: relative;
+	max-width:1920px;
+	height:auto;
 }
 caption{
     color: var(--textColor);
