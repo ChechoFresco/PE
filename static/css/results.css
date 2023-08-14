@@ -11,13 +11,12 @@ div#conTable{
 	position: relative;
 }
 caption{
-	color:lavender;
-	text-align: center;
-	text-shadow:
-	0 0 5px var(--orange);
-	text-transform: capitalize;
-	font-size: 5.2rem;
-	font-family: 'Merriweather', serif;
+    color: var(--textColor);
+    text-align: center;
+    text-shadow: 5px 3px 2px black;
+    text-transform: capitalize;
+    font-size: var(--font1);
+    font-family: 'Merriweather', serif;
 }
 label{
 	color:white;
@@ -32,12 +31,12 @@ tr{
 	text-align: -webkit-center;
 }
 tr.packed:after {
-	  content: "";
-	  width: 45%;
-	  height: 1px;
-	  background: lightgray;
-	  left: 26%;
-	  position: absolute;
+  content: "";
+  width: 45%;
+  height: 1px;
+  background: radial-gradient(var(--orange), var(--blue));
+  left: 26%;
+  position: absolute;
 }
 .table-hover>tbody>tr{
   	background-color: var(--black);
