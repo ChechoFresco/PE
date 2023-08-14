@@ -518,7 +518,6 @@ def results():
             return render_template('results.html',searchKey=searchKey,deepKey=deepKey, agendas=agenda, title = "PolicyEdge Search Results")
 
     ############################################
-    Counties
     ##County no dates###
     if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search']==""  and request.form['secondary_search']=="":
         chosen= request.form.get('select')
