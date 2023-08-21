@@ -279,7 +279,7 @@ def index():
         for i,v in issuePerCity.items():
             Cities.append(i[1:-1])# split used because of city gap before after name
             Cnt.append(v)
-            check=mongo.db.Trends.find({})
+            check=mongo.db.geoLoc.find({})
             for y in check:
                 if y['city'] in i[1:-1]:
                     geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
