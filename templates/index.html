@@ -7,8 +7,6 @@
 {% endblock %}
 {% block content %}
 <head>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-
         <script>
         $(window).scroll(function() {
             var scroll = $(window).scrollTop();
@@ -941,6 +939,7 @@
     <div class="col-sm-6" id="conTable">
         <div class="chart">
             <canvas id="myChart">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
                 <script>
                 const ctx = document.getElementById('myChart').getContext('2d');
                 const Cnt = {{ Cnt | tojson}};
