@@ -189,6 +189,7 @@ def index():
     issueText=[]
     tripleCity=[]
     agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen }}, {"MeetingType":" City Council "}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
+    print(agendaa)
 ####### TABLE 1##########
     for x in agendaa:
         if x['Date'] >= threemonthBefore:
