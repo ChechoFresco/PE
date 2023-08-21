@@ -195,12 +195,12 @@ def index():
             tripleCity.append(x['City'])
             issueText.append(x)
     issuePerCity= Counter(tripleCity)# Creates key:value pair per city to part w/ issuePerCity.keys()
-    print(issuePerCity)
     Cities=[]
     Cnt=[]
     geo=[]
     dl={}
     for i,v in issuePerCity.items():
+        print(i,v)
         Cities.append(i[1:-1])# split used because of city gap before after name
         Cnt.append(v)
         check=mongo.db.Trends.find({})
