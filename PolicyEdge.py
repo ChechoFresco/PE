@@ -209,6 +209,7 @@ def index():
                 geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+(v))
     geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
     df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
+    print(df)
     df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['ISSUECONT'].astype(str)
 
     fig = go.Figure(data=go.Scattergeo(
