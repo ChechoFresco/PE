@@ -7,6 +7,67 @@
 {% endblock %}
 {% block content %}
 <head>
+                    <script>
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const Cnt = {{ Cnt | tojson}};
+                const label =   [{% for city in Cities %}
+                                    "{{city}}",
+                                {% endfor %}];
+                const myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: label,
+                        datasets: [{
+                            label: 'Issue total per City',
+                            data: {{Cnt}},
+                            options: {
+                                // This chart will not respond to mousemove, etc
+                                events: ['click']
+                            },
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                            ticks: { color: 'white'}
+                            },
+                            x: {
+                            ticks: { color: 'white',
+                                    autoSkip: false,
+                                    maxRotation: 70,
+                                    minRotation: 70
+                                    }
+                        }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                        color: 'white'
+                                    }
+                            }
+                        },
+                    }
+                    });
+            </script>
         <script>
         $(window).scroll(function() {
             var scroll = $(window).scrollTop();
@@ -938,70 +999,8 @@
 <div class="row" id="mainBox">
     <div class="col-sm-6" id="conTable">
         <div class="chart">
-            <canvas id="myChart">
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-                <script>
-                const ctx = document.getElementById('myChart').getContext('2d');
-                const Cnt = {{ Cnt | tojson}};
-                const label =   [{% for city in Cities %}
-                                    "{{city}}",
-                                {% endfor %}];
-                const myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: label,
-                        datasets: [{
-                            label: 'Issue total per City',
-                            data: {{Cnt}},
-                            options: {
-                                // This chart will not respond to mousemove, etc
-                                events: ['click']
-                            },
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                            ticks: { color: 'white'}
-                            },
-                            x: {
-                            ticks: { color: 'white',
-                                    autoSkip: false,
-                                    maxRotation: 70,
-                                    minRotation: 70
-                                    }
-                        }
-                        },
-                        plugins: {
-                            legend: {
-                                display: true,
-                                labels: {
-                                        color: 'white'
-                                    }
-                            }
-                        },
-                    }
-                    });
-            </script>
-            </canvas>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+            <canvas id="myChart"></canvas>
         </div>
     </div>
     <div class="col-sm-6" id="conTable">
