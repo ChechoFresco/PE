@@ -215,7 +215,7 @@ def index():
             lon = df['lng'],
             lat = df['lat'],
             showlegend=False,
-            marker=dict(color=df[int('ISSUECONT')],
+            marker=dict(color=df['ISSUECONT'].astype(int),
                 colorscale='Plotly3',
                 size=df['ISSUECONT']**1.6,
                 showscale=True ),
