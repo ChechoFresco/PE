@@ -194,10 +194,9 @@ def index():
         if x['Date'] >= threemonthBefore:
             tripleCity.append(x['City'])
             issueText.append(x)
-
+    print(tripleCity)
     issuePerCity= Counter(tripleCity)# Creates key:value pair per city to part w/ issuePerCity.keys()
     Cities=[]
-    print(Cities)
     Cnt=[]
     geo=[]
     dl={}
