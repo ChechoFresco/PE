@@ -206,7 +206,7 @@ def index():
         check=mongo.db.Trends.find({})
         for y in check:
             if y['city'] in i[1:-1]:
-                geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
+                geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+(v))
     geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
     print(geo)
     df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
