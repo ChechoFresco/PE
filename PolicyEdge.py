@@ -13,7 +13,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import string
 import csv
 import random
-from bson import json_util
 from collections import Counter
 import plotly
 import pandas as pd
