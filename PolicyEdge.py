@@ -208,7 +208,6 @@ def index():
             if y['city'] in i[1:-1]:
                 geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+(v))
     geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
-    print(geo)
     df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
     df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['ISSUECONT'].astype(str)
 
@@ -216,7 +215,7 @@ def index():
             lon = df['lng'],
             lat = df['lat'],
             showlegend=False,
-            marker=dict(color=df['ISSUECONT'],
+            marker=dict(color=df[int('ISSUECONT')],
                 colorscale='Plotly3',
                 size=df['ISSUECONT']**1.6,
                 showscale=True ),
@@ -232,7 +231,6 @@ def index():
 
     fig.update_geos(
         fitbounds="locations",
-        #scope="usa",
         resolution=50,
         showland=True, landcolor="Green",
         showlakes=True, lakecolor="Blue",
