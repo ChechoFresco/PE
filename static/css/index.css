@@ -189,42 +189,72 @@ h1#title{
 
 /* Table Div*/
   /* Select Options*/
+/* Charts*/
+#capn{
+  top:5rem;
+  text-transform: capitalize;
+  color: var(--textColor);
+  text-align: center;
+  text-shadow:
+    5px 3px 2px black;
+  font-size: var(--font1);
+  font-family: 'Merriweather', serif;
+}
+.chart{
+  height: 41vh;
+  width: 80%;
+  position: relative;
+  top: 6rem;
+  margin: 0 auto;
+}
+#myChart{
+  width: 100% !important;
+  height: 80%!important;
+  margin: auto;
+}
+
+
+/* Table Div*/
 #mainBox {
-  padding-top: 7rem;
+  padding-top: 13rem;
   position: relative;
 }
+
+/* Select Options*/
 #issueRow {
-  top: 10rem;
-  height: 60vh;
-  overflow: scroll;
+  top: 0rem;
+  height: auto;
+}
+label {
+  color: var(--textColor);
 }
 
-#issueRow:hover {
-  box-shadow: 0px -1px 15px 4px var(--gray);
-}
-
-.row-button {
-  display: block;
-}
 input[type=submit] {
-    cursor: pointer;
-    height: 4rem;
-    min-width: 8rem;
-    color: var(--textColor);
-    text-shadow: 1px 2px 4px black;
-    background-color: rgba(255, 255, 255, .25);
-    border-radius: 0.45em;
-    font-family: "Raleway", sans-serif;
-    font-size: 0.5em;
-}
-input[type=submit]:nth-child(even){
-	background-color:rgba(255, 255, 255, .0);
-}
-div.row-button input[type=submit]:hover  {
-	text-shadow: 0 0 5px var(--orange);
-	font-size: 1em;
+  cursor: pointer;
+  height: 4rem;
+  min-width: 8rem;
+  color: var(--textColor);
+  text-shadow: var(--textShadow);
+  background-color: rgba(255, 255, 255, .25);
+  border-radius: 0.45em;
+  font-family: "Raleway", sans-serif;
+  font-size: var(--font2);
+  text-decoration: underline;
+  text-decoration-color: var(--orange);
 }
 
+input[type=submit]:nth-child(even) {
+  background-color: rgba(255, 255, 255, .0);
+}
+
+div.row-button input[type=submit]:hover {
+  text-shadow: 0 0 5px var(--orange);
+}
+
+div.row-button {
+  column-count: 2;
+  width: fit-content;
+}
     /* Table*/
 .fontSize{
 	position:relative;
