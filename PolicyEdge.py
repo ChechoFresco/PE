@@ -205,7 +205,7 @@ def index():
         check=mongo.db.geoLoc.find({})
         for y in check:
             if y['city'] in i[1:-1]:
-                geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+(v))
+                geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
     geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
     df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
     df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['ISSUECONT'].astype(str)
@@ -214,7 +214,7 @@ def index():
             lon = df['lng'],
             lat = df['lat'],
             showlegend=False,
-            marker=dict(color=df['ISSUECONT'].astype(int),
+            marker=dict(color=df['ISSUECONT'],
                 colorscale='Plotly3',
                 size=df['ISSUECONT']**1.6,
                 showscale=True ),
