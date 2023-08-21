@@ -146,31 +146,190 @@ def httpsroute():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    ##Two weeks After#####
-    a = date.today()+ relativedelta(weeks=2)
-    b= str(a).replace("-","")
-    twoweekAhead=int(b)
     ##Three months before#####
     c = date.today() + relativedelta(weeks=-12)
     d= str(c).replace("-","")
     threemonthBefore=int(d)
-
-    #######TOPIC SELECTION##########
+##One month Before#####
+    k = date.today() + relativedelta(weeks=-4)
+    l= str(k).replace("-","")
+    monthBefore=int(l)
+##Two weeks After#####
+    a = date.today()+ relativedelta(weeks=-2)
+    b= str(a).replace("-","")
+    twoweekBefore=int(b)
+##One week Before#####
+    g = date.today() + relativedelta(weeks=-1)
+    h= str(g).replace("-","")
+    weekBefore=int(h)
+##Today#####
+    i = date.today()
+    j= str(i).replace("-","")
+    today=int(j)
+##One week After#####
+    e = date.today()+ relativedelta(weeks=1)
+    f= str(e).replace("-","")
+    weekAhead=int(f)
+##Two weeks After#####
+    a = date.today()+ relativedelta(weeks=2)
+    b= str(a).replace("-","")
+    twoweekAhead=int(b)
+##One year Trend#####
+    c = date.today() + relativedelta(weeks=-26)
+    d= str(c).replace("-","")
+    sixmonthBefore=int(d)
+#######TOPIC SELECTION##########
     topics = ["reap","bids","solicit","cannabis", "EV", "homelessness","climate", "oil","waste","outdoor dining","financial"]
     chosen = topics.pop(random.randrange(len(topics)))
+####### TABLE 1##########
+    issueText=[]
+    tripleCity=[]
+    agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen }}, {"MeetingType":" City Council "}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
+####### TABLE 1##########
+    for x in agendaa:
+        if x['Date'] >= threemonthBefore:
+            tripleCity.append(x['City'])
+            issueText.append(x)
 
-    ######Stats Occurancer##########
+    issuePerCity= Counter(tripleCity)# Creates key:value pair per city to part w/ issuePerCity.keys()
+    Cities=[]
+    Cnt=[]
+    geo=[]
+    dl={}
+    for i,v in issuePerCity.items():
+        Cities.append(i[1:-1])# split used because of city gap before after name
+        Cnt.append(v)
+        check=mongo.db.Trends.find({})
+        for y in check:
+            if y['city'] in i[1:-1]:
+                geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
+    geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+    print(geo)
+    df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
+    df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['ISSUECONT'].astype(str)
+
+    fig = go.Figure(data=go.Scattergeo(
+            lon = df['lng'],
+            lat = df['lat'],
+            showlegend=False,
+            marker=dict(color=df['ISSUECONT'],
+                colorscale='Plotly3',
+                size=df['ISSUECONT']**1.6,
+                showscale=True ),
+            text = df['text'],
+            hoverinfo = "text",
+            textfont=dict(
+                family="Merriweather', serif",
+                size=18,
+                color="white"
+                ),
+    )
+            )
+
+    fig.update_geos(
+        fitbounds="locations",
+        #scope="usa",
+        resolution=50,
+        showland=True, landcolor="Green",
+        showlakes=True, lakecolor="Blue",
+        showocean=True, oceancolor="LightBlue",
+        showcountries=True, countrycolor="Black",
+        showsubunits=True, subunitcolor="Blue",
+    )
+
+    fig.update_layout(
+            title = 'Issue Heat Index',
+            showlegend=True,
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='red',
+            width=660,
+            mapbox=dict(style="open-street-map"),
+            autosize=True,
+            margin={"r":20,"t":50,"l":20,"b":20},
+            font=dict(
+                family="Merriweather', serif",
+                size=18,
+                color="white"
+            ),
+            )
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
     if request.method == 'GET':
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, {"MeetingType":" City Council "}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
-        return render_template('index.html', agendaas=agendaa,chosen=chosen, title="Welcome to Policy Edge")
+        return render_template('index.html', graphJSON=graphJSON, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
+
+
     elif request.method == 'POST' and request.form.get('select'):
         chosen= request.form.get('select')
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
-        return render_template('index.html',agendaas=agendaa,chosen=chosen, title="Welcome to Policy Edge")
-    elif request.method == 'POST' and request.form.get('select3'):
-        chosen= request.form.get('select3')
-        agendaa = mongo.db.Agenda.find({'$and':[ {'City': chosen}, { 'Date':{'$lte':twoweekAhead, '$gte':threemonthBefore}}]}).sort('Date',-1)
-        return render_template('index.html',agendaas=agendaa,chosen=chosen, title="Welcome to Policy Edge")
+        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
+        ####Words taken out for NLTK#######
+        issueText=[]
+        tripleCity=[]
+    ####### TABLE 1##########
+        for x in agendaa:
+            if x['Date'] >= threemonthBefore:
+                tripleCity.append(x['City'])
+                issueText.append(x)
+
+        issuePerCity= Counter(tripleCity)# Creates key:value pair per city to part w/ issuePerCity.keys()
+        Cities=[]
+        Cnt=[]
+        geo=[]
+        dl={}
+        for i,v in issuePerCity.items():
+            Cities.append(i[1:-1])# split used because of city gap before after name
+            Cnt.append(v)
+            check=mongo.db.Trends.find({})
+            for y in check:
+                if y['city'] in i[1:-1]:
+                    geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
+        geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+        df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
+        df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['ISSUECONT'].astype(str)
+
+        fig = go.Figure(data=go.Scattergeo(
+                lon = df['lng'],
+                lat = df['lat'],
+                showlegend=False,
+                marker=dict(color=df['ISSUECONT'],
+                    colorscale='Plotly3',
+                    size=df['ISSUECONT']**1.1,
+                    showscale=True ),
+                text = df['text'],
+                hoverinfo = "text",
+                textfont=dict(
+                    family="Merriweather', serif",
+                    size=18,
+                    color="white"
+                    ),
+        )
+                )
+
+        fig.update_geos(
+            fitbounds="locations",
+            resolution=50,
+            showland=True, landcolor="DarkGreen",
+            showlakes=True, lakecolor="Blue",
+            showocean=True, oceancolor="LightBlue",
+            showcountries=True, countrycolor="Black",
+            showsubunits=True, subunitcolor="Blue",
+        )
+
+        fig.update_layout(
+                title = 'Issue Heat Index',
+                showlegend=True,
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='red',
+                width=660,
+                margin={"r":20,"t":50,"l":20,"b":20},
+                font=dict(
+                    family="Merriweather', serif",
+                    size=18,
+                    color="white"
+                ),
+                )
+        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+        return render_template('index.html',graphJSON=graphJSON, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
