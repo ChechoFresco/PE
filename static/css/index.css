@@ -232,7 +232,7 @@ label {
 input[type=submit] {
   cursor: pointer;
   height: 4rem;
-  min-width: 8rem;
+  width: 7rem;
   color: var(--textColor);
   text-shadow: var(--textShadow);
   background-color: rgba(255, 255, 255, .25);
@@ -252,7 +252,6 @@ div.row-button input[type=submit]:hover {
 }
 
 div.row-button {
-  column-count: 2;
   width: fit-content;
 }
     /* Table*/
