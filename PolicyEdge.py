@@ -202,21 +202,21 @@ def index():
     for i,v in issuePerCity.items():
         Cities.append(i[1:-1])# split used because of city gap before after name
         Cnt.append(v)
-        check=mongo.db.geoLoc.find({})
-        for y in check:
-            if y['city'] in i[1:-1]:
-                geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
-    geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
-    df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
-    df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['ISSUECONT'].astype(str)
+        check=mongo.db.geoLoc.find_one({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0})
+        check=str(check).replace('}',', ')
+        check=check + "'issueCnt': "+ str(v)+'}'
+        geo.append(check2)
+    geo=(str(geo).replace('"',''))
+    df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','issueCnt'])
+    df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['issueCnt'].astype(str)
 
     fig = go.Figure(data=go.Scattergeo(
             lon = df['lng'],
             lat = df['lat'],
             showlegend=False,
-            marker=dict(color=df['ISSUECONT'],
+            marker=dict(color=df['issueCnt'],
                 colorscale='Plotly3',
-                size=df['ISSUECONT']**1.6,
+                size=df['issueCnt']**1.6,
                 showscale=True ),
             text = df['text'],
             hoverinfo = "text",
@@ -279,21 +279,21 @@ def index():
         for i,v in issuePerCity.items():
             Cities.append(i[1:-1])# split used because of city gap before after name
             Cnt.append(v)
-            check=mongo.db.geoLoc.find({})
-            for y in check:
-                if y['city'] in i[1:-1]:
-                    geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
-        geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
-        df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
-        df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['ISSUECONT'].astype(str)
+            check=mongo.db.geoLoc.find_one({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0})
+            check=str(check).replace('}',', ')
+            check=check + "'issueCnt': "+ str(v)+'}'
+            geo.append(check2)
+        geo=(str(geo).replace('"',''))
+        df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','issueCnt'])
+        df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['issueCnt'].astype(str)
 
         fig = go.Figure(data=go.Scattergeo(
                 lon = df['lng'],
                 lat = df['lat'],
                 showlegend=False,
-                marker=dict(color=df['ISSUECONT'],
+                marker=dict(color=df['issueCnt'],
                     colorscale='Plotly3',
-                    size=df['ISSUECONT']**1.1,
+                    size=df['issueCnt']**1.1,
                     showscale=True ),
                 text = df['text'],
                 hoverinfo = "text",
