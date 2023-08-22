@@ -938,10 +938,8 @@
 <div class="row" id="mainBox">
     <div class="col-sm-6" id="conTable">
         <div class="chart">
-            <canvas id="myChart">
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-                    <script>
-                const ctx = document.getElementById('myChart').getContext('2d');
+            <script src="path/to/chartjs/dist/chart.umd.js"></script>
+                <script>
                 const Cnt = {{ Cnt | tojson}};
                 const label =   [{% for city in Cities %}
                                     "{{city}}",
