@@ -205,7 +205,7 @@ def index():
         check=mongo.db.geoLoc.find_one({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0})
         check=str(check).replace('}',', ')
         check=check + "'issueCnt': "+ str(v)+'}'
-        geo.append(check2)
+        geo.append(check)
     geo=(str(geo).replace('"',''))
     df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','issueCnt'])
     df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['issueCnt'].astype(str)
@@ -282,7 +282,7 @@ def index():
             check=mongo.db.geoLoc.find_one({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0})
             check=str(check).replace('}',', ')
             check=check + "'issueCnt': "+ str(v)+'}'
-            geo.append(check2)
+            geo.append(check)
         geo=(str(geo).replace('"',''))
         df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','issueCnt'])
         df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['issueCnt'].astype(str)
