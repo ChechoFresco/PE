@@ -206,7 +206,7 @@ def index():
         check=str(check).replace('}',', ')
         check=check + "'issueCnt': "+ str(v)+'}'
         geo.append(check)
-    geo=str(geo).replace('"','')
+    geo=str(geo).replace('"','').replace("t': ","t': '").replace("g': ","g': '").replace("': ","': '").replace("}","'}")
     df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','issueCnt'])
     df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['issueCnt'].astype(str)
 
