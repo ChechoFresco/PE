@@ -396,31 +396,51 @@ span.page-size{
 
 
 /* Three Wise Offers*/
-#conOffer{
-  position:relative;
-  max-width:1920px;
-  height:auto;
-  top:1rem;
+#conOffer {
+  position: relative;
+  width: 100%;
+  height: auto;
+  top: 3rem;
 }
-#icon1,#icon2,#icon3{
-  height: 8rem;
-  width: 99.3%;
+#conOffer::after {
+  content: "";
+  background: radial-gradient(var(--orange), var(--blue));
+  position: relative;
+  height: 2px;
+  width: 80%;
+  margin: auto;
+  top: 2rem;
 }
-h3#offer{
+#wise{
+  position: relative;
+  text-align: center;
+}
+svg.three {
+  width: 19rem;
+  height: 14rem;
+  margin: auto;
+}
+
+h3#titleOffer {
   color: var(--textColor);
   text-align: center;
-  text-shadow:
-    0 0 5px #5e7cff;
-  font-size: 2rem;
+  font-size: var(--font2);
   font-family: 'Merriweather', serif;
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-color: var(--blue);
+  text-decoration-thickness: 2px;
 }
-p.subject {
-  font-size: 1.6rem;
+
+p.threeOffer {
   font-family: "Open Sans", sans-serif;
   color: var(--textColor);
   text-align: center;
-  margin: 5px;
-  text-shadow: 4px 4px 2px black;
+  margin: auto;
+  line-height: 1.6rem;
+  text-shadow: var(--textShadow);
+  font-weight: 400;
+  font-size: var(--font2);
 }
 
   /* ################################################# */
