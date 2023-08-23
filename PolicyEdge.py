@@ -202,12 +202,11 @@ def index():
     for i,v in issuePerCity.items():
         Cities.append(i[1:-1])# split used because of city gap before after name
         Cnt.append(v)
-        check=mongo.db.geoLoc.find_one({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0, "population": 0})
-        check=str(check).replace('}',', ')
-        check=check + "'issueCnt': "+ str(v)+'}'
-        geo.append(check)
-    geo=', '.join(geo)
-    geo="["+geo+"]"
+        check=mongo.db.geoLoc.find({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0, "population": 0})
+        for y in check:
+            if y['city'] in i[1:-1]:
+                geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
+    geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
     df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','issueCnt'])
     df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['issueCnt'].astype(str)
 
@@ -280,11 +279,11 @@ def index():
         for i,v in issuePerCity.items():
             Cities.append(i[1:-1])# split used because of city gap before after name
             Cnt.append(v)
-            check=mongo.db.geoLoc.find_one({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0})
-            check=str(check).replace('}',', ')
-            check=check + "'issueCnt': "+ str(v)+'}'
-            geo.append(check)
-        geo= str(geo).replace('"','')
+            check=mongo.db.geoLoc.find({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0, "population": 0})
+            for y in check:
+                if y['city'] in i[1:-1]:
+                    geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
+        geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
         df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','issueCnt'])
         df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['issueCnt'].astype(str)
 
