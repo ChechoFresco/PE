@@ -206,7 +206,9 @@ def index():
         check=str(check).replace('}',', ')
         check=check + "'issueCnt': "+ str(v)+'}'
         geo.append(check)
-    df = pd.DataFrame(geo, columns=['city', 'state_id', 'county_name', 'lat', 'lng','issueCnt'])
+    geo=', '.join(geo)
+    geo="["+geo+"]"
+    df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','issueCnt'])
     df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['issueCnt'].astype(str)
 
     fig = go.Figure(data=go.Scattergeo(
