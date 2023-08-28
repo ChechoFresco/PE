@@ -447,6 +447,9 @@ p.threeOffer {
   /* ################################################# */
   /* ################################################# */
   @media screen and (max-width: 600px) {
+  #myChart{
+	  display:none
+  }
   svg.animated{
 	overflow: hidden;
 	height: auto;
