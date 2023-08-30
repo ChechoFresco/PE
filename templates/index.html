@@ -1054,7 +1054,7 @@
                             <td class='none'>{{i.MeetingType}}</td>
                             <td class='none'>{{i.ItemType}}</td>
                             <td class='description'>{{i.Description}}</td>
-                            <td class='infoLocation'><span id='prettyTable' class='hidden-xs'>Date: </span><span id='prettyTable2'>{{i.Date|aTime}}</span> <span id='prettyTable' class='hidden-xs'>County: </span><span id='prettyTable2'>{{i.County}}</span> <span id='prettyTable' class='hidden-xs'>City: </span><span id='prettyTable2'>{{i.City}}</span> <span id='prettyTable' class='hidden-xs'>Meeting Type: </span><span id='prettyTable2'>{{i.MeetingType}}</span><span id='prettyTable' class='hidden-xs'> Item Type: </span><span id='prettyTable2'>{{i.ItemType}}</span> <span id='prettyTable' class='hidden-xs'>Number: </span><span id='prettyTable2'>{{i.Num}}</span></td>
+                            <td class='infoLocation'><span class="glyphicon glyphicon-calendar"></span>{{i.Date|aTime}} <span class="glyphicon glyphicon-globe"></span>{{i.County}}<span class="glyphicon glyphicon-globe"></span>{{i.City}} <span class="glyphicon glyphicon-briefcase"></span>{{i.MeetingType}}<span class="glyphicon glyphicon-list"></span>{{i.ItemType}}<span class="glyphicon glyphicon-list"></span>{{i.Num}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
