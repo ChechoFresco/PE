@@ -183,6 +183,7 @@ td.infoLocation{
   justify-content: space-evenly;
 }
 td.description{
+  font-size: var(--font2);
   overflow: hidden;
   max-height: 9rem;
   white-space: break-spaces;
