@@ -261,13 +261,13 @@ def index():
 
     elif request.method == 'POST' and request.form.get('select'):
         chosen= request.form.get('select')
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
+        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$gte':monthBefore}}]}).sort('Date',-1)
         ####Words taken out for NLTK#######
         issueText=[]
         tripleCity=[]
     ####### TABLE 1##########
         for x in agendaa:
-            if x['Date'] >= threemonthBefore:
+            if x['Date'] >= monthBefore:
                 tripleCity.append(x['City'])
                 issueText.append(x)
 
