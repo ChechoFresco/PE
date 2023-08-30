@@ -191,7 +191,7 @@ def index():
     agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen }}, {"MeetingType":" City Council "}, { 'Date':{'$gte':monthBefore}}]}).sort('Date',-1)
 ####### TABLE 1##########
     for x in agendaa:
-        if x['Date'] >= threemonthBefore:
+        if x['Date'] >= monthBefore:
             tripleCity.append(x['City'])
             issueText.append(x)
     issuePerCity= Counter(tripleCity)# Creates key:value pair per city to part w/ issuePerCity.keys()
