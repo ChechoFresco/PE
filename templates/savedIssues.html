@@ -92,14 +92,14 @@
                 </tr>
             </thead>
             <tbody>
-                {% for agendaa in agendaas %}
+                {% for i in agendaas %}
                 <tr class='lineSep'>
-                    <td class='none'>{{agendaa.Date}}</td>
-                    <td class='none'>{{agendaa.County}}</td>
-                    <td class='none'>{{agendaa.City}}</td>
-                    <td class='none'>{{agendaa.MeetingType}}</td>
-                    <td class='none'>{{agendaa.ItemType}}</td>
-                    <td class='description'>{{agendaa.Description}}</td>
+                    <td class='none'>{{i.Date}}</td>
+                    <td class='none'>{{i.County}}</td>
+                    <td class='none'>{{i.City}}</td>
+                    <td class='none'>{{i.MeetingType}}</td>
+                    <td class='none'>{{i.ItemType}}</td>
+                    <td class='description'>{{i.Description}}</td>
                     <td class='infoLocation'><span id='prettyTable' class='hidden-xs'>Date: </span><span id='prettyTable2'>{{i.Date|aTime}}</span> <span id='prettyTable' class='hidden-xs'>County: </span><span id='prettyTable2'>{{i.County}}</span> <span id='prettyTable' class='hidden-xs'>City: </span><span id='prettyTable2'>{{i.City}}</span> <span id='prettyTable' class='hidden-xs'>Meeting Type: </span><span id='prettyTable2'>{{i.MeetingType}}</span><span id='prettyTable' class='hidden-xs'> Item Type: </span><span id='prettyTable2'>{{i.ItemType}}</span> <span id='prettyTable' class='hidden-xs'>Number: </span><span id='prettyTable2'>{{i.Num}}</span></td>
                 </tr>
                 {% endfor %}
