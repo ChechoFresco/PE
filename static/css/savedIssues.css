@@ -96,6 +96,11 @@ table.border{
 
 div#conTable{
 	position: relative;
+	max-width: 1920px;
+	top:5rem;
+	margin: auto;
+	height:auto;
+	padding: 3rem;
 }
 
 caption{
