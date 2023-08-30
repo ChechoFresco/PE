@@ -190,6 +190,10 @@ h1#title{
 /* Table Div*/
   /* Select Options*/
 /* Charts*/
+#chartBox {
+  padding-top: 7rem;
+  position: relative;
+}
 #capn{
   top:5rem;
   text-transform: capitalize;
@@ -216,7 +220,7 @@ h1#title{
 
 /* Table Div*/
 #mainBox {
-  padding-top: 13rem;
+  padding-top: 7rem;
   position: relative;
 }
 
