@@ -103,6 +103,10 @@ div#conTable{
 	padding: 3rem;
 }
 
+.fontSize{
+  float: right;
+  right:5rem;
+}
 caption{
   color:lavender;
   text-align: center;
