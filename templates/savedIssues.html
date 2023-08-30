@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}">
+
+<script>
+    $(document).ready(function() {
+        $('button#plus').click(function() {
+            var currentSize= parseInt($("td.description").css("font-size"));
+            $("td.description").css("font-size", currentSize +=1);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('button#minus').click(function() {
+            var currentSize= parseInt($("td.description").css("font-size"));
+            $("td.description").css("font-size", currentSize -=1);
+        });
+    });
+</script>
 <script>
     $(document).ready(function () {
         $('tr').click(function(){
@@ -77,6 +94,11 @@
 
 
     <div id="conTable">
+        <div class="fontSize">
+            <label>Change Font Size</label>
+            <button id= 'plus'>+</button>
+            <button id = 'minus'>-</button>
+        </div>
         <table id="table_1" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
             data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='6' class="table-responsive">
             <caption>{{chosen}}</caption>
