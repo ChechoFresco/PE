@@ -624,7 +624,7 @@ def search():
             #return render_template('noSubscription.html')#
     #else:
         #return redirect(url_for("login"))###
-    return render_template('search.html', form=form, title='PolicyEdge agendas monitoring tracking service in Southern California search Results')
+    return render_template('search.html', form=form, title='PolicyEdge agendas monitoring tracking service in Southern California search portal')
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
@@ -1346,7 +1346,7 @@ def losangeles():
                 westlakeVillage.append(x)
             if x["City"] ==' Whittier ':
                 whittier.append(x)
-        return render_template('losangeles.html',whittiers=whittier,westlakeVillages=westlakeVillage,westHollywoods=westHollywood,westCovinas=westCovina,walnuts=walnut,vernons=vernon,torrances=torrance,templeCitys=templeCity,southGates=southGate,southelMontes=southelMonte,signalHills=signalHill,sierraMadres=sierraMadre,santaMonicas=santaMonica,santafeSpringss=santafeSprings,santaClaritas=santaClarita,sanMarinos=sanMarino,sanGabriels=sanGabriel,sanFernandos=sanFernando,sanDimass=sanDimas,sPasadenas=sPasadena,rosemeads=rosemead,rollinghillsEstates=rollinghillsEstate,rollingHillss=rollingHills,redondoBeachs=redondoBeach,ranchopalosVerdess=ranchopalosVerdes,pomonas=pomona,picoRiveras=picoRivera,pasadenas=pasadena,paramounts=paramount,palosverdesEstates=palosverdesEstates,palmdales=palmdale,norwalks=norwalk,montereyParks=montereyPark,montebellos=montebello,monrovias=monrovia,maywoods=maywood,manhattanBeachs=manhattanBeach,malibus=malibu,lynwoods=lynwood,losAngeless=losAngeles,longBeachs=longBeach,lomitas=lomita,lawndales=lawndale,lancasters=lancaster,lakewoods=lakewood,laVernes=laVerne,laPuentes=laPuente,laMiradas=laMirada,lahabraHeightss=lahabraHeights,lacanadaFlintridges=lacanadaFlintridge,irwindales=irwindale,inglewoods=inglewood,huntingtonParks=huntingtonPark,hiddenHillss=hiddenHills,hermosaBeachs=hermosaBeach,hawthornes=hawthorne,hawaiianGardenss=hawaiianGardens,glendoras=glendora,glendales=glendale,gardenas=gardena,elSegundos=elSegundo,elMontes=elMonte,duartes=duarte,downeys=downey,diamondBars=diamondBar,culverCitys=culverCity, cudahys=cudahy,covinas=covina,commerces=commerce,claremonts=claremont,cityIndustrys=cityIndustry,cerritoss=cerritos,carsons=carson,calabasass=calabasas,agouraHillss=agouraHills,alhambras=alhambra,arcadias=arcadia,artesias=artesia,azusas=azusa,baldwinParks=baldwinPark,bells=bell,bellflowers=bellflower, beverlyHillss=beverlyHills,comptons=compton, bradburys=bradbury, burbanks=burbank,title = "PolicyEdge agenda tracking monitoring Los Angeles County.")
+        return render_template('losangeles.html',whittiers=whittier,westlakeVillages=westlakeVillage,westHollywoods=westHollywood,westCovinas=westCovina,walnuts=walnut,vernons=vernon,torrances=torrance,templeCitys=templeCity,southGates=southGate,southelMontes=southelMonte,signalHills=signalHill,sierraMadres=sierraMadre,santaMonicas=santaMonica,santafeSpringss=santafeSprings,santaClaritas=santaClarita,sanMarinos=sanMarino,sanGabriels=sanGabriel,sanFernandos=sanFernando,sanDimass=sanDimas,sPasadenas=sPasadena,rosemeads=rosemead,rollinghillsEstates=rollinghillsEstate,rollingHillss=rollingHills,redondoBeachs=redondoBeach,ranchopalosVerdess=ranchopalosVerdes,pomonas=pomona,picoRiveras=picoRivera,pasadenas=pasadena,paramounts=paramount,palosverdesEstates=palosverdesEstates,palmdales=palmdale,norwalks=norwalk,montereyParks=montereyPark,montebellos=montebello,monrovias=monrovia,maywoods=maywood,manhattanBeachs=manhattanBeach,malibus=malibu,lynwoods=lynwood,losAngeless=losAngeles,longBeachs=longBeach,lomitas=lomita,lawndales=lawndale,lancasters=lancaster,lakewoods=lakewood,laVernes=laVerne,laPuentes=laPuente,laMiradas=laMirada,lahabraHeightss=lahabraHeights,lacanadaFlintridges=lacanadaFlintridge,irwindales=irwindale,inglewoods=inglewood,huntingtonParks=huntingtonPark,hiddenHillss=hiddenHills,hermosaBeachs=hermosaBeach,hawthornes=hawthorne,hawaiianGardenss=hawaiianGardens,glendoras=glendora,glendales=glendale,gardenas=gardena,elSegundos=elSegundo,elMontes=elMonte,duartes=duarte,downeys=downey,diamondBars=diamondBar,culverCitys=culverCity, cudahys=cudahy,covinas=covina,commerces=commerce,claremonts=claremont,cityIndustrys=cityIndustry,cerritoss=cerritos,carsons=carson,calabasass=calabasas,agouraHillss=agouraHills,alhambras=alhambra,arcadias=arcadia,artesias=artesia,azusas=azusa,baldwinParks=baldwinPark,bells=bell,bellflowers=bellflower, beverlyHillss=beverlyHills,comptons=compton, bradburys=bradbury, burbanks=burbank,title = "PolicyEdge agenda tracking monitoring service Los Angeles County Results")
 
 
 @app.route('/orange', methods=['GET', 'POST'])
@@ -1359,7 +1359,7 @@ def orange():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'Orange County', '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('orange.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring Riverside County Results")
+        return render_template('orange.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring service Orange County Results")
 
 @app.route('/riverside', methods=['GET', 'POST'])
 def riverside():
@@ -1371,7 +1371,7 @@ def riverside():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'Riverside County', '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('riverside.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring Orange County Results")
+        return render_template('riverside.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring service Riverside County Results")
 
 @app.route('/sanbernandino', methods=['GET', 'POST'])
 def sanbernandino():
@@ -1383,7 +1383,7 @@ def sanbernandino():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'San Bernandino County', '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('sanbernandino.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring San Bernandino County Results")
+        return render_template('sanbernandino.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring service San Bernandino County Results")
 
 @app.route('/sandiego', methods=['GET', 'POST'])
 def sandiego():
@@ -1395,7 +1395,7 @@ def sandiego():
         d= str(c).replace("-","")
         lMonth=int(d)
         agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('sandiego.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring San Diego County Results")
+        return render_template('sandiego.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring service San Diego County Results")
 
 @app.route('/favicon.ico')
 def favicon():
