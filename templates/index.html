@@ -7,7 +7,8 @@
 {% endblock %}
 {% block content %}
 <head>
-        <script>
+
+    <script>
         $(window).scroll(function() {
             var scroll = $(window).scrollTop();
             $(".frost.Main").css({
@@ -19,6 +20,7 @@
             }
         })
     </script>
+
     <script>
     $(window).scroll(function(){
         var wScroll = $(this).scrollTop();
@@ -42,6 +44,7 @@
             });
         });
     </script>
+
     <script>
         $(document).ready(function() {
             $('button#minus').click(function() {
@@ -50,6 +53,7 @@
             });
         });
     </script>
+    
     <script>
         var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change","transportaion", "financial", "retail"];
         var count = 0;
@@ -61,6 +65,7 @@
         }
         setInterval(changeText, 4000);
     </script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" media="print" onload="this.media='all'">
     <!--Animation extension-->
     <link rel="stylesheet" href="https://unpkg.com/transition-style">
@@ -73,6 +78,7 @@
         defer
         init
     ></script>
+    
     </head>
 <!--Head portion-->
 {% with messages = get_flashed_messages() %}
@@ -118,7 +124,6 @@
                         animation: 6s Infinite linear wind;
                         animation-delay: 0s;
                     }
-
                     @keyframes wind {
                         0% {
                             transform: rotate(0deg);
@@ -879,7 +884,7 @@
         </div>
     </div>
 
-    <!--Three Wise Offers-->
+<!--Three Wise Offers-->
     <div class="container" id='conOffer'>
         <div class="col-sm-offset-2 col-sm-2" transition-style="in:wipe:up" id="wise">
             <h3 id="titleOffer" transition-style="in:wipe:up"><span>Notifications</span></h3>
@@ -909,6 +914,7 @@
     <div class='col-sm-12' id="chartTitle">
         <h2 id='chartText'>{{chosen}}</h2>
     </div>
+<!--Chart Block-->
     <div class="row" id="chartBox">
         <div class="col-sm-6" id="conTable">
             <div class="chart">
@@ -979,48 +985,37 @@
                 </script>
         </div>
     </div>
+<!--Charts Map-->
     <div class="col-sm-6" id="conTable">
-        <div id='chart' class='mapChart'”></div>
+        <div id='chart' class='mapChart'”>
+        </div>
             <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
             <script type='text/javascript'>
-            var graphs = {{graphJSON | safe}};
-                Plotly.plot('chart',graphs,{});
+                var graphs = {{graphJSON | safe}};
+                    Plotly.plot('chart',graphs,{});
             </script>
     </div>
 </div>
+
 <!--First table-->
         <div class="row" id="mainBox">
             <div class="col-sm-2" id="issueRow">
                 <form method="post" action="">
                     <div class="row-button" >
                         <input type="submit" name="select" value="Water" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Electric" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Military" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Medical" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Homeless" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Waste" transition-style="in:square:hesitate">
-    
-                        <input type="submit" name="select" value="Communication" transition-style="in:square:hesitate">
-    
+                        <input type="submit" name="select" value="Teleommunication" transition-style="in:square:hesitate">
                         <input type="submit" name="select" value="Utility" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Cannabis" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Police" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Grants" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Housing" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Procurement" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Ordinance" transition-style="in:square:hesitate">
-    
                         <input type="submit" name="select" value="Climate" transition-style="in:square:hesitate">
                     </div>
                 </form>
