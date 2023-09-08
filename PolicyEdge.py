@@ -185,11 +185,10 @@ def index():
 #######TOPIC SELECTION##########
     topics = ["reap","bids","solicit","cannabis", "EV", "homelessness","climate", "oil","waste","outdoor dining","financial"]
     chosen = topics.pop(random.randrange(len(topics)))
-####### TABLE 1##########
+####### TABLE Data Collection##########
     issueText=[]
     tripleCity=[]
     agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen }}, {"MeetingType":" City Council "}, { 'Date':{'$gte':monthBefore}}]}).sort('Date',-1)
-####### TABLE 1##########
     for x in agendaa:
         if x['Date'] >= monthBefore:
             tripleCity.append(x['City'])
@@ -257,7 +256,6 @@ def index():
 
     if request.method == 'GET':
         return render_template('index.html', graphJSON=graphJSON, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
-
 
     elif request.method == 'POST' and request.form.get('select'):
         chosen= request.form.get('select')
