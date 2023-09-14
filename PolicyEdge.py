@@ -183,7 +183,7 @@ def index():
     d= str(c).replace("-","")
     sixmonthBefore=int(d)
 #######TOPIC SELECTION##########
-    topics = ["reap","bids","solicit","cannabis", "EV", "homelessness","climate", "oil","waste","outdoor dining","financial"]
+    topics = ["bids","solicit","cannabis","homelessness","police","waste","outdoor dining","alcohol","restaurant","energy"]
     chosen = topics.pop(random.randrange(len(topics)))
 ####### TABLE Data Collection##########
     issueText=[]
