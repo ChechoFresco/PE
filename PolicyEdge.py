@@ -229,19 +229,19 @@ def index():
 
     fig.update_geos(
         fitbounds="locations",
+        scope="usa",
         resolution=50,
-        showland=True, landcolor="Green",
-        showlakes=True, lakecolor="Blue",
-        showocean=True, oceancolor="LightBlue",
-        showcountries=True, countrycolor="Black",
-        showsubunits=True, subunitcolor="Blue",
+        showland=True, landcolor="#498f6d",
+        showlakes=True, lakecolor="#5e7cff",
+        showcountries=True, countrycolor="#fab935",
+        showsubunits=True, subunitcolor="#fab935",
     )
 
     fig.update_layout(
+            geo=dict(bgcolor= '#5e7cff'),
             title = 'Issue Heat Index',
             showlegend=True,
             paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='red',
             width=660,
             mapbox=dict(style="open-street-map"),
             autosize=True,
@@ -305,20 +305,22 @@ def index():
 
         fig.update_geos(
             fitbounds="locations",
+            scope="usa",
             resolution=50,
-            showland=True, landcolor="DarkGreen",
-            showlakes=True, lakecolor="Blue",
-            showocean=True, oceancolor="LightBlue",
-            showcountries=True, countrycolor="Black",
-            showsubunits=True, subunitcolor="Blue",
+            showland=True, landcolor="#498f6d",
+            showlakes=True, lakecolor="#5e7cff",
+            showcountries=True, countrycolor="#fab935",
+            showsubunits=True, subunitcolor="#fab935",
         )
-
+    
         fig.update_layout(
+                geo=dict(bgcolor= '#5e7cff'),
                 title = 'Issue Heat Index',
                 showlegend=True,
                 paper_bgcolor='rgba(0,0,0,0)',
-                plot_bgcolor='red',
                 width=660,
+                mapbox=dict(style="open-street-map"),
+                autosize=True,
                 margin={"r":20,"t":50,"l":20,"b":20},
                 font=dict(
                     family="Merriweather', serif",
