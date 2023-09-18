@@ -141,7 +141,7 @@ def check4Issues2email():
                 pass
 
 sched = BackgroundScheduler(timezone='UTC')
-sched.add_job(check4Issues2email, 'interval', seconds=86400)
+sched.add_job(check4Issues2email, 'interval', seconds=30)
 sched.start()
 
 @app.route('/', methods=['GET', 'POST'])
