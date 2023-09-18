@@ -130,12 +130,10 @@ def check4Issues2email():
                 if len(email_body)==0:
                     pass
                 else:
-                    subject = 'New Issue Alerts'
+                    subject = 'You have {} items today from Policy Edge'.format(itemCount)
                     sender = 'AgendaPreciado@gmail.com'
                     msg = Message(subject, sender=sender, recipients=[x['email']])
-                    ###Combines all issues into one#######
-                    html_body= "\n".join(email_body)
-                    msg.html= "<html'>Hello {},".format(x['username'])+ "<p>You have {} items today.</p>".format(itemCount)+"<body style ='margin: auto; background-color: lightgray; border: 2px solid; padding: 3rem; border-radius:2ch;'>"+html_body+"</body>"+ "<p> Thanks for your continued support,<br> <br><span style= 'color:#5e7cff; text-shadow: 1px 1px black'>Policy</span><span style= 'color:#fab935; text-shadow: 1px 1px black'>Edge</span></p> </html>"
+                    msg.html= "<html>"+"<body>Hello {},".format(x['username'])+"</p>"+"\n".join(email_body)+"</body>"+ "<p> Thanks for your continued support,<br> <br><span style= 'color:#5e7cff; text-shadow: 1px 1px black'>Policy</span><span style= 'color:#fab935; text-shadow: 1px 1px black'>Edge</span></p> </html>"
                     mail.send(msg)
             else:
                 pass
