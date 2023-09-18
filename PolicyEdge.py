@@ -42,18 +42,18 @@ stripe.api_key = stripe_keys['secret_key']
 
 def check4Issues2email():
     with app.app_context():
-        ##########Date###############
+    ##########Date###############
         a = date.today()
         b= str(a).replace("-","")
         today=int(b)
 
-        ##########User roundup###############
+    ##########User roundup###############
         all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, 'agendaUnique_id':1, 'email':1, 'subscriptionActive':1, 'issues':1})#Creates list af all emails and usernames for sequence
 
         for x in all_users: #For each instance of a user
             if x['subscriptionActive'] == True: #Checks to see if user is subscribed
 
-        ##################Deletes old object_id for users###############
+    ##################Deletes old id for issues###############
                 check=mongo.db.User.find({'username':x['username']},{'_id':0 , 'agendaUnique_id': 1})
                 for q in check:
                     for qq in q['agendaUnique_id']:
@@ -63,11 +63,14 @@ def check4Issues2email():
                                 "Date": qq['Date'] ,
                             }
                             mongo.db.User.find_one_and_update({'username':x['username']}, {'$pull': {'agendaUnique_id': stuff}}, upsert = True)
-    
-        ##########Item roundup###############
+
+    ##########Item roundup###############
                 storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0, 'issues.searchWord':1, 'issues.County':1, 'issues.City':1, 'issues.Committee':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
+
+
                 issues_placeholder= []#List of user subscribed issues
                 userStoredAgendaId=[]#List of user previous topics
+
                 for y in storedIssues:
                     issues_placeholder.append(y['issues'])#subscribed issues
                     for yy in y['agendaUnique_id']:
@@ -75,57 +78,55 @@ def check4Issues2email():
 
                 agenda=[]
                 agenda2=[]
+
                 for z in range(len(issues_placeholder[0])): #For every item in issues_placeholder, breaks down into individual parts in order for Multiquery to function
                     issue_Search= (issues_placeholder[0][z]['searchWord'])#Grabs Issue
                     county_Search= (issues_placeholder[0][z]['County'])
                     city_Search= (issues_placeholder[0][z]['City'])#Grabs City
                     committee_Search= (issues_placeholder[0][z]['Committee'])
 
-        ###########Multiquery uses each _Search to run individual db.finds to create multiquery#########
+    ##################Multiquery uses each _Search to run individual db.finds to create multiquery
                     Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i'}}, {"County":{'$regex': county_Search, '$options': 'i'}}  ,{'Description': { "$regex": issue_Search,  '$options': 'i' }}, { 'Date':{'$gte':int(today)}}]})
+
                     for query in Multiquery:#Places individualised results in agenda from Multiquery
                         agenda.append(query)
                         agenda2.append(issue_Search)
-                        
-        ###Information is grabbed from loop done below#######
-                description=[]
-                issueTopics=[]
+
+                description=[]###Information is grabbed from loop done below
+                issue=[]
                 city=[]
-                date=[]
-                county=[]
+                Date=[]
+                County=[]
                 meeting_type=[]
                 item_type=[]
-                issueLinks=[]
+                text=[]
 
                 email_body=[]
                 itemCount=0
 
-                for issueTopic in agenda2:
-                    issueTopics.append(issueTopic)
+                for zz in agenda2:
+                    issue.append(zz)
 
-                for i in agenda: #Items selected to be sent
-                    if i['_id'] not in userStoredAgendaId:#Checks to see item wasn't sent before
+                for i in agenda: #returned criteria
+                    if i['_id'] not in userStoredAgendaId:
                         itemCount+=1
                         mongo.db.User.find_one_and_update({'username':x['username']}, {'$addToSet': {'agendaUnique_id':{'_id':i['_id'],'Date':i['Date']}}})# updates database with topics uniqueid
                         description.append(i['Description'])
                         city.append(i['City'])
-                        county.append(i['County'])
-                        meeting_type.append(i['MeetingType'])
-                        item_type.append(i['ItemType'])
-                        ###Date object#######
+                        County.append(i['County'])
                         intDate= (str(i['Date']))
                         start_year = str(intDate[0:4])
                         start_month = str(intDate[4:6])
                         start_day = str(intDate[6:8])
-                        date.append(start_month+'/'+start_day+'/'+start_year)
-                        ###Weblink object#######
-                        links=mongo.db.geoLoc.find_one({"City":{'$regex': i['City'], '$options': 'i'}},{'_id': 0,'webAdress': 1} )
-                        issueLink= str(links).replace("{'webAdress': '","").replace("'}","")
-                        issueLinks.append(issueLink)
-                        
-                ###Loop to fill in all issues for email#######
+                        links=mongo.db.doc.find_one({"City":{'$regex': i['City'][1:-1], '$options': 'i'}},{'_id': 0,'webAdress': 1} )
+                        links2= str(links).replace("{'webAdress': '","").replace("'}","")
+                        text.append(links2)
+                        Date.append(start_month+'/'+start_day+'/'+start_year)
+                        meeting_type.append(i['MeetingType'])
+                        item_type.append(i['ItemType'])
+
                 for y in range(len(city)):#range(len)city is used because it gives accurate count of topics being sent
-                    email_body.append("<p>The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(issueTopics[y],city[y],meeting_type[y],county[y],date[y],description[y], issueLinks[y]))
+                    email_body.append("<p style ='font-weight: bold;' >The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(issue[y],city[y],meeting_type[y],County[y],Date[y],description[y], text[y]))
 
                 if len(email_body)==0:
                     pass
