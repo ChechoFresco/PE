@@ -15,8 +15,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-
+	
 <!-- Toggle between adding and removing the "responsive" class to  when the user clicks on the icon -->
 	<script>
 		function updateMenuButton() {
@@ -61,10 +60,12 @@
 		}]
 		}
 	</script>
+	
 <!-- JStyle sheet and hamburger helper -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" media="print" onload="this.media='all'">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	
 <!-- Title -->
 	{% if title %}
 		<title>{{ title }}</title>
@@ -75,6 +76,7 @@
 	{% block metadata %}{% endblock %}
 
 </head>
+
 <body>
 	<div class="topnav" id="myTopnav">
 		<a href="/index" class="active">
@@ -309,7 +311,6 @@
 	{% endif %}
 
 {% block content %}{% endblock%}
-
 		<footer class="site-footer">
 			<div class="container">
 				<hr>
@@ -318,7 +319,6 @@
 						<h6><span style= "color: var(--orange); text-shadow: 1px 1px black">Policy</span><span style= "color: var(--blue); text-shadow: 1px 1px black">Edge</span></h6>
 						<p class="text-justify">We rely on a combination of staff, local expertise, and software to keep track of the latest developments in local city council’s, planning departments, and municipalities. Upon signing up, we are ready to help you by providing background research on your issue and neighboring cities, monitoring for suggested search words, and active alerts of any new pending legislation. We can cast a wide net or a spotlight on city government to find information pertinent to your industry, depending on your needs.</p>
 					</div>
-
 					<div class="col-xs-6 col-md-3">
 					<h6>Categories</h6>
 						<ul class="footer-links">
@@ -330,7 +330,6 @@
 							<li><a href="https://www.PolicyEdge.net/sanbernandino">San Bernandino County</a></li>
 						</ul>
 					</div>
-
 					<div class="col-xs-6 col-md-3">
 					<h6>Quick Links</h6>
 					<ul class="footer-links">
@@ -342,25 +341,22 @@
 				</div>
 				<hr>
 			</div>
-
 			<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-sm-6 col-xs-12">
-				<p class="copyright-text">Copyright &copy; 2022 All Rights Reserved by
-					<a href="#"><span style= "color: var(--orange); text-shadow: 1px 1px black">Policy</span><span style= "color: var(--blue); text-shadow: 1px 1px black">Edge</span></a>
-				</p>
+					<p class="copyright-text">Copyright &copy; 2022 All Rights Reserved by
+						<a href="#"><span style= "color: var(--orange); text-shadow: 1px 1px black">Policy</span><span style= "color: var(--blue); text-shadow: 1px 1px black">Edge</span></a>
+					</p>
 				</div>
-
 				<div class="col-md-4 col-sm-6 col-xs-12">
-				<ul class="social-icons">
-					<li><a class="facebook" href="https://www.facebook.com/Policy3dge"><i class="fa fa-facebook"></i></a></li>
-					<li><a class="twitter" href="https://twitter.com/Policy__Edge"><i class="fa fa-twitter"></i></a></li>
-					<li><a class="gmail" href="mailto:AgendaPreciado@gmail.com"><i class="fa fa-google"></i></a></li>
-					<li><a class="linkedin" href="https://www.linkedin.com/in/sergio-preciado-9a00aa5a/"><i class="fa fa-linkedin"></i></a></li>   
-				</ul>
+					<ul class="social-icons">
+						<li><a class="facebook" href="https://www.facebook.com/Policy3dge"><i class="fa fa-facebook"></i></a></li>
+						<li><a class="twitter" href="https://twitter.com/Policy__Edge"><i class="fa fa-twitter"></i></a></li>
+						<li><a class="gmail" href="mailto:AgendaPreciado@gmail.com"><i class="fa fa-google"></i></a></li>
+						<li><a class="linkedin" href="https://www.linkedin.com/in/sergio-preciado-9a00aa5a/"><i class="fa fa-linkedin"></i></a></li>   
+					</ul>
 				</div>
 			</div>
 		</footer>
-	</div>
 </body>
 </html>
