@@ -118,7 +118,7 @@ def check4Issues2email():
                         start_year = str(intDate[0:4])
                         start_month = str(intDate[4:6])
                         start_day = str(intDate[6:8])
-                        links=mongo.db.doc.find_one({"City":{'$regex': i['City'][1:-1], '$options': 'i'}},{'_id': 0,'webAdress': 1} )
+                        links=mongo.db.geoLoc.find_one({"city":{'$regex': i['City'][1:-1], '$options': 'i'}},{'_id': 0,'webAdress': 1} )
                         links2= str(links).replace("{'webAdress': '","").replace("'}","")
                         text.append(links2)
                         Date.append(start_month+'/'+start_day+'/'+start_year)
