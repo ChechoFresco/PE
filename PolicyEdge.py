@@ -1,6 +1,6 @@
 from flask_pymongo import PyMongo
-from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, json
-from forms import searchForm, monitorListform
+from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, json, g
+from forms import searchForm, monitorListform, chartForm
 import bcrypt
 from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
@@ -8,11 +8,11 @@ from flask_mail import Mail, Message
 import stripe
 import os
 import re
-from os import environ
 from apscheduler.schedulers.background import BackgroundScheduler
-import string
-import csv
+import nltk
 import random
+from flask_cors import CORS, cross_origin
+import time
 from collections import Counter
 import plotly
 import pandas as pd
