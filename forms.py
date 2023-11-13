@@ -15,3 +15,7 @@ class monitorListform(Form):
         city_search = StringField('City:')
         committee_search= StringField('Committee:')
         county_search= StringField('County:')
+        
+class chartForm(Form):
+        chartSearch = StringField("Any issue's of interest?", validators=[Length(min=1, max=25),DataRequired()])
+
