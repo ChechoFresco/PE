@@ -25,6 +25,7 @@ svg#logo{
   animation-timing-function: linear;
   }
 
+
 @keyframes spin {
 from {
     transform:rotateY(0deg);
@@ -33,95 +34,69 @@ to {
     transform:rotateY(360deg);
 }
 }
-#path284{
-  animation: colorChange 5.2s ease-in-out infinite;
-}
-#path64{
-  animation: colorChange 5.8s ease-in-out infinite;
-}
-#path90{
-  animation: colorChange 6.5s ease-in-out infinite;
-}
-#path94{
-  animation: colorChange 6.8s ease-in-out infinite;
-}
-#path126{
-  animation: colorChange 7.2s ease-in-out infinite;
-}
-#path132{
-  animation: colorChange 7.4s ease-in-out infinite;
-}
-#path174{
-  animation: colorChange 8s ease-in-out infinite;
-}
-#path190{
-  animation: colorChange 8s ease-in-out infinite;
-}
-#path192{
-  animation: colorChange 9s ease-in-out infinite;
-}
-#path220{
-  animation: colorChange 9s ease-in-out infinite;
-}
-#path268{
-  animation: colorChange 2.3s ease-in-out infinite;
-}
-#path278{
-  animation: colorChange 3.6s ease-in-out infinite;
-}
-#path284{
-  animation: colorChange 3.4s ease-in-out infinite;
-}
-#path286{
-  animation: colorChange 5.4s ease-in-out infinite;
-}
-#light12{
-  animation: colorChange 6.3s ease-in-out infinite;
-}
-#light5{
-  animation: colorChange 5.2s ease-in-out infinite;
+
+  /* Logo animation */
+
+#top1, #top3, #insideL, #outsideL, #leftGutter, #leftBuild{
+  animation: moveTop 10s ease-in-out;
 }
 
-@keyframes colorChange {
-  0%{fill:darkgray}
-  50%{fill:white}
-  100%{fill: blue}
-}
 
-#twinkle1{
-  animation: star 1.1s ease;
-  animation-iteration-count: infinite;
-}
-#twinkle2{
-  animation: star 1.2s ease;
-  animation-iteration-count: infinite;
-}
-#twinkle3{
-  animation: star 1.5s ease;
-  animation-iteration-count: infinite;
-}
-#twinkle4{
-  animation: star 1.6s ease;
-  animation-iteration-count: infinite;
-}
-#twinkle5{
-  animation: star 2s ease;
-  animation-iteration-count: infinite;
-}
-#twinkle6{
-  animation: star 2.2s ease;
-  animation-iteration-count: infinite;
-}
+    @keyframes moveTop {
+      0% {
+        transform: translateX(150px);
+      }
+      34% {
+        transform: translateX(80px);
+      }
+      37% {
+        transform: translateX(40px);
+      }
+      100% {
+        transform: translateX(0px);
+      }
+    }
 
-@keyframes star {
-  0%   {opacity:.1 }
-  10%  {opacity:.3  }
-  30%  { opacity:.6 }
-  50%  {opacity:.1  }
-  57%  {opacity:.7 }
-  64%  {opacity:.5 }
-  100% { opacity:.1  }
+#tip,#top2, #insideR, #outsideR, #rightGutter, #rightBuild, #pillars,#pillars_2,#pillars_3,#pillars_4,#pillars_5{
+  animation: moveTop2 10s ease-in-out;
 }
+  @keyframes moveTop2 {
+    0% {
+      transform: translateX(-150px);
+    }
+    34% {
+      transform: translateX(-80px);
+    }
+    37% {
+      transform: translateX(-40px);
+    }
+    100% {
+      transform: translateX(-0px);
+    }
+  }
+
+#columnL,#columnmid,#columnR{
+  animation: moveBot 10s ease-in-out;
+}
+  @keyframes moveBot {
+    0% {
+      transform: translateY(-150px);
+    }
+    34% {
+      transform: translateY(-80px);
+    }
+    37% {
+      transform: translateY(-40px);
+    }
+    100% {
+      transform: translateY(-0px);
+    }
+  }
+
+  #mid,#midBottom{
+    animation: spin 6s ease-in-out;
+  }
+
 
 
 /* Add a black background color to the top navigation */
