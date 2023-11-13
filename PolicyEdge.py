@@ -149,7 +149,8 @@ def httpsroute():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    ##Three months before#####
+    form = chartForm()
+##Three months before#####
     c = date.today() + relativedelta(weeks=-12)
     d= str(c).replace("-","")
     threemonthBefore=int(d)
@@ -182,14 +183,14 @@ def index():
     d= str(c).replace("-","")
     sixmonthBefore=int(d)
 #######TOPIC SELECTION##########
-    topics = ["bids","solicit","cannabis","homelessness","police","waste","outdoor dining","alcohol","restaurant","energy"]
-    chosen = topics.pop(random.randrange(len(topics)))
-####### TABLE Data Collection##########
+    chosen = "Cannabis"
+####### TABLE 1##########
     issueText=[]
     tripleCity=[]
-    agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen }}, {"MeetingType":" City Council "}, { 'Date':{'$gte':monthBefore}}]}).sort('Date',-1)
+    agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen }}, {"MeetingType":" City Council "}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
+####### TABLE 1##########
     for x in agendaa:
-        if x['Date'] >= monthBefore:
+        if x['Date'] >= threemonthBefore:
             tripleCity.append(x['City'])
             issueText.append(x)
     issuePerCity= Counter(tripleCity)# Creates key:value pair per city to part w/ issuePerCity.keys()
@@ -198,23 +199,25 @@ def index():
     geo=[]
     dl={}
     for i,v in issuePerCity.items():
-        Cities.append(i[1:-1])# split used because of city gap before after name
+        Cities.append(i)# split used because of city gap before after name
         Cnt.append(v)
-        check=mongo.db.geoLoc.find({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0, "population": 0})
-        for y in check:
-            if y['city'] in i[1:-1]:
-                geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
-    geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
-    df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','issueCnt'])
-    df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['issueCnt'].astype(str)
+        check=mongo.db.geoLoc.find({})
+        check2=mongo.db.geoLoc.find_one({'city':i}, {'_id': 0, "webAdress" : 0})
+        check2=str(check2).replace('}',', ')
+        check2=check2 + "'ISSUECONT': "+ str(v)+'}'
+        geo.append(check2)
+    geo=', '.join(geo)
+    geo="["+geo+"]"
+    df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
+    df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['ISSUECONT'].astype(str)
 
     fig = go.Figure(data=go.Scattergeo(
             lon = df['lng'],
             lat = df['lat'],
             showlegend=False,
-            marker=dict(color=df['issueCnt'].astype(int),
+            marker=dict(color=df['ISSUECONT'].astype(int),
                 colorscale='Plotly3',
-                size=df['issueCnt']**1.6,
+                size=df['ISSUECONT']**1.1,
                 showscale=True ),
             text = df['text'],
             hoverinfo = "text",
@@ -238,7 +241,7 @@ def index():
 
     fig.update_layout(
             geo=dict(bgcolor= '#5e7cff'),
-            title = 'Issue Heat Index',
+            #title = chosen,
             showlegend=True,
             paper_bgcolor='rgba(0,0,0,0)',
             width=660,
@@ -254,17 +257,17 @@ def index():
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     if request.method == 'GET':
-        return render_template('index.html', graphJSON=graphJSON, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
+        return render_template('index.html', graphJSON=graphJSON, form=form, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
 
     elif request.method == 'POST' and request.form.get('select'):
         chosen= request.form.get('select')
-        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$gte':monthBefore}}]}).sort('Date',-1)
-        ####Words taken out for NLTK#######
+        agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
+    ####Words taken out for NLTK#######
         issueText=[]
         tripleCity=[]
     ####### TABLE 1##########
         for x in agendaa:
-            if x['Date'] >= monthBefore:
+            if x['Date'] >= threemonthBefore:
                 tripleCity.append(x['City'])
                 issueText.append(x)
 
@@ -274,23 +277,23 @@ def index():
         geo=[]
         dl={}
         for i,v in issuePerCity.items():
-            Cities.append(i[1:-1])# split used because of city gap before after name
+            Cities.append(i)# split used because of city gap before after name
             Cnt.append(v)
-            check=mongo.db.geoLoc.find({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0, "population": 0})
+            check=mongo.db.geoLoc.find({'city':i}, {'_id': 0, "webAdress" : 0, "population": 0})
             for y in check:
-                if y['city'] in i[1:-1]:
+                if y['city'] in i:
                     geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
         geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
-        df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','issueCnt'])
-        df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['issueCnt'].astype(str)
+        df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
+        df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['ISSUECONT'].astype(str)
 
         fig = go.Figure(data=go.Scattergeo(
                 lon = df['lng'],
                 lat = df['lat'],
                 showlegend=False,
-                marker=dict(color=df['issueCnt'],
+                marker=dict(color=df['ISSUECONT'],
                     colorscale='Plotly3',
-                    size=df['issueCnt']**1.1,
+                    size=df['ISSUECONT']**1.1,
                     showscale=True ),
                 text = df['text'],
                 hoverinfo = "text",
@@ -311,10 +314,10 @@ def index():
             showcountries=True, countrycolor="#fab935",
             showsubunits=True, subunitcolor="#fab935",
         )
-    
+
         fig.update_layout(
                 geo=dict(bgcolor= '#5e7cff'),
-                title = 'Issue Heat Index',
+                #title = chosen,
                 showlegend=True,
                 paper_bgcolor='rgba(0,0,0,0)',
                 width=660,
@@ -328,7 +331,84 @@ def index():
                 ),
                 )
         graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-        return render_template('index.html',graphJSON=graphJSON, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
+        return render_template('index.html',graphJSON=graphJSON, Cities=Cities, form=form, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
+    elif request.method == 'POST' and request.form.get('chartSearch'):
+        try:
+            chosen = request.form['chartSearch']
+            agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
+            ####Words taken out for NLTK#######
+            issueText=[]
+            tripleCity=[]
+        ####### TABLE 1##########
+            for x in agendaa:
+                if x['Date'] >= threemonthBefore:
+                    tripleCity.append(x['City'])
+                    issueText.append(x)
+
+            issuePerCity= Counter(tripleCity)# Creates key:value pair per city to part w/ issuePerCity.keys()
+            Cities=[]
+            Cnt=[]
+            geo=[]
+            dl={}
+            for i,v in issuePerCity.items():
+                Cities.append(i)# split used because of city gap before after name
+                Cnt.append(v)
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0, "webAdress" : 0, "population": 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
+            df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['ISSUECONT'].astype(str)
+
+            fig = go.Figure(data=go.Scattergeo(
+                    lon = df['lng'],
+                    lat = df['lat'],
+                    showlegend=False,
+                    marker=dict(color=df['ISSUECONT'],
+                        colorscale='Plotly3',
+                        size=df['ISSUECONT']**1.1,
+                        showscale=True ),
+                    text = df['text'],
+                    hoverinfo = "text",
+                    textfont=dict(
+                        family="Merriweather', serif",
+                        size=18,
+                        color="white"
+                        ),
+            )
+                    )
+
+            fig.update_geos(
+                fitbounds="locations",
+                scope="usa",
+                resolution=50,
+                showland=True, landcolor="#498f6d",
+                showlakes=True, lakecolor="#5e7cff",
+                showcountries=True, countrycolor="#fab935",
+                showsubunits=True, subunitcolor="#fab935",
+            )
+
+            fig.update_layout(
+                    geo=dict(bgcolor= '#5e7cff'),
+                    #title = 'Issue Heat Index',
+                    showlegend=True,
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    width=660,
+                    mapbox=dict(style="open-street-map"),
+                    autosize=True,
+                    margin={"r":20,"t":50,"l":20,"b":20},
+                    font=dict(
+                        family="Merriweather', serif",
+                        size=18,
+                        color="white"
+                    ),
+                    )
+            graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+        except Exception as e:
+            return render_template('500.html'), 500
+        return render_template('index.html',graphJSON=graphJSON, form=form, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
+
 
 
 @app.route('/register', methods=['GET', 'POST'])
