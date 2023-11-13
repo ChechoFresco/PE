@@ -9,7 +9,6 @@ import stripe
 import os
 import re
 from apscheduler.schedulers.background import BackgroundScheduler
-import nltk
 import random
 from flask_cors import CORS, cross_origin
 import time
