@@ -259,6 +259,7 @@ def index():
 
     elif request.method == 'POST' and request.form.get('select'):
         chosen= request.form.get('select')
+        mongo.db.User.find_one_and_update({'username':'Spreciado67'}, {'$push': {'searches':chosen}}, upsert = True)
         agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
     ####Words taken out for NLTK#######
         issueText=[]
@@ -333,6 +334,7 @@ def index():
     elif request.method == 'POST' and request.form.get('chartSearch'):
         try:
             chosen = request.form['chartSearch']
+            mongo.db.User.find_one_and_update({'username':'Spreciado67'}, {'$push': {'searches':chosen}}, upsert = True)
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
             ####Words taken out for NLTK#######
             issueText=[]
