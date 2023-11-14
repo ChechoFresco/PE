@@ -9,14 +9,16 @@ body{
 	background-color: var(--black);
 }
 :root {
-	--blue: #5e7cff;
-	--textColor: white;
-	--textShadow: 1px 1px 1px black;
-	--white: ghostwhite;
-	--lightgray:#f4f0f0;
-	--black: #2d3237;
-	--orange: #fab935;
-	--gray:#52555a;
+  --font1: 6.1rem;
+  --font2: 1.4rem;
+  --font3: .7rem;
+  --textColor: white;
+  --blue: #5e7cff;
+  --white: #f8f9fe;
+  --black: #2d3237;
+  --orange: #fab935;
+  --gray:#52555a;
+  --textShadow: 2px 2px 1px black;
 }
 svg#logo{
   animation-name: spin;
