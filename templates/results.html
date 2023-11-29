@@ -65,7 +65,7 @@ $(document).ready(function() {
                 <td class='none'>{{agenda.MeetingType}}</td>
                 <td class='none'>{{agenda.ItemType}}</td>
                 <td class='description'>{{agenda.Description}}</td>
-                <td class='infoLocation'><span id='prettyTable' class='hidden-xs'>Date: </span><span id='prettyTable2'>{{agenda.Date|aTime}}</span> <span id='prettyTable' class='hidden-xs'>County: </span><span id='prettyTable2'>{{agenda.County}}</span> <span id='prettyTable' class='hidden-xs'>City: </span><span id='prettyTable2'>{{agenda.City}}</span> <span id='prettyTable' class='hidden-xs'>Meeting Type: </span><span id='prettyTable2'>{{agenda.MeetingType}}</span><span id='prettyTable' class='hidden-xs'> Item Type: </span><span id='prettyTable2'>{{agenda.ItemType}}</span> <span id='prettyTable' class='hidden-xs'>Number: </span><span id='prettyTable2'>{{agenda.Num}}</span></td>
+                <td class='infoLocation'><span class="glyphicon glyphicon-calendar"></span>{{i.Date|aTime}} <span class="glyphicon glyphicon-globe"></span>{{i.County}}<span class="glyphicon glyphicon-globe"></span>{{i.City}} <span class="glyphicon glyphicon-briefcase"></span>{{i.MeetingType}}<span class="glyphicon glyphicon-list"></span>{{i.ItemType}}<span>#</span>{{i.Num}}</td>
             </tr>
             {% endfor %}
         </tbody>
