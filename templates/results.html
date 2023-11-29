@@ -15,12 +15,33 @@
         });
     });
 </script>
+<script>
+$(document).ready(function() {
+    $('button#plus').click(function() {
+        var currentSize= parseInt($("td.description").css("font-size"));
+        $("td.description").css("font-size", currentSize +=1);
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    $('button#minus').click(function() {
+        var currentSize= parseInt($("td.description").css("font-size"));
+        $("td.description").css("font-size", currentSize -=1);
+    });
+});
+</script>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}" >
 
 </head>
 <br></br>
 <div id="conTable">
+    <div class="fontSize">
+        <label>Change Font Size</label>
+        <button id= 'plus'>+</button>
+        <button id = 'minus'>-</button>
+    </div>
     <table id="table" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
         data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='12' class="table-responsive">
         <caption>{{searchKey}}  {{deepKey}}</caption>
