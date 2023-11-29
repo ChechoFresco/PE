@@ -405,8 +405,9 @@ def index():
                     ),
                     )
             graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-        except Exception as e:
-            return render_template('500.html'), 500
+        except:
+            flash('Sorry. No matches found')
+            return redirect(url_for("index"))
         return render_template('index.html',graphJSON=graphJSON, form=form, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
 
 
