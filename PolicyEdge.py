@@ -49,6 +49,7 @@ def check4Issues2email():
         all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, 'agendaUnique_id':1, 'email':1, 'subscriptionActive':1, 'issues':1})#Creates list af all emails and usernames for sequence
 
         for x in all_users: #For each instance of a user
+            email=x['username']#Grabs email for new schedEmail.html
             if x['subscriptionActive'] == True: #Checks to see if user is subscribed
 
     ##################Deletes old id for issues###############
@@ -97,7 +98,7 @@ def check4Issues2email():
                 County=[]
                 meeting_type=[]
                 item_type=[]
-                text=[]
+                agendaLink=[]
 
                 email_body=[]
                 itemCount=0
@@ -116,9 +117,9 @@ def check4Issues2email():
                         start_year = str(intDate[0:4])
                         start_month = str(intDate[4:6])
                         start_day = str(intDate[6:8])
-                        links=mongo.db.geoLoc.find_one({"city":{'$regex': i['City'][1:-1], '$options': 'i'}},{'_id': 0,'webAdress': 1} )
+                        links=mongo.db.doc.find_one({"City":{'$regex': i['City'], '$options': 'i'}},{'_id': 0,'webAdress': 1} )
                         links2= str(links).replace("{'webAdress': '","").replace("'}","")
-                        text.append(links2)
+                        agendaLink.append(links2)
                         Date.append(start_month+'/'+start_day+'/'+start_year)
                         meeting_type.append(i['MeetingType'])
                         item_type.append(i['ItemType'])
@@ -132,8 +133,12 @@ def check4Issues2email():
                     subject = 'You have {} items today from Policy Edge'.format(itemCount)
                     sender = 'AgendaPreciado@gmail.com'
                     msg = Message(subject, sender=sender, recipients=[x['email']])
-                    msg.html= "<html>"+"<body>Hello {},".format(x['username'])+"</p>"+"\n".join(email_body)+"</body>"+ "<p> Thanks for your continued support,<br> <br><span style= 'color:#5e7cff; text-shadow: 1px 1px black'>Policy</span><span style= 'color:#fab935; text-shadow: 1px 1px black'>Edge</span></p> </html>"
+                    msg.html = render_template('schedEmail.html', email=email, packed=zip(issue, city, meeting_type, County, Date, description, agendaLink ))
+                    with app.open_resource('/static/logo.png') as fp:
+                        msg.attach(filename="logo.png", content_type="image/png", data=fp.read(),
+                                    disposition="inline", headers=[['Content-ID', '<voucher_png>']])
                     mail.send(msg)
+                    return redirect(url_for("index"))
             else:
                 pass
 
