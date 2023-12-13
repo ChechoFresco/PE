@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+    <head>
+    </head>
+    <body>
+        <table style="border: 1px solid #dddddd;border-radius: 12px;">
+            <table>
+                <td style= 'width:100vw; text-align:center;'>
+                    <img src="cid:voucher_png" width=600 >
+                </td>
+            </table>
+            <table style = 'width: 66%;height: 1px;background:radial-gradient(orange,blue);margin:auto'></table>
+            <p style ='font-size: 16px;font-weight: normal;color: darkslategrey;font-family:Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;' >&nbsp;&nbsp;&nbsp;&nbsp;Hi {{ email }},</p>
+            <p style ='font-size: 16px;font-weight: normal;color: darkslategrey;font-family:Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;'> &nbsp;&nbsp;&nbsp;&nbsp;Here are the keywords that were mentioned this week. </p>
+
+            {% for a, b, c ,d ,e, f,g in packed: %}
+            <p style='font-size:16px;font-weight:normal;color:orangered;font-family:sans-Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;text-transform:capitalize;text-align:center'>{{a}}</p>
+            <table style="background-color:#5e7cff;width: 95%;margin:auto" >
+                <p style='font-size: 14px;font-weight: normal; color: white;font-family: sans-Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;text-align:center'>
+                    <span style="font-weight: bold;">County:</span>{{d}}&nbsp;
+                    <span style="font-weight: bold;">City:</span>{{b}}&nbsp;
+                    <span style="font-weight: bold;">Meeting Type:</span>{{c}}&nbsp;
+                    <span style="font-weight: bold;">Date:</span>{{e}}&nbsp;
+                    <span style="font-weight: bold;">Link:</span>{{g}}&nbsp;
+                </p>
+            </table>
+            <table style="width: 94%;margin:auto">
+                <p style='font-size: 14px;font-weight: normal; color: slategray;font-family: sans-Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;'>{{f}}</p>
+            </table>
+            <br></br>
+            <table style = 'width: 66%;height: 1px;background:radial-gradient(orange,blue);margin:auto'></table>
+            {% endfor %}
+            <p style='font-size: 16px;font-weight: normal; color: darkslategrey;font-family: sans-Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;'>Thanks for your continued support,</p>
+            <img src="cid:voucher_png" width=250>
+        <table>
+    </body>
+</html>
+
+
