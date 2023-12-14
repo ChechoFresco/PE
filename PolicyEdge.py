@@ -205,7 +205,6 @@ def index():
         Cities.append(i[1:-1])# split used because of city gap before after name
         Cnt.append(v)
         check2=mongo.db.geoLoc.find_one({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0})
-        print(check2)
         check2=str(check2).replace('}',', ')
         check2=check2 + "'ISSUECONT': "+ str(v)+'}'
         geo.append(check2)
