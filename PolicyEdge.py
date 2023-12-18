@@ -125,7 +125,7 @@ def check4Issues2email():
                         item_type.append(i['ItemType'])
 
                 for y in range(len(city)):#range(len)city is used because it gives accurate count of topics being sent
-                    email_body.append("<p style ='font-weight: bold;' >The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(issue[y],city[y],meeting_type[y],County[y],Date[y],description[y], text[y]))
+                    email_body.append("<p style ='font-weight: bold;' >The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(issue[y],city[y],meeting_type[y],County[y],Date[y],description[y], agendaLink[y]))
 
                 if len(email_body)==0:
                     pass
