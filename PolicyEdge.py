@@ -138,7 +138,6 @@ def check4Issues2email():
                         msg.attach(filename="logo.png", content_type="image/png", data=fp.read(),
                                     disposition="inline", headers=[['Content-ID', '<voucher_png>']])
                     mail.send(msg)
-                    return redirect(url_for("index"))
             else:
                 pass
 
