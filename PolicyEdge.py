@@ -134,7 +134,7 @@ def check4Issues2email():
                     sender = 'AgendaPreciado@gmail.com'
                     msg = Message(subject, sender=sender, recipients=[x['email']])
                     msg.html = render_template('schedEmail.html', email=email, packed=zip(issue, city, meeting_type, County, Date, description, agendaLink ))
-                    with app.open_resource('/static/logo.png') as fp:
+                    with app.open_resource('/app/static/logo.png') as fp:
                         msg.attach(filename="logo.png", content_type="image/png", data=fp.read(),
                                     disposition="inline", headers=[['Content-ID', '<voucher_png>']])
                     mail.send(msg)
