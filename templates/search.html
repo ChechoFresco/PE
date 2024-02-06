@@ -7,260 +7,221 @@
 {% block content %}
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+
 </head>
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <script>
-        var messages = {{ messages | safe }};
-        for (var i=0; i<messages.length; i++) {
-            alert(messages[i]);
-        }
-        </script>
-    {% endif %}
-{% endwith %}
-    <div class="package">
-        <img src="/static/pexels-enric-cruz-lópez-6039205.jpg" title= "Uniton Station Los Angeles" alt="Halls of Union Station in Downtown Los Angeles">
-        <div class="row">
-            <div class="col-sm-offset-1 col-sm-5" id='panel'>
-                <div class='frost'>
-                    <div class="info">
-                        <h3 id="cityOpt">Agoura Hills<br></br>Alhambra<br></br> Arcadia<br></br> Artesia<br></br> Azusa<br></br> Baldwin Park<br></br> Bell
-                            <br></br> Bell Gardens<br></br> Bellflower<br></br> Beverly Hills<br></br> Bradbury<br></br> Burbank<br></br> Calabasas<br></br> Carson
-                            <br></br> Cerritos<br></br> City of Industry<br></br> Claremont<br></br> Commerce<br></br> Compton<br></br> Covina<br></br> Cudahy<br></br> Culver City
-                            <br></br> Diamond Bar<br></br> Downey<br></br> Duarte<br></br> El Monte<br></br> El Segundo<br></br> Gardena<br></br> Glendale<br></br> Glendora
-                            <br></br> Hawaiian Gardens<br></br> Hawthorne<br></br> Hermosa Beach<br></br> Hidden Hills<br></br> Huntington Park<br></br> Inglewood<br></br> Irwindale<br></br> La Canada Flintridge
-                            <br></br> La Habra Heights<br></br> La Mirada<br></br> La Puente<br></br> La Verne<br></br> Lakewood<br></br> Lancaster<br></br> Lawndale
-                            <br></br> Lomita<br></br> Long Beach<br></br> Los Angeles<br></br> Lynwood<br></br> Malibu<br></br> Manhattan Beach<br></br> Maywood
-                            <br></br> Monrovia<br></br> Montebello<br></br> Monterey Park<br></br> Norwalk<br></br> Palmdale<br></br> Palos Verdes Estates<br></br> Paramount
-                            <br></br> Pasadena<br></br> Pico Rivera<br></br> Pomona<br></br> Rancho Palos Verdes<br></br> Redondo Beach<br></br> Rolling Hills<br></br> Rolling Hills Estate
-                            <br></br> Rosemead<br></br> San Dimas<br></br> San Fernando<br></br> San Gabriel<br></br> San Marino<br></br> Santa Clarita<br></br> Santa Fe Springs
-                            <br></br> Santa Monica<br></br> Sierra Madre<br></br> Signal Hill<br></br> South El Monte<br></br> South Gate<br></br> South Pasadena<br></br> Temple City
-                            <br></br> Torrance<br></br> Vernon<br></br> Walnut<br></br> West Covina<br></br> West Hollywood<br></br> Westlake Village<br></br> Whittier</h3>
-                            <h3 id="committeeOpt">Arts, Parks, Health, Education, and Neighborhoods Committee <br></br> Board of Airport Commissioners <br></br> Board of Fire Commissioners <br></br> Board of Public Works <br></br> Board of Rec and Park Commission <br></br> Board of Transportation Commissioners <br></br> Budget & Finance <br></br> Cannabis Regulation Commission <br></br> City Planning Commission <br></br> Economic Development and Jobs Committee <br></br> Energy Climate <br></br> Homelessness & Poverty Committee <br></br> Immigrant Affairs , Civil Rights, and Equity Committee <br></br> Information Technology & General Service Committee <br></br> LA City Health Commission <br></br> LA County Board <br>
-                            </br> LA Police Commission <br></br> LADWP Board <br></br> Personnel, Audits, and Animal Welfare Committee <br></br> PLUM <br></br> Port of LA <br></br> Public Safety Committee <br></br> Public Works <br>
-                            </br> Rules Elections <br></br> Trade, Travel, and Tourism Committee <br></br> Transportation Committee'</h3>
-                        <h3 id="orangeOpt">Aliso Viejo<br></br>Anaheim<br></br>Brea<br></br>Buena Park<br></br>Coasta Mesa<br></br>Cypress<br></br>Dana Point<br></br>Fountain Valley<br></br>Fullerton<br></br>Huntington Beach<br></br>Irvine<br></br> La Habra<br></br>La Palma<br></br>Laguna Beach<br></br>Laguna Hills<br></br>Laguna Niguel<br></br>Laguna Woods<br></br>Lake Forest<br></br>Los Alamitos<br></br>Mission Viejo<br></br>Newport Beach<br><br></br>Orange<br></br>Placentia<br></br>Rancho Santa Margarita<br></br>San Clemente<br></br>San Juan Capistrano<br></br>Santa Ana<br></br>Seal Beach<br></br>Stanton<br></br>Tustin<br></br>Villa Park<br></br>Westminister<br></br>Yorba Linda</h3>
-                        <h3 id="lbcommitteeOpt">Airport<br></br>Economic Development and Finance Committee<br></br>Economic Development Commission<br></br>Long Beach Transit<br></br>Parks and Recreation Commission<br></br>Planning Commission<br></br>Port, Transportation and Infrastructure Committee<br></br>Public Safety Committee<br></br>Technology and Innovation Commission<br></br>Water Commission<br></br></h3>
-                        <h3 id="riversideOpt">Banning<br></br>Beaumont<br></br>Blythe<br></br>Calimesa<br></br>Canyon Lake<br></br>Cathedral City<br></br>Coachella<br></br>Corona<br></br>Desert Hot Springs<br></br>Eastvale<br></br>Hemet<br></br>Indian Wells<br></br>Indio<br></br>Jurupa Valley<br></br>Lake Elsinore<br></br>La Quinta<br></br>Menifee<br></br>Moreno Valley<br></br>Murrieta<br></br>Norco<br></br>Palm Desert<br></br>Palm Springs<br></br>Perris<br></br>Rancho Mirage<br></br>Riverside<br></br>San Jacinto<br></br>Temecula<br></br>Wildomar</h3>
-                        <h3 id="sandiegoOpt">Carlsbad<br></br>Chula Vista<br></br>Coronado<br></br>Del Mar<br></br>El Cajon<br></br>Encinitas<br></br>Escondido<br></br>Imprial Beach<br></br>La Mesa<br></br>Lemon Grove<br></br>National City<br></br>Oceanside<br></br>Poway<br></br>San Diego<br></br>San Marcos<br></br>Santee<br></br>Solana Beach<br></br>Vista</h3>
-                        <h3 id="sanbernandinoOpt">Adelanto<br></br>Apple Valley<br></br>Barstow<br></br>Big Bear Lake<br></br>Chino<br></br>Chino Hills<br></br>Colton<br></br>Fontana<br></br>Grand Terrace<br></br>Hesperia<br></br>Highland<br></br>Loma Linda<br></br>Montclair<br></br>Needles<br></br>Ontario<br></br>Rancho Cucamonga<br></br>Redlands<br></br>Rialto<br></br>San Bernandino<br></br>Twnentynine Palms<br></br>Upland<br></br>Victorville<br></br>Yucaipa<br></br>Yucca Valley</h3>
-                    </div>
-                </div>
+<body>
+<div class="col-sm-12" style="height: auto; max-width: 1920px;">
+    <div class="formdiv">
+        {% from "_formhelpers.html" import render_field %}
+        <form action='/results' method="post">
+            <div>
+            {{ render_field(form.select) }}
             </div>
-            <div class="col-sm-5" id='panel'>
-                <div class='frost'>
-                    <div class="formdiv">
-                        {% from "_formhelpers.html" import render_field %}
-                        <form method="post">
-                            <ul>
-                            {{ render_field(form.select) }}
-                            <p>
-                            {{ render_field(form.primary_search) }}
-                            <p>
-                            {{ render_field(form.secondary_search) }}
-                            <p>
-                            {{ render_field(form.startdate_field) }}
-                            <p>
-                            {{ render_field(form.enddate_field) }}
-                            </ul>
-                            <p><input type="submit" value="Search"></p>
-                        </form>
-                    </div>
-                </div>
+            <div>
+            {{ render_field(form.selectLA) }}
             </div>
-        </div>
+            <div>
+            {{ render_field(form.selectOC) }}
+            </div>
+            <div>
+            {{ render_field(form.selectRS) }}
+            </div>
+            <div>
+            {{ render_field(form.selectSB) }}
+            </div>
+            <div>
+            {{ render_field(form.selectSD) }}
+            </div>
+            <div>
+            {{ render_field(form.selectLACM) }}
+            </div>
+            <div>
+            {{ render_field(form.selectLBCM) }}
+            </div>
+            <div>
+            {{ render_field(form.primary_search) }}
+            </div>
+            <div>
+            {{ render_field(form.startdate_field) }}
+            </div>
+            <div>
+            {{ render_field(form.enddate_field) }}
+            </div>
+            <div>
+            <input type="submit" value="Search">
+            </div>
+        </form>
     </div>
-
-
+</div>
+{% include "results.html" %}
+</body>
 <script>
     function dynFrom(){
         $('select').on('change', function() {
-            if (this.value==='LA County'){
-                var x = document.getElementById('committeeOpt');
-                var y = document.getElementById('cityOpt');
-                var z = document.getElementById('orangeOpt');
-                var a = document.getElementById('lbcommitteeOpt');
-                var b = document.getElementById('riversideOpt');
-                var c = document.getElementById('sandiegoOpt');
-                var d = document.getElementById('sanbernandinoOpt');
-                document.getElementById("lbcommitteeOpt").style.display="none";
-                document.getElementById("riversideOpt").style.display="none";
-                document.getElementById("sanbernandinoOpt").style.display="none";
-                document.getElementById("sandiegoOpt").style.display="none";
-                document.getElementById("orangeOpt").style.display="none";
-                document.getElementById("cityOpt").style.display="block";
-                document.getElementById("committeeOpt").style.display="none";
-                document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").innerHTML = "City:";
-                document.querySelector("label[for='primary_search']").style.display="inline";
-                document.querySelector("label[for='secondary_search']").style.display="inline";
-                document.getElementById("secondary_search").style.display="inline";
-                document.getElementById("select2").style.display="none";
-                document.querySelector("label[for='select2']").style.display="none";
-            }
             if (this.value==='Issue'){
-                var x = document.getElementById('committeeOpt');
-                var y = document.getElementById('cityOpt');
-                var z = document.getElementById('orangeOpt');
-                var a = document.getElementById('lbcommitteeOpt');
-                var b = document.getElementById('riversideOpt');
-                var c = document.getElementById('sandiegoOpt');
-                var d = document.getElementById('sanbernandinoOpt');
-                document.getElementById("lbcommitteeOpt").style.display="none";
-                document.getElementById("sandiegoOpt").style.display="none";
-                document.getElementById("riversideOpt").style.display="none";
-                document.getElementById("sanbernandinoOpt").style.display="none";
-                document.getElementById("cityOpt").style.display="none";
-                document.getElementById("committeeOpt").style.display="none";
-                document.getElementById("orangeOpt").style.display="none";
-                document.querySelector("label[for='primary_search']").style.display="inline";
                 document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").innerHTML = "Issue:";
-                document.getElementById("secondary_search").style.display="none";
-                document.querySelector("label[for='secondary_search']").style.display="none";
-                document.getElementById("select2").style.display="none";
-                document.querySelector("label[for='select2']").style.display="none";
+                document.getElementById("selectLA").style.display="none";
+                document.querySelector("label[for='selectLA']").style.display="none";
+                document.querySelector("label[for='selectOC']").style.display="none";
+                document.getElementById("selectOC").style.display="none";
+                document.querySelector("label[for='selectSD']").style.display="none";
+                document.getElementById("selectSD").style.display="none";
+                document.querySelector("label[for='selectRS']").style.display="none";
+                document.getElementById("selectRS").style.display="none";
+                document.querySelector("label[for='selectSB']").style.display="none";
+                document.getElementById("selectSB").style.display="none";
+                document.querySelector("label[for='selectLACM']").style.display="none";
+                document.getElementById("selectLACM").style.display="none";
+                document.querySelector("label[for='selectLBCM']").style.display="none";
+                document.getElementById("selectLBCM").style.display="none";
+
             }
             if (this.value==='LA Committees'){
-                var x = document.getElementById('committeeOpt');//committee aid
-                var y = document.getElementById('cityOpt');//city aid
-                var z = document.getElementById('orangeOpt');
-                var a = document.getElementById('lbcommitteeOpt');
-                var b = document.getElementById('riversideOpt');
-                var c = document.getElementById('sandiegoOpt');
-                var d = document.getElementById('sanbernandinoOpt');
-                document.getElementById("lbcommitteeOpt").style.display="none";
-                document.getElementById("orangeOpt").style.display="none";
-                document.getElementById("sandiegoOpt").style.display="none";
-                document.getElementById("riversideOpt").style.display="none";
-                document.getElementById("sanbernandinoOpt").style.display="none";
-                document.getElementById("committeeOpt").style.display="none";
-                document.getElementById("cityOpt").style.display="none";//hides city html
-                document.getElementById("committeeOpt").style.display="block";//displays LA Committee options
                 document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
-                document.querySelector("label[for='primary_search']").style.display= "inline";//display primary_search text
-                document.querySelector("label[for='primary_search']").innerHTML = "Committees:";//changes name of primary_search to commitees from something else
-                document.querySelector("label[for='secondary_search']").innerHTML = "Issue:"; // label of main search bar
-                document.querySelector("label[for='secondary_search']").style.display="inline";// makes sure label is visible
-                document.getElementById("secondary_search").style.display="inline";// main search bar
-                document.getElementById("select2").style.display="inline";//drop down menu visible
-                document.queryselector("label[for='select2']").style.display="none";
-            }
-            if (this.value==="Orange County"){
-                var x = document.getElementById('committeeOpt');
-                var y = document.getElementById('cityOpt');
-                var z = document.getElementById('orangeOpt');
-                var a = document.getElementById('lbcommitteeOpt');
-                var b = document.getElementById('riversideOpt');
-                var c = document.getElementById('sandiegoOpt');
-                var d = document.getElementById('sanbernandinoOpt');
-                document.getElementById("orangeOpt").style.display="block";
-                document.getElementById("lbcommitteeOpt").style.display="none";
-                document.getElementById("cityOpt").style.display="none";
-                document.getElementById("sandiegoOpt").style.display="none";
-                document.getElementById("riversideOpt").style.display="none";
-                document.getElementById("sanbernandinoOpt").style.display="none";
-                document.getElementById("committeeOpt").style.display="none";
-                document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").innerHTML = "City:";
-                document.querySelector("label[for='primary_search']").style.display="inline";
-                document.querySelector("label[for='secondary_search']").style.display="inline";
-                document.getElementById("secondary_search").style.display="inline";
-                document.getElementById("select2").style.display="none";
-                document.querySelector("label[for='select2']").style.display="none";
+                document.querySelector("label[for='primary_search']").style.display= "inline";
+
+                document.querySelector("label[for='selectLA']").style.display="none";
+                document.getElementById("selectLA").style.display="none";
+                document.querySelector("label[for='selectOC']").style.display="none";
+                document.getElementById("selectOC").style.display="none";
+                document.querySelector("label[for='selectSD']").style.display="none";
+                document.getElementById("selectSD").style.display="none";
+                document.querySelector("label[for='selectRS']").style.display="none";
+                document.getElementById("selectRS").style.display="none";
+                document.querySelector("label[for='selectSB']").style.display="none";
+                document.getElementById("selectSB").style.display="none";
+                document.querySelector("label[for='selectLACM']").style.display="inline";
+                document.querySelector("label[for='selectLACM']").innerHTML = "Committee:";
+                document.getElementById("selectLACM").style.display="inline";
+                document.getElementById("selectLACM").style.width = "25rem";
+                document.getElementById("selectLACM").style.height = "34px";
+                document.querySelector("label[for='selectLBCM']").style.display="none";
+                document.getElementById("selectLBCM").style.display="none";
             }
             if (this.value==='Long Beach Committees'){
-                var x = document.getElementById('committeeOpt');//committee aid
-                var y = document.getElementById('cityOpt');//city aid
-                var z = document.getElementById('orangeOpt');
-                var a = document.getElementById('lbcommitteeOpt');
-                var b = document.getElementById('riversideOpt')
-                var c = document.getElementById('sandiegoOpt');
-                var d = document.getElementById('sanbernandinoOpt');
-                document.getElementById("lbcommitteeOpt").style.display="block";
-                document.getElementById("orangeOpt").style.display="none";
-                document.getElementById("riversideOpt").style.display="none";
-                document.getElementById("sanbernandinoOpt").style.display="none";
-                document.getElementById("sandiegoOpt").style.display="none";
-                document.getElementById("committeeOpt").style.display="none";
-                document.getElementById("cityOpt").style.display="none";//hides city html
                 document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
                 document.querySelector("label[for='primary_search']").style.display= "inline";//display primary_search text
-                document.querySelector("label[for='primary_search']").innerHTML = "Committees:";//changes name of primary_search to commitees from something else
-                document.querySelector("label[for='secondary_search']").innerHTML = "Issue:"; // label of main search bar
-                document.querySelector("label[for='secondary_search']").style.display="inline";// makes sure label is visible
-                document.getElementById("secondary_search").style.display="inline";// main search bar
-                document.getElementById("select2").style.display="inline";//drop down menu visible
-                document.queryselector("label[for='select2']").style.display="none";
+
+                document.querySelector("label[for='selectLA']").style.display="none";
+                document.getElementById("selectLA").style.display="none";
+                document.querySelector("label[for='selectOC']").style.display="none";
+                document.getElementById("selectOC").style.display="none";
+                document.querySelector("label[for='selectSD']").style.display="none";
+                document.getElementById("selectSD").style.display="none";
+                document.querySelector("label[for='selectRS']").style.display="none";
+                document.getElementById("selectRS").style.display="none";
+                document.querySelector("label[for='selectSB']").style.display="none";
+                document.getElementById("selectSB").style.display="none";
+                document.querySelector("label[for='selectLACM']").style.display="none";
+                document.getElementById("selectLACM").style.display="none";
+                document.querySelector("label[for='selectLBCM']").style.display="inline";
+                document.getElementById("selectLBCM").style.display="inline";
+                document.getElementById("selectLBCM").style.width = "25rem";
+                document.getElementById("selectLBCM").style.height = "34px";
+                document.querySelector("label[for='selectLBCM']").innerHTML = "Committee:";
+
+            }
+            if (this.value==='LA County'){
+                document.getElementById("primary_search").style.display="inline";
+                document.querySelector("label[for='primary_search']").style.display="inline";
+
+                document.querySelector("label[for='selectLA']").style.display="inline";
+                document.getElementById("selectLA").style.display="inline";
+                document.getElementById("selectLA").style.height = "34px";
+                document.querySelector("label[for='selectOC']").style.display="none";
+                document.getElementById("selectOC").style.display="none";
+                document.querySelector("label[for='selectSD']").style.display="none";
+                document.getElementById("selectSD").style.display="none";
+                document.querySelector("label[for='selectRS']").style.display="none";
+                document.getElementById("selectRS").style.display="none";
+                document.querySelector("label[for='selectSB']").style.display="none";
+                document.getElementById("selectSB").style.display="none";
+                document.querySelector("label[for='selectLACM']").style.display="none";
+                document.getElementById("selectLACM").style.display="none";
+                document.querySelector("label[for='selectLBCM']").style.display="none";
+                document.getElementById("selectLBCM").style.display="none";
+            }
+            if (this.value==="Orange County"){
+                document.getElementById("primary_search").style.display="inline";
+                document.querySelector("label[for='primary_search']").style.display="inline";
+
+                document.querySelector("label[for='selectLA']").style.display="none";
+                document.getElementById("selectLA").style.display="none";
+                document.querySelector("label[for='selectOC']").style.display="inline";
+                document.getElementById("selectOC").style.display="inline";
+                document.getElementById("selectOC").style.height = "34px";
+                document.querySelector("label[for='selectSD']").style.display="none";
+                document.getElementById("selectSD").style.display="none";
+                document.querySelector("label[for='selectRS']").style.display="none";
+                document.getElementById("selectRS").style.display="none";
+                document.querySelector("label[for='selectSB']").style.display="none";
+                document.getElementById("selectSB").style.display="none";
+                document.querySelector("label[for='selectLACM']").style.display="none";
+                document.getElementById("selectLACM").style.display="none";
+                document.querySelector("label[for='selectLBCM']").style.display="none";
+                document.getElementById("selectLBCM").style.display="none";
             }
             if (this.value==="San Diego County"){
-                var x = document.getElementById('committeeOpt');
-                var y = document.getElementById('cityOpt');
-                var z = document.getElementById('orangeOpt');
-                var a = document.getElementById('lbcommitteeOpt');
-                var b = document.getElementById('riversideOpt');
-                var c = document.getElementById('sandiegoOpt');
-                var d = document.getElementById('sanbernandinoOpt');
-                document.getElementById("orangeOpt").style.display="none";
-                document.getElementById("lbcommitteeOpt").style.display="none";
-                document.getElementById("cityOpt").style.display="none";
-                document.getElementById("sandiegoOpt").style.display="block";
-                document.getElementById("riversideOpt").style.display="none";
-                document.getElementById("sanbernandinoOpt").style.display="none";
-                document.getElementById("committeeOpt").style.display="none";
                 document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").innerHTML = "City:";
                 document.querySelector("label[for='primary_search']").style.display="inline";
-                document.querySelector("label[for='secondary_search']").style.display="inline";
-                document.getElementById("secondary_search").style.display="inline";
-                document.getElementById("select2").style.display="none";
-                document.querySelector("label[for='select2']").style.display="none";
+
+                document.querySelector("label[for='selectLA']").style.display="none";
+                document.getElementById("selectLA").style.display="none";
+                document.querySelector("label[for='selectOC']").style.display="none";
+                document.getElementById("selectOC").style.display="none";
+                document.querySelector("label[for='selectSD']").style.display="inline";
+                document.getElementById("selectSD").style.display="inline";
+                document.getElementById("selectSD").style.height = "34px";
+                document.querySelector("label[for='selectRS']").style.display="none";
+                document.getElementById("selectRS").style.display="none";
+                document.querySelector("label[for='selectSB']").style.display="none";
+                document.getElementById("selectSB").style.display="none";
+                document.querySelector("label[for='selectLACM']").style.display="none";
+                document.getElementById("selectLACM").style.display="none";
+                document.querySelector("label[for='selectLBCM']").style.display="none";
+                document.getElementById("selectLBCM").style.display="none";
             }
             if (this.value==="Riverside County"){
-                var x = document.getElementById('committeeOpt');
-                var y = document.getElementById('cityOpt');
-                var z = document.getElementById('orangeOpt');
-                var a = document.getElementById('lbcommitteeOpt');
-                var b = document.getElementById('riversideOpt');
-                var c = document.getElementById('sandiegoOpt');
-                var d = document.getElementById('sanbernandinoOpt');
-                document.getElementById("orangeOpt").style.display="none";
-                document.getElementById("lbcommitteeOpt").style.display="none";
-                document.getElementById("cityOpt").style.display="none";
-                document.getElementById("sandiegoOpt").style.display="none";
-                document.getElementById("riversideOpt").style.display="block";
-                document.getElementById("sanbernandinoOpt").style.display="none";
-                document.getElementById("committeeOpt").style.display="none";
                 document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").innerHTML = "City:";
+
                 document.querySelector("label[for='primary_search']").style.display="inline";
-                document.querySelector("label[for='secondary_search']").style.display="inline";
-                document.getElementById("secondary_search").style.display="inline";
-                document.getElementById("select2").style.display="none";
-                document.querySelector("label[for='select2']").style.display="none";
+
+                document.querySelector("label[for='selectLA']").style.display="none";
+                document.getElementById("selectLA").style.display="none";
+                document.querySelector("label[for='selectOC']").style.display="none";
+                document.getElementById("selectOC").style.display="none";
+                document.querySelector("label[for='selectSD']").style.display="none";
+                document.getElementById("selectSD").style.display="none";
+                document.querySelector("label[for='selectRS']").style.display="inline";
+                document.getElementById("selectRS").style.display="inline";
+                document.getElementById("selectRS").style.height = "34px";
+                document.querySelector("label[for='selectSB']").style.display="none";
+                document.getElementById("selectSB").style.display="none";
+                document.querySelector("label[for='selectLACM']").style.display="none";
+                document.getElementById("selectLACM").style.display="none";
+                document.querySelector("label[for='selectLBCM']").style.display="none";
+                document.getElementById("selectLBCM").style.display="none";
             }
             if (this.value==='San Bernandino County'){
-                var x = document.getElementById('committeeOpt');
-                var y = document.getElementById('cityOpt');
-                var z = document.getElementById('orangeOpt');
-                var a = document.getElementById('lbcommitteeOpt');
-                var b = document.getElementById('riversideOpt');
-                var c = document.getElementById('sandiegoOpt');
-                var d = document.getElementById('sanbernandinoOpt');
-                document.getElementById("lbcommitteeOpt").style.display="none";
-                document.getElementById("riversideOpt").style.display="none";
-                document.getElementById("sanbernandinoOpt").style.display="block";
-                document.getElementById("sandiegoOpt").style.display="none";
-                document.getElementById("orangeOpt").style.display="none";
-                document.getElementById("cityOpt").style.display="none";
-                document.getElementById("committeeOpt").style.display="none";
                 document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").innerHTML = "City:";
+
                 document.querySelector("label[for='primary_search']").style.display="inline";
-                document.querySelector("label[for='secondary_search']").style.display="inline";
-                document.getElementById("secondary_search").style.display="inline";
-                document.getElementById("select2").style.display="none";
-                document.querySelector("label[for='select2']").style.display="none";
+
+                document.querySelector("label[for='selectLA']").style.display="none";
+                document.getElementById("selectLA").style.display="none";
+                document.querySelector("label[for='selectOC']").style.display="none";
+                document.getElementById("selectOC").style.display="none";
+                document.querySelector("label[for='selectSD']").style.display="none";
+                document.getElementById("selectSD").style.display="none";
+                document.querySelector("label[for='selectRS']").style.display="none";
+                document.getElementById("selectRS").style.display="none";
+                document.querySelector("label[for='selectSB']").style.display="inline";
+                document.getElementById("selectSB").style.display="inline";
+                document.getElementById("selectSB").style.height = "34px";
+                document.querySelector("label[for='selectLACM']").style.display="none";
+                document.getElementById("selectLACM").style.display="none";
+                document.querySelector("label[for='selectLBCM']").style.display="none";
+                document.getElementById("selectLBCM").style.display="none";
             }
         })
     }
