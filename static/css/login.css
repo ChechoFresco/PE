@@ -1,68 +1,97 @@
-div.package{
+/*#Chage shape of Logo*/
+a.logoMain {
     position: relative;
-    max-width:1920px;
-    height:50vh;
+    left: 38%;
+    top: 9rem;
+    height: 25rem;
+}
+svg.main{
+    width: 57rem;
+    height: 10rem;
+}
+
+#building {
+    width: 100%;
     margin: auto;
+    height:12rem;
+}
+
+/*Main Section*/
+
+div.package {
+    position: relative;
+    max-width: 1920px;
+    border-radius: 2rem;
+    height: 60rem;
+    margin: auto;
+}
+
+h1 {
+    color: var(--white);
+    text-align: center;
+    font-size: 5rem;
+    text-shadow: var(--textShadow)
+}
+
+h2 {
+    color: var(--white);
+    text-align: center;
+    font-size:2.7rem;
+    text-shadow: 2px 2px 2px black;
 }
 
 .frost {
     position: relative;
-    border-radius: 8%;
-    background-color: rgba(255, 255, 255, .15);
-    backdrop-filter: blur(5px);
+    border-radius: 3%;
     padding: 3%;
-    top:10rem;
-    width:40rem;
-    left:21rem;
+    top:1rem;
+    width: 36rem;
+    margin: auto;
+    height: 58rem;
+    border: 3px solid  rgba(94, 124, 255, 0.6);
+    border-bottom: 0;
+    border-left: 3px solid  rgba(94, 124, 255, 0.8);
+    border-top: 3px solid  rgba(94, 124, 255, 0.8);
+    background-color: rgb(197 197 197 / 37%);
+    box-shadow: rgba(94, 124, 255, 0.4) 0px 3px, rgba(94, 124, 255, 0.3) 0px 6px, rgba(94, 124, 255, 0.2) 0px 9px, rgba(94, 124, 255, 0.1) 0px 12px, rgba(94, 124, 255, 0.05) 0px 15px;
 }
-div.background{
-    width: 57rem;
+.frost::after {
+    content: '';
+    border-radius: 3%;
+    top: -3px;
+    left: -3px;
+    bottom: -3px;
+    right: -3px;
+    position: absolute;
+    z-index:-1;
 }
-form{
-    height: 34vh;
+
+form {
+    height: 22vh;
     position: relative;
     top: 4rem;
     margin: auto;
     font-size: 1.5vh;
-    width: fit-content;
 }
 
-.form-control {
-    width: fit-content;
+.btn {
+    text-shadow: 2px 2px 1px black;
+    background-color: var(--lBlue);
+    border-color: var(--gray);
 }
 
-#conBG {
-    position: relative;
-    height: 100%;
-}
-label{
-    color:white;
-    text-shadow: 4px 4px 2px black;
-    font-size:1.2rem;
-}
-#userHelp{
-    color:white;
-    text-shadow: 4px 4px 2px black;
-    font-size:1.2rem;
-}
 @media screen and (max-width: 600px) {
-    form{
-        height: 34vh;
-        top: 3rem;
-        font-size: 1.5vh;
-        width: 100vw;
+    form {
+        width: 79%;
     }
+
     .frost {
-        top:0rem;
-        left:0rem;
-    }
-    div.package{
-        height:100%;
-    }
-    div.background{
+        top: 0rem;
+        left: 0rem;
         width: 100vw;
+    }
+
+    div.package {
+        height: 100%;
     }
 }
-
-
-
