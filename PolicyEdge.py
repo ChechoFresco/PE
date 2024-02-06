@@ -13,7 +13,6 @@ import random
 import time
 from collections import Counter
 import pandas as pd
-import geopandas as gpd
 import folium
 from folium.features import DivIcon
 
