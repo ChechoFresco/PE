@@ -7,6 +7,10 @@
 {% block content %}
 
 <head>
+    <!-- Fonts Bootstrap and AJAX-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
     <script>
         $(document).ready(function () {
             const searchValue = {{ chosen | tojson}};
