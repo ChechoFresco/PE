@@ -42,8 +42,7 @@ def check4Issues2email():
     with app.app_context():
     ##########Date###############
         a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
+        today= int(a.strftime('%Y%m%d'))
 
     ##########User roundup###############
         all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, 'agendaUnique_id':1, 'email':1, 'subscriptionActive':1, 'issues':1})#Creates list af all emails and usernames for sequence
@@ -154,36 +153,8 @@ def index():
     form = chartForm()
     ##Three months before#####
     c = date.today() + relativedelta(weeks=-12)
-    d= str(c).replace("-","")
-    threemonthBefore=int(d)
-    ##One month Before#####
-    k = date.today() + relativedelta(weeks=-4)
-    l= str(k).replace("-","")
-    monthBefore=int(l)
-    ##Two weeks After#####
-    a = date.today()+ relativedelta(weeks=-2)
-    b= str(a).replace("-","")
-    twoweekBefore=int(b)
-    ##One week Before#####
-    g = date.today() + relativedelta(weeks=-1)
-    h= str(g).replace("-","")
-    weekBefore=int(h)
-    ##Today#####
-    i = date.today()
-    j= str(i).replace("-","")
-    today=int(j)
-    ##One week After#####
-    e = date.today()+ relativedelta(weeks=1)
-    f= str(e).replace("-","")
-    weekAhead=int(f)
-    ##Two weeks After#####
-    a = date.today()+ relativedelta(weeks=2)
-    b= str(a).replace("-","")
-    twoweekAhead=int(b)
-    ##One year Trend#####
-    c = date.today() + relativedelta(weeks=-26)
-    d= str(c).replace("-","")
-    sixmonthBefore=int(d)
+    threemonthBefore=int(c.strftime('%Y%m%d'))
+
     #######TOPIC SELECTION##########
     chosen = "Housing"
     target='City Count'
@@ -659,8 +630,7 @@ def results():
         end_date = request.form['enddate_field']
 
         a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
+        today=int(a.strftime('%Y%m%d'))
         start_year = str(start_date[0:4])
         start_month = str(start_date[5:7])
         start_day = str(start_date[8:10])
@@ -944,11 +914,9 @@ def savedIssues():
         if mongo.db.User.find_one({'$and':[ {'username': session['username']} ,{'subscriptionActive': True}]}):
             #####Prerequisites########
             a = date.today()+ relativedelta(days=30)
-            b= str(a).replace("-","")
-            today=int(b) #add 30 so new agendas will be caught
+            today=int(a.strftime('%Y%m%d')) #add 30 so new agendas will be caught
             c = date.today() + relativedelta(days=-60) #################CHANGE BACK TO -7##################
-            d= str(c).replace("-","")
-            today_1month= int(d)
+            today_1month= int(c.strftime('%Y%m%d'))
 
             form = monitorListform2()
             user = session["username"]
