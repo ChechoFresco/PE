@@ -9,17 +9,16 @@ div#size{
 }
 svg#cartoon{
     display:block;
-    width: 120%;
-    height: 110%;
+    width: 100%;
+    height: 100%;
 }
 
 .frost {
     position: relative;
     height: 100%;
     width:auto;
-    border-radius: 8%;
-    background-color: rgba(255, 255, 255, .15);
-    backdrop-filter: blur(5px);
+    border-radius: 2rem;
+    background-color:rgb(102 119 172 / 14%);
     padding: 3%;
 }
 
@@ -29,39 +28,36 @@ form{
     width: fit-content;
 }
 h1,h2{
-    color:white;
+    color:var(--black);
     font-size:2.4rem;
-    text-shadow: 3px 3px 2px black;
 }
 label{
-    color:white;
-    text-shadow: 3px 3px 2px black;
-
+    color:var(--black);
 }
 .form-text {
-    color:white;
-    text-shadow: 3px 3px 2px black;
-
+    color:var(--black);
 }
-
-@media screen and (max-width: 600px) {
+.btn-primary{
+    background-color: var(--yellow);
+}
+@media screen and (max-width: 768px) {
     div.package{
         position: relative;
-        width:100vw;
-        height:auto;
+        width:auto;
     }
-    div#size{
-        display:none;
+    div#size {
+        height: 20vh;
     }
     form{
         margin: 0rem 0rem;
         font-size:1.5rem;
+        width: auto;
     }
     h1,h2{
-        color:white;
+        color:var(--black);
         font-size: 2.4rem;
     }
     label{
-        color:white;
+        color:var(--black);
     }
 }
