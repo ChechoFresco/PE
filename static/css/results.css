@@ -1,133 +1,159 @@
-    /* Table*/
-div#conTable{
+/* Table*/
+.highlight {
+	text-decoration-line: underline;
+	text-decoration-color: var(--blue);
+	text-decoration-thickness: 4px;
+}
+div#conTable {
 	position: relative;
-	max-width:1920px;
-	height:auto;
+	height: auto;
+	margin-top: 2rem;
 }
-caption{
-    color: var(--textColor);
-    text-align: center;
-    text-shadow: 5px 3px 2px black;
-    text-transform: capitalize;
-    font-size: 6.1rem;
-    font-family: 'Merriweather', serif;
+
+caption {
+	color: var(--black);
+	text-align: center;
+	text-shadow: 5px 3px 2px black;
+	text-transform: capitalize;
+	font-size: 6.1rem;
+	font-family: 'Merriweather', serif;
 }
-label{
-	color:white;
-	text-shadow: 4px 4px 2px black;
+
+label {
+	color: var(--black);
 }
-#table{
-    	border: none;
-	margin:auto;
-	width:85%;
+
+.fontSizeChange {
+	position: relative;
+	float: right;
+	right: 3rem;
 }
-tr{
+
+.fontSizeExpand {
+	position: relative;
+	float: Left;
+	Left: 3rem;
+}
+
+#table {
+	border: none;
+	margin: auto;
+	width: 85%;
+	background-color: rgba(94, 124, 255, 0.03);
+}
+
+tr {
 	text-align: -webkit-center;
+    backdrop-filter: blur(5px);
+	width:fit-content
 }
+
 tr.packed:after {
-  content: "";
-  width: 45%;
-  height: 1px;
-  background: radial-gradient(var(--orange), var(--blue));
-  left: 26%;
-  position: absolute;
+	content: "";
+	width: 45%;
+	height: 1px;
+	background: radial-gradient(var(--lBlue), var(--blue));
+	left: 26%;
+	position: absolute;
 }
-.table-hover>tbody>tr{
-  	background-color: var(--black);
+
+.table-hover>tbody>tr:hover td.infoLocation {
+	box-shadow: 0px 6px 9px 0px var(--gray);
 }
-.table-hover>tbody>tr:hover td {
-	text-shadow: 2px 2px 2px #52555a;
-  	background-color: var(--black);
-}
-.table-hover>tbody>tr:hover td.infoLocation{
-	box-shadow: 0px 6px 9px 0px var(--lightgray);
-}
+
 th {
 	display: inline-block;
 	position: relative;
-	color: var(--textColor);
-	text-shadow: 3px 3px 2px black;
-	text-decoration: underline;
-	text-decoration-color: var(--blue);
-	text-decoration-thickness: 3px;
+	color: var(--black);
 }
+
 td {
 	display: block;
-	clear:both;
-	color: var(--textColor);
+	clear: both;
+	color: var(--black);
 	text-align: center;
 	font-family: "Open Sans", sans-serif;
-	text-shadow: 3px 3px 2px black;
 	padding: 0px;
 	margin: 0px auto;
-	width:auto;
+	width: auto;
 }
-td.none{
-	display:none;
+
+td.none {
+	display: none;
 }
-th.none{
-	display:none;
+
+th.none {
+	display: none;
 }
-td.infoLocation{
+
+td.infoLocation {
 	display: flex;
 	justify-content: space-evenly;
 	font-size: 1em;
-
 }
-td.description{
+.glyphicon:not(.glyphicon-resize-vertical){
+	color: var(--blue);
+}
+td.description {
 	overflow: hidden;
-	max-height: 9rem;
+	max-height: 18rem;
+	font-size: var(--font3);
 	white-space: break-spaces;
-	box-shadow: 0px 6px 9px 0px rgba(0,0,0,0.1);
-	font-size: 1em;
+	color: var(--gray);
+}
 
-}
-span#prettyTable {
-	  text-decoration-line: underline;
-	  text-decoration-color: var(--orange);
-	  text-decoration-thickness: 3px;
-}
+
 span#prettyTable2 {
-	color:(var--textColor);
+	color: var(--black);
 }
-.table thead tr th, .table tbody tr td {
+
+.table thead tr th,
+.table tbody tr td {
 	border: none;
 }
 
 /* Pagination */
-.padding-0{
-	padding-right:0;
-	padding-left:0;
-}
-.columns{
-	display:none
-}
-.pagination-info{
-	color:white;
-	font-size: .7em;
-}
-.page-list{
-	color:white;
-	font-size: .7em;
-}
-.btn{
-	padding: 3px 0px;
-}
-.pagination>li>a, .pagination>li>span{
-	padding: 1px 11px;
-}
-.subrow {
-	color:white;
-}
-span.page-size{
-	color:black
-}
-  /* ################################################# */
-  /* ################################################# */
-  /* ################################################# */
-@media screen and (max-width: 600px) {
-.frost {
-	padding: 0rem;
-	}
+.padding-0 {
+	padding-right: 0;
+	padding-left: 0;
 }
 
+.columns {
+	display: none
+}
+
+.pagination-info {
+	color: white;
+	font-size: .7em;
+}
+
+.page-list {
+	color: white;
+	font-size: .7em;
+}
+
+.btn {
+	padding: 3px 0px;
+}
+
+.pagination>li>a,
+.pagination>li>span {
+	padding: 1px 11px;
+}
+
+.subrow {
+	color: white;
+}
+
+span.page-size {
+	color: black
+}
+
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
+@media screen and (max-width: 1200px) {
+	div#conTable {
+		margin-top: 10rem;
+	}
+}
