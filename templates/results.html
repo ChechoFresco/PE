@@ -1,50 +1,74 @@
 <!DOCTYPE html>
-{% extends "base.html" %}
 {% block content %}
 <head>
     <!-- JavaScript table expand -->
-<script>
-    $(document).ready(function () {
-        $("#table").on("click", "td.description", function () {
-            if (this.style.maxHeight === "9rem") {
-                this.style.maxHeight = "fit-content";
-            }
-            else {
-                this.style.maxHeight = "9rem";
-            }
+    <script>
+        $(document).ready(function () {
+            $("#table").on("click", "td.description", function () {
+                if (this.style.maxHeight === "9rem") {
+                    this.style.maxHeight = "fit-content";
+                }
+                else {
+                    this.style.maxHeight = "9rem";
+                }
+            });
+        });
+    </script>
+    <script>
+    $(document).ready(function() {
+        $('button#plus').click(function() {
+            var currentSize= parseInt($("td.description").css("font-size"));
+            $("td.description").css("font-size", currentSize +=1);
         });
     });
-</script>
-<script>
-$(document).ready(function() {
-    $('button#plus').click(function() {
-        var currentSize= parseInt($("td.description").css("font-size"));
-        $("td.description").css("font-size", currentSize +=1);
+    </script>
+    <script>
+    $(document).ready(function() {
+        $('button#minus').click(function() {
+            var currentSize= parseInt($("td.description").css("font-size"));
+            $("td.description").css("font-size", currentSize -=1);
+        });
     });
-});
-</script>
-<script>
-$(document).ready(function() {
-    $('button#minus').click(function() {
-        var currentSize= parseInt($("td.description").css("font-size"));
-        $("td.description").css("font-size", currentSize -=1);
-    });
-});
-</script>
+    </script>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}" >
+    <script>
+        $(document).ready(function () {
+            $('button#blowUp').click(function() {
+                if ($('td.description').css('maxHeight') === 'max-content') {
+                    $('td.description').css('maxHeight', '9rem');
+                } else {
+                    $('td.description').css('maxHeight', 'max-content');
+                }
+            });
+        });
+    </script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}" >
 
 </head>
-<br></br>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>
+        var messages = {{ messages | safe }};
+        for (var i=0; i<messages.length; i++) {
+            alert(messages[i]);
+        }
+        </script>
+    {% endif %}
+{% endwith %}
 <div id="conTable">
-    <div class="fontSize">
+    <div class="fontSizeChange">
         <label>Change Font Size</label>
         <button id= 'plus'>+</button>
         <button id = 'minus'>-</button>
     </div>
+    <div class="fontSizeExpand">
+        <label>Expand Rows</label>
+        <button id = 'blowUp'><span class="glyphicon glyphicon-resize-vertical"></span></button>
+    </div>
+
     <table id="table" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
         data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='12' class="table-responsive">
-        <caption>{{searchKey}}  {{deepKey}}</caption>
         <thead class='h-12'>
             <tr>
                 <th class='hidden-xs'data-field='row-Date' data-sortable="true">Date</th>
@@ -58,14 +82,19 @@ $(document).ready(function() {
         </thead>
         <tbody>
             {% for agenda in agendas %}
-            <tr class='packed'>
+            <tr>
                 <td class='none'>{{agenda.Date}}</td>
                 <td class='none'>{{agenda.County}}</td>
                 <td class='none'>{{agenda.City}}</td>
                 <td class='none'>{{agenda.MeetingType}}</td>
                 <td class='none'>{{agenda.ItemType}}</td>
                 <td class='description'>{{agenda.Description}}</td>
-                <td class='infoLocation'><span class="glyphicon glyphicon-calendar"></span>{{agenda.Date|aTime}} <span class="glyphicon glyphicon-globe"></span>{{agenda.County}}<span class="glyphicon glyphicon-globe"></span>{{agenda.City}} <span class="glyphicon glyphicon-briefcase"></span>{{agenda.MeetingType}}<span class="glyphicon glyphicon-list"></span>{{agenda.ItemType}}<span>#</span>{{agenda.Num}}</td>
+                <td class='infoLocation'><span class="glyphicon glyphicon-calendar"></span>{{agenda.Date|aTime}}
+                    <span class="glyphicon glyphicon-globe"></span>{{agenda.County}}<span
+                        class="glyphicon glyphicon-globe"></span>{{agenda.City}} <span
+                        class="glyphicon glyphicon-briefcase"></span>{{agenda.MeetingType}}<span
+                        class="glyphicon glyphicon-list"></span>{{agenda.ItemType}}<span>#</span>{{agenda.Num}}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
