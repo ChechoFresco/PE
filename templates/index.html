@@ -66,9 +66,7 @@
     <link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
     <!--Animation extension-->
-    <link rel="stylesheet" href="https://unpkg.com/transition-style">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 <body>
@@ -86,7 +84,7 @@
     <!--Front Title-->
     <div class="dash Main" id="mainPane">
         <div class="col-sm-12">
-            <h1 id="title" transition-style="in:wipe:down">Follow <span id="example">policy change</span> in California.
+            <h1 id="title">Follow <span id="example">policy change</span> in California.
             </h1>
         </div>
         <!--Animation-->
@@ -849,7 +847,7 @@
                     Search, set notifications, and stay on point with PolicyEdge.
                 </h3>
                 {% if not session['username'] %}
-                <section class="portfolio-experiment" transition-style="in:wipe:top-right">
+                <section class="portfolio-experiment">
                     <a href="/register">
                         <span class="text">Try for free</span>
                         <span class="line -right"></span>
