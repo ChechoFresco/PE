@@ -1,9 +1,19 @@
+.highlight {
+  text-decoration-line: underline;
+  text-decoration-color: var(--lBlue);
+  text-decoration-thickness: 4px;
+}
+#mainPane{
+	background-color: rgba(94, 124, 255, 0.05);
+}
 .dash.Main {
-  --g: 4px;
+  position: relative;
+  height: auto;
+  --g: 0px;
   /* the gap */
-  --b: 6px;
+  --b: 7px;
   /* border thickness*/
-  --c: var(--orange);
+  --c: var(--gray);
   /* the color */
   padding: calc(var(--g) + var(--b));
   --_c: #0000 0 25%, var(--c) 0 50%;
@@ -17,8 +27,6 @@
   /* filter: grayscale(50%);*/
   transition: .3s;
   max-width: 1920px;
-  margin: auto;
-  left: 0rem;
   backdrop-filter: blur(2px);
   border-radius: 2ch;
   -webkit-backdrop-filter: blur(2px);
@@ -31,13 +39,13 @@
 
 /* Jumbotron*/
 h1#title {
-  color: var(--textColor);
+  color: var(--white);
   text-align: center;
-  text-shadow:
-    0 0 5px var(--orange);
   font-size: var(--font1);
   letter-spacing: -1px;
-  font-family: 'Merriweather', serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: bolder;
+  text-shadow: var(--textShadow);
 }
 
 /* Main Animation*/
@@ -48,19 +56,20 @@ h1#title {
 
 svg.animated {
   overflow: hidden;
-  height: auto;
   top: 0vh;
   position: relative;
+  height: 43rem;
+  left: -13rem;
 }
 
 /* Animation Side text*/
 h3.howwrk {
-  font-family: "Open Sans", sans-serif;
+  margin: 2rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: var(--font2);
-  color: var(--textColor);
+  color: var(--black);
   letter-spacing: .3px;
-  line-height: 1.6rem;
-  text-shadow: var(--textShadow);
+  line-height: 2.2rem;
 }
 
 /* Free button*/
@@ -69,7 +78,7 @@ h3.howwrk {
 }
 
 .portfolio-experiment a {
-  color: var(--textColor);
+  color: var(--blue);
   padding: 0.7em calc(0.7em * 1.2);
   display: inline-block;
   border: 3px solid transparent;
@@ -93,14 +102,14 @@ h3.howwrk {
   left: calc(0.7em * 1.2);
   right: calc(0.7em * 1.2);
   height: 3px;
-  background: var(--orange);
+  background: var(--blue);
   transition: transform 0.8s cubic-bezier(1, 0, 0.37, 1) 0.2s, right 0.2s cubic-bezier(0.04, 0.48, 0, 1) 0.6s, left 0.4s cubic-bezier(0.04, 0.48, 0, 1) 0.6s;
   transform-origin: left;
 }
 
 .portfolio-experiment .line {
   position: absolute;
-  background: var(--orange);
+  background: var(--blue);
 }
 
 .portfolio-experiment .line.-right,
@@ -187,116 +196,120 @@ h3.howwrk {
   transform-origin: left;
 }
 
-/* issueRow*/
-#issueRow {
+span.text {
+  color: var(--black);
+  font-size: 2.5rem;
+}
+
+/* search bar section*/
+#button {
   top: 2rem;
-  height: auto;
+  height: 13rem;
   position: relative;
 }
+
 label {
-  font-size: 1.2rem;
+  font-size: var(--font3);
   font-family: 'Merriweather', serif;
-  text-shadow: 5px 3px 2px black;
   text-transform: capitalize;
-  color: var(--textColor);
+  color: var(--black);
 }
-h2{
+
+h2 {
   font-size: var(--font2);
-  color: var(--textColor);
+  color: var(--gray);
   margin-top: 0;
 }
 
-  input[type=submit] {
-    background-color: var(--blue);
-    border-radius: 100px;
-    color: white;
-    cursor: pointer;
-    font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
-    padding: 6px 15px;
-    text-align: center;
-    border: 0;
-    margin: 2px;
-  }
+input[type=submit] {
+  background-color: var(--gray);
+  border-radius: 100px;
+  color: var(--white);
+  cursor: pointer;
+  font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
+  padding: 6px 15px;
+  text-align: center;
+  border: 0;
+  margin: 2px;
+}
 
-  input[type=submit]:hover {
-    transform: scale(1.2) rotate(5deg);
-  }
-  input[type=submit]:hover:nth-child(even) {
-    transform: scale(1.2) rotate(-5deg);
-  }
-#uniqueSearch{
+input[type=submit]:hover {
+  transform: scale(1.2) rotate(5deg);
+}
+
+input[type=submit]:hover:nth-child(even) {
+  transform: scale(1.2) rotate(-5deg);
+}
+
+#uniqueSearch {
   left: 4rem;
   position: relative;
-  text-decoration: underline;
-  text-decoration-color: var(--blue);
+  background-color: var(--lBlue);
+
 }
 
 /* Charts*/
 #chartBox {
-  position: relative;
-  top:2rem;
+  height: 700px;
+  width: 100%;
+  overflow: hidden;
 }
 
-.chart{
-  height: 41vh;
-  width: 80%;
-  position: relative;
-  top: 6rem;
-  margin: 0 auto;
-}
-#myChart{
-  width: 100% !important;
-  height: 80%!important;
-  margin: auto;
-}
 /* Table Div*/
 #mainBox {
   position: relative;
-  top: 2rem;
-
+  margin-top: 4rem;
+	background-color: rgba(94, 124, 255, 0.05);
+  border-radius: 3rem;
 }
 
-.fontSize{
+.fontSizeChange {
+  position: relative;
   float: right;
-  right:5rem;
+  right: 3rem;
+}
+
+.fontSizeExpand {
+  position: relative;
+  float: Left;
+  Left: 3rem;
 }
 
 #table_1 {
   border: 0px;
   margin: auto;
   width: 85%;
+
 }
 
 tr {
   text-align: -webkit-center;
 }
+
 tr.lineSep:after {
   content: "";
   width: 45%;
   height: 1px;
-  background: radial-gradient(var(--orange), var(--blue));
+  background: radial-gradient(var(--blue), var(--gray));
   left: 26%;
   position: absolute;
 }
 
 th {
-	display: inline-block;
-	position: relative;
-	color: var(--textColor);
-	text-shadow: 3px 3px 2px black;
-	text-decoration: underline;
-	text-decoration-color: var(--blue);
-	text-decoration-thickness: 3px;
+  display: inline-block;
+  position: relative;
+  color: var(--black);
+  margin: 12px !important;
+  font-size: var(--font2);
 }
 
 td {
   display: block;
   clear: both;
   background-color: rgba(255, 255, 255, .0);
-  color: var(--textColor);
+  color: var(--gray);
   text-align: center;
   font-family: "Open Sans", sans-serif;
-  text-shadow: var(--textShadow);
   padding: 0p;
   width: auto;
 }
@@ -304,41 +317,30 @@ td {
 td.none {
   display: none;
 }
+
 th.none {
   display: none;
 }
+
 td.infoLocation {
   display: flex;
   justify-content: space-evenly;
   font-size: var(--font2);
-}
-td.description {
-  overflow: hidden;
-  max-height: 9rem;
-  font-size: var(--font2);
-  white-space: break-spaces;
-  box-shadow: 0px 6px 9px 0px rgba(0, 0, 0, 0.1);
-}
-.table-hover>tbody>tr {
-  letter-spacing: -.4px;
-}
-.table-hover>tbody>tr:hover {
-  background-color:var(--black)
-}
-.table-hover>tbody>tr:hover td {
-  font-size: var(--font2);
-  background-color: var(--black);
-}
-.table-hover>tbody>tr:hover td.description {
-  font-size: var(--font2);
-  color: var(--textColor);
-  text-shadow: var(--textShadow);
-  box-shadow: 0px -1px 15px 4px var(--lightgray);
+  color: var(--black);
 }
 
-.table-hover>tbody>tr:hover td.infoLocation {
-  font-size: var(--font2);
+.glyphicon:not(.glyphicon-resize-vertical) {
+  color: var(--blue);
 }
+
+td.description {
+  overflow: hidden;
+  max-height: 18rem;
+  font-size: var(--font3);
+  white-space: break-spaces;
+  color: var(--gray);
+}
+
 .table thead tr th,
 .table tbody tr td {
   border: none;
@@ -356,28 +358,28 @@ td.description {
 }
 
 .pagination-info {
-  color: var(--textColor);
-  font-size: var(--font3);
+  color: var(--gray);
+  font-size: var(--font2);
 }
 
 .page-list {
-  color: var(--textColor);
-  font-size: var(--font3);
+  color: var(--gray);
+  font-size: var(--font2);
 }
 
 .pagination>.active>a {
-  background-color: var(--blue);
-  color: var(--textColor);
+  background-color: var(--gray);
+  color: var(--white);
 }
 
 .pagination>li>a {
-  color: var(--textColor);
-  background-color: var(--gray);
+  color: var(--gray);
+  background-color: var(--white);
 }
 
 .btn {
   padding: 3px 0px;
-  background-color: var(--gray);
+  background-color: var(--white);
 }
 
 .pagination>li>span {
@@ -385,99 +387,24 @@ td.description {
 }
 
 .subrow {
-  color: var(--textColor);
+  color: var(--gray);
 }
 
 span.page-size {
-  color: var(--textColor);
+  color: var(--gray);
 }
-
-
-/* Stats Occurance*/
-h1#titleOccurance {
-  color: var(--textColor);
-  text-align: center;
-  text-shadow:
-    0 0 5px var(--orange);
-  font-size: var(--font1);
-  font-family: 'Merriweather', serif;
-  animation: fadeIn 1s;
-  animation-delay: 0s;
-  animation-fill-mode: forwards;
-  opacity: 0;
-  text-transform: capitalize;
-}
-
-#exp {
-  color: var(--textColor);
-}
-
-#inExp {
-  column-count: 5;
-}
-
-#expList {
-  width: 33rem;
-}
-
-/* IssueTrend */
-#trendContainer {
-  position: relative;
-  width: auto;
-}
-
-#changeTrend {
-  position: relative;
-  display: none;
-  margin: auto;
-  width: fit-content;
-}
-
-/* Trends */
-div#split2 {
-  position: relative;
-  display: grid;
-  top: 2rem;
-  width: auto;
-}
-
-h3#title {
-  color: var(--textColor);
-  text-align: center;
-  text-shadow:
-    0 0 5px var(--blue);
-  font-size: var(--font2);
-  font-family: 'Merriweather', serif;
-}
-
-#trendColumn {
-  text-align: end;
-}
-
-.subMenu {
-  list-style-type: none;
-  font-family: "Open Sans", sans-serif;
-  height: auto;
-  font-size: var(--font2);
-  text-align: center;
-  text-shadow: var(--textShadow);
-  color: var(--textColor);
-  left: -2rem;
-  position: relative;
-}
-
 
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 787px) {
   .dash.Main {
     background: None;
   }
 
   h1#title {
     font-size: 3rem;
-    color: var(--textColor);
+    color: var(--gray);
     text-align: center;
     width: auto;
   }
@@ -499,7 +426,7 @@ h3#title {
 
   p.threeOffer {
     font-size: 1.6rem;
-    color: var(--textColor);
+    color: var(--gray);
     text-align: center;
   }
 
@@ -524,10 +451,9 @@ h3#title {
   }
 
   h3#happening {
-    color: var(--textColor);
+    color: var(--gray);
     font-family: "Open Sans", sans-serif;
     text-align: center;
-    text-shadow: var(--textShadow);
     font-size: 1.2rem;
   }
 
@@ -550,7 +476,6 @@ h3#title {
     text-align: center;
     font-size: 1em;
     font-family: "Open Sans", sans-serif;
-    text-shadow: var(--textShadow);
     padding: 0px;
     margin: 0px auto;
   }
@@ -590,11 +515,10 @@ h3#title {
     align-items: center;
     flex-direction: column;
   }
+
   svg.three {
     width: 29rem;
     height: 16rem;
   }
-  .mapChart{
-  display: none;
-}
+
 }
