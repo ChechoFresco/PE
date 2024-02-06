@@ -1,105 +1,136 @@
-html{
-	width: 100vw;
-	height: 100vh;
-	background-color: var(--black);
+html {
+  width: 100vw;
+  height: 100vh;
 }
-body{
-	max-width: 1920px;
-	margin: auto;
-	background-color: var(--black);
+
+body {
+  max-width: 1800px;
+  margin: auto;
+  background-color: var(--white);
 }
+
 :root {
-  --font1: 6.1rem;
-  --font2: 1.4rem;
-  --font3: .7rem;
-  --textColor: white;
-  --blue: #5e7cff;
-  --white: #f8f9fe;
-  --black: #2d3237;
-  --orange: #fab935;
-  --gray:#52555a;
-  --textShadow: 2px 2px 1px black;
+  --fontNav:2.3rem;
+  --font1: 5.5rem;
+  --font2: 2rem;
+  --font3: 1.7rem;
+  --blue: #2b53ff;
+  --white: #f5f6fa;
+  --lBlue: #5e7cff;
+  --black: #121013;
+  --gray: #606060;
+  --textShadow: 5px 5px 5px var(--black);
 }
-svg#logo{
+
+
+svg#logo {
   animation-name: spin;
   animation-duration: 10000ms;
-  animation-iteration-count:1;
+  animation-iteration-count: 1;
   animation-timing-function: linear;
-  }
+}
 
 
 @keyframes spin {
-from {
-    transform:rotateY(0deg);
-}
-to {
-    transform:rotateY(360deg);
-}
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
 }
 
-  /* Logo animation */
+/* Logo animation */
 
-#top1, #top3, #insideL, #outsideL, #leftGutter, #leftBuild{
+#top1,
+#top3,
+#insideL,
+#outsideL,
+#leftGutter,
+#leftBuild {
   animation: moveTop 10s ease-in-out;
 }
 
 
-    @keyframes moveTop {
-      0% {
-        transform: translateX(150px);
-      }
-      34% {
-        transform: translateX(80px);
-      }
-      37% {
-        transform: translateX(40px);
-      }
-      100% {
-        transform: translateX(0px);
-      }
-    }
+@keyframes moveTop {
+  0% {
+    transform: translateX(150px);
+  }
 
-#tip,#top2, #insideR, #outsideR, #rightGutter, #rightBuild, #pillars,#pillars_2,#pillars_3,#pillars_4,#pillars_5{
+  34% {
+    transform: translateX(80px);
+  }
+
+  37% {
+    transform: translateX(40px);
+  }
+
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+#tip,
+#top2,
+#insideR,
+#outsideR,
+#rightGutter,
+#rightBuild,
+#pillars,
+#pillars_2,
+#pillars_3,
+#pillars_4,
+#pillars_5 {
   animation: moveTop2 10s ease-in-out;
 }
-  @keyframes moveTop2 {
-    0% {
-      transform: translateX(-150px);
-    }
-    34% {
-      transform: translateX(-80px);
-    }
-    37% {
-      transform: translateX(-40px);
-    }
-    100% {
-      transform: translateX(-0px);
-    }
+
+@keyframes moveTop2 {
+  0% {
+    transform: translateX(-150px);
   }
 
-#columnL,#columnmid,#columnR{
+  34% {
+    transform: translateX(-80px);
+  }
+
+  37% {
+    transform: translateX(-40px);
+  }
+
+  100% {
+    transform: translateX(-0px);
+  }
+}
+
+#columnL,
+#columnmid,
+#columnR {
   animation: moveBot 10s ease-in-out;
 }
-  @keyframes moveBot {
-    0% {
-      transform: translateY(-150px);
-    }
-    34% {
-      transform: translateY(-80px);
-    }
-    37% {
-      transform: translateY(-40px);
-    }
-    100% {
-      transform: translateY(-0px);
-    }
+
+@keyframes moveBot {
+  0% {
+    transform: translateY(-150px);
   }
 
-  #mid,#midBottom{
-    animation: spin 6s ease-in-out;
+  34% {
+    transform: translateY(-80px);
   }
 
+  37% {
+    transform: translateY(-40px);
+  }
 
+  100% {
+    transform: translateY(-0px);
+  }
+}
+
+#mid,
+#midBottom {
+  animation: spin 6s ease-in-out;
+}
 
 /* Add a black background color to the top navigation */
 .topnav {
@@ -107,158 +138,240 @@ to {
   overflow: hidden;
   max-width: 1920px;
   margin: auto;
+  position: relative;
 }
 
 /* Style the links inside the navigation bar */
 .topnav a {
-  float: left;
-  display: block;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 3rem;
-  position: relative;
-  font-family: 'Big Shoulders Inline Text', cursive;
-}
-
-.topnav a:not(:first-child,#login){
-  float: right;
-  top:2rem;
-  color:var(--white);
-}
-
-#login{
-  float: right;
-  color:var(--white);
-  text-shadow:
-  0 0 3px #fff,
-  0 0 7px var(--orange),
-  0 0 16px var(--orange),
-  0 0 42px var(--orange),
-  0 0 82px var(--orange),
-  0 0 92px var(--orange),
-  0 0 102px var(--orange),
-  0 0 151px var(--orange);
-  top:2rem;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-  text-shadow:
-  0 0 3px #fff,
-  0 0 7px var(--blue),
-  0 0 16px var(--blue),
-  0 0 42px var(--blue),
-  0 0 82px var(--blue);
-}
-.topnav a {
+  display: flex;
+  font-size: var(--fontNav);
   float: left;
 }
+
 /* Add an active class to highlight the current page */
-.topnav a.active {
+.topnav a.logo {
   background-color: transparent;
-  color: var(--white);
+}
+
+#login {
+  text-decoration: underline;
+  text-decoration-color: var(--lBlue);
+  text-decoration-thickness: 3px;
+  color:var(--gray);
+}
+
+.topnav a:not(:first-child) {
+  float: right;
+  padding: 4rem 3rem;
+  font-family: "Montserrat", sans-serif;
+  color: var(--gray);
+}
+
+.topnav a:not(:first-child):hover {
+  text-decoration: underline;
+  text-decoration-color: var(--lBlue);
+  text-decoration-thickness: 3px;
+}
+
+.topnav a:not(:first-child):hover a#login {
+  text-decoration: none;
 }
 
 /* Hide the link that should open and close the topnav on small screens */
-
 #ham {
   display: none;
 }
 
-.menu-icon {
-  position: relative;
-  max-width:  5.5rem;
-  width: 100%;
-  height: 100%;
-  display: inline-block;
-}
-
-.menu-icon path {
-  stroke: white;
-  stroke-width: 5;
-  stroke-linecap: round;
-  transition: all 250ms ease-in-out;
-  transform: rotate(0deg);
-  transform-origin: 50% 50%;
-  will-change: transform, opacity;
-}
-
-#ham:hover path,
-#ham:focus path,
-#ham:active path {
-    stroke: var(--orange);
-}
-
-.menu-icon.is-active path:nth-child(1) {
-  opacity: 0;
-}
-
-.menu-icon.is-active path:nth-child(4) {
-  opacity: 0;
-}
-
-.menu-icon.is-active path:nth-child(2) {
-    transform: rotate(45deg);
-}
-
-.menu-icon.is-active path:nth-child(3) {
-  transform: rotate(-45deg);
-}
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
 /* CSS for TOPNAV*/
-/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */@media screen and (max-width: 600px) {
+/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 600px) {
 
   .topnav a:not(:first-child) {
     display: none;
   }
-  .topnav a#ham{
-    top:2rem;
+
+  .topnav a#ham {
+    top: 2rem;
     float: right;
     text-align: left;
     display: block;
     background-color: transparent;
   }
-  svg#logo{
-    height:7rem;
+
+  svg#logo {
+    height: 7rem;
     width: 24rem;
   }
 }
 
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 600px) {
-.topnav.responsive {
-	position: absolute;
-	padding-bottom:2rem;
-	border-radius: 2rem;
-	height:90vh;
-	padding-bottom: 6rem;
-	background-color: rgb(0 0 0 / 85%);
-	z-index: 2;
-	left:100rem;
-	-webkit-animation: slide 1s forwards;
-	animation: slide 1s forwards;
+  .topnav.responsive {
+    position: absolute;
+    height: 90vh;
+    background-color: rgb(0 0 0 / 85%);
+    z-index: 2;
+    border-radius: 3ch;
+    -webkit-animation: slide1 1s forwards;
+    animation: slide1 1s forwards;
   }
-@keyframes slide {
-	0% { left: 50rem; }
-	100% { left: 0rem; }
-}
-#login {
-	border-radius: 3rem 3rem 0rem 0rem;
-}
-.topnav.responsive a#ham{
-	position: absolute;
-	right:0rem;
+
+  @keyframes slide1 {
+    0% {
+      left: 50rem;
+    }
+
+    100% {
+      left: 10rem;
+    }
   }
-.topnav.responsive a:not(.icon,#ham)  {
-	display: grid;
-	text-align: center;
-	width: 100%;
-	top: 0rem;
+
+  .frost.main {
+    -webkit-animation: slide2 1s forwards;
+    animation: slide2 1s forwards;
+  }
+
+  @keyframes slide2 {
+    0% {
+      left: 50rem;
+    }
+
+    100% {
+      left: 10rem;
+    }
+  }
+
+  #login {
+    border-radius: 3rem 3rem 0rem 0rem;
+  }
+
+  .topnav.responsive a#ham {
+    position: absolute;
+    right: 0rem;
+  }
+
+  .topnav.responsive a:not(.icon, #ham) {
+    display: grid;
+    text-align: center;
+    width: 100%;
+    top: 0rem;
+  }
+
+  .icon {
+    margin: 20px;
+  }
+
+  /* nav-icon-1 */
+  .nav-icon-1 {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    transition: .1s;
+    margin: 10px 10px;
+    cursor: pointer;
+    display: inline-block;
+    background-color: black;
+    mix-blend-mode: exclusion;
+  }
+
+  .nav-icon-1 span {
+    width: 5px;
+    height: 5px;
+    background-color: #fff;
+    display: block;
+    border-radius: 50%;
+    position: absolute;
+
+  }
+
+  .nav-icon-1:hover span {
+    transform: scale(1.2);
+    transition: 350ms cubic-bezier(.8, .5, .2, 1.4);
+  }
+
+  .nav-icon-1 span:nth-child(1) {
+    left: 0;
+    top: 0;
+  }
+
+  .nav-icon-1 span:nth-child(2) {
+    left: 12px;
+    top: 0;
+  }
+
+  .nav-icon-1 span:nth-child(3) {
+    right: 0;
+    top: 0;
+  }
+
+  .nav-icon-1 span:nth-child(4) {
+    left: 0;
+    top: 12px;
+  }
+
+  .nav-icon-1 span:nth-child(5) {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+  }
+
+  .nav-icon-1 span:nth-child(6) {
+    right: 0px;
+    top: 12px;
+  }
+
+  .nav-icon-1 span:nth-child(7) {
+    left: 0px;
+    bottom: 0px;
+  }
+
+  .nav-icon-1 span:nth-child(8) {
+    position: absolute;
+    left: 12px;
+    bottom: 0px;
+  }
+
+  .nav-icon-1 span:nth-child(9) {
+    right: 0px;
+    bottom: 0px;
+  }
+
+  .nav-icon-1.open {
+    transform: rotate(180deg);
+    cursor: pointer;
+    transition: .2s cubic-bezier(.8, .5, .2, 1.4);
+  }
+
+  .nav-icon-1.open span {
+    border-radius: 50%;
+    transition-delay: 200ms;
+    transition: .5s cubic-bezier(.8, .5, .2, 1.4);
+  }
+
+  .nav-icon-1.open span:nth-child(2) {
+    left: 6px;
+    top: 6px;
+  }
+
+  .nav-icon-1.open span:nth-child(4) {
+    left: 6px;
+    top: 18px;
+  }
+
+  .nav-icon-1.open span:nth-child(6) {
+    right: 6px;
+    top: 6px;
+  }
+
+  .nav-icon-1.open span:nth-child(8) {
+    left: 18px;
+    bottom: 6px;
   }
 }
+
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
@@ -266,149 +379,155 @@ to {
 /* ################################################# */
 /* ################################################# */
 /* FOOTER*/
-#footer{
+#footer {
   position: relative;
 }
-p.text-justify{
-  color:white;
-   text-shadow: 3px 3px 2px black;
+
+p.text-justify {
+  color: var(--black);
 }
-p.copyright-text{
-  color:white;
-   text-shadow: 3px 3px 2px black;
+
+p.copyright-text {
+  color: var(--gray);
 }
-.site-footer{
+
+.site-footer {
   background-color: transparent;
-  padding:0px 0 0px;
-  font-size:15px;
-  line-height:24px;
-  color:white;
-  margin-top:6%;
+  padding: 0px 0 0px;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--gray);
 }
 
-.site-footer hr{
-  border-top-color:#bbb;
-  opacity:0.5
+.site-footer hr {
+  border-top-color: #bbb;
+  opacity: 0.5
 }
 
-.site-footer hr.small{
-  margin:20px 0
+.site-footer hr.small {
+  margin: 20px 0
 }
 
 
-.site-footer a{
-  color:white;
+.site-footer a {
+  color: var(--gray);
 }
 
-.site-footer a:hover{
-  color:#3366cc;
-  text-decoration:none;
+.site-footer a:hover {
+  color: #3366cc;
+  text-decoration: none;
 }
 
-.footer-links{
-  padding-left:0;
-  list-style:none
+.footer-links {
+  padding-left: 0;
+  list-style: none
 }
 
-.footer-links li{
-  display:block
+.footer-links li {
+  display: block
 }
 
-.footer-links a{
-  color: var(--white);
-  text-decoration-line: underline;
-  text-decoration-color: var(--orange);
-  text-decoration-thickness: 3px;
-}
-
-.footer-links a:active,.footer-links a:focus,.footer-links a:hover{
-  color: var(--white);
-  text-decoration-line: underline;
+.footer-links a {
+  color: var(--gray);
+  text-decoration: underline;
   text-decoration-color: var(--blue);
   text-decoration-thickness: 3px;
 }
 
-
-.footer-links.inline li{
-  display:inline-block
+.footer-links a:active,
+.footer-links a:focus,
+.footer-links a:hover {
+  color: var(--gray);
+  text-decoration: underline;
+  text-decoration-color: var(--blue);
+  text-decoration-thickness: 1px;
 }
 
-.site-footer .social-icons{
-  text-align:right
+.footer-links.inline li {
+  display: inline-block
 }
 
-.site-footer .social-icons a{
-  width:40px;
-  height:40px;
-  line-height:40px;
-  margin-left:6px;
-  margin-right:0;
-  border-radius:100%;
-  background-color:#33353d
+.site-footer .social-icons {
+  text-align: right
 }
 
-.copyright-text{
-  margin:0
-}
-.social-icons{
-  padding-left:0;
-  margin-bottom:0;
-  list-style:none;
-}
-.social-icons li{
-  display:inline-block;
-  margin-bottom:4px;
+.site-footer .social-icons a {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  margin-left: 6px;
+  margin-right: 0;
+  border-radius: 100%;
+  background-color: transparent;
 }
 
-.social-icons li.title{
-  margin-right:15px;
-  text-transform:uppercase;
-  color:#96a2b2;
-  font-weight:700;
-  font-size:13px;
+.copyright-text {
+  margin: 0
 }
 
-.social-icons a{
-  background-color:#eceeef;
-  color:#818a91;
-  font-size:16px;
-  display:inline-block;
-  line-height:44px;
-  width:44px;
-  height:44px;
-  text-align:center;
-  margin-right:8px;
-  border-radius:100%;
-  -webkit-transition:all .2s linear;
-  -o-transition:all .2s linear;
-  transition:all .2s linear;
+.social-icons {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
 }
 
-.social-icons a:active,.social-icons a:focus,.social-icons a:hover{
-  color:#fff;
-  background-color:#29aafe
+.social-icons li {
+  display: inline-block;
+  margin-bottom: 4px;
 }
 
-.social-icons.size-sm a{
-  line-height:34px;
-  height:34px;
-  width:34px;
-  font-size:14px;
-}
-.social-icons a.facebook:hover{
-  background-color:#3b5998
+.social-icons li.title {
+  margin-right: 15px;
+  text-transform: uppercase;
+  color: #96a2b2;
+  font-weight: 700;
+  font-size: 13px;
 }
 
-.social-icons a.twitter:hover{
-  background-color:#00aced
+.social-icons a {
+  background-color: #eceeef;
+  color: #818a91;
+  font-size: 16px;
+  display: inline-block;
+  line-height: 44px;
+  width: 44px;
+  height: 44px;
+  text-align: center;
+  margin-right: 8px;
+  border-radius: 100%;
+  -webkit-transition: all .2s linear;
+  -o-transition: all .2s linear;
+  transition: all .2s linear;
 }
 
-.social-icons a.linkedin:hover{
-  background-color:#007bb6
+.social-icons a:active,
+.social-icons a:focus,
+.social-icons a:hover {
+  color: #fff;
+  background-color: #29aafe
 }
 
-.social-icons a.gmail:hover{
-  background-color:#ea4c89
+.social-icons.size-sm a {
+  line-height: 34px;
+  height: 34px;
+  width: 34px;
+  font-size: 14px;
+}
+
+.social-icons a.facebook:hover {
+  background-color: #3b5998
+}
+
+.social-icons a.twitter:hover {
+  background-color: #00aced
+}
+
+.social-icons a.linkedin:hover {
+  background-color: #007bb6
+}
+
+.social-icons a.gmail:hover {
+  background-color: #ea4c89
 }
 
 
@@ -416,30 +535,31 @@ p.copyright-text{
 /* ################################################# */
 /* ################################################# */
 
-@media (max-width:991px){
-  .site-footer [class^=col-]
-  {
-    margin-bottom:30px
+@media (max-width:991px) {
+  .site-footer [class^=col-] {
+    margin-bottom: 30px
   }
 }
+
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
-  @media (max-width:767px){
-    .social-icons li.title{
-      display:block;
-      margin-right:0;
-      font-weight:600
-    }
-    .site-footer{
-      padding-bottom:0
-    }
-    .site-footer .copyright-text,.site-footer .social-icons{
-      text-align:center
-    }
+@media (max-width:767px) {
+  .social-icons li.title {
+    display: block;
+    margin-right: 0;
+    font-weight: 600
   }
 
+  .site-footer {
+    padding-bottom: 0
+  }
 
+  .site-footer .copyright-text,
+  .site-footer .social-icons {
+    text-align: center
+  }
+}
 
 
 
