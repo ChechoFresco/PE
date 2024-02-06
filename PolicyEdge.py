@@ -152,11 +152,11 @@ def httpsroute():
 def index():
     form = chartForm()
     ##Three months before#####
-    c = date.today() + relativedelta(weeks=-12)
+    c = date.today() + relativedelta(weeks=-4)
     threemonthBefore=int(c.strftime('%Y%m%d'))
 
     #######TOPIC SELECTION##########
-    chosen = "Housing"
+    chosen = "Cannabis"
     target='City Count'
 
     treMonthMtch=[]
