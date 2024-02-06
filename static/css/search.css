@@ -1,64 +1,107 @@
-
-.frost {
+.highlight {
+	text-decoration-line: underline;
+	text-decoration-color: var(--blue);
+	text-decoration-thickness: 4px;
+}
+/*#Chage shape of Logo*/
+a.logoMain {
     position: relative;
-    height: 80vh;
-    background-color: rgba(255, 255, 255, .15);
-    backdrop-filter: blur(3px);
-    border-radius: 2rem;
-    top:3rem;
+    left: 30%;
+    top: 15rem;
+    height: 25rem;
 }
-
-div.package{
-    position: relative;
-    height: 100vh;
-    left: 0rem;
-}
-
-#panel{
-    padding-right:0px;
-    padding-left:0px;
-}
-
-img {
-    position: absolute;
-    width: 100%;
-    height: 97vh;
-    object-fit: cover;
-    object-position: 0% 71%;
-    border-radius: 2rem;
+svg#logo{
+    width: 57rem;
+    height: 10rem;
 }
 
 div.formdiv{
     position: relative;
-    font-size:2.2rem;
-    height:auto;
-    left:10vw;
-    top:6rem;
+    font-size:2rem;
+    height:17rem;
+    top:5rem;
+    background-color: rgba(255, 255, 255, .02);
+}
+form{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1;
+    position: relative;
+    top:-4rem
+
 }
 label{
     color:white;
-    text-shadow: 3px 3px 2px black;
 }
 input[type=submit] {
     position: relative;
-    margin: 0 auto;
-    color: gray;
-    left:4rem;
+    background-color: var(--lBlue);
+    border-radius: 2rem;
+    color: white;
+    cursor: pointer;
+    font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+    padding: 4px 15px;
+    text-align: center;
+    border: 0;
+    left:1px;
 }
-
-.info{
-    position: absolute;
-    column-count: 5;
-    width:100%;
-    top:6rem;
+input {
+    position: relative;
+    border-radius: 7px;
 }
-
 h3{
     font-size:1.5rem;
     color: white;
-    text-shadow: 3px 3px 2px black;
+}
+#select{
+    height: 34px;
+    border-radius: 7px;
+
+}
+label[for="selectLA"]{
+    display:none;
+}
+#selectLA{
+    display:none;
 }
 
+label[for="selectOC"]{
+    display:none;
+}
+#selectOC{
+    display:none;
+}
+label[for="selectRS"]{
+    display:none;
+}
+#selectRS{
+    display:none;
+}
+label[for="selectSB"]{
+    display:none;
+}
+#selectSB{
+    display:none;
+}
+label[for="selectSD"]{
+    display:none;
+}
+#selectSD{
+    display:none;
+}
+label[for="selectLACM"]{
+    display:none;
+}
+#selectLACM{
+    display:none;
+}
+label[for="selectLBCM"]{
+    display:none;
+}
+#selectLBCM{
+    display:none;
+}
 #committeeOpt{
     display:none;
 }
@@ -77,27 +120,35 @@ h3{
 #sandiegoOpt{
     display:none;
 }
+
+/*#dateblock{
+    position: relative;
+    float: right;
+    top: -14rem;
+}
 /* CSS for TOPNAV*/
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
-@media screen and (max-width: 600px) {
-    div.package{
-        height: auto;
+@media screen and (max-width: 1200px) {
+    a.logoMain {
+        left: 1%;
+        top: 2rem;
+        height: 14rem;
     }
-    #panel{
-        height:auto;
+    svg#logo{
+        height: 7rem;
+        width: 24rem;
     }
-    div.background {
-        height:auto;
+    div.formdiv {
+        position: relative;
+        font-size: 2rem;
+        height: 40rem;
+        top: 6rem;
     }
-    .frost {
-        top:0rem;
-        height: 100vh;
+    img {
+        display: none;
     }
-    .info
-    {
-        width: 100vw;
-        top: 1rem;
-        left: 19px;
+    form {
+        display: block;
     }
     h3{
         font-size:1.1rem;
