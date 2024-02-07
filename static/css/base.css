@@ -4,7 +4,7 @@ html {
 }
 
 body {
-  max-width: 1800px;
+  max-width: 1920px;
   margin: auto !important;
   background-color: var(--white);
 }
@@ -225,7 +225,7 @@ svg#logo {
     }
 
     100% {
-      left: 10rem;
+      left: 1rem;
     }
   }
 
@@ -240,7 +240,7 @@ svg#logo {
     }
 
     100% {
-      left: 10rem;
+      left: 1rem;
     }
   }
 
@@ -560,6 +560,5 @@ p.copyright-text {
     text-align: center
   }
 }
-
 
 
