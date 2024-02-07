@@ -7,10 +7,6 @@
 {% block content %}
 
 <head>
-    <!-- Fonts Bootstrap and AJAX-->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    
     <script>
         $(document).ready(function () {
             const searchValue = {{ chosen | tojson}};
@@ -29,6 +25,11 @@
         }
         });
     </script>
+
+    <!-- Fonts Bootstrap and AJAX-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
     <script>
         $(document).ready(function () {
             $('button#plus').click(function () {
@@ -892,6 +893,7 @@
             {{ folium_map | safe }}
         </div>
     </div>
+
     <!--First table-->
     <div class="row" id="mainBox">
         <div class="col-sm-offset-1  col-sm-10" id="conTable">
@@ -941,7 +943,6 @@
     </div>
 </body>
 
-<!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
 <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
