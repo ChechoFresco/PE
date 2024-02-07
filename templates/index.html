@@ -58,7 +58,7 @@
     </script>
     <script>
         $(document).ready(function () {
-            $('button#blowUp').click(function () {
+            $('button#maxHeight').click(function () {
                 if ($('td.description').css('maxHeight') === 'max-content') {
                     $('td.description').css('maxHeight', '9rem');
                 } else {
@@ -904,7 +904,7 @@
             </div>
             <div class="fontSizeExpand">
                 <label>Expand Rows</label>
-                <button id='blowUp'><span class="glyphicon glyphicon-resize-vertical"></span></button>
+                <button id='maxHeight'><span class="glyphicon glyphicon-resize-vertical"></span></button>
             </div>
             <table id="table_1" data-toggle="table" data-filter-control="true" data-sortable="true"
                 data-pagination="true" data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='6'
