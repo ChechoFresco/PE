@@ -398,13 +398,17 @@ span.page-size {
 /* ################################################# */
 /* ################################################# */
 @media screen and (max-width: 787px) {
+    /* Title*/
+
+  body{
+    width:100vw;
+  }
   .dash.Main {
     background: None;
   }
 
   h1#title {
     font-size: 3rem;
-    color: var(--gray);
     text-align: center;
     width: auto;
   }
@@ -416,57 +420,33 @@ span.page-size {
   svg.animated {
     overflow: hidden;
     height: auto;
-    top: 0vh;
     position: relative;
+    left: 2rem;
   }
-
-  h3.titleOffer {
-    font-size: 1.4rem;
-  }
-
-  p.threeOffer {
-    font-size: 1.6rem;
-    color: var(--gray);
-    text-align: center;
-  }
-
 
   h3.howwrk {
     font-size: 1.4rem;
   }
-
-  h3#happening {
-    font-size: 1.6rem;
+  .portfolio-experiment a {
+    left: 5rem;
   }
 
-  h3#happening.active {
-    transform: translateY(0);
-    opacity: 1;
-  }
 
-  /* Main Table Change Title*/
-  #conHappening {
-    position: relative;
-    width: auto;
+  /* Map*/
+  #chartBox{
+    height:auto;
   }
-
-  h3#happening {
-    color: var(--gray);
-    font-family: "Open Sans", sans-serif;
-    text-align: center;
-    font-size: 1.2rem;
-  }
-
-  /* Main Table*/
+  /* Table*/
   div#conTable {
     display: block;
     width: fit-content;
   }
-
+  .fontSizeChange {
+    margin-bottom: 2rem;
+  }
   #issueRow {
     top: 0rem;
   }
-
 
   #table_1 {
     border: 0px;
@@ -483,6 +463,7 @@ span.page-size {
   td.infoLocation {
     display: flex;
     justify-content: start;
+    font-size: 1.4rem;
   }
 
   td.description {
@@ -504,21 +485,4 @@ span.page-size {
     font-size: 2.8rem;
     width: auto;
   }
-
-
-  /* Trend*/
-  #trendContainer {
-    position: relative;
-    display: flex;
-    width: auto;
-    top: 4vh;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  svg.three {
-    width: 29rem;
-    height: 16rem;
-  }
-
 }
