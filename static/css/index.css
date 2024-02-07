@@ -418,23 +418,23 @@ span.page-size {
   }
 
   svg.animated {
-    overflow: hidden;
-    height: auto;
-    position: relative;
-    left: 0rem;
+    left: -7rem;
   }
 
   h3.howwrk {
     font-size: 1.4rem;
   }
   .portfolio-experiment a {
-    left: 5rem;
+    left: 2rem;
   }
 
-
+  #button {
+    height: 25rem;
+}
   /* Map*/
   #chartBox{
-    height:auto;
+    height:26rem;
+    margin: 0 auto;
   }
   /* Table*/
   div#conTable {
@@ -445,7 +445,15 @@ span.page-size {
     margin-bottom: 2rem;
   }
   #issueRow {
-    top: 0rem;
+    left: 5rem;
+    margin-bottom: 3rem;
+  }
+  #uniqueSearch {
+    left: 8rem;
+}
+  #currIss{
+    position: relative;
+    left: 8rem;
   }
 
   #table_1 {
@@ -467,9 +475,7 @@ span.page-size {
   }
 
   td.description {
-    overflow: hidden;
-    max-height: 9rem;
-    white-space: none;
+    font-size: 1.1rem;
   }
 
   .subMenu {
@@ -485,4 +491,5 @@ span.page-size {
     font-size: 2.8rem;
     width: auto;
   }
+}
 }
