@@ -259,7 +259,7 @@ input[type=submit]:hover:nth-child(even) {
 #mainBox {
   position: relative;
   margin-top: 4rem;
-	background-color: rgba(94, 124, 255, 0.05);
+  background-color: rgba(94, 124, 255, 0.05);
   border-radius: 3rem;
 }
 
@@ -278,8 +278,7 @@ input[type=submit]:hover:nth-child(even) {
 #table_1 {
   border: 0px;
   margin: auto;
-  width: 85%;
-
+  width: 100%;
 }
 
 tr {
