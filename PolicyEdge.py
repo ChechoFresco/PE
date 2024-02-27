@@ -163,11 +163,10 @@ def index():
     issueText=[]
     agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen }}, {"MeetingType":" City Council "}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
     for x in agendaa:
-        if x['Date'] >= threemonthBefore:
-            sp=x['City'].strip() #Gets rid of spacing issue with some cities
-            treMonthMtch.append(sp)
-            y=str(x["Description"])
-            issueText.append(x)
+        sp=x['City'].strip() #Gets rid of spacing issue with some cities
+        treMonthMtch.append(sp)
+        y=str(x["Description"])
+        issueText.append(x)
 
     issuePerCity= Counter(treMonthMtch)# Creates key:value pair per city to part w/ issuePerCity.keys()
     geo=[]
@@ -213,10 +212,9 @@ def index():
             treMonthMtch=[]
             ####### TABLE 1##########
             for x in agendaa:
-                if x['Date'] >= threemonthBefore:
-                    sp=x['City'].strip()
-                    treMonthMtch.append(sp)
-                    issueText.append(x)
+                sp=x['City'].strip()
+                treMonthMtch.append(sp)
+                issueText.append(x)
 
             issuePerCity= Counter(treMonthMtch)# Creates key:value pair per city to part w/ issuePerCity.keys()
             Cities=[]
