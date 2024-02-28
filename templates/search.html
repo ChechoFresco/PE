@@ -60,168 +60,105 @@
         $('select').on('change', function() {
             if (this.value==='Issue'){
                 document.getElementById("primary_search").style.display="inline";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
+                document.querySelector("form div:nth-child(2)").style.display="none";
+                document.querySelector("form div:nth-child(3)").style.display="none";
+                document.querySelector("form div:nth-child(4)").style.display="none";
+                document.querySelector("form div:nth-child(5)").style.display="none";
+                document.querySelector("form div:nth-child(6)").style.display="none";
+                document.querySelector("form div:nth-child(7)").style.display="none";
+                document.querySelector("form div:nth-child(8)").style.display="none";
+
 
             }
-            if (this.value==='LA Committees'){
-                document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
-                document.querySelector("label[for='primary_search']").style.display= "inline";
+            if (this.value==='LA County'){
+                document.querySelector("label[for='selectLA']").style.display="inline";
+                document.querySelector("div:nth-child(2)").style.display="inline";
+                document.getElementById("selectLA").style.display="inline";
+                document.getElementById("selectLA").style.height = "34px";
+                document.querySelector("form div:nth-child(3)").style.display="none";
+                document.querySelector("form div:nth-child(4)").style.display="none";
+                document.querySelector("form div:nth-child(5)").style.display="none";
+                document.querySelector("form div:nth-child(6)").style.display="none";
+                document.querySelector("form div:nth-child(7)").style.display="none";
+                document.querySelector("form div:nth-child(8)").style.display="none";
+            }
+            if (this.value==="Orange County"){
+                document.querySelector("form div:nth-child(3)").style.display="inline";
+                document.querySelector("label[for='selectOC']").style.display="inline";
+                document.getElementById("selectOC").style.display="inline";
+                document.getElementById("selectOC").style.height = "34px";
+                document.querySelector("form div:nth-child(2)").style.display="none";
+                document.querySelector("form div:nth-child(4)").style.display="none";
+                document.querySelector("form div:nth-child(5)").style.display="none";
+                document.querySelector("form div:nth-child(6)").style.display="none";
+                document.querySelector("form div:nth-child(7)").style.display="none";
+                document.querySelector("form div:nth-child(8)").style.display="none";
 
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
+            }
+            if (this.value==="Riverside County"){
+                document.querySelector("form div:nth-child(4)").style.display="inline";
+                document.querySelector("label[for='selectRS']").style.display="inline";
+                document.getElementById("selectRS").style.display="inline";
+                document.getElementById("selectRS").style.height = "34px";
+                document.querySelector("form div:nth-child(2)").style.display="none";
+                document.querySelector("form div:nth-child(3)").style.display="none";
+                document.querySelector("form div:nth-child(5)").style.display="none";
+                document.querySelector("form div:nth-child(6)").style.display="none";
+                document.querySelector("form div:nth-child(7)").style.display="none";
+                document.querySelector("form div:nth-child(8)").style.display="none";
+            }
+            if (this.value==='San Bernandino County'){
+                document.querySelector("form div:nth-child(5)").style.display="inline";
+                document.querySelector("label[for='selectSB']").style.display="inline";
+                document.getElementById("selectSB").style.display="inline";
+                document.getElementById("selectSB").style.height = "34px";
+                document.querySelector("form div:nth-child(2)").style.display="none";
+                document.querySelector("form div:nth-child(3)").style.display="none";
+                document.querySelector("form div:nth-child(4)").style.display="none";
+                document.querySelector("form div:nth-child(6)").style.display="none";
+                document.querySelector("form div:nth-child(7)").style.display="none";
+                document.querySelector("form div:nth-child(8)").style.display="none";
+            }
+            if (this.value==="San Diego County"){
+                document.querySelector("form div:nth-child(6)").style.display="inline";
+                document.querySelector("label[for='selectSD']").style.display="inline";
+                document.getElementById("selectSD").style.display="inline";
+                document.getElementById("selectSD").style.height = "34px";
+                document.querySelector("form div:nth-child(2)").style.display="none";
+                document.querySelector("form div:nth-child(3)").style.display="none";
+                document.querySelector("form div:nth-child(4)").style.display="none";
+                document.querySelector("form div:nth-child(5)").style.display="none";
+                document.querySelector("form div:nth-child(7)").style.display="none";
+                document.querySelector("form div:nth-child(8)").style.display="none";
+            }
+            if (this.value==='LA Committees'){
+                document.querySelector("form div:nth-child(7)").style.display="inline";
                 document.querySelector("label[for='selectLACM']").style.display="inline";
                 document.querySelector("label[for='selectLACM']").innerHTML = "Committee:";
                 document.getElementById("selectLACM").style.display="inline";
                 document.getElementById("selectLACM").style.width = "25rem";
                 document.getElementById("selectLACM").style.height = "34px";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
+                document.querySelector("form div:nth-child(2)").style.display="none";
+                document.querySelector("form div:nth-child(3)").style.display="none";
+                document.querySelector("form div:nth-child(4)").style.display="none";
+                document.querySelector("form div:nth-child(5)").style.display="none";
+                document.querySelector("form div:nth-child(6)").style.display="none";
+                document.querySelector("form div:nth-child(8)").style.display="none";
             }
             if (this.value==='Long Beach Committees'){
-                document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
-                document.querySelector("label[for='primary_search']").style.display= "inline";//display primary_search text
-
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
+                document.querySelector("form div:nth-child(8)").style.display="inline";
                 document.querySelector("label[for='selectLBCM']").style.display="inline";
                 document.getElementById("selectLBCM").style.display="inline";
                 document.getElementById("selectLBCM").style.width = "25rem";
                 document.getElementById("selectLBCM").style.height = "34px";
                 document.querySelector("label[for='selectLBCM']").innerHTML = "Committee:";
+                document.querySelector("form div:nth-child(2)").style.display="none";
+                document.querySelector("form div:nth-child(3)").style.display="none";
+                document.querySelector("form div:nth-child(4)").style.display="none";
+                document.querySelector("form div:nth-child(5)").style.display="none";
+                document.querySelector("form div:nth-child(6)").style.display="none";
+                document.querySelector("form div:nth-child(7)").style.display="none";
 
-            }
-            if (this.value==='LA County'){
-                document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").style.display="inline";
-
-                document.querySelector("label[for='selectLA']").style.display="inline";
-                document.getElementById("selectLA").style.display="inline";
-                document.getElementById("selectLA").style.height = "34px";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
-            }
-            if (this.value==="Orange County"){
-                document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").style.display="inline";
-
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="inline";
-                document.getElementById("selectOC").style.display="inline";
-                document.getElementById("selectOC").style.height = "34px";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
-            }
-            if (this.value==="San Diego County"){
-                document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").style.display="inline";
-
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="inline";
-                document.getElementById("selectSD").style.display="inline";
-                document.getElementById("selectSD").style.height = "34px";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
-            }
-            if (this.value==="Riverside County"){
-                document.getElementById("primary_search").style.display="inline";
-
-                document.querySelector("label[for='primary_search']").style.display="inline";
-
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="inline";
-                document.getElementById("selectRS").style.display="inline";
-                document.getElementById("selectRS").style.height = "34px";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
-            }
-            if (this.value==='San Bernandino County'){
-                document.getElementById("primary_search").style.display="inline";
-
-                document.querySelector("label[for='primary_search']").style.display="inline";
-
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="inline";
-                document.getElementById("selectSB").style.display="inline";
-                document.getElementById("selectSB").style.height = "34px";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
             }
         })
     }
