@@ -121,22 +121,25 @@ label[for="selectLBCM"]{
     display:none;
 }
 form div:nth-child(2){
-    min-width:0rem;
+    display:none;
 }
 form div:nth-child(3){
-    min-width:0rem;
+    display:none;
 }
 form div:nth-child(4){
-    min-width:0rem;
+    display:none;
 }
 form div:nth-child(5){
-    min-width:0rem;
+    display:none;
 }
 form div:nth-child(6){
-    min-width:0rem;
+    display:none;
 }
 form div:nth-child(7){
-    min-width:0rem;
+    display:none;
+}
+form div:nth-child(8){
+    display:none;
 }
 /*#dateblock{
     position: relative;
