@@ -69,7 +69,11 @@
 	<!-- JStyle sheet and hamburger helper -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" media="print"
 		onload="this.media='all'">
-	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	<!-- Universal Meta -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
 	<!-- Title -->
 	{% if title %}
 	<title>{{ title }}</title>
