@@ -199,7 +199,7 @@ def index():
                             )
                             ).add_to(folium_map)
     if request.method == 'GET':
-        return render_template('index.html', folium_map=folium_map._repr_html_(), form=form,target=target ,chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
+        return render_template('index.html', folium_map=folium_map._repr_html_(), form=form,target=target ,chosen=chosen, issueTexts=issueText, title="Tracking regulatory & legislative issues in local city councils")
     elif request.method == 'POST' and request.form.get('chartSearch'):
         try:
             chose = request.form['chartSearch']
@@ -253,7 +253,7 @@ def index():
         except:
             flash('Sorry. No matches found')
             return redirect(url_for("index"))
-        return render_template('index.html', form=form, folium_map=folium_map._repr_html_(),chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
+        return render_template('index.html', form=form, folium_map=folium_map._repr_html_(),chosen=chosen, issueTexts=issueText, title="Tracking regulatory & legislative issues in local city councils")
     elif request.method == 'POST' and request.form.get('chartSearch'):
         try:
             chosen = request.form['chartSearch']
@@ -331,7 +331,7 @@ def index():
         except:
             flash('Sorry. No matches found')
             return redirect(url_for("index"))
-        return render_template('index.html',graphJSON=graphJSON, form=form, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Welcome to Policy Edge")
+        return render_template('index.html',graphJSON=graphJSON, form=form, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Tracking regulatory & legislative issues in local city councils")
 
 
 
