@@ -81,11 +81,8 @@
 	<!-- Title -->
 	{% if title %}
 		<title>{{ title }}</title>
-		<meta name="description" content={{ description }} />
-		{% else %}
+	{% else %}
 		<title>Welcome to Policy Edge</title>
-		<meta name="description" content="Welcome to Policy Edge" />
-
 	{% endif %}
 
 	{% block metadata %}{% endblock %}
