@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block metadata %}
-<meta name="viewport" content="PolicyEdge tracking regulatory & legislative issues" />
-<meta name="msvalidate.01" content="304594822AAB6AA42A23D33079AE2DA8" />
+<meta property="og:title" content="PolicyEdge Front Page" />
+<meta property="og:description" content="Tracking regulatory & legislative issues in local city councils" />
 {% endblock %}
 {% block content %}
 
@@ -68,8 +68,6 @@
         });
     </script>
 	<link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-	<meta property="og:title" content="PolicyEdge Front Page" />
-	<meta property="og:description" content="Tracking regulatory & legislative issues in local city councils" />
 </head>
 
 <body>
