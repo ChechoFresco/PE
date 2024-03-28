@@ -7,7 +7,7 @@
 <head>
 	<link rel="canonical" href="https://www.PolicyEdge.net/index.html">
 
-	<script>
+	<script async>
 		$(document).ready(function () {
 		    const searchValue = {{ chosen | tojson}};
 		const contentElement = document.querySelector('tbody');
@@ -26,10 +26,10 @@
 		});
 	</script>
     <!-- Fonts Bootstrap and AJAX-->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script async src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-	<script>
+	<script async>
 		$(document).ready(function () {
 		    $('button#plus').click(function () {
 			var currentSize = parseInt($("td.description").css("font-size"));
@@ -37,7 +37,7 @@
 		    });
 		});
 	</script>
-	<script>
+	<script async>
 		$(document).ready(function () {
 		    $('button#minus').click(function () {
 			var currentSize = parseInt($("td.description").css("font-size"));
@@ -45,7 +45,7 @@
 		    });
 		});
 	</script>
-	<script>
+	<script async>
 		var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change", "transportaion", "financial", "retail"];
 		var count = 0;
 		function changeText() {
@@ -55,7 +55,7 @@
 		}
 		setInterval(changeText, 4000);
 		</script>
-		<script>
+		<script async>
 		$(document).ready(function () {
 		    $('button#maxHeight').click(function () {
 			if ($('td.description').css('maxHeight') === 'max-content') {
@@ -951,5 +951,5 @@
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
-<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+<script async src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 {% endblock %}
