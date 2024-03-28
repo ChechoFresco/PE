@@ -281,7 +281,7 @@ span.page-size {
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
-@media (min-width: 700px) and (max-width: 1200px) {
+@media (min-width: 701px) and (max-width: 1200px) {
 	#button {
 		  top: 0rem;
 	}
@@ -302,7 +302,7 @@ span.page-size {
   }
 
   h1#title {
-    font-size: 3rem;
+    font-size: 2rem;
     text-align: center;
     width: auto;
   }
