@@ -292,7 +292,7 @@ span.page-size {
   }
 
   h1#title {
-    font-size: 2rem;
+    font-size: 3rem;
     text-align: center;
     width: auto;
   }
@@ -306,7 +306,7 @@ span.page-size {
   }
 
   h3.howwrk {
-    font-size: 1.4rem;
+    font-size: 2.4rem;
   }
   .portfolio-experiment a {
     left: 2rem;
@@ -343,7 +343,9 @@ span.page-size {
   #table_1 {
     border: 0px;
   }
-
+label{
+	font-size:14px;
+}
   td {
     text-align: center;
     font-size: 1em;
@@ -375,6 +377,11 @@ span.page-size {
     font-size: 2.8rem;
     width: auto;
   }
+.pagination-info {
+  font-size: 14px;
+}
+.page-list {
+  font-size: 14px;
 }
 }
 /* ################################################# */
