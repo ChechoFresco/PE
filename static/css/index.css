@@ -357,16 +357,16 @@ label{
   td.infoLocation {
     display: flex;
     justify-content: start;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   td.description {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .subMenu {
     height: auto;
-    font-size: 1.4rem;
+    font-size: 1rem;
   }
 
   h3#title {
