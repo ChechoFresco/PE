@@ -27,7 +27,7 @@
 	</script>
     <!-- Fonts Bootstrap and AJAX-->
 	<script async src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" media="print" onload="this.media='all'">
 
 	<script async>
 		$(document).ready(function () {
@@ -943,6 +943,6 @@
 </body>
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" media="print" onload="this.media='all'">
 <script async src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 {% endblock %}
