@@ -67,8 +67,9 @@
             });
         });
     </script>
-    <link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style"
-        onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<meta property="og:title" content="PolicyEdge Front Page" />
+	<meta property="og:description" content="Tracking regulatory & legislative issues in local city councils" />
 </head>
 
 <body>
