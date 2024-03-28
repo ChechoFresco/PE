@@ -340,7 +340,7 @@ def register():
     if "username" in session:
         flash(session["username"])
         return redirect(url_for("index"))
-    return render_template("register.html", title="Register for PolicyEdge", description="Become a member of PolicyEdge's agenda monitoring services")
+    return render_template("register.html", title="Register for PolicyEdge")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -1476,15 +1476,15 @@ def success():
 
 @app.route('/cancel')
 def cancelled():
-    return render_template("cancel.html", title='Cancel PolicyEdge subscription'))
+    return render_template("cancel.html", title='Cancel PolicyEdge subscription')
 
 @app.route('/noSubscription')
 def noSubscription():
-    return render_template("noSubscription.html",title='PolicyEdge subscription not active'))
+    return render_template("noSubscription.html",title='PolicyEdge subscription not active')
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
-    return render_template('about.html', title="About Policy Edge creator Sergio Preciado", )
+    return render_template('about.html', title="About Policy Edge creator Sergio Preciado" )
 
 @app.route('/termsofservice', methods=['GET', 'POST'])
 def termsofservice():
@@ -1826,11 +1826,11 @@ def favicon():
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
-    return render_template('404.html', title='404'), 404
+    return render_template('404.html'), 404
 
 @app.errorhandler(500)
 def internal_error(error):
-    return render_template('500.html', title='500'), 500
+    return render_template('500.html'), 500
     
 if __name__ == '__main__':
     app.run(debug = False)
