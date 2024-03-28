@@ -379,6 +379,9 @@ svg#logo {
   position: relative;
 }
 
+h3{
+  font-size: 12px;
+}
 p.text-justify {
   color: var(--black);
 }
