@@ -4,69 +4,68 @@
 <meta name="description" content="Tracking regulatory & legislative issues in local city councils">
 {% endblock %}
 {% block content %}
-
 <head>
-    <script>
-        $(document).ready(function () {
-            const searchValue = {{ chosen | tojson}};
-        const contentElement = document.querySelector('tbody');
-        let searchValue2 = searchValue.replace('"', '').replace('"', '')
-        console.log(searchValue)
-        if (searchValue !== '') {
-            const content = contentElement.innerHTML;
-            const highlightedContent = content.replace(
-                new RegExp(searchValue2, 'gi'),
-                '<span class="highlight">$&</span>'
-            );
-            contentElement.innerHTML = highlightedContent;
-        } else {
-            False;
-        }
-        });
-    </script>
-
+	<script>
+		$(document).ready(function () {
+		    const searchValue = {{ chosen | tojson}};
+		const contentElement = document.querySelector('tbody');
+		let searchValue2 = searchValue.replace('"', '').replace('"', '')
+		console.log(searchValue)
+		if (searchValue !== '') {
+		    const content = contentElement.innerHTML;
+		    const highlightedContent = content.replace(
+			new RegExp(searchValue2, 'gi'),
+			'<span class="highlight">$&</span>'
+		    );
+		    contentElement.innerHTML = highlightedContent;
+		} else {
+		    False;
+		}
+		});
+	</script>
     <!-- Fonts Bootstrap and AJAX-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-    <script>
-        $(document).ready(function () {
-            $('button#plus').click(function () {
-                var currentSize = parseInt($("td.description").css("font-size"));
-                $("td.description").css("font-size", currentSize += 1);
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('button#minus').click(function () {
-                var currentSize = parseInt($("td.description").css("font-size"));
-                $("td.description").css("font-size", currentSize -= 1);
-            });
-        });
-    </script>
-    <script>
-        var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change", "transportaion", "financial", "retail"];
-        var count = 0;
-        function changeText() {
-            $("#example").text(texts[count]);
-            $("#example").text(texts[count]);
-            count < 3 ? count++ : count = 0;
-        }
-        setInterval(changeText, 4000);
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('button#maxHeight').click(function () {
-                if ($('td.description').css('maxHeight') === 'max-content') {
-                    $('td.description').css('maxHeight', '9rem');
-                } else {
-                    $('td.description').css('maxHeight', 'max-content');
-                }
-            });
-        });
-    </script>
+	<script>
+		$(document).ready(function () {
+		    $('button#plus').click(function () {
+			var currentSize = parseInt($("td.description").css("font-size"));
+			$("td.description").css("font-size", currentSize += 1);
+		    });
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
+		    $('button#minus').click(function () {
+			var currentSize = parseInt($("td.description").css("font-size"));
+			$("td.description").css("font-size", currentSize -= 1);
+		    });
+		});
+	</script>
+	<script>
+		var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change", "transportaion", "financial", "retail"];
+		var count = 0;
+		function changeText() {
+		    $("#example").text(texts[count]);
+		    $("#example").text(texts[count]);
+		    count < 3 ? count++ : count = 0;
+		}
+		setInterval(changeText, 4000);
+		</script>
+		<script>
+		$(document).ready(function () {
+		    $('button#maxHeight').click(function () {
+			if ($('td.description').css('maxHeight') === 'max-content') {
+			    $('td.description').css('maxHeight', '9rem');
+			} else {
+			    $('td.description').css('maxHeight', 'max-content');
+			}
+		    });
+		});
+	</script>
 	<link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="canonical" href="https://www.PolicyEdge.net/index.html"> />
 </head>
 
 <body>
