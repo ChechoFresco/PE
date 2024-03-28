@@ -5,6 +5,8 @@
 {% endblock %}
 {% block content %}
 <head>
+	<link rel="canonical" href="https://www.PolicyEdge.net/index.html"> />
+
 	<script>
 		$(document).ready(function () {
 		    const searchValue = {{ chosen | tojson}};
@@ -65,8 +67,6 @@
 		});
 	</script>
 	<link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-	<link rel="canonical" href="https://www.PolicyEdge.net/index.html"> />
-
 	<meta property="og:title" content="PolicyEdgec tracking legislative issues.">
 	<meta property="og:type" content="website" />
 	<meta property="og:image" content="https://www.PolicyEdge.net/static/logo.png">
