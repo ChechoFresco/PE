@@ -1,10 +1,5 @@
-html {
-  width: 100vw;
-  height: 100vh;
+html, body {
   overflow-x: hidden;
-}
-
-body {
   max-width: 1920px;
   margin: auto !important;
   background-color: var(--white);
