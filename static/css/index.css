@@ -348,7 +348,7 @@ label{
 }
   td {
     text-align: center;
-    font-size: 1em;
+    font-size: 12px;
     font-family: "Open Sans", sans-serif;
     padding: 0px;
     margin: 0px auto;
@@ -357,16 +357,16 @@ label{
   td.infoLocation {
     display: flex;
     justify-content: start;
-    font-size: 1rem;
+    font-size: 12px;
   }
 
   td.description {
-    font-size: 1rem;
+    font-size: 12px;
   }
 
   .subMenu {
     height: auto;
-    font-size: 1rem;
+    font-size: 12px;
   }
 
   h3#title {
