@@ -11,8 +11,8 @@
 		</script>
 
 	<!-- Toggle between adding and removing the "responsive" class to  when the user clicks on the icon -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script>
+	<script async src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script async>
 		function updateMenuButton() {
 			$('.js-menu-button').find('.menu-icon').toggleClass('is-active');
 			var x = document.getElementById("myTopnav");
@@ -91,7 +91,7 @@
 
 <body>
 	<div class="topnav" id="myTopnav">
-		<a href="/index" class="logoMain">
+		<a href="/index" class="logoMain" aria-label="Return to PolicyEdge Homepage">
 			<svg id='logo' width="350" height="100" viewBox="0 0 5000 1400" fill="none" <g id="Frame">
 				<g id="Frame" clip-path="url(#clip0_227_2)">
 					<g id="Group" filter="url(#filter0_i_227_2)">
@@ -191,7 +191,7 @@
 		<a id='login' href="/login">Login</a>
 		<a href="/search">Search</a>
 		<a href="/savedIssues">Notification</a>
-		<a href="#" id='ham' class="menu-button [ js-menu-button ]">
+		<a href="#" id='ham' aria-label="Hamburger menu for smaller screens PolicyEdge Homepage" class="menu-button [ js-menu-button ]">
 			<div class="icon nav-icon-1" id="expe">
 				<span></span>
 				<span></span>
@@ -211,7 +211,7 @@
 	<a id='login' href="/logout">Logout</a>
 	<a href="/search">Search</a>
 	<a href="/savedIssues">Notification</a>
-	<a href="#" id='ham' class="menu-button [ js-menu-button ]">
+	<a href="#" id='ham' aria-label="Hamburger menu for smaller screens PolicyEdge Homepage" class="menu-button [ js-menu-button ]">
 		<button class="menu"
 			onclick="this.classList.toggle('opened');this.setAttribute('aria-expanded', this.classList.contains('opened'))"
 			aria-label="Main Menu">
@@ -462,13 +462,13 @@
 
 				<div class="col-md-4 col-sm-6 col-xs-12">
 					<ul class="social-icons">
-						<li><a class="facebook" href="https://www.facebook.com/Policy3dge"><i
+						<li><a class="facebook" aria-label="Check out PolicyEdge on Facebook" href="https://www.facebook.com/Policy3dge"><i
 									class="fa fa-facebook"></i></a></li>
-						<li><a class="twitter" href="https://twitter.com/Policy__Edge"><i class="fa fa-twitter"></i></a>
+						<li><a class="twitter" aria-label="Check out PolicyEdge on Twitter" href="https://twitter.com/Policy__Edge"><i class="fa fa-twitter"></i></a>
 						</li>
-						<li><a class="gmail" href="mailto:AgendaPreciado@gmail.com"><i class="fa fa-google"></i></a>
+						<li><a class="gmail" aria-label="Email PolicyEdge at Gmail link" href="mailto:AgendaPreciado@gmail.com"><i class="fa fa-google"></i></a>
 						</li>
-						<li><a class="linkedin" href="https://www.linkedin.com/in/sergio-preciado-9a00aa5a/"><i
+						<li><a class="linkedin" aria-label="Check out PolicyEdge on Linkedin" href="https://www.linkedin.com/in/sergio-preciado-9a00aa5a/"><i
 									class="fa fa-linkedin"></i></a></li>
 					</ul>
 				</div>
