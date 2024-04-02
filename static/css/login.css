@@ -1,10 +1,5 @@
 /*#Chage shape of Logo*/
-a.logoMain {
-    position: relative;
-    left: 38%;
-    top: 9rem;
-    height: 25rem;
-}
+
 svg.main{
     width: 57rem;
     height: 10rem;
@@ -22,14 +17,14 @@ div.package {
     position: relative;
     max-width: 1920px;
     border-radius: 2rem;
-    height: 60rem;
+    height: auto;
     margin: auto;
 }
 
 h1 {
     color: var(--white);
     text-align: center;
-    font-size: 5rem;
+    font-size: 4rem;
     text-shadow: var(--textShadow)
 }
 
@@ -44,10 +39,9 @@ h2 {
     position: relative;
     border-radius: 3%;
     padding: 3%;
-    top:1rem;
     width: 36rem;
     margin: auto;
-    height: 58rem;
+    height: auto;
     border: 3px solid  rgba(94, 124, 255, 0.6);
     border-bottom: 0;
     border-left: 3px solid  rgba(94, 124, 255, 0.8);
@@ -72,12 +66,14 @@ form {
     top: 4rem;
     margin: auto;
     font-size: 1.5vh;
+    text-align: center;
 }
 
 .btn {
     text-shadow: 2px 2px 1px black;
     background-color: var(--lBlue);
     border-color: var(--gray);
+    color:var(--white)
 }
 
 @media screen and (max-width: 600px) {
