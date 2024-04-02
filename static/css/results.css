@@ -1,26 +1,16 @@
-/* Table*/
-.highlight {
-	text-decoration-line: underline;
-	text-decoration-color: var(--blue);
-	text-decoration-thickness: 4px;
-}
-div#conTable {
+/* Table Div*/
+#mainBox {
 	position: relative;
-	height: auto;
-	margin-top: 2rem;
-}
-
-caption {
-	color: var(--black);
-	text-align: center;
-	text-shadow: 5px 3px 2px black;
-	text-transform: capitalize;
-	font-size: 6.1rem;
-	font-family: 'Merriweather', serif;
+	margin-top: 4rem;
+	background-color: rgba(94, 124, 255, 0.05);
+	border-radius: 3rem;
 }
 
 label {
-	color: var(--black);
+    font-size: var(--font3);
+    font-family: 'Merriweather', serif;
+    text-transform: capitalize;
+    color: var(--black);
 }
 
 .fontSizeChange {
@@ -35,46 +25,41 @@ label {
 	Left: 3rem;
 }
 
-#table {
-	border: none;
+#table_1 {
+	border: 0px;
 	margin: auto;
-	width: 85%;
-	background-color: rgba(94, 124, 255, 0.03);
+	width: 100%;
 }
 
 tr {
 	text-align: -webkit-center;
-    backdrop-filter: blur(5px);
-	width:fit-content
 }
 
-tr.packed:after {
+tr.lineSep:after {
 	content: "";
 	width: 45%;
 	height: 1px;
-	background: radial-gradient(var(--lBlue), var(--blue));
+	background: radial-gradient(var(--blue), var(--gray));
 	left: 26%;
 	position: absolute;
-}
-
-.table-hover>tbody>tr:hover td.infoLocation {
-	box-shadow: 0px 6px 9px 0px var(--gray);
 }
 
 th {
 	display: inline-block;
 	position: relative;
 	color: var(--black);
+	margin: 12px !important;
+	font-size: 21px;
 }
 
 td {
 	display: block;
 	clear: both;
-	color: var(--black);
+	background-color: rgba(255, 255, 255, .0);
+	color: var(--gray);
 	text-align: center;
 	font-family: "Open Sans", sans-serif;
-	padding: 0px;
-	margin: 0px auto;
+	padding: 0p;
 	width: auto;
 }
 
@@ -89,22 +74,32 @@ th.none {
 td.infoLocation {
 	display: flex;
 	justify-content: space-evenly;
-	font-size: 1em;
+	font-size: 21px;
+	color: var(--black);
 }
-.glyphicon:not(.glyphicon-resize-vertical){
+
+.glyphicon:not(.glyphicon-resize-vertical) {
 	color: var(--blue);
 }
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: "Glyphicons Halflings";
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 td.description {
 	overflow: hidden;
 	max-height: 18rem;
-	font-size: var(--font3);
+	font-size: 14px;
 	white-space: break-spaces;
 	color: var(--gray);
-}
-
-
-span#prettyTable2 {
-	color: var(--black);
 }
 
 .table thead tr th,
@@ -113,6 +108,7 @@ span#prettyTable2 {
 }
 
 /* Pagination */
+
 .padding-0 {
 	padding-right: 0;
 	padding-left: 0;
@@ -123,31 +119,42 @@ span#prettyTable2 {
 }
 
 .pagination-info {
-	color: white;
-	font-size: .7em;
+	color: var(--gray);
+	font-size: var(--font2);
 }
 
 .page-list {
-	color: white;
-	font-size: .7em;
+	color: var(--gray);
+	font-size: var(--font2);
+}
+
+.pagination>.active>a {
+	background-color: var(--gray);
+	color: var(--white);
+}
+
+.pagination>li>a {
+	color: var(--gray);
+	background-color: var(--white);
 }
 
 .btn {
 	padding: 3px 0px;
+	background-color: var(--white);
 }
 
-.pagination>li>a,
 .pagination>li>span {
 	padding: 1px 11px;
 }
 
 .subrow {
-	color: white;
+	color: var(--gray);
 }
 
 span.page-size {
-	color: black
+	color: var(--gray);
 }
+
 
 /* ################################################# */
 /* ################################################# */
