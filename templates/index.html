@@ -869,7 +869,7 @@
 
     <!--IssueRow-->
     <div class="row" id="button">
-        <div class="col-sm-2" id="issueRow">
+        <div class="ol-sm-offset-1 col-sm-2" id="issueRow">
             <form method="post">
                 {% from "_formhelpers.html" import render_field %}
                 <ul>
@@ -879,7 +879,7 @@
                 <p><input type="submit" name="customSearch" id="uniqueSearch"></p>
             </form>
         </div>
-        <div class="col-sm-offset-9 col-sm-1" id="issueRow">
+        <div class="col-sm-offset-7 col-sm-1" id="issueRow">
             <label id="currIss">Current Issue</label>
             <h2><span style="color: var(--lBlue); font-size:large;">{{chosen|safe}}</span> -Activity last 3 months</h2>
         </div>
