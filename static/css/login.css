@@ -76,24 +76,31 @@ form {
     color:var(--white)
 }
 
-@media screen and (max-width: 600px) {
-    form {
-        width: 79%;
-    }
+@media screen and (min-width: 600px) {
     .frost {
-        top: 0rem;
-        left: 0rem;
-        width: 100vw;
-    }
-    svg#logo{
-    height: 10rem;
-    width: 12rem;
+        top:3rem;
+        width: 80vw;
+        height:55vh;
     }
     h1 {
-        font-size: 3rem;
+        font-size: 6rem;
     }
 
     h2 {
-        font-size:1.7rem;
+        font-size:5rem;
+    }
+    form {
+        text-align: center;
+        font-size: 6rem;
+        width:79%;
+    }
+    .form-control {
+        font-size: 4rem;
+    }
+    .btn {
+        top:2rem;
+        height: 5rem;
+        width: 16rem;
+        font-size: 3rem;
     }
 }
