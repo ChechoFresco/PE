@@ -76,7 +76,7 @@ form {
     color:var(--white)
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (min-width: 600px) {
     .frost {
         top:3rem;
         width: 80vw;
