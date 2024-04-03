@@ -44,9 +44,10 @@ label{
     div.package{
         position: relative;
         width:auto;
+        height:auto;
     }
     div#size {
-        height: 20vh;
+        height: 32vh;
     }
     form{
         margin: 0rem 0rem;
