@@ -1,18 +1,8 @@
-.frost {
-  top: 0rem;
-  padding: 0rem;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
 div#conTable{
   top: 3rem;
   position: relative;
-  min-width: 55rem;
-  min-height: 53rem;
+  width: 100%;
+  display:ruby;
 }
 
 /* Table Div*/
@@ -29,9 +19,8 @@ div#conTable{
 caption {
   color: var(--textColor);
   text-align: center;
-  font-size:3rem;
+  font-size:2rem;
   text-transform: capitalize;
-  text-shadow: 5px 3px 2px black;
 }
 
 input[type=submit] {
@@ -39,11 +28,10 @@ input[type=submit] {
   height: 4rem;
   width: 11rem;
   color: var(--textColor);
-  text-shadow: var(--textShadow);
   background-color: rgba(255, 255, 255, .25);
   border-radius: 0.45em;
   font-family: "Raleway", sans-serif;
-  font-size: var(--font2);
+  font-size: 1rem;
   text-decoration: underline;
   text-decoration-color: var(--orange);
 }
@@ -69,8 +57,14 @@ div.row-button {
 #table_1 {
   border: 0px;
   margin: auto;
-  width: 85%;
+  min-width: 50rem;
+  max-width: 56rem;
+  min-height: 66rem;
 }
+#table_1:empty {
+  display: none;
+}
+
 
 tr {
   text-align: -webkit-center;
@@ -88,7 +82,6 @@ th {
 	display: inline-block;
 	position: relative;
 	color: var(--textColor);
-	text-shadow: 3px 3px 2px black;
 	text-decoration: underline;
 	text-decoration-color: var(--blue);
 	text-decoration-thickness: 3px;
@@ -101,7 +94,6 @@ td {
   color: var(--textColor);
   text-align: center;
   font-family: "Open Sans", sans-serif;
-  text-shadow: var(--textShadow);
   padding: 0p;
   width: auto;
 }
@@ -115,51 +107,28 @@ th.none {
 td.infoLocation {
   display: flex;
   justify-content: space-evenly;
-  font-size: var(--font2);
+  font-size: 1rem;
 }
 td.description {
   overflow: hidden;
   max-height: 9rem;
-  font-size: var(--font2);
+  font-size: 1rem;
   white-space: break-spaces;
-  text-shadow: 3px 3px 2px black;
 
 }
-.table-hover>tbody>tr {
-  letter-spacing: -.4px;
-}
-.table-hover>tbody>tr:hover {
-  background-color:var(--black)
-}
-.table-hover>tbody>tr:hover td {
-  font-size: var(--font2);
-  background-color: var(--black);
-}
-.table-hover>tbody>tr:hover td.description {
-  max-height: fit-content;
-  font-size: var(--font2);
-  color: var(--textColor);
-  text-shadow: var(--textShadow);
-  box-shadow: 0px -1px 15px 4px var(--lightgray);
-}
 
-.table-hover>tbody>tr:hover td.infoLocation {
-  font-size: var(--font2);
-}
 .table thead tr th,
 .table tbody tr td {
   border: none;
 }
 
-span#prettyTable {
-  text-decoration-line: underline;
-  text-decoration-color: var(--orange);
-  text-decoration-thickness: 1px;
+.glyphicon:not(.glyphicon-resize-vertical) {
+  color: var(--blue);
+}
+span{
+  color: var(--blue);
 }
 
-span#prettyTable2 {
-	color:(var--textColor);
-}
 /* Pagination */
 
 .padding-0 {
@@ -173,22 +142,22 @@ span#prettyTable2 {
 
 .pagination-info {
   color: var(--textColor);
-  font-size: var(--font3);
+  font-size: 1rem;
 }
 
 .page-list {
   color: var(--textColor);
-  font-size: var(--font3);
+  font-size: 1rem;
 }
 
 .pagination>.active>a {
-  background-color: var(--blue);
+  background-color: cornflowerblue;
   color: var(--textColor);
 }
 
 .pagination>li>a {
   color: var(--textColor);
-  background-color: var(--gray);
+  background-color: ghostwhite;
 }
 
 .btn {
