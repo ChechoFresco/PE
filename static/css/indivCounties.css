@@ -161,8 +161,7 @@ span{
 }
 
 .btn {
-  padding: 3px 0px;
-  background-color: var(--gray);
+  background-color: ghostwhite;
 }
 
 .pagination>li>span {
@@ -175,6 +174,7 @@ span{
 
 span.page-size {
   color: var(--textColor);
+}
 }
 
 @media screen and (min-width: 001px) and (max-width: 400px){
