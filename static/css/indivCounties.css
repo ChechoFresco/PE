@@ -1,16 +1,8 @@
 div#conTable{
-  top: 3rem;
+  margin-top: 3rem;
   position: relative;
   width: 100%;
-  display:ruby;
 }
-
-/* Table Div*/
-#mainBox {
-  padding-top: 13rem;
-  position: relative;
-}
-
 /* Select Options*/
 #issueRow {
   top: 0rem;
@@ -19,7 +11,7 @@ div#conTable{
 caption {
   color: var(--textColor);
   text-align: center;
-  font-size:2rem;
+  font-size:4rem;
   text-transform: capitalize;
 }
 
@@ -57,9 +49,7 @@ div.row-button {
 #table_1 {
   border: 0px;
   margin: auto;
-  min-width: 50rem;
-  max-width: 56rem;
-  min-height: 66rem;
+  height:auto;
 }
 #table_1:empty {
   display: none;
@@ -107,12 +97,13 @@ th.none {
 td.infoLocation {
   display: flex;
   justify-content: space-evenly;
-  font-size: 1rem;
+  font-size: 1.3rem;
+  max-width: 107rem;
 }
 td.description {
   overflow: hidden;
-  max-height: 9rem;
-  font-size: 1rem;
+  max-height: 12rem;
+  font-size: 1.3rem;
   white-space: break-spaces;
 
 }
@@ -174,7 +165,6 @@ span{
 
 span.page-size {
   color: var(--textColor);
-}
 }
 
 @media screen and (min-width: 001px) and (max-width: 400px){
