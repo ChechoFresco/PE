@@ -1,38 +1,9 @@
-/*#Chage shape of Logo*/
-
-svg.main{
-    width: 57rem;
-    height: 10rem;
-}
-
-#building {
-    width: 100%;
-    margin: auto;
-    height:12rem;
-}
-
-/*Main Section*/
-
-div.package {
+#package {
     position: relative;
     max-width: 1920px;
     border-radius: 2rem;
     height: auto;
     margin: auto;
-}
-
-h1 {
-    color: var(--white);
-    text-align: center;
-    font-size: 4rem;
-    text-shadow: var(--textShadow)
-}
-
-h2 {
-    color: var(--white);
-    text-align: center;
-    font-size:2.7rem;
-    text-shadow: 2px 2px 2px black;
 }
 
 .frost {
@@ -59,13 +30,39 @@ h2 {
     position: absolute;
     z-index:-1;
 }
+/*#Chage shape of Logo*/
+
+svg.main{
+    width: 57rem;
+    height: 10rem;
+}
+#building {
+    width: 100%;
+    margin: auto;
+    height:12rem;
+}
+
+/*Main Section*/
+h1 {
+    color: var(--white);
+    text-align: center;
+    font-size: 3.5rem;
+    text-shadow: var(--textShadow)
+}
+
+h2 {
+    color: var(--white);
+    text-align: center;
+    font-size:2.2rem;
+    text-shadow: 2px 2px 2px black;
+}
 
 form {
     height: 22vh;
     position: relative;
     top: 4rem;
     margin: auto;
-    font-size: 1.5vh;
+    font-size: 2rem;
     text-align: center;
 }
 
@@ -74,33 +71,4 @@ form {
     background-color: var(--lBlue);
     border-color: var(--gray);
     color:var(--white)
-}
-
-@media screen and (min-width: 600px) {
-    .frost {
-        top:3rem;
-        width: 80vw;
-        height:55vh;
-    }
-    h1 {
-        font-size: 6rem;
-    }
-
-    h2 {
-        font-size:5rem;
-    }
-    form {
-        text-align: center;
-        font-size: 6rem;
-        width:79%;
-    }
-    .form-control {
-        font-size: 4rem;
-    }
-    .btn {
-        top:2rem;
-        height: 5rem;
-        width: 16rem;
-        font-size: 3rem;
-    }
 }
