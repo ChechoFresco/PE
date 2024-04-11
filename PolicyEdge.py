@@ -202,8 +202,6 @@ def index():
         return render_template('index.html', folium_map=folium_map._repr_html_(), form=form,target=target ,chosen=chosen, issueTexts=issueText, title="Policy Edge Tracking Agendas")
     elif request.method == 'POST' and request.form.get('chartSearch'):
         try:
-    elif request.method == 'POST' and request.form.get('chartSearch'):
-        try:
             chose = request.form['chartSearch']
             target='City Count'
             chosen= "\""+chose+"\"" # Allows for exact phrases
