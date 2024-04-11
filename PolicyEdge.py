@@ -202,83 +202,60 @@ def index():
         return render_template('index.html', folium_map=folium_map._repr_html_(), form=form,target=target ,chosen=chosen, issueTexts=issueText, title="Policy Edge Tracking Agendas")
     elif request.method == 'POST' and request.form.get('chartSearch'):
         try:
+    elif request.method == 'POST' and request.form.get('chartSearch'):
+        try:
             chose = request.form['chartSearch']
+            target='City Count'
             chosen= "\""+chose+"\"" # Allows for exact phrases
             mongo.db.User.find_one_and_update({'username':'Esther'}, {'$push': {'searches':chosen}}, upsert = True)
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, {"MeetingType": " City Council "}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
             ####Words taken out for NLTK#######
             issueText=[]
-            tripleCity=[]
-        ####### TABLE 1##########
+            treMonthMtch=[]
+            ####### TABLE 1##########
             for x in agendaa:
-                if x['Date'] >= threemonthBefore:
-                    tripleCity.append(x['City'])
-                    issueText.append(x)
+                sp=x['City'].strip()
+                treMonthMtch.append(sp)
+                issueText.append(x)
 
-            issuePerCity= Counter(tripleCity)# Creates key:value pair per city to part w/ issuePerCity.keys()
+            issuePerCity= Counter(treMonthMtch)# Creates key:value pair per city to part w/ issuePerCity.keys()
             Cities=[]
             Cnt=[]
             geo=[]
-            dl={}
             for i,v in issuePerCity.items():
-                Cities.append(i[1:-1])# split used because of city gap before after name
+                Cities.append(i)# split used because of city gap before after name
                 Cnt.append(v)
-                check=mongo.db.geoLoc.find({'city':i[1:-1]}, {'_id': 0, "webAdress" : 0, "population": 0})
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0, "population": 0})
                 for y in check:
-                    if y['city'] in i[1:-1]:
-                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+str(v))
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+
+            #######Box 1##########
             geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
-            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lng','ISSUECONT'])
-            df['text']= 'City: '+df['city'] + ', ' +'County: '+ df['county_name'] + ', ' +'Total: '+ df['ISSUECONT'].astype(str)
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(34, -118), zoom_start=9, tiles="cartodbpositron",width=1920, height=700)
 
-            fig = go.Figure(data=go.Scattergeo(
-                    lon = df['lng'],
-                    lat = df['lat'],
-                    showlegend=False,
-                    marker=dict(color=df['ISSUECONT'],
-                        colorscale='Plotly3',
-                        size=df['ISSUECONT']**1.1,
-                        showscale=True ),
-                    text = df['text'],
-                    hoverinfo = "text",
-                    textfont=dict(
-                        family="Merriweather', serif",
-                        size=18,
-                        color="white"
-                        ),
-            )
-                    )
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
 
-            fig.update_geos(
-                fitbounds="locations",
-                scope="usa",
-                resolution=50,
-                showland=True, landcolor="#498f6d",
-                showlakes=True, lakecolor="#5e7cff",
-                showcountries=True, countrycolor="#fab935",
-                showsubunits=True, subunitcolor="#fab935",
-            )
-
-            fig.update_layout(
-                    geo=dict(bgcolor= '#5e7cff'),
-                    #title = 'Issue Heat Index',
-                    showlegend=True,
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    width=660,
-                    mapbox=dict(style="open-street-map"),
-                    autosize=True,
-                    margin={"r":20,"t":50,"l":20,"b":20},
-                    font=dict(
-                        family="Merriweather', serif",
-                        size=18,
-                        color="white"
-                    ),
-                    )
-            graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
         except:
             flash('Sorry. No matches found')
             return redirect(url_for("index"))
-        return render_template('index.html',graphJSON=graphJSON, form=form, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Policy Edge Tracking Agendas Map Search")
+        return render_template('index.html', form=form, folium_map=folium_map._repr_html_(),chosen=chosen, issueTexts=issueText, title="Policy Edge Tracking Agendas Map search")
 
 
 
