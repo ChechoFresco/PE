@@ -202,60 +202,6 @@ def index():
         return render_template('index.html', folium_map=folium_map._repr_html_(), form=form,target=target ,chosen=chosen, issueTexts=issueText, title="Policy Edge Tracking Agendas")
     elif request.method == 'POST' and request.form.get('chartSearch'):
         try:
-            chose = request.form['chartSearch']
-            target='City Count'
-            chosen= "\""+chose+"\"" # Allows for exact phrases
-            mongo.db.User.find_one_and_update({'username':'Esther'}, {'$push': {'searches':chosen}}, upsert = True)
-            agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, {"MeetingType": " City Council "}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
-            ####Words taken out for NLTK#######
-            issueText=[]
-            treMonthMtch=[]
-            ####### TABLE 1##########
-            for x in agendaa:
-                sp=x['City'].strip()
-                treMonthMtch.append(sp)
-                issueText.append(x)
-
-            issuePerCity= Counter(treMonthMtch)# Creates key:value pair per city to part w/ issuePerCity.keys()
-            Cities=[]
-            Cnt=[]
-            geo=[]
-            for i,v in issuePerCity.items():
-                Cities.append(i)# split used because of city gap before after name
-                Cnt.append(v)
-                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0, "population": 0})
-                for y in check:
-                    if y['city'] in i:
-                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
-
-            #######Box 1##########
-            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
-            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
-            folium_map = folium.Map(location=(34, -118), zoom_start=9, tiles="cartodbpositron",width=1920, height=700)
-
-            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
-                folium.Circle(
-                    location=[df['lat'][i], df['lon'][i]],
-                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
-                    radius=float(df['ISSUECONT'][i])*50,
-                    color='#5e7cff',
-                    fill=False,
-                    fill_color='#5e7cff'
-                ).add_to(folium_map)
-
-                folium.map.Marker([df['lat'][i], df['lon'][i]],
-                                    icon=DivIcon(
-                                        icon_size=(10 ,10),
-                                        icon_anchor=(15,15),
-                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
-                                    )
-                                    ).add_to(folium_map)
-        except:
-            flash('Sorry. No matches found')
-            return redirect(url_for("index"))
-        return render_template('index.html', form=form, folium_map=folium_map._repr_html_(),chosen=chosen, issueTexts=issueText, title="Policy Edge Tracking Agendas")
-    elif request.method == 'POST' and request.form.get('chartSearch'):
-        try:
             chosen = request.form['chartSearch']
             mongo.db.User.find_one_and_update({'username':'Spreciado67'}, {'$push': {'searches':chosen}}, upsert = True)
             agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
@@ -331,7 +277,7 @@ def index():
         except:
             flash('Sorry. No matches found')
             return redirect(url_for("index"))
-        return render_template('index.html',graphJSON=graphJSON, form=form, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Policy Edge Tracking Agendas")
+        return render_template('index.html',graphJSON=graphJSON, form=form, Cities=Cities, Cnt=Cnt ,chosen=chosen, issueTexts=issueText, title="Policy Edge Tracking Agendas Map Search")
 
 
 
@@ -1826,11 +1772,11 @@ def favicon():
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
-    return render_template('404.html'), 404
+    return render_template('404.html', title="404"), 404
 
 @app.errorhandler(500)
 def internal_error(error):
-    return render_template('500.html'), 500
+    return render_template('500.html', title="500"), 500
     
 if __name__ == '__main__':
     app.run(debug = False)
