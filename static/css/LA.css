@@ -1,8 +1,19 @@
 div#conTable{
-  top: 3rem;
-  position: relative;
-  width: 100%;
-  display:ruby;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: 7rem;
+}
+
+div.texture{
+    padding: 1rem;
+    min-width: 38rem;
+    max-width: 60rem;
+    height: 118rem;
+    background: linear-gradient(to right top, #8f9dbd, #939fc1, #97a1c6, #9ba2ca, #a0a4ce);
+    border-radius: 5rem;
+    margin-bottom: 3rem;
 }
 
 /* Table Div*/
@@ -12,14 +23,11 @@ div#conTable{
 }
 
 /* Select Options*/
-#issueRow {
-  top: 0rem;
-  height: auto;
-}
+
 caption {
-  color: var(--textColor);
+  color: white;
   text-align: center;
-  font-size:2rem;
+  font-size:3.5rem;
   text-transform: capitalize;
 }
 
@@ -55,27 +63,15 @@ div.row-button {
 }
 
 #table_1 {
-  border: 0px;
-  margin: auto;
-  min-width: 50rem;
-  max-width: 56rem;
-  min-height: 82rem;
+  table-layout: fixed;
+  background-color: var(--white);
 }
 #table_1:empty {
   display: none;
 }
 
-
 tr {
   text-align: -webkit-center;
-}
-tr.lineSep:after {
-  content: "";
-  width: 45%;
-  height: 1px;
-  background: radial-gradient(var(--orange), var(--blue));
-  left: 26%;
-  position: absolute;
 }
 
 th {
@@ -89,13 +85,7 @@ th {
 
 td {
   display: block;
-  clear: both;
-  background-color: rgba(255, 255, 255, .0);
-  color: var(--textColor);
-  text-align: center;
   font-family: "Open Sans", sans-serif;
-  padding: 0p;
-  width: auto;
 }
 
 td.none {
@@ -107,12 +97,12 @@ th.none {
 td.infoLocation {
   display: flex;
   justify-content: space-evenly;
-  font-size: 1rem;
+  font-size: 1.3rem;
 }
 td.description {
   overflow: hidden;
-  max-height: 9rem;
-  font-size: 1rem;
+  max-height: 10rem;
+  font-size: 1.6rem;
   white-space: break-spaces;
 
 }
@@ -141,12 +131,12 @@ span{
 }
 
 .pagination-info {
-  color: var(--textColor);
+  color: var(--white);
   font-size: 1rem;
 }
 
 .page-list {
-  color: var(--textColor);
+  color: var(--white);
   font-size: 1rem;
 }
 
