@@ -4,14 +4,15 @@ div#conTable{
   flex-wrap: wrap;
   justify-content: space-evenly;
   margin-top: 7rem;
+  align-items: flex-start;
 }
 
 div.texture{
     padding: 1rem;
     min-width: 38rem;
     max-width: 60rem;
-    height: 118rem;
-    background: linear-gradient(to right top, #8f9dbd, #939fc1, #97a1c6, #9ba2ca, #a0a4ce);
+    height: auto;
+    background: linear-gradient(135deg,  #dbdbe7, var(--blue), #dbdbe7, var(--blue));
     border-radius: 5rem;
     margin-bottom: 3rem;
 }
@@ -29,32 +30,10 @@ caption {
   text-align: center;
   font-size:3.5rem;
   text-transform: capitalize;
+  text-shadow: 2px 2px 4px black;
 }
 
-input[type=submit] {
-  cursor: pointer;
-  height: 4rem;
-  width: 11rem;
-  color: var(--textColor);
-  background-color: rgba(255, 255, 255, .25);
-  border-radius: 0.45em;
-  font-family: "Raleway", sans-serif;
-  font-size: 1rem;
-  text-decoration: underline;
-  text-decoration-color: var(--orange);
-}
 
-input[type=submit]:nth-child(even) {
-  background-color: rgba(255, 255, 255, .0);
-}
-
-div.row-button input[type=submit]:hover {
-  text-shadow: 0 0 5px var(--orange);
-}
-
-div.row-button {
-  width: fit-content;
-}
 /* Table*/
 
 .fontSize{
@@ -64,7 +43,9 @@ div.row-button {
 
 #table_1 {
   table-layout: fixed;
-  background-color: var(--white);
+  border:none;
+  background: white;
+  border-radius:3rem
 }
 #table_1:empty {
   display: none;
@@ -74,13 +55,20 @@ tr {
   text-align: -webkit-center;
 }
 
+tr.lineSep:after {
+  content: "";
+  width: 60%;
+  height: 1px;
+  background: radial-gradient(var(--blue), var(--gray));
+  left: 26%;
+  position: absolute;
+}
 th {
 	display: inline-block;
 	position: relative;
-	color: var(--textColor);
-	text-decoration: underline;
-	text-decoration-color: var(--blue);
-	text-decoration-thickness: 3px;
+  color: white;
+  text-shadow: 2px 2px 2px black;
+  font-size: 1.6rem;
 }
 
 td {
@@ -97,13 +85,17 @@ th.none {
 td.infoLocation {
   display: flex;
   justify-content: space-evenly;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
+  color: white;
+  text-shadow: 2px 2px 2px black;
 }
 td.description {
   overflow: hidden;
   max-height: 10rem;
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   white-space: break-spaces;
+  color: black;
+  text-shadow: .5px .5px .5px white;
 
 }
 
@@ -113,14 +105,17 @@ td.description {
 }
 
 .glyphicon:not(.glyphicon-resize-vertical) {
-  color: var(--blue);
+  color: var(--orange);
 }
 span{
-  color: var(--blue);
+  color: var(--orange);
 }
 
 /* Pagination */
 
+div.fixed-table-pagination{
+  bottom:-1rem;
+}
 .padding-0 {
   padding-right: 0;
   padding-left: 0;
@@ -141,7 +136,7 @@ span{
 }
 
 .pagination>.active>a {
-  background-color: cornflowerblue;
+  background-color: var(--blue);
   color: var(--textColor);
 }
 
@@ -163,7 +158,7 @@ span{
 }
 
 span.page-size {
-  color: var(--textColor);
+  color: black;
 }
 
 @media screen and (min-width: 001px) and (max-width: 400px){
