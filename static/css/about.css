@@ -1,12 +1,11 @@
-body  {
-    font-family: 'Roboto';
-    font-size: 16px;
-    background-color:#2d3237 !important;
+body{
+    margin: auto !important;
 }
-
 .aboutus-section {
     padding: 0 0;
-    margin: 0 auto;
+    margin: auto;
+    border-radius: 2rem;
+    background-color: rgb(19 53 239 / 3%);
 }
 .aboutus-title {
     font-size: 30px;
@@ -16,7 +15,7 @@ body  {
     padding: 0 0 11px;
     position: relative;
     text-transform: uppercase;
-    color: white;
+    color: var(--gray);
 }
 .aboutus-title::after {
     background: #fdb801 none repeat scroll 0 0;
@@ -28,21 +27,21 @@ body  {
     width: 54px;
 }
 .aboutus-text {
-    color: white;
+    color: var(--black);
     font-size: 13px;
     line-height: 22px;
     margin: 0 0 35px;
 }
 
 a:hover, a:active {
-    color: #ffb901;
+    color: var(--blue);
     text-decoration: none;
     outline: 0;
 }
 .aboutus-more {
-    border: 1px solid #fdb801;
+    border: 1px solid color var(--blue);
     border-radius: 25px;
-    color: #fdb801;
+    color: var(--blue);
     display: inline-block;
     font-size: 14px;
     font-weight: 700;
@@ -93,12 +92,12 @@ a:hover, a:active {
     line-height: 22px;
 }
 .clip {
-    color : #f4b841;
+    color : var(--blue);
     padding:0px;
     font-size:40px;
     border: 1px solid #fdb801;
     border-radius: 100px;
-    color: #fdb801;
+    color: var(--blue);
     font-size: 28px;
     height: 70px;
     line-height: 70px;
@@ -108,14 +107,24 @@ a:hover, a:active {
 .image {
     width: 49rem;
     height: 40rem;
-    background-image: url(https://lh3.googleusercontent.com/QF6q3NZ6F-l7gpu5PyhY9QIfCaBFxoacDFyLEWsJR3Q6MYj9b6_Zy1lHLtoIaxIMFkfIdtuZgjuBLqfouZYxIhMG3puCZ8hRyTiPArzpREj1tTWyDv2IKP7hymvV-Mkj04d1XwM2aIc=w2400);
+    background-image: url(/static/Serg.png);
     background-repeat: no-repeat;
     background-position: bottom;
     background-size: 158% 142%;
-    cursor: pointer;
 }
+
 
 .image:hover {
     background-size: 170% 150%;
+}
 
+
+  /* ################################################# */
+  /* ################################################# */
+  /* ################################################# */
+@media screen and (max-width: 600px) {
+    .image {
+        width: 28rem;
+        height: 22rem;
+    }
 }
