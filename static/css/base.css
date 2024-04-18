@@ -2,19 +2,18 @@ html, body {
   overflow-x: hidden;
   max-width: 1920px;
   margin: auto !important;
-  background-color: var(--white);
 }
 
 :root {
-  --fontNav:25px;
+  --fontNav:28px;
   --font1: 5.5rem;
   --font2: 2.1rem;
   --font3: 1.7rem;
-  --blue: #2b53ff;
+  --blue: #4774b8;
+  --orange: #ffc564;
   --white: white;
-  --lBlue: #5e7cff;
   --black: #121013;
-  --gray: #606060;
+  --gray: #8f8fa6;
   --textShadow: 5px 5px 5px var(--black);
 }
 
@@ -25,7 +24,6 @@ svg#logo {
   animation-iteration-count: 1;
   animation-timing-function: linear;
 }
-
 
 @keyframes spin {
   from {
@@ -130,7 +128,6 @@ svg#logo {
 
 /* Add a black background color to the top navigation */
 .topnav {
-  background-color: transparent;
   overflow: hidden;
   max-width: 1920px;
   margin: auto;
@@ -151,21 +148,21 @@ svg#logo {
 
 #login {
   text-decoration: underline;
-  text-decoration-color: var(--lBlue);
+  text-decoration-color: var(--orange);
   text-decoration-thickness: 3px;
   color:var(--gray);
 }
 
 .topnav a:not(:first-child) {
   float: right;
-  padding: 4rem 2rem;
+  padding: 4rem 3rem;
   font-family: "Montserrat", sans-serif;
   color: var(--gray);
 }
 
 .topnav a:not(:first-child):hover {
   text-decoration: underline;
-  text-decoration-color: var(--lBlue);
+  text-decoration-color: var(--orange);
   text-decoration-thickness: 3px;
 }
 
@@ -379,9 +376,6 @@ svg#logo {
   position: relative;
 }
 
-h3{
-  font-size: 12px;
-}
 p.text-justify {
   color: var(--black);
 }
@@ -428,9 +422,6 @@ p.copyright-text {
 
 .footer-links a {
   color: var(--gray);
-  text-decoration: underline;
-  text-decoration-color: var(--blue);
-  text-decoration-thickness: 3px;
 }
 
 .footer-links a:active,
@@ -439,7 +430,7 @@ p.copyright-text {
   color: var(--gray);
   text-decoration: underline;
   text-decoration-color: var(--blue);
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: 2px;
 }
 
 .footer-links.inline li {
@@ -457,11 +448,6 @@ p.copyright-text {
   margin-left: 6px;
   margin-right: 0;
   border-radius: 100%;
-  background-color: transparent;
-}
-
-.copyright-text {
-  margin: 0
 }
 
 .copyright-text {
@@ -532,6 +518,7 @@ p.copyright-text {
 .social-icons a.gmail:hover {
   background-color: #ea4c89
 }
+
 
 /* ################################################# */
 /* ################################################# */
