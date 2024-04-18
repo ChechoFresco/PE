@@ -13,11 +13,11 @@
     width: 36rem;
     margin: auto;
     height: auto;
-    border: 3px solid  rgba(94, 124, 255, 0.6);
+    border: 1px solid  rgba(94, 124, 255, 0.6);
     border-bottom: 0;
-    border-left: 3px solid  rgba(94, 124, 255, 0.8);
-    border-top: 3px solid  rgba(94, 124, 255, 0.8);
-    background-color: rgb(197 197 197 / 37%);
+    border-left: 1px solid  rgba(94, 124, 255, 0.8);
+    border-top: 1px solid  rgba(94, 124, 255, 0.8);
+    background: linear-gradient(to right, lightgray 0%, #e7edf6 100%);
     box-shadow: rgba(94, 124, 255, 0.4) 0px 3px, rgba(94, 124, 255, 0.3) 0px 6px, rgba(94, 124, 255, 0.2) 0px 9px, rgba(94, 124, 255, 0.1) 0px 12px, rgba(94, 124, 255, 0.05) 0px 15px;
 }
 .frost::after {
@@ -68,7 +68,7 @@ form {
 
 .btn {
     text-shadow: 2px 2px 1px black;
-    background-color: var(--lBlue);
+    background-color: var(--blue);
     border-color: var(--gray);
     color:var(--white)
 }
