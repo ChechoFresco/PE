@@ -36,7 +36,7 @@ label{
 }
 input[type=submit] {
     position: relative;
-    background-color: var(--lBlue);
+    background-color: var(--orange);
     border-radius: 2rem;
     color: white;
     cursor: pointer;
