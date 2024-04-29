@@ -10,11 +10,11 @@ div#conTable{
 div.texture{
     padding: 1rem;
     min-width: 38rem;
-    max-width: 60rem;
+    max-width: 58rem;
     height: auto;
-    background: linear-gradient(135deg,  #dbdbe7, var(--blue), #dbdbe7, var(--blue));
-    border-radius: 5rem;
+    border-radius: 2rem;
     margin-bottom: 3rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 /* Table Div*/
@@ -23,23 +23,25 @@ div.texture{
   position: relative;
 }
 
-/* Select Options*/
-
+/* Titles*/
 caption {
-  color: white;
   text-align: center;
-  font-size:3.5rem;
+  font-size:3.7rem;
   text-transform: capitalize;
-  text-shadow: 2px 2px 4px black;
+  background: var(--rad);
+  background-clip: text;
+  color: transparent;
 }
-
-
+caption:after {
+  content: "";
+  width: 75%;
+  height: 4px;
+  background: radial-gradient(var(--blue), var(--gray));
+  left: 15%;
+  position: absolute;
+  top: 6rem;
+}
 /* Table*/
-
-.fontSize{
-  float: right;
-  right:5rem;
-}
 
 #table_1 {
   table-layout: fixed;
@@ -91,12 +93,11 @@ td.infoLocation {
 }
 td.description {
   overflow: hidden;
-  max-height: 10rem;
-  font-size: 1.7rem;
+  max-height: 15rem;
+  font-size: 1.5rem;
   white-space: break-spaces;
   color: black;
   text-shadow: .5px .5px .5px white;
-
 }
 
 .table thead tr th,
@@ -105,10 +106,10 @@ td.description {
 }
 
 .glyphicon:not(.glyphicon-resize-vertical) {
-  color: var(--orange);
+  color: var(--blue);
 }
 span{
-  color: var(--orange);
+  color: var(--blue);
 }
 
 /* Pagination */
@@ -136,7 +137,7 @@ div.fixed-table-pagination{
 }
 
 .pagination>.active>a {
-  background-color: var(--blue);
+  background-color: var(--gray);
   color: var(--textColor);
 }
 
