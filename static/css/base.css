@@ -1,138 +1,141 @@
 html, body {
   overflow-x: hidden;
-  max-width: 1920px;
+  max-width: 1200px;
   margin: auto !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0),
+  rgba(255,255,255,1)), url(/static/nnnoise.svg);
 }
 
 :root {
   --fontNav:28px;
-  --font1: 5.5rem;
-  --font2: 2.1rem;
-  --font3: 1.7rem;
-  --blue: #4774b8;
+  --font1: 5.3rem;
+  --font2: 2rem;
+  --font3: 1.5rem;
+  --blue: #5e7cff;
   --orange: #ffc564;
   --white: white;
-  --black: #121013;
-  --gray: #8f8fa6;
-  --textShadow: 5px 5px 5px var(--black);
-}
-
-
-svg#logo {
-  animation-name: spin;
-  animation-duration: 10000ms;
-  animation-iteration-count: 1;
-  animation-timing-function: linear;
-}
-
-@keyframes spin {
-  from {
-    transform: rotateY(0deg);
-  }
-
-  to {
-    transform: rotateY(360deg);
-  }
+  --black: #252522;
+  --gray: #69677e;
+  --textShadow: 2px 2px 3px #69677e;
+  --rad:linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+  --rad2:linear-gradient(180deg, var(--blue) 25%, var(--gray) 100%);
 }
 
 /* Logo animation */
-
-#top1,
-#top3,
-#insideL,
-#outsideL,
-#leftGutter,
-#leftBuild {
-  animation: moveTop 10s ease-in-out;
-}
-
-
-@keyframes moveTop {
-  0% {
-    transform: translateX(150px);
+  svg#logo {
+    animation-name: spin;
+    animation-duration: 10000ms;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
   }
 
-  34% {
-    transform: translateX(80px);
+  @keyframes spin {
+    from {
+      transform: rotateY(0deg);
+    }
+
+    to {
+      transform: rotateY(360deg);
+    }
   }
 
-  37% {
-    transform: translateX(40px);
+
+  #top1,
+  #top3,
+  #insideL,
+  #outsideL,
+  #leftGutter,
+  #leftBuild {
+    animation: moveTop 10s ease-in-out;
   }
 
-  100% {
-    transform: translateX(0px);
-  }
-}
 
-#tip,
-#top2,
-#insideR,
-#outsideR,
-#rightGutter,
-#rightBuild,
-#pillars,
-#pillars_2,
-#pillars_3,
-#pillars_4,
-#pillars_5 {
-  animation: moveTop2 10s ease-in-out;
-}
+  @keyframes moveTop {
+    0% {
+      transform: translateX(150px);
+    }
 
-@keyframes moveTop2 {
-  0% {
-    transform: translateX(-150px);
+    34% {
+      transform: translateX(80px);
+    }
+
+    37% {
+      transform: translateX(40px);
+    }
+
+    100% {
+      transform: translateX(0px);
+    }
   }
 
-  34% {
-    transform: translateX(-80px);
+  #tip,
+  #top2,
+  #insideR,
+  #outsideR,
+  #rightGutter,
+  #rightBuild,
+  #pillars,
+  #pillars_2,
+  #pillars_3,
+  #pillars_4,
+  #pillars_5 {
+    animation: moveTop2 10s ease-in-out;
   }
 
-  37% {
-    transform: translateX(-40px);
+  @keyframes moveTop2 {
+    0% {
+      transform: translateX(-150px);
+    }
+
+    34% {
+      transform: translateX(-80px);
+    }
+
+    37% {
+      transform: translateX(-40px);
+    }
+
+    100% {
+      transform: translateX(-0px);
+    }
   }
 
-  100% {
-    transform: translateX(-0px);
-  }
-}
-
-#columnL,
-#columnmid,
-#columnR {
-  animation: moveBot 10s ease-in-out;
-}
-
-@keyframes moveBot {
-  0% {
-    transform: translateY(-150px);
+  #columnL,
+  #columnmid,
+  #columnR {
+    animation: moveBot 10s ease-in-out;
   }
 
-  34% {
-    transform: translateY(-80px);
+  @keyframes moveBot {
+    0% {
+      transform: translateY(-150px);
+    }
+
+    34% {
+      transform: translateY(-80px);
+    }
+
+    37% {
+      transform: translateY(-40px);
+    }
+
+    100% {
+      transform: translateY(-0px);
+    }
   }
 
-  37% {
-    transform: translateY(-40px);
+  #mid,
+  #midBottom {
+    animation: spin 6s ease-in-out;
   }
-
-  100% {
-    transform: translateY(-0px);
-  }
-}
-
-#mid,
-#midBottom {
-  animation: spin 6s ease-in-out;
-}
 
 /* Add a black background color to the top navigation */
-.topnav {
-  overflow: hidden;
-  max-width: 1920px;
-  margin: auto;
-  position: relative;
-}
+  .topnav {
+    overflow: hidden;
+    margin: auto;
+    position: relative;
+    border-bottom: 1px solid var(--gray);
+  }
 
 /* Style the links inside the navigation bar */
 .topnav a {
@@ -147,23 +150,28 @@ svg#logo {
 }
 
 #login {
-  text-decoration: underline;
-  text-decoration-color: var(--orange);
-  text-decoration-thickness: 3px;
-  color:var(--gray);
+  background-image: var(--rad);
+  background-repeat: no-repeat;
+  background-position-y: 50px;
+  background-size:100% 5%;
+  width:fit-content;
 }
 
 .topnav a:not(:first-child) {
   float: right;
-  padding: 4rem 3rem;
+  padding: 1rem 3rem;
   font-family: "Montserrat", sans-serif;
   color: var(--gray);
 }
 
 .topnav a:not(:first-child):hover {
-  text-decoration: underline;
-  text-decoration-color: var(--orange);
-  text-decoration-thickness: 3px;
+  background-image: var(--rad);
+  background-repeat: no-repeat;
+  background-position-y: 50px;
+  background-size:100% 5%;
+  width:fit-content;
+  text-decoration: none;
+
 }
 
 .topnav a:not(:first-child):hover a#login {
@@ -181,9 +189,9 @@ svg#logo {
 /* CSS for TOPNAV*/
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
 @media screen and (max-width: 600px) {
-
   .topnav a:not(:first-child) {
     display: none;
+    background-image: none !important;
   }
 
   .topnav a#ham {
@@ -192,6 +200,7 @@ svg#logo {
     text-align: left;
     display: block;
     background-color: transparent;
+    text-decoration: none;
   }
 
   svg#logo {
@@ -218,7 +227,7 @@ svg#logo {
     }
 
     100% {
-      left: 1rem;
+      left: 0rem;
     }
   }
 
