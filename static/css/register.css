@@ -2,6 +2,8 @@
     position: relative;
     height: auto;
     margin-top:8rem;
+    margin:auto;
+
 }
 
 .frost {
@@ -9,19 +11,22 @@
     min-height: 400px;
     max-width:42rem;
     border-radius: 2rem;
-    background-color:rgb(102 119 172 / 14%);
+    background: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
     padding: 3%;
+    margin: 0 auto;
 }
 
 form{
-    margin: 0rem 0rem;
+    margin: 6rem 0rem;
     font-size:1.4rem;
     width: fit-content;
 }
 
 h1{
-    color:#1a2d49;
     font-size:50px;
+    background: var(--rad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 h2{
     color:#707070;
@@ -56,21 +61,22 @@ label{
 }
 
 @media screen and (max-width: 768px) {
-    div.package{
+    #package{
         position: relative;
         width:auto;
         height:auto;
+        margin-top:1rem;
     }
-    div#size {
-        height: 32vh;
+    #mainText{
+        text-align:center;
+    }
+    h1{
+        font-size:35px;
     }
     form{
-        margin: 0rem 0rem;
+        margin: auto;
         font-size:1.5rem;
         width: auto;
-    }
-    h1,h2{
-        font-size: 2.4rem;
     }
     label{
         color:var(--black);
