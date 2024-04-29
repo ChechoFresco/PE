@@ -1,209 +1,213 @@
-.highlight {
-  text-decoration-line: underline;
-  text-decoration-color: var(--orange);
-  text-decoration-thickness: 2px;
-}
-
 #mainPane {
   border-radius: 3rem;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, var(--blue), #dbdbe7);
-
 }
+/* Main Title*/
+  h1#title {
+    text-align: center;
+    font-size: var(--font1);
+    letter-spacing: -1px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bolder;
+    background: var(--rad);
+    background-clip: text;
+    color: transparent;
+  }
+  #example{
+    background: var(--rad);
+    background-clip: text;
+    color: transparent;
+  }
+/* Laptop*/
+  #conLaptop {
+    position: relative;
+    display: flex;
+  }
 
-/* Jumbotron*/
-h1#title {
-  color: var(--white);
-  text-align: center;
-  font-size: var(--font1);
-  letter-spacing: -1px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-weight: bolder;
-  text-shadow: var(--textShadow);
-}
-
-/* Main Animation*/
-#conanimation {
-  position: relative;
-  display: flex;
-}
-
-svg#laptop {
-  overflow: hidden;
-  position: relative;
-}
+  svg#laptop {
+    overflow: hidden;
+    position: relative;
+  }
 
 /* Animation Side text*/
-h3.howwrk {
-  margin: 2rem;
-  font-family: Inter,sans-serif;
-  font-size: var(--font2);
-  color: white;
-  text-shadow: 2px 2px 2px black;
-  letter-spacing: .3px;
-  line-height: 2.2rem;
-}
+  h3.howwrk {
+    margin: 2rem;
+    font-size: var(--font2);
+    color: var(--gray);
+    letter-spacing: .3px;
+    text-align: -webkit-center;
 
-h3.free {
-  margin: 2rem;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 3rem;
-  color: var(--white);
-  letter-spacing: .3px;
-  line-height: 2.2rem;
-}
-h3.free a {
-  color: var(--white);
-  text-shadow: 1px 1px 8px var(--orange);
-}
+  }
 
-span.text {
-  color: var(--black);
-  font-size: 2.5rem;
-}
+  h3.free {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 3rem;
+    background-image: var(--rad);
+    text-align-last: center;
+    border-radius: .5rem;
+    width:max-content;
+    padding:1rem;
+  }
+  h3.free a {
+    color: white;
+  }
+
+  span.text {
+    color: var(--black);
+    font-size: 2.5rem;
+  }
 
 /* search bar section*/
-#button {
-  top: 2rem;
-  height: 13rem;
-  position: relative;
-}
+  #button {
+    height: 13rem;
+    position: relative;
+  }
 
-label {
-  font-size: var(--font3);
-  font-family: 'Merriweather', serif;
-  text-transform: capitalize;
-  color: var(--black);
-}
+  label {
+    font-size: var(--font3);
+    font-family: 'Merriweather', serif;
+    text-transform: capitalize;
+    color: var(--black);
+  }
 
-h2 {
-  font-size: var(--font2);
-  color: var(--gray);
-  margin-top: 0;
-}
+  h2 {
+    font-size:16px;
+    color: var(--gray);
+    margin-top: 0;
+  }
 
-input[type=submit] {
-  background-color: var(--gray);
-  border-radius: 100px;
-  color: var(--white);
-  cursor: pointer;
-  font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
-  padding: 6px 15px;
-  text-align: center;
-  border: 0;
-  margin: 2px;
-}
+  input[type=submit] {
+    background-color: var(--gray);
+    border-radius: 100px;
+    color: var(--white);
+    cursor: pointer;
+    font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
+    padding: 6px 15px;
+    text-align: center;
+    border: 0;
+    margin: 2px;
+  }
 
-#uniqueSearch {
-  left: 4rem;
-  position: relative;
-  background-color: var(--orange);
-
-}
+  #uniqueSearch {
+    left: 4rem;
+    position: relative;
+    background-image: var(--rad);
+  }
 
 /* Charts*/
-#chartBox {
-  height: 500px;
-  width: 100%;
-  margin-top: 7rem;
-  overflow: hidden;
-}
+  #chartBox {
+    height: 500px;
+    width: 100%;
+    margin-top: 1rem;
+    overflow: hidden;
+  }
 
 /* Table Div*/
-#mainBox {
-  position: relative;
-  background: linear-gradient(135deg,  #dbdbe7, var(--blue), #dbdbe7, var(--blue));
-  border-radius: 3rem;
-}
+  /* Highlight words in table*/
+  .highlight {
+    text-decoration-line: underline;
+    text-decoration-color: var(--orange);
+    text-decoration-thickness: 2px;
+  }
+  #mainBox {
+    position: relative;
+  }
+  .fontOptions{
+    position: relative;
+    height: 3rem;
+  }
+  .fontSizeChange {
+    float: right;
+    right: 3rem;
+  }
 
-.fontSizeChange {
-  position: relative;
-  float: right;
-  right: 3rem;
-}
+  .fontSizeExpand {
+    position: relative;
+    float: Left;
+    Left: 3rem;
+  }
+  #table_1 {
+    border-radius: 2rem;
+    height: auto;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  tr {
+    text-align: -webkit-center;
+  }
+  tr.lineSep:after {
+    content: "";
+    width: 60%;
+    height: 1px;
+    background: var(--rad);
+    left: 26%;
+    position: absolute;
+  }
+  thead{
+    border-radius: 1rem;
+  }
+  th {
+    display: inline-block;
+    position: relative;
+    margin: 12px !important;
+    font-size: 2.2rem !important;
+    background: var(--rad);
+    background-clip: text;
+    color: transparent;
+  }
+  thead:after {
+    content: "";
+    width: 100%;
+    height: 2px;
+    background: radial-gradient(var(--blue), var(--gray));
+    position: absolute;
+    top: 5rem;
+  }
+  td {
+    display: block;
+    clear: both;
+    background-color: rgba(255, 255, 255, .0);
+    text-align: center;
+    font-family: "Open Sans", sans-serif;
+    padding: 0p;
+    width: auto;
+  }
 
-.fontSizeExpand {
-  position: relative;
-  float: Left;
-  Left: 3rem;
-}
+  td.none {
+    display: none;
+  }
 
-#table_1 {
-  border: 0px;
-  margin: auto;
-  width: 100%;
-  background: linear-gradient(to right, rgb(249, 248, 248) 0%, #f1f3f7 100%);
-  border-radius: 3rem;
-}
+  th.none {
+    display: none;
+  }
 
-tr {
-  text-align: -webkit-center;
-}
+  td.infoLocation {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: var(--font2);
+    color: white;
+    text-shadow: 2px 2px 2px black;
+  }
 
-tr.lineSep:after {
-  content: "";
-  width: 60%;
-  height: 1px;
-  background: radial-gradient(var(--blue), var(--gray));
-  left: 26%;
-  position: absolute;
-}
+  .glyphicon:not(.glyphicon-resize-vertical) {
+    color: var(--blue);
+  }
+  span#flair{
+    color: var(--blue);
+  }
+  td.description {
+    overflow: hidden;
+    max-height: 18rem;
+    font-size: var(--font3);
+    white-space: break-spaces;
+    color: black;
+    text-shadow: 2px 1px 2px white;
+  }
 
-th {
-  display: inline-block;
-  position: relative;
-  margin: 12px !important;
-  font-size: var(--font2);
-  color: white;
-  text-shadow: 1px 1px 2px black;
-}
-
-td {
-  display: block;
-  clear: both;
-  background-color: rgba(255, 255, 255, .0);
-  text-align: center;
-  font-family: "Open Sans", sans-serif;
-  padding: 0p;
-  width: auto;
-}
-
-td.none {
-  display: none;
-}
-
-th.none {
-  display: none;
-}
-
-td.infoLocation {
-  display: flex;
-  justify-content: space-evenly;
-  font-size: var(--font2);
-  color: white;
-  text-shadow: 2px 2px 2px black;
-}
-
-.glyphicon:not(.glyphicon-resize-vertical) {
-  color: var(--orange);
-}
-span#flair{
-  color: var(--orange);
-}
-td.description {
-  overflow: hidden;
-  max-height: 18rem;
-  font-size: var(--font3);
-  white-space: break-spaces;
-  color: black;
-  text-shadow: 2px 1px 2px white;
-}
-
-.table thead tr th,
-.table tbody tr td {
-  border: none;
-}
+  .table thead tr th,
+  .table tbody tr td {
+    border: none;
+  }
 
 /* Pagination */
 
@@ -321,10 +325,6 @@ span.page-size {
   #currIss {
     position: relative;
     left: 8rem;
-  }
-
-  #table_1 {
-    border: 0px;
   }
 
   label {
