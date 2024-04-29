@@ -179,7 +179,7 @@ def index():
     #######Box 1##########
     geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
     df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
-    folium_map = folium.Map(location=(34, -118), zoom_start=9, tiles="cartodbpositron",width=1920, height=700)
+    folium_map = folium.Map(location=(34, -118), zoom_start=9, tiles="cartodbpositron",width=800, height=475)
 
     for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
         folium.Circle(
@@ -231,7 +231,7 @@ def index():
             #######Box 1##########
             geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
             df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
-            folium_map = folium.Map(location=(34, -118), zoom_start=9, tiles="cartodbpositron",width=1920, height=700)
+            folium_map = folium.Map(location=(34, -118), zoom_start=9, tiles="cartodbpositron",width=800, height=475)
 
             for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
                 folium.Circle(
