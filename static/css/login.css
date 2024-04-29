@@ -3,7 +3,7 @@
     max-width: 1920px;
     border-radius: 2rem;
     height: auto;
-    margin: auto;
+    margin-top: 2rem;
 }
 
 .frost {
@@ -13,28 +13,18 @@
     width: 36rem;
     margin: auto;
     height: auto;
-    border: 1px solid  rgba(94, 124, 255, 0.6);
     border-bottom: 0;
-    border-left: 1px solid  rgba(94, 124, 255, 0.8);
-    border-top: 1px solid  rgba(94, 124, 255, 0.8);
-    background: linear-gradient(to right, lightgray 0%, #e7edf6 100%);
-    box-shadow: rgba(94, 124, 255, 0.4) 0px 3px, rgba(94, 124, 255, 0.3) 0px 6px, rgba(94, 124, 255, 0.2) 0px 9px, rgba(94, 124, 255, 0.1) 0px 12px, rgba(94, 124, 255, 0.05) 0px 15px;
+    opacity: .8;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.frost::after {
-    content: '';
-    border-radius: 3%;
-    top: -3px;
-    left: -3px;
-    bottom: -3px;
-    right: -3px;
-    position: absolute;
-    z-index:-1;
-}
+
 /*#Chage shape of Logo*/
 
-svg.main{
-    width: 57rem;
-    height: 10rem;
+svg#main{
+    width: 23rem;
+    height: 7rem;
+    display: block;
+    margin: auto;
 }
 #building {
     width: 100%;
@@ -44,19 +34,27 @@ svg.main{
 
 /*Main Section*/
 h1 {
-    color: var(--white);
+    color: var(--black);
     text-align: center;
     font-size: 3.5rem;
-    text-shadow: var(--textShadow)
+    text-shadow: 2px 2px 2px white;
 }
 
 h2 {
-    color: var(--white);
+    color: var(--gray);
     text-align: center;
     font-size:2.2rem;
-    text-shadow: 2px 2px 2px black;
+    text-shadow: 1px 1px 1px white;
 }
-
+form:before {
+    content: "";
+    width: 93%;
+    height: 4px;
+    background: radial-gradient(var(--blue), var(--gray));
+    position: absolute;
+    top: -2rem;
+    left:1rem;
+}
 form {
     height: 22vh;
     position: relative;
@@ -68,7 +66,8 @@ form {
 
 .btn {
     text-shadow: 2px 2px 1px black;
-    background-color: var(--blue);
-    border-color: var(--gray);
-    color:var(--white)
+    background: var(--rad2);
+    color:var(--white);
+    width:13rem;
 }
+
