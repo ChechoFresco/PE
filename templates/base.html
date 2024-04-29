@@ -189,9 +189,14 @@
 		</a>
 		{% if not session['username'] %}
 		<a id='login' href="/login">Login</a>
+		{% endif %}
+
+		{% if session['username'] %}
+		<a id='login' href="/logout">Logout</a>
+		{% endif %}
 		<a href="/search">Search</a>
 		<a href="/savedIssues">Notification</a>
-		<a href="#" id='ham' aria-label="Hamburger menu for smaller screens PolicyEdge Homepage" class="menu-button [ js-menu-button ]">
+		<a href="#" id='ham' class="menu-button [ js-menu-button ]">
 			<div class="icon nav-icon-1" id="expe">
 				<span></span>
 				<span></span>
@@ -205,28 +210,6 @@
 			</div>
 		</a>
 	</div>
-	{% endif %}
-
-	{% if session['username'] %}
-	<a id='login' href="/logout">Logout</a>
-	<a href="/search">Search</a>
-	<a href="/savedIssues">Notification</a>
-		<a href="#" id='ham' aria-label="Hamburger menu for smaller screens PolicyEdge Homepage" class="menu-button [ js-menu-button ]">
-			<div class="icon nav-icon-1" id="expe">
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
-		</a>
-	</div>
-	{% endif %}
-
 	{% block content %}{% endblock%}
 	<footer class="site-footer">
 		<div class="container">
