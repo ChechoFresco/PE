@@ -44,17 +44,20 @@
 		    });
 		});
 	</script>
-	<script async>
+<!-- Changes Title-->
+	<script>
 		var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change", "transportaion", "financial", "retail"];
 		var count = 0;
 		function changeText() {
 		    $("#example").text(texts[count]);
-		    $("#example").text(texts[count]);
+		    $("#example").css("background", 'var(--rad2)');
+		    $("#example").css("background-clip", 'text');
+		    $("#example").css("color", 'transparent');
 		    count < 3 ? count++ : count = 0;
 		}
 		setInterval(changeText, 4000);
-		</script>
-		<script async>
+	</script>
+	<script async>
 		$(document).ready(function () {
 		    $('button#maxHeight').click(function () {
 			if ($('td.description').css('maxHeight') === 'max-content') {
