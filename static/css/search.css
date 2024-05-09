@@ -1,25 +1,21 @@
+
 .highlight {
 	text-decoration-line: underline;
 	text-decoration-color: var(--blue);
 	text-decoration-thickness: 4px;
 }
-/*#Chage shape of Logo*/
-a.logoMain {
-    position: relative;
-    left: 30%;
-    top: 15rem;
-    height: 25rem;
-}
-svg#logo{
-    width: 28rem;
-    height: 10rem;
-}
 
+#mainPanel{
+    position: relative;
+    overflow: hidden;
+    background:linear-gradient(62deg, #fbac7e78 0%, #f7cf6873 100%);
+
+}
 div.formdiv{
     position: relative;
-    font-size:2rem;
-    height:17rem;
-    top:5rem;
+    font-size: 2rem;
+    height: 19rem;
+    top: 9rem;
     background-color: rgba(255, 255, 255, .02);
 }
 form{
@@ -36,7 +32,7 @@ label{
 }
 input[type=submit] {
     position: relative;
-    background-color: var(--orange);
+    background: var(--rad2);
     border-radius: 2rem;
     color: white;
     cursor: pointer;
@@ -149,15 +145,6 @@ form div:nth-child(8){
 /* CSS for TOPNAV*/
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
 @media screen and (max-width: 1200px) {
-    a.logoMain {
-        left: 1%;
-        top: 2rem;
-        height: 14rem;
-    }
-    svg#logo{
-        height: 7rem;
-        width: 24rem;
-    }
     div.formdiv {
         position: relative;
         font-size: 2rem;
@@ -176,4 +163,3 @@ form div:nth-child(8){
     }
 
   /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
-
