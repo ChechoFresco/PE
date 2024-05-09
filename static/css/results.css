@@ -1,7 +1,18 @@
+html, body {
+    max-width: 1920px;
+}
+/* Highlight words in table*/
+.highlight {
+	text-decoration-line: underline;
+	text-decoration-color: var(--orange);
+	text-decoration-thickness: 4px;
+	}
+#map{
+	overflow: hidden;
+}
 /* Table Div*/
 #mainBox {
 	position: relative;
-	margin-top: 35rem;
 	background-color: rgba(94, 124, 255, 0.05);
 }
 
@@ -96,7 +107,7 @@ td.infoLocation {
 
 td.description {
 	overflow: hidden;
-	max-height: 18rem;
+	max-height: 9rem;
 	font-size: 14px;
 	white-space: break-spaces;
 	color: var(--gray);
