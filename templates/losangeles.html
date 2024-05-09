@@ -9,14 +9,23 @@
     <!-- Creates table-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
+<!-- Table Adjustments-->
     <script>
         $(document).ready(function () {
-            $("table").on("click", ".description", function () {
-                if (this.style.maxHeight === "9rem") {
-                    this.style.maxHeight = "fit-content";
+            $('.reize').click(function() {
+                if ((this).closest('.texture').style.height === "8rem") {
+                    (this).closest('.texture').style.height = "auto";
                 }
                 else {
-                    this.style.maxHeight = "9rem";
+                    (this).closest('.texture').style.height = "8rem";
+                }
+            });
+            $('.reize').click(function() {
+                if ((this).closest('.texture').style.width === "58rem") {
+                    (this).closest('.texture').style.width = "58vw";
+                }
+                else {
+                    (this).closest('.texture').style.width = "58rem";
                 }
             });
         });
