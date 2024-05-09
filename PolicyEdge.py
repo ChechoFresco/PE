@@ -546,11 +546,13 @@ def results():
     if request.method == 'POST':
         form = searchForm()
         primeKey = request.form['primary_search']
+        primeKey='\"'+primeKey+'\"'
         start_date = request.form['startdate_field']
         end_date = request.form['enddate_field']
 
         a = date.today()
-        today=int(a.strftime('%Y%m%d'))
+        b= str(a).replace("-","")
+        today=int(b)
         start_year = str(start_date[0:4])
         start_month = str(start_date[5:7])
         start_day = str(start_date[8:10])
@@ -562,264 +564,1671 @@ def results():
 
     ##Issue onlys###
         if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']:
+            cityMatches=[]
             agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": primeKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('City').sort('Date',-1)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']=="":# Allows user to not input End date ==today
-            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": primeKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]}).sort('Date',-1)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        if request.form['select'] == 'Issue' and request.form['startdate_field']=="" and request.form['enddate_field']:# Allows user to not input End date ==today
-            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": primeKey}}, { 'Date':{'$lte':today, '$gte':int(end)}}]}).sort('Date',-1)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        if request.form['select'] == 'Issue' and request.form['startdate_field'] =="" and request.form['enddate_field']=="":# Allows user to not input date
-            agenda = mongo.db.Agenda.find({ '$text': { "$search": primeKey}}).sort('Date',-1)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(34, -118), zoom_start=9, tiles="cartodbpositron",width=1920, height=700)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
 
-        ##Committee+primeKey ###
-        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectLA')=="" and request.form.get('selectOC')=="" and request.form.get('selectRS')=="" and request.form.get('selectSB')=="" and request.form.get('selectSD')=="" and request.form.get('selectLACM')=="" and request.form.get('selectLBCM')=="":
-            county= request.form.get('select')
-            city= request.form.get('selectLA')
-            if county =='LA Committees':
-                county='LA County'
-                city='Los Angeles'
-                agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}},{ '$text': { "$search": primeKey}},  {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-                return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-            if county =='Long Beach Committees':
-                county='LA County'
-                city='Los Angeles'
-                agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}},{ '$text': { "$search": primeKey}},  {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-                return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ '$text': { "$search": primeKey}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
-        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectLA')=="" and request.form.get('selectOC')=="" and request.form.get('selectRS')=="" and request.form.get('selectSB')=="" and request.form.get('selectSD')=="" and request.form.get('selectLACM')=="" and request.form.get('selectLBCM')=="":
-            county= request.form.get('select')
-            city= request.form.get('selectLA')
-            if county =='LA Committees':
-                county='LA County'
-                city='Los Angeles'
-                agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}},{ 'Date':{'$lte':today, '$gte':int(start)}},{ '$text': { "$search": primeKey}},  {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-                return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-            if county =='Long Beach Committees':
-                county='LA County'
-                city='Los Angeles'
-                agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}},{ 'Date':{'$lte':today, '$gte':int(start)}},{ '$text': { "$search": primeKey}},  {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-                return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
-        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectLA')=="" and request.form.get('selectOC')=="" and request.form.get('selectRS')=="" and request.form.get('selectSB')=="" and request.form.get('selectSD')=="" and request.form.get('selectLACM')=="" and request.form.get('selectLBCM')=="":
-            county= request.form.get('select')
-            city= request.form.get('selectLA')
-            if county =='LA Committees':
-                county='LA County'
-                city='Los Angeles'
-                agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}},{ 'Date':{'$lte':today, '$gte':int(end)}},{ '$text': { "$search": primeKey}},  {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-                return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-            if county =='Long Beach Committees':
-                county='LA County'
-                city='Los Angeles'
-                agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}},{ 'Date':{'$lte':today, '$gte':int(end)}},{ '$text': { "$search": primeKey}},  {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-                return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
-        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectLA')=="" and request.form.get('selectOC')=="" and request.form.get('selectRS')=="" and request.form.get('selectSB')=="" and request.form.get('selectSD')=="" and request.form.get('selectLACM')=="" and request.form.get('selectLBCM')=="":
-            county= request.form.get('select')
-            city= request.form.get('selectLA')
-            if county =='LA Committees':
-                county='LA County'
-                city='Los Angeles'
-                agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}},{ '$text': { "$search": primeKey}},  {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-                return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-            if county =='Long Beach Committees':
-                county='LA County'
-                city='Los Angeles'
-                agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$not':{'$regex': "City Council", '$options': 'i' }}}, { 'Date':{'$lte':int(end), '$gte':int(start)}},{ '$text': { "$search": primeKey}},  {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-                return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
-        
-        ##LACounty+primeKey ###
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": primeKey}}, { 'Date':{'$lte':int(end), '$gte':int(start)}}]}).sort('City').sort('Date',-1)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form['select'] == 'Issue' and request.form['startdate_field'] and request.form['enddate_field']=="":# Allows user to not input End date ==today
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": primeKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]}).sort('Date',-1)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": primeKey}}, { 'Date':{'$lte':today, '$gte':int(start)}}]}).sort('Date',-1)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form['select'] == 'Issue' and request.form['startdate_field']=="" and request.form['enddate_field']:# Allows user to not input End date ==today
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": primeKey}}, { 'Date':{'$lte':today, '$gte':int(end)}}]}).sort('Date',-1)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": primeKey}}, { 'Date':{'$lte':today, '$gte':int(end)}}]}).sort('Date',-1)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form['select'] == 'Issue' and request.form['startdate_field'] =="" and request.form['enddate_field']=="":# Allows user to not input date
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({ '$text': { "$search": primeKey}}).sort('Date',-1)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            count=0
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+                    else:
+                        count+=1
+            print(count)
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({ '$text': { "$search": primeKey}}).sort('Date',-1)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+
+    #######LACounty#######
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectLA'):
             county= request.form.get('select')
             city= request.form.get('selectLA')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectLA'):
             county= request.form.get('select')
             city= request.form.get('selectLA')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectLA'):
             county= request.form.get('select')
             city= request.form.get('selectLA')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectLA'):
             county= request.form.get('select')
             city= request.form.get('selectLA')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
-        
-        ##OrangeCounty+primeKey ###
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectLA')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectLA')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectLA')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectLA')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+
+    #######OrangeCounty#######
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectOC'):
             county= request.form.get('select')
             city= request.form.get('selectOC')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectOC'):
             county= request.form.get('select')
             city= request.form.get('selectOC')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectOC'):
             county= request.form.get('select')
             city= request.form.get('selectOC')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectOC'):
             county= request.form.get('select')
             city= request.form.get('selectOC')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
-        
-        ##RiversidCounty+primeKey ###
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectOC')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectOC')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectOC')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectOC')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+
+    #######RiversidCounty#######
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectRS'):
             county= request.form.get('select')
             city= request.form.get('selectRS')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectRS'):
             county= request.form.get('select')
             city= request.form.get('selectRS')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectRS'):
             county= request.form.get('select')
             city= request.form.get('selectRS')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectRS'):
             county= request.form.get('select')
             city= request.form.get('selectRS')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
-        
-        ##San BernandinoCounty+primeKey ###
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectRS')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectRS')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectRS')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectRS')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+
+    #######San BernandinoCounty#######
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectSB'):
             county= request.form.get('select')
             city= request.form.get('selectSB')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectSB'):
             county= request.form.get('select')
             city= request.form.get('selectSB')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectSB'):
             county= request.form.get('select')
             city= request.form.get('selectSB')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectSB'):
             county= request.form.get('select')
             city= request.form.get('selectSB')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
-        
-        ##San DiegoCounty+primeKey ###
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectSB')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectSB')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectSB')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectSB')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+
+    #######San DiegoCounty#######
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectSD'):
             county= request.form.get('select')
             city= request.form.get('selectSD')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectSD'):
             county= request.form.get('select')
             city= request.form.get('selectSD')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectSD'):
             county= request.form.get('select')
             city= request.form.get('selectSD')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectSD'):
             county= request.form.get('select')
             city= request.form.get('selectSD')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
-        
-        ##LACommittee+primeKey ###
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectSD')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectSD')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectSD')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+        if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectSD')=="":
+            county= request.form.get('select')
+            cityMatches=[]
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            for x in agenda:
+                cityMatches.append(x['City'].strip())
+        #######LEAFLET MAP##########
+            issuePerCity= Counter(cityMatches)# Creates key:value i(city) and v(count)
+            geo=[]
+            for i,v in issuePerCity.items():
+                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
+                for y in check:
+                    if y['city'] in i:
+                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
+            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
+            folium_map = folium.Map(location=(33, -116.5), zoom_start=8, tiles="cartodbpositron",width=1000, height=600)
+            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+                folium.Circle(
+                    location=[df['lat'][i], df['lon'][i]],
+                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
+                    radius=float(df['ISSUECONT'][i])*50,
+                    color='#5e7cff',
+                    fill=False,
+                    fill_color='#5e7cff'
+                ).add_to(folium_map)
+
+                folium.map.Marker([df['lat'][i], df['lon'][i]],
+                                    icon=DivIcon(
+                                        icon_size=(10 ,10),
+                                        icon_anchor=(15,15),
+                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
+                                    )
+                                    ).add_to(folium_map)
+            agenda = mongo.db.Agenda.find({'$and':[{ '$text': { "$search": primeKey}},{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(100)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+
+    ##LACommittee###
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectLACM'):
-            county= request.form.get('select')
-            city= request.form.get('selectLACM')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': city }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            meetingType= request.form.get('selectLACM')
+            county= 'LA County'
+            city="Los Angeles"
+            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': meetingType }}, {'County': {'$regex': county, '$options': 'i' }}]}).sort('Date',-1).limit(10)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectLACM'):
-            county= request.form.get('select')
-            city= request.form.get('selectLACM')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            meetingType= request.form.get('selectLACM')
+            county= 'LA County'
+            city="Los Angeles"
+            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': meetingType }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectLACM'):
-            county= request.form.get('select')
-            city= request.form.get('selectLACM')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            meetingType= request.form.get('selectLACM')
+            county= 'LA County'
+            city="Los Angeles"
+            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': meetingType }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectLACM'):
-            county= request.form.get('select')
-            city= request.form.get('selectLACM')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
-        
-        ##LBCommittee+primeKey ###
+            meetingType= request.form.get('selectLACM')
+            county= 'LA County'
+            city="Los Angeles"
+            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': meetingType }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+
+    ##LBCommittee###
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectLBCM'):
-            county= request.form.get('select')
-            city= request.form.get('selectLBCM')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            meetingType= request.form.get('selectLBCM')
+            county = "LA County"
+            city="Long Beach"
+            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': meetingType }}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': meetingType, '$options': 'i' }}]}).sort('Date',-1).limit(10)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field']=="" and request.form['primary_search'] and request.form.get('selectLBCM'):
-            county= request.form.get('select')
-            city= request.form.get('selectLBCM')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            meetingType= request.form.get('selectLBCM')
+            county = "LA County"
+            city="Long Beach"
+            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': meetingType }},{ 'Date':{'$lte':today, '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field']=="" and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectLBCM'):
-            county= request.form.get('select')
-            city= request.form.get('selectLBCM')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
-        
+            meetingType= request.form.get('selectLBCM')
+            county = "LA County"
+            city="Long Beach"
+            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': meetingType }},{ 'Date':{'$lte':today, '$gte':int(end)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
         if request.form.get('select') and request.form['startdate_field'] and request.form['enddate_field'] and request.form['primary_search'] and request.form.get('selectLBCM'):
-            county= request.form.get('select')
-            city= request.form.get('selectLBCM')
-            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': "City Council" }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
-            return render_template('search.html',primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
+            meetingType= request.form.get('selectLBCM')
+            county = "LA County"
+            city="Long Beach"
+            agenda = mongo.db.Agenda.find({'$and':[{"MeetingType":{'$regex': meetingType }}, { 'Date':{'$lte':int(end), '$gte':int(start)}}, {'County': {'$regex': county, '$options': 'i' }},{'City': {'$regex': city, '$options': 'i' }}]}).sort('Date',-1).limit(10)
+            return render_template('search.html', folium_map=folium_map._repr_html_(),primeKey=primeKey, form=form, agendas=agenda, title = "PolicyEdge Search Results")
 
 @app.template_filter('aTime')
 def int2date(agDate: int) -> date:
