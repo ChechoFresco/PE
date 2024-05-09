@@ -2828,14 +2828,11 @@ def privacypolicy():
 @app.route('/losangeles', methods=['GET', 'POST'])
 def losangeles():
     if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(weeks=-4)
+        c = date.today() + relativedelta(weeks=-1)
         d= str(c).replace("-","")
         twoweeksAgo=int(d)
 
-        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(twoweeksAgo)}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': 'LA County', '$options': 'i' }}]}).sort('Date').sort('City')
+        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$gte':int(twoweeksAgo)}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': 'LA County', '$options': 'i' }}]}).sort('Date').sort('City')
 
         agouraHills=[]
         alhambra=[]
