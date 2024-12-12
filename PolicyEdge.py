@@ -3002,50 +3002,199 @@ def losangeles():
 @app.route('/orange', methods=['GET', 'POST'])
 def orange():
     if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(weeks=-2) #Change month to 3
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'Orange County', '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('orange.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring service Orange County Agendas")
+        # Get the date from one week ago
+        one_week_ago = date.today() + relativedelta(weeks=-16)
+        one_week_ago_str = one_week_ago.strftime('%Y%m%d')
+        one_week_ago_int = int(one_week_ago_str)
+        print(one_week_ago_int)
+
+        # MongoDB query to get agendas from the last week, filtered by "City Council" and "LA County"
+        try:
+            agenda_items = mongo.db.Agenda.find({
+                '$and': [
+                    {'Date': {'$gte': one_week_ago_int}},
+                    {'MeetingType': {'$regex': 'City Council', '$options': 'i'}},
+                    {'County': {'$regex': 'Orange County', '$options': 'i'}},
+                    {"$expr": { "$gt": [ { "$strLenCP": "$Description" }, 5 ] }},
+                    {
+                        '$and': [
+                            { "Description": { '$not': { '$regex': "minute" } } },
+                            { "Description": { '$not': { '$regex': "warrant" } } }
+                        ]
+                    }                ]
+            }).sort('Date', -1)
+        except Exception as e:
+            return f"Error querying database: {e}", 500
+
+        # Define the list of cities
+        cities = [
+            'Anaheim', 'Brea', 'Buena Park', 'Coasta Mesa', 'Cypress', 'Dana Point',
+            'Fountain Valley', 'Fullerton', 'Huntington Beach', 'Irvine', 'La Habra',
+            'La Palma', 'Laguna Beach', 'Laguna Hills', 'Laguna Niguel', 'Laguna Woods',
+            'Lake Forest', 'Los Alamitos', 'Mission Viejo', 'Newport Beach', 'Orange',
+            'Placentia', 'Rancho Santa Margarita', 'San Clemente', 'San Juan Capistrano',
+            'Santa Ana', 'Seal Beach', 'Stanton', 'Tustin', 'Villa Park', 'Westminister',
+            'Yorba Linda'
+        ]
+
+        # Initialize a dictionary to store city-specific agendas
+        city_agendas = {city: [] for city in cities}
+
+        # Populate the city agendas by iterating over the agenda items
+        for agenda in agenda_items:
+            city = agenda.get('City', '').strip()  # Remove extra spaces
+            if city in city_agendas:
+                city_agendas[city].append(agenda)
+
+        # Rendering the template and passing the data dynamically using **city_agendas
+        return render_template('orange.html',city_agendas=city_agendas,title="PolicyEdge agenda tracking monitoring all of Orange County")
+
+
 
 @app.route('/riverside', methods=['GET', 'POST'])
 def riverside():
     if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(weeks=-2) #Change month to 3
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'Riverside County', '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('riverside.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring service Riverside County Agendas")
+        # Get the date from one week ago
+        one_week_ago = date.today() + relativedelta(weeks=-16)
+        one_week_ago_str = one_week_ago.strftime('%Y%m%d')
+        one_week_ago_int = int(one_week_ago_str)
+        print(one_week_ago_int)
+
+        # MongoDB query to get agendas from the last week, filtered by "City Council" and "LA County"
+        try:
+            agenda_items = mongo.db.Agenda.find({
+                '$and': [
+                    {'Date': {'$gte': one_week_ago_int}},
+                    {'MeetingType': {'$regex': 'City Council', '$options': 'i'}},
+                    {'County': {'$regex': 'Riverside County', '$options': 'i'}},
+                    {"$expr": { "$gt": [ { "$strLenCP": "$Description" }, 5 ] }},
+                    {
+                        '$and': [
+                            { "Description": { '$not': { '$regex': "minute" } } },
+                            { "Description": { '$not': { '$regex': "warrant" } } }
+                        ]
+                    }                ]
+            }).sort('Date', -1)
+        except Exception as e:
+            return f"Error querying database: {e}", 500
+
+        # Define the list of cities
+        cities = [
+            'Banning', 'Beaumont', 'Blythe', 'Calimesa', 'Canyon Lake', 'Cathedral City',
+            'Coachella', 'Corona', 'Desert Hot Springs', 'Eastvale', 'Hemet', 'Indian Wells',
+            'Indio', 'Jurupa Valley', 'Lake Elsinore', 'La Quinta', 'Menifee', 'Moreno Valley',
+            'Murrieta', 'Norco', 'Palm Desert', 'Palm Springs', 'Perris', 'Rancho Mirage',
+            'Riverside', 'San Jacinto', 'Temecula', 'Wildomar'
+        ]
+
+        # Initialize a dictionary to store city-specific agendas
+        city_agendas = {city: [] for city in cities}
+
+        # Populate the city agendas by iterating over the agenda items
+        for agenda in agenda_items:
+            city = agenda.get('City', '').strip()  # Remove extra spaces
+            if city in city_agendas:
+                city_agendas[city].append(agenda)
+
+        print(city_agendas)
+        # Rendering the template and passing the data dynamically using **city_agendas
+        return render_template('riverside.html',city_agendas=city_agendas,title="PolicyEdge agenda tracking monitoring all of Riverside County")
 
 @app.route('/sanbernandino', methods=['GET', 'POST'])
 def sanbernandino():
     if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(weeks=-2) #Change month to 3
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'San Bernandino County', '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('sanbernandino.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring service San Bernandino County Agendas")
+        # Get the date from one week ago
+        one_week_ago = date.today() + relativedelta(weeks=-16)
+        one_week_ago_str = one_week_ago.strftime('%Y%m%d')
+        one_week_ago_int = int(one_week_ago_str)
+        print(one_week_ago_int)
+
+        # MongoDB query to get agendas from the last week, filtered by "City Council" and "LA County"
+        try:
+            agenda_items = mongo.db.Agenda.find({
+                '$and': [
+                    {'Date': {'$gte': one_week_ago_int}},
+                    {'MeetingType': {'$regex': 'City Council', '$options': 'i'}},
+                    {'County': {'$regex': 'San Bernandino County', '$options': 'i'}},
+                    {"$expr": { "$gt": [ { "$strLenCP": "$Description" }, 5 ] }},
+                    {
+                        '$and': [
+                            { "Description": { '$not': { '$regex': "minute" } } },
+                            { "Description": { '$not': { '$regex': "warrant" } } }
+                        ]
+                    }                ]
+            }).sort('Date', -1)
+        except Exception as e:
+            return f"Error querying database: {e}", 500
+
+        # Define the list of cities
+        cities = [
+            'Adelanto', 'Apple Valley', 'Barstow', 'Big Bear Lake', 'Chino', 'Chino Hills',
+            'Colton', 'Fontana', 'Grand Terrace', 'Hesperia', 'Highland', 'Loma Linda',
+            'Montclair', 'Needles', 'Ontario', 'Rancho Cucamonga', 'Redlands', 'Rialto',
+            'San Bernandino', 'Twnentynine Palms', 'Upland', 'Victorville', 'Yucaipa',
+            'Yucca Valley'
+        ]
+
+        # Initialize a dictionary to store city-specific agendas
+        city_agendas = {city: [] for city in cities}
+
+        # Populate the city agendas by iterating over the agenda items
+        for agenda in agenda_items:
+            city = agenda.get('City', '').strip()  # Remove extra spaces
+            if city in city_agendas:
+                city_agendas[city].append(agenda)
+
+        print(city_agendas)
+        # Rendering the template and passing the data dynamically using **city_agendas
+        return render_template('sanbernandino.html',city_agendas=city_agendas,title="PolicyEdge agenda tracking monitoring all of San Bernandino County")
 
 @app.route('/sandiego', methods=['GET', 'POST'])
 def sandiego():
     if request.method == 'GET':
-        a = date.today()
-        b= str(a).replace("-","")
-        today=int(b)
-        c = date.today() + relativedelta(weeks=-2) #Change month to 3
-        d= str(c).replace("-","")
-        lMonth=int(d)
-        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$lte':int(today), '$gte':int(lMonth)}}, {'County': {'$regex': 'San Diego County', '$options': 'i' }}]}).sort('Date').sort('City')
-        return render_template('sandiego.html', agendas=agenda,  title = "PolicyEdge agenda tracking monitoring service San Diego County Agnedas")
+        # Get the date from one week ago
+        one_week_ago = date.today() + relativedelta(weeks=-16)
+        one_week_ago_str = one_week_ago.strftime('%Y%m%d')
+        one_week_ago_int = int(one_week_ago_str)
+        print(one_week_ago_int)
+
+        # MongoDB query to get agendas from the last week, filtered by "City Council" and "LA County"
+        try:
+            agenda_items = mongo.db.Agenda.find({
+                '$and': [
+                    {'Date': {'$gte': one_week_ago_int}},
+                    {'MeetingType': {'$regex': 'City Council', '$options': 'i'}},
+                    {'County': {'$regex': 'San Diego County', '$options': 'i'}},
+                    {"$expr": { "$gt": [ { "$strLenCP": "$Description" }, 5 ] }},
+                    {
+                        '$and': [
+                            { "Description": { '$not': { '$regex': "minute" } } },
+                            { "Description": { '$not': { '$regex': "warrant" } } }
+                        ]
+                    }                ]
+            }).sort('Date', -1)
+        except Exception as e:
+            return f"Error querying database: {e}", 500
+
+        # Define the list of cities
+        cities = [
+            'Carlsbad', 'Chula Vista', 'Coronado', 'Del Mar', 'El Cajon', 'Encinitas',
+            'Escondido', 'Imprial Beach', 'La Mesa', 'Lemon Grove', 'National City',
+            'Oceanside', 'Poway', 'San Diego', 'San Marcos', 'Santee', 'Solana Beach', 'Vista'
+        ]
+
+        # Initialize a dictionary to store city-specific agendas
+        city_agendas = {city: [] for city in cities}
+
+        # Populate the city agendas by iterating over the agenda items
+        for agenda in agenda_items:
+            city = agenda.get('City', '').strip()  # Remove extra spaces
+            if city in city_agendas:
+                city_agendas[city].append(agenda)
+
+        print(city_agendas)
+        # Rendering the template and passing the data dynamically using **city_agendas
+        return render_template('sandiego.html',city_agendas=city_agendas,title="PolicyEdge agenda tracking monitoring all of San Bernandino County")
 
 @app.route('/favicon.ico')
 def favicon():
