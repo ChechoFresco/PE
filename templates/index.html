@@ -4,200 +4,202 @@
 <meta name="description" content="Tracking regulatory & legislative issues in local city councils">
 {% endblock %}
 {% block content %}
+
 <head>
-	<link rel="canonical" href="https://www.PolicyEdge.net/index.html">
-
-	<script async>
-		$(document).ready(function () {
-		    const searchValue = {{ chosen | tojson}};
-		const contentElement = document.querySelector('tbody');
-		let searchValue2 = searchValue.replace('"', '').replace('"', '')
-		console.log(searchValue)
-		if (searchValue !== '') {
-		    const content = contentElement.innerHTML;
-		    const highlightedContent = content.replace(
-			new RegExp(searchValue2, 'gi'),
-			'<span class="highlight">$&</span>'
-		    );
-		    contentElement.innerHTML = highlightedContent;
-		} else {
-		    False;
-		}
-		});
-	</script>
-    <!-- Fonts Bootstrap and AJAX-->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" media="print" onload="this.media='all'">
-
-	<script async>
-		$(document).ready(function () {
-		    $('button#plus').click(function () {
-			var currentSize = parseInt($("td.description").css("font-size"));
-			$("td.description").css("font-size", currentSize += 1);
-		    });
-		});
-	</script>
-	<script async>
-		$(document).ready(function () {
-		    $('button#minus').click(function () {
-			var currentSize = parseInt($("td.description").css("font-size"));
-			$("td.description").css("font-size", currentSize -= 1);
-		    });
-		});
-	</script>
-<!-- Changes Title-->
-	<script>
-		var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change", "transportaion", "financial", "retail"];
-		var count = 0;
-		function changeText() {
-		    $("#example").text(texts[count]);
-		    $("#example").css("background", 'var(--rad2)');
-		    $("#example").css("background-clip", 'text');
-		    $("#example").css("color", 'transparent');
-		    count < 3 ? count++ : count = 0;
-		}
-		setInterval(changeText, 4000);
-	</script>
-	<script async>
-		$(document).ready(function () {
-		    $('button#maxHeight').click(function () {
-			if ($('td.description').css('maxHeight') === 'max-content') {
-			    $('td.description').css('maxHeight', '9rem');
-			} else {
-			    $('td.description').css('maxHeight', 'max-content');
-			}
-		    });
-		});
-	</script>
-	<link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-	<meta property="og:title" content="PolicyEdgec tracking legislative issues.">
-	<meta property="og:type" content="website" />
-	<meta property="og:image" content="https://www.PolicyEdge.net/static/logo.png">
-	<meta property="og:url" content="https://www.PolicyEdge.net/index.html">
-	<meta property="og:description" content="Tracking regulatory & legislative issues in local city councils">
-	<meta property="og:site_name" content="PolicyEdge">
-	<meta property="og:locale" content="en_US">
-	<meta property="og:locale:alternate" content="en_GB">
-</head>
-
-<body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
+    <!-- Bootsrap used to create dynamic-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Highlights words in table-->
     <script>
-        var messages = {{ messages | safe }};
-        for (var i = 0; i < messages.length; i++) {
-            alert(messages[i]);
+        $(document).ready(function () {
+            // Toggle the height of "td.description" on click
+            $(".table_1").on("click", "td.description", function () {
+                try {
+                    console.log('Description cell clicked'); // Log for debugging
+                    if (this.style.maxHeight === "6rem") {
+                        this.style.maxHeight = "fit-content";
+                    } else {
+                        this.style.maxHeight = "6rem";
+                    }
+                } catch (error) {
+                    console.error("An error occurred while toggling description height:", error);
+                }
+            });
+
+            // Title changing functionality
+            const texts = [
+                "proposed legislation", "local issues", "telecommunications", "local ordinances",
+                "medical", "cannabis regulations", "discussions", "utilities",
+                "Alcohol, tobacco and vaping", "climate change", "transportation",
+                "financial", "retail"
+            ];
+            let count = 0;
+
+            function changeText() {
+                try {
+                    $("#example").text(texts[count]);
+                    $("#example").css({
+                        "background": 'var(--rad2)',
+                        "background-clip": 'text',
+                        "color": 'transparent'
+                    });
+                    count = (count + 1) % texts.length; // Cycle through the array
+                } catch (error) {
+                    console.error("An error occurred while changing text:", error);
+                }
+            }
+
+            setInterval(changeText, 4000); // Change text every 4 seconds
+
+        try {
+            // Safely handle the chosen variable by providing a fallback if it's undefined or None
+            const searchValue = {{ chosen | tojson | default('abcdefg') }};
+            let searchValue2 = searchValue.replace('"', '').replace('"', '');
+            // Check if searchValue is a non-empty string
+            if (searchValue && searchValue !== '""') {
+                // Select all matching elements
+                const contentElements = document.querySelectorAll('tbody');
+
+                contentElements.forEach((element) => {
+                    const content = element.innerHTML;
+
+                    // Apply case-insensitive highlighting
+                    const highlightedContent = content.replace(
+                        new RegExp(searchValue2, 'gi'),
+                        '<span class="highlight">$&</span>'
+                    );
+
+                    element.innerHTML = highlightedContent; // Update the element content
+                });
+            }
+        } catch (error) {
+            console.error("An error occurred while highlighting text:", error);
+        };
+    });
+
+</script>
+    <!-- Style sheet-->
+    <link rel="preload" href="{{ url_for('static', filename='css/index2.css') }}" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <!-- New shit-->
+    <script type="text/javascript">
+        function reply_click(clicked_id) {
+            alert(clicked_id);
         }
     </script>
-    {% endif %}
-    {% endwith %}
 
+</head>
+<!--Alerts-->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<script>
+    var messages = {{ messages | safe }};
+    for (var i = 0; i < messages.length; i++) {
+        alert(messages[i]);
+    }
+</script>
+{% endif %}
+{% endwith %}
 <!--Front Title-->
-    <div class="dash Main" id="mainPane">
-        <div class="col-sm-offset-2 col-sm-8">
-            <h1 id="title">Follow <span id="example">policy change</span> in California.
-            </h1>
-            <h3 class='howwrk'>Staying on top of local legislation affecting you can be a challenge. Missing an
-                issue can be costly in time and resource.
-                Search, set notifications, and find your PolicyEdge.
-            </h3>
+<div class="dash Main" id="mainPane">
+    <div class="col-sm-offset-2 col-sm-8">
+        <h1 id="title">Follow <span id="example">policy change</span> in California.
+        </h1>
+        <h3 class='howwrk'>Staying on top of local legislation affecting you can be a challenge. Missing an
+            issue can be costly in time and resource.
+            Search, set notifications, and find your PolicyEdge.
+        </h3>
+    </div>
+    <!--Charts-->
+    <div class="row" id="chartBox">
+        <div class="col-sm-offset-2 col-sm-10">
+            {{ folium_map | safe }}
         </div>
-<!--Charts-->
-<div class="row" id="chartBox">
-    <div class="col-sm-offset-2 col-sm-10">
-        {{ folium_map | safe }}
     </div>
 </div>
-    </div>
 
 <!--IssueRow-->
-    <div class="changeIssue">
-        <div class="issueRow">
-            <form method="post">
-                {% from "_formhelpers.html" import render_field %}
-                <ul>
-                    {{ render_field(form.chartSearch) }}
-                    <p>
-                </ul>
-                    <p>
-                    <input type="submit" name="customSearch" id="uniqueSearch"></p>
-            </form>
-        </div>
-        <div class="issueRow">
-            <div class="container" id="freeButton">
-                <div>
-                    {% if not session['username'] %}
-                    <h3 class='free'>
-                        <a href="/register" aria-label="Subscribe to Policy Edge">Try for Free</a>
-                    </h3>
-                    {% endif %}
+<div class="changeIssue">
+    <div class="issueRow">
+        <form method="post">
+            {% from "_formhelpers.html" import render_field %}
+            <ul>
+                {{ render_field(form.chartSearch) }}
+                <p>
+            </ul>
+            <p>
+                <input type="submit" name="customSearch" id="uniqueSearch">
+            </p>
+        </form>
+    </div>
+    <div class="issueRow">
+        <div class="container" id="freeButton">
+            <div>
+                {% if not session['username'] %}
+                <h3 class='free'>
+                    <a href="/register" aria-label="Subscribe to Policy Edge">Try for Free</a>
+                </h3>
+                {% endif %}
 
-                    {% if session['username'] %}
-                    <h3 class='howwrk'>Welcome back <span style="color: var(--black);">{{session['username']}}</span>
-                    </h3>
-                    {% endif %}
-                </div>
+                {% if session['username'] %}
+                <h3 class='howwrk'>Welcome back <span style="color: var(--black);">{{session['username']}}</span>
+                </h3>
+                {% endif %}
             </div>
         </div>
-        <div class="issueRow">
-            <label id="currIss">Current Issue</label>
-            <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> -Activity in last 3 months
-            </h2>
-        </div>
     </div>
+    <div class="issueRow">
+        <label id="currIss">Current Issue</label>
+        <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> -Activity in last 3 months
+        </h2>
+    </div>
+</div>
 
 <!--First table-->
-    <div class="row" id="mainBox">
-        <div class="col-sm-offset-1  col-sm-10" id="conTable">
-            <div class="fontOptions">
-                <div id="fontSizeChange">
-                    <label>Change Font Size</label>
-                    <button id='plus'>+</button>
-                    <button id='minus'>-</button>
-                </div>
-                <div id="fontSizeExpand">
-                    <label>Expand Rows</label>
-                    <button id='maxHeight'><span class="glyphicon glyphicon-resize-vertical"></span></button>
-                </div>
-            </div>
-        </div>
-        <div id='table_1'>
-            <table data-toggle="table" data-filter-control="true" data-sortable="true"
-                data-pagination="true" data-show-columns="true" data-page-size='6' class="table-responsive" style="border:none;">
-                <thead>
-                    <tr class="upTop">
-                        <th class='hidden-xs' data-field='row-Date' data-sortable="true">Date</th>
-                        <th class='hidden-xs' data-field='row-County' data-sortable="true">County</th>
-                        <th class='hidden-xs' data-field='row-City' data-sortable="true">City</th>
-                        <th class='hidden-xs' data-field='row-MeetingType' data-sortable="true">Meeting Type</th>
-                        <th class='hidden-xs' data-field='row-Item' data-sortable="true">Item Type</th>
-                        <th class='hidden-xs' data-field='row-Num' data-sortable="False">Item</th>
-                        <th class='none' data-field='row-Description' data-sortable="true">Item</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for i in issueTexts %}
-                    <tr class="lineSep">
-                        <td class='none'>{{i.Date}}</td>
-                        <td class='none'>{{i.County}}</td>
-                        <td class='none'>{{i.City}}</td>
-                        <td class='none'>{{i.MeetingType}}</td>
-                        <td class='none'>{{i.ItemType}}</td>
-                        <td class='description'>{{i.Description}}</td>
-                        <td class='infoLocation'><span class="glyphicon glyphicon-calendar"></span>{{i.Date|aTime}}
-                            <span class="glyphicon glyphicon-globe"></span>{{i.County}}<span
-                                class="glyphicon glyphicon-globe"></span>{{i.City}} <span
-                                class="glyphicon glyphicon-briefcase"></span>{{i.MeetingType}}<span
-                                class="glyphicon glyphicon-list"></span>{{i.ItemType}}<span id="flair">#</span>{{i.Num}}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+<div class="col-sm-12" id="conTable">
+    {% for city, agendas in city_agendas.items() %}
+    {% if agendas %}
+    <div class="texture">
+        <table class="table_1" data-toggle="table" data-sortable="true" data-pagination="true" data-show-columns="true"
+            data-page-size='5' class="table-responsive">
+            <caption class="reize">{{ city }}</caption>
+            <thead class='h-12'>
+                <tr>
+                    <th data-field='row-Date' data-sortable="true">Date</th>
+                    <th class='none' data-field='row-County'>County</th>
+                    <th class='none' data-field='row-City'>City</th>
+                    <th class='none' data-field='row-MeetingType'>Meeting Type</th>
+                    <th data-field='row-Item' data-sortable="true">Item Type</th>
+                    <th data-field='row-Num' data-sortable="true">Item</th>
+                    <th class='none' data-field='row-Description'>Description</th>
+                    <th class='none' data-field='row-infoLocation'>infoLocation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agenda in agendas %}
+                <tr class="lineSep">
+                    <td class='none'>{{agenda.Date}}</td>
+                    <td class='none'>{{agenda.County}}</td>
+                    <td class='none'>{{agenda.City}}</td>
+                    <td class='none'>{{agenda.MeetingType}}</td>
+                    <td class='none'>{{agenda.ItemType}}</td>
+                    <td class='none'>{{agenda.Num}}</td>
+                    <td class='description'>{{agenda.Description}}</td>
+                    <td class='infoLocation'><span class="glyphicon glyphicon-calendar">
+                        </span>{{agenda.Date|aTime}}<span class="glyphicon glyphicon-briefcase">
+                        </span>{{agenda.ItemType}} <span>#</span>{{agenda.Num}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-
+    {% else %}
+    {% endif %}
+    {% endfor %}
+</div>
 <!-- Bootstrap used for table -->
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
 <script src="https://unpkg.com/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
 {% endblock %}
