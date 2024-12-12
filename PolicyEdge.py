@@ -214,12 +214,6 @@ def index():
             '$and': [
                 {"MeetingType": {'$regex': "^ City Council $", '$options': 'i'}},  # Case-insensitive match
                 {'Date': {'$gte': date_threshold}},
-                {
-                    '$and': [
-                        {"Description": {'$not': {'$regex': "minute", '$options': 'i'}}},  # Exclude 'minute'
-                        {"Description": {'$not': {'$regex': "warrant", '$options': 'i'}}}  # Exclude 'warrant'
-                    ]
-                }
             ]
         }).sort('Date', -1)
 
