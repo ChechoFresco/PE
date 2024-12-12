@@ -166,7 +166,6 @@ def fetch_geo_info(city_issue_counts):
                 str(count),
                 location_data['webAdress']
                 ))
-            print(str(count))
     return geo_info
 
 
