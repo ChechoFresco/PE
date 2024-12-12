@@ -4,7 +4,7 @@ h1{
   background: var(--rad2);
   background-clip: text;
   color: transparent;
-  font-size: 24px;
+  font-size: var(--font1);
 
 }
 div.conTable{
@@ -17,13 +17,13 @@ div.conTable{
 }
 
 div.texture{
-    padding: 1rem;
-    width: 58rem;
-    border-radius: 2rem;
-    margin-bottom: 3rem;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    overflow: hidden;
-    height:8rem
+  padding: 1rem;
+  width: 57rem;
+  border-radius: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  overflow: hidden;
+  height: auto;
 }
 
 /* Table Div*/
@@ -35,7 +35,7 @@ div.texture{
 /* Titles*/
 caption {
   text-align: center;
-  font-size:3.7rem;
+  font-size:2.9rem;
   text-transform: capitalize;
   background: var(--rad);
   background-clip: text;
@@ -79,7 +79,7 @@ th {
 	position: relative;
   color: white;
   text-shadow: 2px 2px 2px black;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 td {
@@ -96,17 +96,19 @@ th.none {
 td.infoLocation {
   display: flex;
   justify-content: space-evenly;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   color: white;
   text-shadow: 2px 2px 2px black;
 }
 td.description {
-  overflow: hidden;
-  height: auto;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   white-space: break-spaces;
   color: black;
-  text-shadow: .5px .5px .5px white;
+  text-shadow: 0.5px 0.5px 0.5px white;
+  max-height: 6rem; /* Initial collapsed height */
+  overflow: hidden; /* Hide overflowing content */
+  transition: height 0.3s ease; /* Smooth height transition */
+  cursor: pointer; /* Indicate clickable element */
 }
 
 .table thead tr th,
