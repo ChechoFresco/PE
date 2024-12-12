@@ -148,113 +148,226 @@ sched.start()
 def httpsroute():
     return redirect("https://www.policyedge.net/index", code = 301)
 
-@app.route('/index', methods=['GET', 'POST'])
-def index():
-    form = chartForm()
-    ##Three months before#####
-    c = date.today() + relativedelta(weeks=-4)
-    threemonthBefore=int(c.strftime('%Y%m%d'))
+def fetch_geo_info(city_issue_counts):
+    """
+    Fetch geo-location data from MongoDB and match it with city issue counts.
+    """
+    geo_info = []
 
-    #######TOPIC SELECTION##########
-    chosen = "Cannabis"
-    target='City Count'
+    for city, count in city_issue_counts.items():
+        location_data = mongo.db.geoLoc.find_one({'city': city}, {'_id': 0})
+        if location_data:
+            geo_info.append((
+                location_data['city'],
+                location_data['state_id'],
+                location_data['county_name'],
+                location_data['lat'],
+                location_data['lng'],
+                str(count),
+                location_data['webAdress']
+                ))
+            print(str(count))
+    return geo_info
 
-    treMonthMtch=[]
-    issueText=[]
-    agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen }}, {"MeetingType":" City Council "}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
-    for x in agendaa:
-        sp=x['City'].strip() #Gets rid of spacing issue with some cities
-        treMonthMtch.append(sp)
-        y=str(x["Description"])
-        issueText.append(x)
 
-    issuePerCity= Counter(treMonthMtch)# Creates key:value pair per city to part w/ issuePerCity.keys()
-    geo=[]
-    for i,v in issuePerCity.items():
-        check=mongo.db.geoLoc.find({'city':i}, {'_id': 0})
-        for y in check:
-            if y['city'] in i:
-                geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+def create_folium_map(geo_info):
+    """
+    Create a Folium map with circles and markers for each city.
+    """
+    folium_map = folium.Map(location=(34, -118), zoom_start=9, tiles="cartodbpositron", width=1000, height=475)
 
-    #######Box 1##########
-    geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
-    df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
-    folium_map = folium.Map(location=(34, -118), zoom_start=9, tiles="cartodbpositron",width=800, height=475)
+    for info in geo_info:
+        city, state_id, county_name, lat, lon, issue_count, web_address = info
 
-    for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
+        # Add circle to the map
         folium.Circle(
-            location=[df['lat'][i], df['lon'][i]],
-            popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
-            radius=float(df['ISSUECONT'][i])*50,
+            location=[lat, lon],
+            popup=f"<a href='{web_address}' target='_blank'>{city} Agenda Link</a>",
+            radius=float(issue_count) * 50,
             color='#5e7cff',
-            fill=False,
+            fill=True,
             fill_color='#5e7cff'
         ).add_to(folium_map)
 
-        folium.map.Marker([df['lat'][i], df['lon'][i]],
-                            icon=DivIcon(
-                                icon_size=(10 ,10),
-                                icon_anchor=(15,15),
-                                html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
-                            )
-                            ).add_to(folium_map)
+        # Add marker with city name and issue count
+        folium.Marker(
+            location=[lat, lon],
+            icon=DivIcon(
+                icon_size=(10, 10),
+                icon_anchor=(15, 15),
+                html=f'<div style="font-size: 10pt">{issue_count} {city}</div>'
+            )
+        ).add_to(folium_map)
+
+    return folium_map
+
+@app.route('/index', methods=['GET', 'POST'])
+    form = chartForm()
+    target = 'City Count'
+    # Get the date three months before today
+    #date_threshold = int((date.today() + relativedelta(weeks=-24)).strftime('%Y%m%d'))
+    date_threshold = int((date.today() + relativedelta(weeks=-1)).strftime('%Y%m%d'))
     if request.method == 'GET':
-        return render_template('index.html', folium_map=folium_map._repr_html_(), form=form,target=target ,chosen=chosen, issueTexts=issueText, title="Policy Edge Tracking Agendas")
+        chosen=''
+    # Fetch agenda data from MongoDB
+        agenda_items = mongo.db.Agenda.find({
+            '$and': [
+                {"MeetingType": {'$regex': "^ City Council $", '$options': 'i'}},  # Case-insensitive match
+                {'Date': {'$gte': date_threshold}},
+                {
+                    '$and': [
+                        {"Description": {'$not': {'$regex': "minute", '$options': 'i'}}},  # Exclude 'minute'
+                        {"Description": {'$not': {'$regex': "warrant", '$options': 'i'}}}  # Exclude 'warrant'
+                    ]
+                }
+            ]
+        }).sort('Date', -1)
+
+
+        cities = [
+            # Los Angeles County (LA)
+            '', 'Agoura Hills', 'Alhambra', 'Arcadia', 'Artesia', 'Azusa', 'Baldwin Park', 'Bell',
+            'Bellflower', 'Bell Gardens', 'Beverly Hills', 'Bradbury', 'Burbank', 'Calabasas',
+            'Carson', 'Cerritos', 'City of Industry', 'Claremont', 'Commerce', 'Compton',
+            'Covina', 'Cudahy', 'Culver City', 'Diamond Bar', 'Downey', 'Duarte', 'El Monte',
+            'El Segundo', 'Gardena', 'Glendale', 'Glendora', 'Hawaiian Gardens', 'Hawthorne',
+            'Hermosa Beach', 'Hidden Hills', 'Huntington Park', 'Inglewood', 'Irwindale',
+            'La Canada Flintridge', 'La Habra Heights', 'La Mirada', 'La Puente', 'La Verne',
+            'Lakewood', 'Lancaster', 'Lawndale', 'Lomita', 'Long Beach', 'Los Angeles',
+            'Lynwood', 'Malibu', 'Manhattan Beach', 'Maywood', 'Monrovia', 'Montebello',
+            'Monterey Park', 'Norwalk', 'Palmdale', 'Palos Verdes Estates', 'Paramount',
+            'Pasadena', 'Pico Rivera', 'Pomona', 'Rancho Palos Verdes', 'Redondo Beach',
+            'Rolling Hills', 'Rolling Hills Estates', 'Rosemead', 'South Pasadena',
+            'San Dimas', 'San Fernando', 'San Gabriel', 'San Marino', 'Santa Clarita',
+            'Santa Fe Springs', 'Santa Monica', 'Sierra Madre', 'Signal Hill', 'South El Monte',
+            'South Gate', 'Temple City', 'Torrance', 'Vernon', 'Walnut', 'West Covina',
+            'West Hollywood', 'Westlake Village', 'Whittier',
+
+            # Orange County (OC)
+            'Aliso Viejo', 'Anaheim', 'Brea', 'Buena Park', 'Costa Mesa', 'Cypress', 'Dana Point',
+            'Fountain Valley', 'Fullerton', 'Huntington Beach', 'Irvine', 'La Habra', 'La Palma',
+            'Laguna Beach', 'Laguna Hills', 'Laguna Niguel', 'Laguna Woods', 'Lake Forest',
+            'Los Alamitos', 'Mission Viejo', 'Newport Beach', 'Orange', 'Placentia',
+            'Rancho Santa Margarita', 'San Clemente', 'San Juan Capistrano', 'Santa Ana',
+            'Seal Beach', 'Stanton', 'Tustin', 'Villa Park', 'Westminster', 'Yorba Linda',
+
+            # Riverside County (RS)
+            'Banning', 'Beaumont', 'Blythe', 'Calimesa', 'Canyon Lake', 'Cathedral City', 'Coachella',
+            'Corona', 'Desert Hot Springs', 'Eastvale', 'Hemet', 'Indian Wells', 'Indio',
+            'Jurupa Valley', 'Lake Elsinore', 'La Quinta', 'Menifee', 'Moreno Valley', 'Murrieta',
+            'Norco', 'Palm Desert', 'Palm Springs', 'Perris', 'Rancho Mirage', 'Riverside',
+            'San Jacinto', 'Temecula', 'Wildomar',
+
+            # San Bernardino County (SB)
+            'Adelanto', 'Apple Valley', 'Barstow', 'Big Bear Lake', 'Chino', 'Chino Hills',
+            'Colton', 'Fontana', 'Grand Terrace', 'Hesperia', 'Highland', 'Loma Linda',
+            'Montclair', 'Needles', 'Ontario', 'Rancho Cucamonga', 'Redlands', 'Rialto',
+            'San Bernardino', 'Twentynine Palms', 'Upland', 'Victorville', 'Yucaipa', 'Yucca Valley',
+
+            # San Diego County (SD)
+            'Carlsbad', 'Chula Vista', 'Coronado', 'Del Mar', 'El Cajon', 'Encinitas', 'Escondido',
+            'Imperial Beach', 'La Mesa', 'Lemon Grove', 'National City', 'Oceanside', 'Poway',
+            'San Diego', 'San Marcos', 'Santee', 'Solana Beach', 'Vista'
+        ]
+
+        # Initialize a dictionary to store city-specific agendas
+        city_agendas = {city: [] for city in cities}
+        cities_matched = []
+
+        for agenda in agenda_items:
+            city = agenda.get('City', '').strip()  # Remove extra spaces
+            cities_matched.append(city)
+            if city in city_agendas:
+                city_agendas[city].append(agenda)
+
+    # Create frequency dictionary per city
+        city_issue_counts = Counter(cities_matched)
+        #print(city_issue_counts)
+        geo_info = fetch_geo_info(city_issue_counts)
+        folium_map = create_folium_map(geo_info)
+        print(city_agendas)
+
+        return render_template('index2.html', folium_map=folium_map._repr_html_(), chosen=chosen, form=form,target=target, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
     elif request.method == 'POST' and request.form.get('chartSearch'):
         try:
             chose = request.form['chartSearch']
-            target='City Count'
             chosen= "\""+chose+"\"" # Allows for exact phrases
             mongo.db.User.find_one_and_update({'username':'Esther'}, {'$push': {'searches':chosen}}, upsert = True)
-            agendaa = mongo.db.Agenda.find({'$and':[ {'$text': { "$search": chosen}}, {"MeetingType": " City Council "}, { 'Date':{'$gte':threemonthBefore}}]}).sort('Date',-1)
-            ####Words taken out for NLTK#######
-            issueText=[]
-            treMonthMtch=[]
-            ####### TABLE 1##########
-            for x in agendaa:
-                sp=x['City'].strip()
-                treMonthMtch.append(sp)
-                issueText.append(x)
 
-            issuePerCity= Counter(treMonthMtch)# Creates key:value pair per city to part w/ issuePerCity.keys()
-            Cities=[]
-            Cnt=[]
-            geo=[]
-            for i,v in issuePerCity.items():
-                Cities.append(i)# split used because of city gap before after name
-                Cnt.append(v)
-                check=mongo.db.geoLoc.find({'city':i}, {'_id': 0, "population": 0})
-                for y in check:
-                    if y['city'] in i:
-                        geo.append('"'+y['city']+'"'+','+'"'+y['state_id']+'"'+','+'"'+y['county_name']+'"'+','+'"'+str(y['lat'])+'"'+','+'"'+str(y['lng'])+'"'+','+'"'+str(v)+'"'+','+'"'+y['webAdress']+'"')
+        # Fetch agenda data from MongoDB
+            agenda_items = mongo.db.Agenda.find({
+                '$and': [
+                    {'$text': {"$search": chosen}},
+                    {"MeetingType": " City Council "},
+                    {'Date': {'$gte': date_threshold}}
+                ]
+            }).sort('Date', -1)
 
-            #######Box 1##########
-            geo=(str(geo).replace("',","),").replace("'","(").replace("(]",")])").replace("[(","([("))
-            df = pd.DataFrame(eval(geo), columns=['city', 'state_id', 'county_name', 'lat', 'lon','ISSUECONT','webAdress'], dtype=str)
-            folium_map = folium.Map(location=(34, -118), zoom_start=9, tiles="cartodbpositron",width=800, height=475)
+            cities = [
+                # Los Angeles County (LA)
+                '', 'Agoura Hills', 'Alhambra', 'Arcadia', 'Artesia', 'Azusa', 'Baldwin Park', 'Bell',
+                'Bellflower', 'Bell Gardens', 'Beverly Hills', 'Bradbury', 'Burbank', 'Calabasas',
+                'Carson', 'Cerritos', 'City of Industry', 'Claremont', 'Commerce', 'Compton',
+                'Covina', 'Cudahy', 'Culver City', 'Diamond Bar', 'Downey', 'Duarte', 'El Monte',
+                'El Segundo', 'Gardena', 'Glendale', 'Glendora', 'Hawaiian Gardens', 'Hawthorne',
+                'Hermosa Beach', 'Hidden Hills', 'Huntington Park', 'Inglewood', 'Irwindale',
+                'La Canada Flintridge', 'La Habra Heights', 'La Mirada', 'La Puente', 'La Verne',
+                'Lakewood', 'Lancaster', 'Lawndale', 'Lomita', 'Long Beach', 'Los Angeles',
+                'Lynwood', 'Malibu', 'Manhattan Beach', 'Maywood', 'Monrovia', 'Montebello',
+                'Monterey Park', 'Norwalk', 'Palmdale', 'Palos Verdes Estates', 'Paramount',
+                'Pasadena', 'Pico Rivera', 'Pomona', 'Rancho Palos Verdes', 'Redondo Beach',
+                'Rolling Hills', 'Rolling Hills Estates', 'Rosemead', 'South Pasadena',
+                'San Dimas', 'San Fernando', 'San Gabriel', 'San Marino', 'Santa Clarita',
+                'Santa Fe Springs', 'Santa Monica', 'Sierra Madre', 'Signal Hill', 'South El Monte',
+                'South Gate', 'Temple City', 'Torrance', 'Vernon', 'Walnut', 'West Covina',
+                'West Hollywood', 'Westlake Village', 'Whittier',
 
-            for i in range(len(issuePerCity)-1):#use -1 otherwise database has issue with one extra value
-                folium.Circle(
-                    location=[df['lat'][i], df['lon'][i]],
-                    popup= "<a href=%s target='_blank'>%s Agenda Link</a>" % (df['webAdress'][i],df['city'][i]),
-                    radius=float(df['ISSUECONT'][i])*50,
-                    color='#5e7cff',
-                    fill=False,
-                    fill_color='#5e7cff'
-                ).add_to(folium_map)
+                # Orange County (OC)
+                'Aliso Viejo', 'Anaheim', 'Brea', 'Buena Park', 'Costa Mesa', 'Cypress', 'Dana Point',
+                'Fountain Valley', 'Fullerton', 'Huntington Beach', 'Irvine', 'La Habra', 'La Palma',
+                'Laguna Beach', 'Laguna Hills', 'Laguna Niguel', 'Laguna Woods', 'Lake Forest',
+                'Los Alamitos', 'Mission Viejo', 'Newport Beach', 'Orange', 'Placentia',
+                'Rancho Santa Margarita', 'San Clemente', 'San Juan Capistrano', 'Santa Ana',
+                'Seal Beach', 'Stanton', 'Tustin', 'Villa Park', 'Westminster', 'Yorba Linda',
 
-                folium.map.Marker([df['lat'][i], df['lon'][i]],
-                                    icon=DivIcon(
-                                        icon_size=(10 ,10),
-                                        icon_anchor=(15,15),
-                                        html=f'<div style="font-size: 10pt">%s %s</div>' % (df['ISSUECONT'][i],df['city'][i]),
-                                    )
-                                    ).add_to(folium_map)
+                # Riverside County (RS)
+                'Banning', 'Beaumont', 'Blythe', 'Calimesa', 'Canyon Lake', 'Cathedral City', 'Coachella',
+                'Corona', 'Desert Hot Springs', 'Eastvale', 'Hemet', 'Indian Wells', 'Indio',
+                'Jurupa Valley', 'Lake Elsinore', 'La Quinta', 'Menifee', 'Moreno Valley', 'Murrieta',
+                'Norco', 'Palm Desert', 'Palm Springs', 'Perris', 'Rancho Mirage', 'Riverside',
+                'San Jacinto', 'Temecula', 'Wildomar',
+
+                # San Bernardino County (SB)
+                'Adelanto', 'Apple Valley', 'Barstow', 'Big Bear Lake', 'Chino', 'Chino Hills',
+                'Colton', 'Fontana', 'Grand Terrace', 'Hesperia', 'Highland', 'Loma Linda',
+                'Montclair', 'Needles', 'Ontario', 'Rancho Cucamonga', 'Redlands', 'Rialto',
+                'San Bernardino', 'Twentynine Palms', 'Upland', 'Victorville', 'Yucaipa', 'Yucca Valley',
+
+                # San Diego County (SD)
+                'Carlsbad', 'Chula Vista', 'Coronado', 'Del Mar', 'El Cajon', 'Encinitas', 'Escondido',
+                'Imperial Beach', 'La Mesa', 'Lemon Grove', 'National City', 'Oceanside', 'Poway',
+                'San Diego', 'San Marcos', 'Santee', 'Solana Beach', 'Vista'
+            ]
+
+            # Initialize a dictionary to store city-specific agendas
+            city_agendas = {city: [] for city in cities}
+            cities_matched = []
+
+            for agenda in agenda_items:
+                city = agenda.get('City', '').strip()  # Remove extra spaces
+                cities_matched.append(city)
+                if city in city_agendas:
+                    city_agendas[city].append(agenda)
+
+        # Create frequency dictionary per city
+            city_issue_counts = Counter(cities_matched)
+            #print(city_issue_counts)
+            geo_info = fetch_geo_info(city_issue_counts)
+            folium_map = create_folium_map(geo_info)
         except:
             flash('Sorry. No matches found')
             return redirect(url_for("index"))
-        return render_template('index.html', form=form, folium_map=folium_map._repr_html_(),chosen=chosen, issueTexts=issueText, title="Policy Edge Tracking Agendas Map search")
-
+        return render_template('index2.html', folium_map=folium_map._repr_html_(), form=form,target=target ,chosen=chosen, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
 
 
 @app.route('/register', methods=['GET', 'POST'])
