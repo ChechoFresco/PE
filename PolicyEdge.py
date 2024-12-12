@@ -286,9 +286,8 @@ def index():
         #print(city_issue_counts)
         geo_info = fetch_geo_info(city_issue_counts)
         folium_map = create_folium_map(geo_info)
-        print(city_agendas)
 
-        return render_template('index2.html', folium_map=folium_map._repr_html_(), chosen=chosen, form=form,target=target, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
+        return render_template('index.html', folium_map=folium_map._repr_html_(), chosen=chosen, form=form,target=target, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
     elif request.method == 'POST' and request.form.get('chartSearch'):
         try:
             chose = request.form['chartSearch']
@@ -368,7 +367,7 @@ def index():
         except:
             flash('Sorry. No matches found')
             return redirect(url_for("index"))
-        return render_template('index2.html', folium_map=folium_map._repr_html_(), form=form,target=target ,chosen=chosen, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
+        return render_template('index.html', folium_map=folium_map._repr_html_(), form=form,target=target ,chosen=chosen, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
 
 
 @app.route('/register', methods=['GET', 'POST'])
