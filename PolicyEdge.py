@@ -202,6 +202,7 @@ def create_folium_map(geo_info):
     return folium_map
 
 @app.route('/index', methods=['GET', 'POST'])
+def index():
     form = chartForm()
     target = 'City Count'
     # Get the date three months before today
