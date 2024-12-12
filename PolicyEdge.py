@@ -2937,278 +2937,66 @@ def termsofservice():
 def privacypolicy():
     return render_template('privacypolicy.html', title='Privacy Policy')
 
-@app.route('/losangeles', methods=['GET', 'POST'])
+@app.route('/losangeles', methods=['GET'])
 def losangeles():
     if request.method == 'GET':
-        c = date.today() + relativedelta(weeks=-1)
-        d= str(c).replace("-","")
-        twoweeksAgo=int(d)
+        # Get the date from one week ago
+        one_week_ago = date.today() + relativedelta(weeks=-16)
+        one_week_ago_str = one_week_ago.strftime('%Y%m%d')
+        one_week_ago_int = int(one_week_ago_str)
+        print(one_week_ago_int)
 
-        agenda = mongo.db.Agenda.find({'$and':[ { 'Date':{'$gte':int(twoweeksAgo)}},{"MeetingType":{'$regex': "City Council" }}, {'County': {'$regex': 'LA County', '$options': 'i' }}]}).sort('Date').sort('City')
+        # MongoDB query to get agendas from the last week, filtered by "City Council" and "LA County"
+        try:
+            agenda_items = mongo.db.Agenda.find({
+                '$and': [
+                    {'Date': {'$gte': one_week_ago_int}},
+                    {'MeetingType': {'$regex': 'City Council', '$options': 'i'}},
+                    {'County': {'$regex': 'LA County', '$options': 'i'}},
+                    {"$expr": { "$gt": [ { "$strLenCP": "$Description" }, 5 ] }},
+                    {
+                        '$and': [
+                            { "Description": { '$not': { '$regex': "minute" } } },
+                            { "Description": { '$not': { '$regex': "warrant" } } }
+                        ]
+                    }                ]
+            }).sort('Date', -1)
+        except Exception as e:
+            return f"Error querying database: {e}", 500
 
-        agouraHills=[]
-        alhambra=[]
-        arcadia=[]
-        artesia=[]
-        azusa=[]
-        baldwinPark=[]
-        bell=[]
-        bellflower=[]
-        bellGardens=[]
-        beverlyHills=[]
-        bradbury=[]
-        burbank=[]
-        calabasas=[]
-        carson=[]
-        cerritos=[]
-        cityIndustry=[]
-        claremont=[]
-        commerce=[]
-        compton=[]
-        covina=[]
-        cudahy=[]
-        culverCity=[]
-        diamondBar=[]
-        downey=[]
-        duarte=[]
-        elMonte=[]
-        elSegundo=[]
-        gardena=[]
-        glendale=[]
-        glendora=[]
-        hawaiianGardens=[]
-        hawthorne=[]
-        hermosaBeach=[]
-        hiddenHills=[]
-        huntingtonPark=[]
-        inglewood=[]
-        irwindale=[]
-        lacanadaFlintridge=[]
-        lahabraHeights=[]
-        laMirada=[]
-        laPuente=[]
-        laVerne=[]
-        lakewood=[]
-        lancaster=[]
-        lawndale=[]
-        lomita=[]
-        longBeach=[]
-        losAngeles=[]
-        lynwood=[]
-        malibu=[]
-        manhattanBeach=[]
-        maywood=[]
-        monrovia=[]
-        montebello=[]
-        montereyPark=[]
-        norwalk=[]
-        palmdale=[]
-        palosverdesEstates=[]
-        paramount=[]
-        pasadena=[]
-        picoRivera=[]
-        pomona=[]
-        ranchopalosVerdes=[]
-        redondoBeach=[]
-        rollingHills=[]
-        rollinghillsEstate=[]
-        rosemead=[]
-        sPasadena=[]
-        sanDimas=[]
-        sanFernando=[]
-        sanGabriel=[]
-        sanMarino=[]
-        santaClarita=[]
-        santafeSprings=[]
-        santaMonica=[]
-        sierraMadre=[]
-        signalHill=[]
-        southelMonte=[]
-        southGate=[]
-        templeCity=[]
-        torrance=[]
-        vernon=[]
-        walnut=[]
-        westCovina=[]
-        westHollywood=[]
-        westlakeVillage=[]
-        whittier=[]
-        for x in agenda:
-            if x["City"] ==' Agoura Hills ':
-                agouraHills.append(x)
-            if x["City"] ==' Alhambra ':
-                alhambra.append(x)
-            if x["City"] ==' Arcadia ':
-                arcadia.append(x)
-            if x["City"] ==' Artesia ':
-                artesia.append(x)
-            if x["City"] ==' Azusa ':
-                azusa.append(x)
-            if x["City"] ==' Baldwin Park ':
-                baldwinPark.append(x)
-            if x["City"] ==' Bell ':
-                bell.append(x)
-            if x["City"] ==' Bell Gardens ':
-                bellGardens.append(x)
-            if x["City"] ==' Bellflower ':
-                bellflower.append(x)
-            if x["City"] ==' Beverly Hills ':
-                beverlyHills.append(x)
-            if x["City"] ==' Bardbury ':
-                bradbury.append(x)
-            if x["City"] ==' Burbank ':
-                burbank.append(x)
-            if x["City"] ==' Calabasas ':
-                calabasas.append(x)
-            if x["City"] ==' Carson ':
-                carson.append(x)
-            if x["City"] ==' Cerritos ':
-                cerritos.append(x)
-            if x["City"] ==' City of Industry ':
-                cityIndustry.append(x)
-            if x["City"] ==' Claremont ':
-                claremont.append(x)
-            if x["City"] ==' Commerce ':
-                commerce.append(x)
-            if x["City"] ==' Compton ':
-                compton.append(x)
-            if x["City"] ==' Covina ':
-                covina.append(x)
-            if x["City"] ==' Cudahy ':
-                cudahy.append(x)
-            if x["City"] ==' Culver City ':
-                culverCity.append(x)
-            if x["City"] ==' Diamond Bar ':
-                diamondBar.append(x)
-            if x["City"] ==' Downey ':
-                downey.append(x)
-            if x["City"] ==' Duarte ':
-                duarte.append(x)
-            if x["City"] ==' El Monte ':
-                elMonte.append(x)
-            if x["City"] ==' El Segundo ':
-                elSegundo.append(x)
-            if x["City"] ==' Gardena ':
-                gardena.append(x)
-            if x["City"] ==' Glendale ':
-                glendale.append(x)
-            if x["City"] ==' Glendora ':
-                glendora.append(x)
-            if x["City"] ==' Hawaiian Gardens ':
-                hawaiianGardens.append(x)
-            if x["City"] ==' Hawthorne ':
-                hawthorne.append(x)
-            if x["City"] ==' Hermosa Beach ':
-                hermosaBeach.append(x)
-            if x["City"] ==' Hidden Hills ':
-                hiddenHills.append(x)
-            if x["City"] ==' Huntington Park ':
-                huntingtonPark.append(x)
-            if x["City"] ==' Inglewood ':
-                inglewood.append(x)
-            if x["City"] ==' Irwindale ':
-                irwindale.append(x)
-            if x["City"] ==' La Canada Flintridge ':
-                lacanadaFlintridge.append(x)
-            if x["City"] ==' La Habra Heights ':
-                lahabraHeights.append(x)
-            if x["City"] ==' La Mirada ':
-                laMirada.append(x)
-            if x["City"] ==' La Puente ':
-                laPuente.append(x)
-            if x["City"] ==' La Verne ':
-                laVerne.append(x)
-            if x["City"] ==' Lakewood ':
-                lakewood.append(x)
-            if x["City"] ==' Lancaster ':
-                lancaster.append(x)
-            if x["City"] ==' Lawndale ':
-                lawndale.append(x)
-            if x["City"] ==' Lomita ':
-                lomita.append(x)
-            if x["City"] ==' Long Beach ':
-                longBeach.append(x)
-            if x["City"] ==' Los Angeles ':
-                losAngeles.append(x)
-            if x["City"] ==' Lynwood ':
-                lynwood.append(x)
-            if x["City"] ==' Malibu ':
-                malibu.append(x)
-            if x["City"] ==' Manhattan Beach ':
-                manhattanBeach.append(x)
-            if x["City"] ==' Maywood ':
-                maywood.append(x)
-            if x["City"] ==' Monrovia ':
-                monrovia.append(x)
-            if x["City"] ==' Montebello ':
-                montebello.append(x)
-            if x["City"] ==' Monterey Park ':
-                montereyPark.append(x)
-            if x["City"] ==' Norwalk ':
-                norwalk.append(x)
-            if x["City"] ==' Palmdale ':
-                palmdale.append(x)
-            if x["City"] ==' Palos Verdes Estates ':
-                palosverdesEstates.append(x)
-            if x["City"] ==' Paramount ':
-                paramount.append(x)
-            if x["City"] ==' Pasadena ':
-                pasadena.append(x)
-            if x["City"] ==' Pico Rivera ':
-                picoRivera.append(x)
-            if x["City"] ==' Pomona ':
-                pomona.append(x)
-            if x["City"] ==' Rancho Palos Verdes ':
-                ranchopalosVerdes.append(x)
-            if x["City"] ==' Redondo Beach ':
-                redondoBeach.append(x)
-            if x["City"] ==' Rolling Hills ':
-                rollingHills.append(x)
-            if x["City"] ==' Rolling Hills Estate ':
-                rollinghillsEstate.append(x)
-            if x["City"] ==' Rosemead ':
-                rosemead.append(x)
-            if x["City"] ==' S Pasadena ':
-                sPasadena.append(x)
-            if x["City"] ==' San Dimas ':
-                sanDimas.append(x)
-            if x["City"] ==' San Fernando ':
-                sanFernando.append(x)
-            if x["City"] ==' San Gabriel ':
-                sanGabriel.append(x)
-            if x["City"] ==' San Marino ':
-                sanMarino.append(x)
-            if x["City"] ==' Santa Clarita ':
-                santaClarita.append(x)
-            if x["City"] ==' Santa Fe Springs ':
-                santafeSprings.append(x)
-            if x["City"] ==' Santa Monica ':
-                santaMonica.append(x)
-            if x["City"] ==' Sierra Madre ':
-                sierraMadre.append(x)
-            if x["City"] ==' Signal Hill ':
-                signalHill.append(x)
-            if x["City"] ==' South El Monte ':
-                southelMonte.append(x)
-            if x["City"] ==' South Gate ':
-                southGate.append(x)
-            if x["City"] ==' Temple City ':
-                templeCity.append(x)
-            if x["City"] ==' Torrance ':
-                torrance.append(x)
-            if x["City"] ==' Vernon ':
-                vernon.append(x)
-            if x["City"] ==' Walnut ':
-                walnut.append(x)
-            if x["City"] ==' West Covina ':
-                westCovina.append(x)
-            if x["City"] ==' West Hollywood ':
-                westHollywood.append(x)
-            if x["City"] ==' Westlake Village ':
-                westlakeVillage.append(x)
-            if x["City"] ==' Whittier ':
-                whittier.append(x)
-        return render_template('losangeles.html',whittiers=whittier,westlakeVillages=westlakeVillage,westHollywoods=westHollywood,westCovinas=westCovina,walnuts=walnut,vernons=vernon,torrances=torrance,templeCitys=templeCity,southGates=southGate,southelMontes=southelMonte,signalHills=signalHill,sierraMadres=sierraMadre,santaMonicas=santaMonica,santafeSpringss=santafeSprings,santaClaritas=santaClarita,sanMarinos=sanMarino,sanGabriels=sanGabriel,sanFernandos=sanFernando,sanDimass=sanDimas,sPasadenas=sPasadena,rosemeads=rosemead,rollinghillsEstates=rollinghillsEstate,rollingHillss=rollingHills,redondoBeachs=redondoBeach,ranchopalosVerdess=ranchopalosVerdes,pomonas=pomona,picoRiveras=picoRivera,pasadenas=pasadena,paramounts=paramount,palosverdesEstates=palosverdesEstates,palmdales=palmdale,norwalks=norwalk,montereyParks=montereyPark,montebellos=montebello,monrovias=monrovia,maywoods=maywood,manhattanBeachs=manhattanBeach,malibus=malibu,lynwoods=lynwood,losAngeless=losAngeles,longBeachs=longBeach,lomitas=lomita,lawndales=lawndale,lancasters=lancaster,lakewoods=lakewood,laVernes=laVerne,laPuentes=laPuente,laMiradas=laMirada,lahabraHeightss=lahabraHeights,lacanadaFlintridges=lacanadaFlintridge,irwindales=irwindale,inglewoods=inglewood,huntingtonParks=huntingtonPark,hiddenHillss=hiddenHills,hermosaBeachs=hermosaBeach,hawthornes=hawthorne,hawaiianGardenss=hawaiianGardens,glendoras=glendora,glendales=glendale,gardenas=gardena,elSegundos=elSegundo,elMontes=elMonte,duartes=duarte,downeys=downey,diamondBars=diamondBar,culverCitys=culverCity, cudahys=cudahy,covinas=covina,commerces=commerce,claremonts=claremont,cityIndustrys=cityIndustry,cerritoss=cerritos,carsons=carson,calabasass=calabasas,agouraHillss=agouraHills,alhambras=alhambra,arcadias=arcadia,artesias=artesia,azusas=azusa,baldwinParks=baldwinPark,bells=bell,bellflowers=bellflower, beverlyHillss=beverlyHills,comptons=compton, bradburys=bradbury, burbanks=burbank,title = "PolicyEdge agenda tracking monitoring service Los Angeles County Agendas")
+        # Define the list of cities
+        cities = [
+            'Agoura Hills', 'Alhambra', 'Arcadia', 'Artesia', 'Azusa', 'Baldwin Park', 'Bell',
+            'Bellflower', 'Bell Gardens', 'Beverly Hills', 'Bradbury', 'Burbank', 'Calabasas',
+            'Carson', 'Cerritos', 'City of Industry', 'Claremont', 'Commerce', 'Compton',
+            'Covina', 'Cudahy', 'Culver City', 'Diamond Bar', 'Downey', 'Duarte', 'El Monte',
+            'El Segundo', 'Gardena', 'Glendale', 'Glendora', 'Hawaiian Gardens', 'Hawthorne',
+            'Hermosa Beach', 'Hidden Hills', 'Huntington Park', 'Inglewood', 'Irwindale',
+            'La Canada Flintridge', 'La Habra Heights', 'La Mirada', 'La Puente', 'La Verne',
+            'Lakewood', 'Lancaster', 'Lawndale', 'Lomita', 'Long Beach', 'Los Angeles',
+            'Lynwood', 'Malibu', 'Manhattan Beach', 'Maywood', 'Monrovia', 'Montebello',
+            'Monterey Park', 'Norwalk', 'Palmdale', 'Palos Verdes Estates', 'Paramount',
+            'Pasadena', 'Pico Rivera', 'Pomona', 'Rancho Palos Verdes', 'Redondo Beach',
+            'Rolling Hills', 'Rolling Hills Estates', 'Rosemead', 'South Pasadena',
+            'San Dimas', 'San Fernando', 'San Gabriel', 'San Marino', 'Santa Clarita',
+            'Santa Fe Springs', 'Santa Monica', 'Sierra Madre', 'Signal Hill', 'South El Monte',
+            'South Gate', 'Temple City', 'Torrance', 'Vernon', 'Walnut', 'West Covina',
+            'West Hollywood', 'Westlake Village', 'Whittier'
+        ]
+
+        # Initialize a dictionary to store city-specific agendas
+        city_agendas = {city: [] for city in cities}
+
+        # Populate the city agendas by iterating over the agenda items
+        for agenda in agenda_items:
+            city = agenda.get('City', '').strip()  # Remove extra spaces
+            if city in city_agendas:
+                city_agendas[city].append(agenda)
+
+        print(city_agendas)
+        # Rendering the template and passing the data dynamically using **city_agendas
+        return render_template('losangeles.html',city_agendas=city_agendas,title="PolicyEdge agenda tracking monitoring Los Angeles County Search Results")
+
 
 
 @app.route('/orange', methods=['GET', 'POST'])
