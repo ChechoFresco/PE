@@ -208,12 +208,13 @@ def index():
     #date_threshold = int((date.today() + relativedelta(weeks=-24)).strftime('%Y%m%d'))
     date_threshold = int((date.today() + relativedelta(weeks=-1)).strftime('%Y%m%d'))
     if request.method == 'GET':
-        chosen=''
+        chosen='cannabis'
     # Fetch agenda data from MongoDB
         agenda_items = mongo.db.Agenda.find({
             '$and': [
                 {"MeetingType": {'$regex': "^ City Council $", '$options': 'i'}},  # Case-insensitive match
                 {'Date': {'$gte': date_threshold}},
+                {'$text': {"$search": chosen}},
             ]
         }).sort('Date', -1)
 
