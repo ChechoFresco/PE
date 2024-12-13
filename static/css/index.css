@@ -1,6 +1,7 @@
 html,
 body {
-    max-width: 1400px;
+    max-width: 1700px;
+    background-color: #202020;
 }
 
 #mainPane {
@@ -15,10 +16,8 @@ h1#title {
     font-size: var(--font1);
     letter-spacing: -1px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: bolder;
-    background: var(--rad);
-    background-clip: text;
-    color: transparent;
+    font-weight: 400;
+    color: var(--white);
 }
 
 #example {
@@ -51,7 +50,7 @@ h3.free a {
 h3.howwrk {
     margin: 2rem;
     font-size: var(--font2);
-    color: var(--gray);
+    color: var(--white);
     letter-spacing: .3px;
     text-align: -webkit-center;
 }
@@ -82,17 +81,17 @@ label {
     font-size: var(--font3);
     font-family: 'Merriweather', serif;
     text-transform: capitalize;
-    color: var(--black);
+    color: var(--white);
 }
 
 h2 {
     font-size: 16px;
-    color: var(--gray);
+    color: var(--white);
     margin-top: 0;
 }
 
 input[type=submit] {
-    background-color: var(--gray);
+    background-color: var(--white);
     border-radius: 100px;
     color: var(--white);
     cursor: pointer;
@@ -112,7 +111,8 @@ input[type=submit] {
 /* Charts*/
 #chartBox {
     height: 350px;
-    width: 83%;
+    width: 73%;
+    margin-left: 8rem;
     margin-top: 1rem;
     overflow: hidden;
 }
@@ -135,10 +135,10 @@ input[type=submit] {
 }
 
 div.texture {
-    width: 44rem;
+    width: 55rem;
     border-radius: 1rem;
     margin-bottom: 2rem;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: #cfa01e3d -4px 4px 4px;
     overflow: hidden;
     height: auto;
 }
@@ -149,6 +149,9 @@ div.texture {
     position: relative;
 }
 
+.table-bordered {
+    border: none;
+}
 /* Titles*/
 caption {
     text-align: center;
@@ -156,7 +159,7 @@ caption {
     text-transform: capitalize;
     background: var(--rad2);
     background-clip: text;
-    color: transparent;
+    color: white;
     font-weight: 500;
 }
 
@@ -207,6 +210,16 @@ th {
 td {
     display: block;
     font-family: "Open Sans", sans-serif;
+    background-color: var(--black);
+    color: rgb(198, 211, 250);
+    font-size: 1.2rem;
+}
+td:hover{
+    background-color: var(--blue);
+    color: white;
+    font-size: 1.3rem;
+    text-shadow: 2px 2px 2px black;
+
 }
 
 td.none {
@@ -220,16 +233,13 @@ th.none {
 td.infoLocation {
     display: flex;
     justify-content: space-evenly;
-    font-size: 1.2rem;
-    color: white;
+    color: rgb(255, 255, 255);
     text-shadow: 2px 2px 2px black;
 }
 
 td.description {
-    font-size: 1.2rem;
     white-space: break-spaces;
-    color: black;
-    text-shadow: 0.5px 0.5px 0.5px white;
+    text-shadow: 0.5px 0.5px 0.5px black;
     max-height: 6rem;
     /* Initial collapsed height */
     overflow: hidden;
@@ -237,7 +247,6 @@ td.description {
     transition: height 0.3s ease;
     /* Smooth height transition */
     cursor: pointer;
-    /* Indicate clickable element */
 }
 
 .table thead tr th,
@@ -279,7 +288,7 @@ div.fixed-table-pagination {
 }
 
 .pagination>.active>a {
-    background-color: var(--gray);
+    background-color: var(--orange);
     color: var(--textColor);
 }
 
@@ -394,7 +403,7 @@ a.dropdown-item {
     }
 
     caption {
-        font-size: 1.8rem;
+        font-size: 2.8rem;
         width: auto;
     }
 
