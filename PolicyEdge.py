@@ -144,6 +144,195 @@ sched = BackgroundScheduler(timezone='UTC')
 sched.add_job(check4Issues2email, 'interval', seconds=3600)
 sched.start()
 
+@app.route('/topicLink/<topic>', methods=['GET'])
+def topic_details(topic):
+    from bson.objectid import ObjectId  # Import for MongoDB object ID
+    form = searchForm2()
+    date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
+
+    # Retrieve the city from the query parameters
+    city = request.args.get('city')
+    city= ' '+city+' '
+    # Query agendas related to the given topic and city
+    query = {
+        '$and': [
+            {'Date': {'$gte': date_threshold}},
+            {'Topics': {'$regex': topic, '$options': 'i'}},  # Match topic (case-insensitive)
+            {"City": city},  # Match city if provided
+            {"Description": {"$ne": ""}},  # Ensure it's not an empty string
+        ]
+    }
+
+    # If no city is provided, remove the city filter
+    if not city:
+        query['$and'] = [condition for condition in query['$and'] if "City" not in condition]
+
+    # Fetch matching agendas
+    agendas = list(mongo.db.topic.find(query).sort('Date', -1))
+
+    # If no agendas are found, return a 404 error
+    if not agendas:
+        return "No agendas found for this topic and city.", 404
+
+    # Render the template with the agendas
+    return render_template('share.html', topic=topic, form=form, city=city, agendas=agendas)
+
+@app.route('/cityLink/<city>', methods=['GET'])
+def city_details(city):
+    form = searchForm2()
+    date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
+
+    # Retrieve the topic from the query parameters
+    topic = request.args.get('topic')
+    city = ' '+city+' '
+    print(topic)
+    print(city)
+    # Query agendas related to the given topic and city
+    query = {
+        '$and': [
+            {'Date': {'$gte': date_threshold}},
+            {'Topics': {'$regex': topic, '$options': 'i'}},  # Match topic (case-insensitive)
+            {"Description": {"$ne": ""}},  # Ensure it's not an empty string
+            {'City': {'$regex': city, '$options': 'i'}},  # Match topic (case-insensitive)
+        ]
+    }
+
+    # Fetch matching agendas
+    agendas = list(mongo.db.topic.find(query).sort('Date', -1))
+
+    # Count unique cities from the agenda items
+    city_issue_counts = Counter([agenda.get('City', 'Unknown').strip() for agenda in agendas])
+    unique_city_count = len(city_issue_counts)  # Total number of unique cities
+
+    # Render the template with the results
+    return render_template(
+        'share.html',
+        topic=topic,
+        city=city,
+        agendas=agendas,
+        form=form,
+        unique_city_count=unique_city_count,
+        city_issue_counts=city_issue_counts,
+    )
+@app.route('/descriptionLink/<keyword>', methods=['GET'])
+def description_details(keyword):
+    form = searchForm2()
+    # Just print the value to verify that it comes through
+    print(f"keyword value: {keyword}")  # Debug line
+
+    date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
+
+    query = {
+        '$and': [
+            {'Date': {'$gte': date_threshold}},
+            {'$text': {"$search": keyword}},
+            {"Description": {"$ne": ""}},
+        ]
+    }
+
+    # Fetch matching agendas
+    agendas = list(mongo.db.Agenda.find(query).sort('Date', -1))
+
+    # Count unique cities from the agenda items
+    city_issue_counts = Counter(agenda.get('City', '').strip() for agenda in agendas)
+
+    # Fetch geo information & create map
+    geo_info = fetch_geo_info(city_issue_counts)
+    folium_map = create_folium_map(geo_info)
+
+    keyword = str(keyword) if topic else ''
+    # Render the template with the results
+    return render_template(
+        'share.html',
+        keyword=keyword,
+        form=form,
+        agendas=agendas,
+        folium_map=folium_map._repr_html_(),
+        city_issue_counts=city_issue_counts,
+    )
+
+@app.route('/descriptionCityLink/<keyword>', methods=['GET'])
+def descriptionCity_details(keyword):
+    form = searchForm2()
+    # Just print the value to verify that it comes through
+    print(f"keyword value: {keyword}")  # Debug line
+    city = request.args.get('city')
+    date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
+
+    query = {
+        '$and': [
+            {'Date': {'$gte': date_threshold}},
+            {'$text': {"$search": keyword}},
+            {"Description": {"$ne": ""}},  # Ensure it's not an empty string
+
+        ]
+    }
+
+    # Fetch matching agendas
+    agendas = list(mongo.db.Agenda.find(query).sort('Date', -1))
+
+    # Count unique cities from the agenda items
+    city_issue_counts = Counter(agenda.get('City', '').strip() for agenda in agendas)
+
+    # Fetch geo information & create map
+    geo_info = fetch_geo_info(city_issue_counts)
+    folium_map = create_folium_map(geo_info)
+
+    keyword = str(keyword) if topic else ''
+    # Render the template with the results
+    return render_template(
+        'share.html',
+        keyword=keyword,
+        form=form,
+        agendas=agendas,
+        folium_map=folium_map._repr_html_(),
+        city_issue_counts=city_issue_counts,
+    )
+@app.route('/share/<topic>', methods=['GET'])
+def agenda_details(topic):
+    from bson.objectid import ObjectId  # Import for MongoDB object ID
+    date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
+
+    # Fetch agendas from MongoDB
+    agendas = list(mongo.db.topic.find({
+        '$and': [
+            {'Date': {'$gte': date_threshold}},
+            {'Topics': {'$regex': topic, '$options': 'i'}},  # Match topic (case-insensitive)
+            {"Description": {'$not': {'$regex': "minute", '$options': 'i'}}},
+            {"Description": {"$ne": ""}},  # Ensure it's not an empty string
+            {"Description": {'$not': {'$regex': "public", '$options': 'i'}}},
+            {"Description": {'$not': {'$regex': "warrant", '$options': 'i'}}},
+            {"Description": {'$not': {'$regex': "flag salute", '$options': 'i'}}},
+            {"Description": {'$not': {'$regex': "invocation", '$options': 'i'}}},
+            {"Description": {'$not': {'$regex': "call to order", '$options': 'i'}}},
+            {"Description": {'$not': {'$regex': "pledge of allegiance", '$options': 'i'}}},
+            {"Description": {'$not': {'$regex': "roll call", '$options': 'i'}}},
+            {"Description": {'$not': {'$regex': "check register", '$options': 'i'}}}
+        ]
+    }).sort('Date', -1))  # Sort by date in descending order
+
+    if not agendas:
+        return "Agenda not found", 404
+
+    # Extract city matches & count occurrences
+    city_issue_counts = Counter(agenda.get('City', '').strip() for agenda in agendas)
+
+    # Fetch geo information & create map
+    geo_info = fetch_geo_info(city_issue_counts)
+    folium_map = create_folium_map(geo_info)
+    # Save Folium map once, reuse filename
+
+
+    return render_template(
+        'share.html',
+        folium_map=folium_map._repr_html_(),
+        topic=topic,
+        agendas=agendas,
+        unique_city_count=len(city_issue_counts),  # Unique cities
+        agenda_count=len(agendas),  # Total agenda items
+        city_issue_counts=city_issue_counts
+    )
+
 @app.route('/', methods=['GET', 'POST'])
 def httpsroute():
     return redirect("https://www.policyedge.net/index", code = 301)
