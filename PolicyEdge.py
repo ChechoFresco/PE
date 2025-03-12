@@ -392,21 +392,24 @@ def create_folium_map(geo_info):
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     form = chartForm()
-    target = 'City Count'
     # Get the date three months before today
-    #date_threshold = int((date.today() + relativedelta(weeks=-24)).strftime('%Y%m%d'))
-    date_threshold = int((date.today() + relativedelta(weeks=-1)).strftime('%Y%m%d'))
+    date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
     if request.method == 'GET':
-        chosen='cannabis'
+        chosen='Fire'
     # Fetch agenda data from MongoDB
-        agenda_items = mongo.db.Agenda.find({
+        agenda_items = mongo.db.topic.find({
             '$and': [
                 {"MeetingType": {'$regex': "^ City Council $", '$options': 'i'}},  # Case-insensitive match
                 {'Date': {'$gte': date_threshold}},
-                {'$text': {"$search": chosen}},
+                {
+                    '$and': [
+                        {"Description": {'$not': {'$regex': "minute", '$options': 'i'}}},  # Exclude 'minute'
+                        {"Description": {'$not': {'$regex': "warrant", '$options': 'i'}}}, # Exclude 'warrant'
+                        {"Description": {"$ne": ""}},  # Ensure it's not an empty string
+                    ]
+                }
             ]
         }).sort('Date', -1)
-
 
         cities = [
             # Los Angeles County (LA)
@@ -421,7 +424,7 @@ def index():
             'Lynwood', 'Malibu', 'Manhattan Beach', 'Maywood', 'Monrovia', 'Montebello',
             'Monterey Park', 'Norwalk', 'Palmdale', 'Palos Verdes Estates', 'Paramount',
             'Pasadena', 'Pico Rivera', 'Pomona', 'Rancho Palos Verdes', 'Redondo Beach',
-            'Rolling Hills', 'Rolling Hills Estates', 'Rosemead', 'South Pasadena',
+            'Rolling Hills', 'Rolling Hills Estate', 'Rosemead', 'S Pasadena',
             'San Dimas', 'San Fernando', 'San Gabriel', 'San Marino', 'Santa Clarita',
             'Santa Fe Springs', 'Santa Monica', 'Sierra Madre', 'Signal Hill', 'South El Monte',
             'South Gate', 'Temple City', 'Torrance', 'Vernon', 'Walnut', 'West Covina',
@@ -429,11 +432,11 @@ def index():
 
             # Orange County (OC)
             'Aliso Viejo', 'Anaheim', 'Brea', 'Buena Park', 'Costa Mesa', 'Cypress', 'Dana Point',
-            'Fountain Valley', 'Fullerton', 'Huntington Beach', 'Irvine', 'La Habra', 'La Palma',
+            'Fountain Valley', 'Fullerton', 'Garden Grove', 'Huntington Beach', 'Irvine', 'La Habra', 'La Palma',
             'Laguna Beach', 'Laguna Hills', 'Laguna Niguel', 'Laguna Woods', 'Lake Forest',
             'Los Alamitos', 'Mission Viejo', 'Newport Beach', 'Orange', 'Placentia',
             'Rancho Santa Margarita', 'San Clemente', 'San Juan Capistrano', 'Santa Ana',
-            'Seal Beach', 'Stanton', 'Tustin', 'Villa Park', 'Westminster', 'Yorba Linda',
+            'Seal Beach', 'Stanton', 'Tustin', 'Villa Park', 'Westminister', 'Yorba Linda',
 
             # Riverside County (RS)
             'Banning', 'Beaumont', 'Blythe', 'Calimesa', 'Canyon Lake', 'Cathedral City', 'Coachella',
@@ -454,23 +457,35 @@ def index():
             'San Diego', 'San Marcos', 'Santee', 'Solana Beach', 'Vista'
         ]
 
-        # Initialize a dictionary to store city-specific agendas
-        city_agendas = {city: [] for city in cities}
         cities_matched = []
 
-        for agenda in agenda_items:
-            city = agenda.get('City', '').strip()  # Remove extra spaces
-            cities_matched.append(city)
-            if city in city_agendas:
-                city_agendas[city].append(agenda)
+        # Initialize a dictionary to store city-specific agendas
+        city_agendas = {city: {"agendas": [], "topic_counts": Counter()} for city in cities}
 
-    # Create frequency dictionary per city
+        for agenda in agenda_items:
+
+            if chosen in agenda['Description']:
+                cities_matched.append(city)
+            city = agenda.get('City', '').strip()  # Remove extra spaces
+            topics = agenda.get('Topics', [])
+
+            if city in city_agendas:
+                # Add agenda to the city's list
+                city_agendas[city]["agendas"].append(agenda)
+
+                # Count topics for this city
+                if isinstance(topics, list):  # Check if topics is a list
+                    city_agendas[city]["topic_counts"].update(topics)
+                else:
+                    city_agendas[city]["topic_counts"].update([topics])  # Handle single topic as a string
+            else:
+                print(f"City not found in the predefined list: {city}")
+
         city_issue_counts = Counter(cities_matched)
-        #print(city_issue_counts)
         geo_info = fetch_geo_info(city_issue_counts)
         folium_map = create_folium_map(geo_info)
 
-        return render_template('index.html', folium_map=folium_map._repr_html_(), chosen=chosen, form=form,target=target, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
+        return render_template('index.html', folium_map=folium_map._repr_html_(), chosen=chosen, form=form, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
     elif request.method == 'POST' and request.form.get('chartSearch'):
         try:
             chose = request.form['chartSearch']
@@ -542,15 +557,13 @@ def index():
                 if city in city_agendas:
                     city_agendas[city].append(agenda)
 
-        # Create frequency dictionary per city
+        # Create frequency dictionary per city for folium map
             city_issue_counts = Counter(cities_matched)
-            #print(city_issue_counts)
             geo_info = fetch_geo_info(city_issue_counts)
             folium_map = create_folium_map(geo_info)
         except:
             flash('Sorry. No matches found')
-            return redirect(url_for("index"))
-        return render_template('index.html', folium_map=folium_map._repr_html_(), form=form,target=target ,chosen=chosen, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
+        return render_template('descriptionLink.html', folium_map=folium_map._repr_html_(), form=form,chosen=chosen, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
 
 
 @app.route('/register', methods=['GET', 'POST'])
