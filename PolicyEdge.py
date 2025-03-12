@@ -10,7 +10,6 @@ import os
 import re
 from apscheduler.schedulers.background import BackgroundScheduler
 import random
-from flask_cors import CORS, cross_origin
 import time
 from collections import Counter
 import pandas as pd
