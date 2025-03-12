@@ -1,6 +1,7 @@
+from flask import Flask, render_template, request
 from wtforms import StringField, SelectField, Form
 from wtforms.fields.html5 import DateField
-from wtforms.validators import ValidationError, DataRequired, Length
+from wtforms.validators import DataRequired, Length
 
 
 # Common choice sets
@@ -41,7 +42,22 @@ CITY_CHOICES = {
 "SD": [
         ('', ''), ('Carlsbad', 'Carlsbad'), ('Chula Vista', 'Chula Vista'), ('Coronado', 'Coronado'), ('Del Mar', 'Del Mar'), ('El Cajon', 'El Cajon'),
         ('Encinitas','Encinitas'),('Escondido','Escondido'),('Imprial Beach','Imprial Beach'),('La Mesa','La Mesa'),('Lemon Grove','Lemon Grove'),
-        ('National City','National City'),('Oceanside','Oceanside'),('Poway','Poway'), ('San Diego','San Diego'),('San Marcos','San Marcos'),('Santee','Santee'),('Solana Beach','Solana Beach'),('Vista','Vista')]
+        ('National City','National City'),('Oceanside','Oceanside'),('Poway','Poway'), ('San Diego','San Diego'),('San Marcos','San Marcos'),('Santee','Santee'),('Solana Beach','Solana Beach'),('Vista','Vista')],
+"LACM": [
+        ('', ''), ('Arts, Parks, Health, Education and Neighborhoods Committee','Arts, Parks, Health, Education and Neighborhoods Committee'),('Board of Airport Commissioners', 'Board of Airport Commissioners'),
+        ('Board of Fire Commissioners','Board of Fire Commissioners'),('Board of Public Works','Board of Public Works',),
+        ('Board of Rec and Park Commission','Board of Rec and Park Commission'),('Board of Transportation Commissioners','Board of Transportation Commissioners'),('Budget & Finance','Budget & Finance'),('Cannabis Regulation Commission','Cannabis Regulation Commission'),
+        ('City Planning Commission','City Planning Commission'),('Economic Development and Jobs Committee','Economic Development and Jobs Committee'),('Energy Climate','Energy Climate'),
+        ('Homelessness & Poverty Committee','Homelessness & Poverty Committee'),('Immigrant Affairs , Civil Rights, and Equity Committee','Immigrant Affairs , Civil Rights, and Equity Committee'),
+        ('Information Technology & General Service Committee','Information Technology & General Service Committee'),('LA City Health Commission','LA City Health Commission'),('LA County Board','LA County Board'),
+        ('LA Police Commission','LA Police Commission'),('LADWP Board','LADWP Board'),('Personnel, Audits, and Animal Welfare Committee','Personnel, Audits, and Animal Welfare Committee'),('PLUM','PLUM'),('Port of LA','Port of LA'),('Public Safety Committee','Public Safety Committee'),
+        ('Public Works','Public Works'),('Rules Elections','Rules Elections'),('Trade, Travel, and Tourism Committee','Trade, Travel, and Tourism Committee'),('Transportation Committee','Transportation Committee')
+],
+"LBCM": [
+        ('', ''), ('Airport', 'Airport'),('Economic Development and Finance Committee', 'Economic Development and Finance Committee'),('Long Beach Transit','Long Beach Transit'),
+        ('Parks and Recreation Commission','Parks and Recreation Commission'),('Planning Commission','Planning Commission'),('Port, Transportation and Infrastructure Committee','Port, Transportation and Infrastructure Committee'),
+        ('Public Safety Committee','Public Safety Committee'),('Technology and Innovation Commission','Technology and Innovation Commission'),('Water Commission','Water Commission')
+        ],
 }
 
 COMMITTEE_CHOICES = {
@@ -69,6 +85,19 @@ SEARCH_CRITERIA_CHOICES = [
         ('San Diego County', 'San Diego County'), ('San Bernardino County', 'San Bernardino County')
         ]
 
+
+class searchForm2(Form):
+        select = SelectField('Criteria:', choices=SEARCH_CRITERIA_CHOICES)
+        selectLA = SelectField('Cities:', choices=CITY_CHOICES["LA"])
+        selectOC = SelectField('Cities:', choices=CITY_CHOICES["OC"])
+        selectSB = SelectField('Cities:', choices=CITY_CHOICES["SB"])
+        selectRS = SelectField('Cities:', choices=CITY_CHOICES["RS"])
+        selectSD = SelectField('Cities:', choices=CITY_CHOICES["SD"])
+        selectLACM = SelectField('Cities:', choices=CITY_CHOICES["LACM"])
+        selectLBCM = SelectField('Cities:', choices=CITY_CHOICES["LBCM"])
+        primary_search = StringField('Keyword:', validators=[Length(min=1, max=25), DataRequired()])
+        startdate_field = DateField('Start Date:', format='%Y%m%d')
+        enddate_field = DateField('End Date:', format='%Y%m%d')
 
 class searchForm(Form):
         select = SelectField('Criteria:', choices=SEARCH_CRITERIA_CHOICES)
@@ -102,4 +131,5 @@ class monitorListform2(Form):
         selectLBCM = SelectField('Committees:', choices=COMMITTEE_CHOICES["LBCM"])
 
 class chartForm(Form):
-        chartSearch = StringField("Any issue's of interest?", validators=[Length(min=1, max=25),DataRequired()])
+        chartSearch = StringField('',render_kw={"placeholder": "Explore Other Issues?"}, validators=[Length(min=1, max=25),DataRequired()])
+
