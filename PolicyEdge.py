@@ -278,7 +278,7 @@ def topic_details(topic):
         query['$and'] = [condition for condition in query['$and'] if "City" not in condition]
 
     # Fetch matching agendas
-    agendas = list(mongo.db.topic.find(query).sort('Date', -1))
+    agendas = list(mongo.db.agenda.find(query).sort('Date', -1))
 
     # If no agendas are found, return a 404 error
     if not agendas:
@@ -308,7 +308,7 @@ def city_details(city):
     }
 
     # Fetch matching agendas
-    agendas = list(mongo.db.topic.find(query).sort('Date', -1))
+    agendas = list(mongo.db.agenda.find(query).sort('Date', -1))
 
     # Count unique cities from the agenda items
     city_issue_counts = Counter([agenda.get('City', 'Unknown').strip() for agenda in agendas])
@@ -404,7 +404,7 @@ def agenda_details(topic):
     date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
 
     # Fetch agendas from MongoDB
-    agendas = list(mongo.db.topic.find({
+    agendas = list(mongo.db.agenda.find({
         '$and': [
             {'Date': {'$gte': date_threshold}},
             {'Topics': {'$regex': topic, '$options': 'i'}},  # Match topic (case-insensitive)
@@ -507,7 +507,7 @@ def index():
     if request.method == 'GET':
         chosen='Fire'
     # Fetch agenda data from MongoDB
-        agenda_items = mongo.db.topic.find({
+        agenda_items = mongo.db.agenda.find({
             '$and': [
                 {"MeetingType": {'$regex': "^ City Council $", '$options': 'i'}},  # Case-insensitive match
                 {'Date': {'$gte': date_threshold}},
