@@ -3,6 +3,7 @@ Flask-PyMongo
 bcrypt
 python-dateutil
 Flask-Mail
+gunicorn
 stripe
 apscheduler
 Flask-Cors
