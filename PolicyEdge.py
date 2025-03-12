@@ -144,6 +144,116 @@ sched = BackgroundScheduler(timezone='UTC')
 sched.add_job(check4Issues2email, 'interval', seconds=3600)
 sched.start()
 
+@app.route('/topic')
+def topic():
+    with app.app_context():
+        date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
+        topic_mappings = {
+            "agreement": "Awarded Agreement",
+            "appointment": "Appointment",
+            "accept": "Approvals",
+            "approve": "Approvals",
+            "approval": "Approvals",
+            "award": "Award",
+            "bids ": "Bids",
+            "budget": "Budget",
+            "closed session": "Closed Session",
+            "conference with": "Closed Session",
+            "conferencewith": "Closed Session",
+            "consultant": "Consultant",
+            "contract": "Contract",
+            "discuss": "Discussion",
+            "discussion": "Discussion",
+            "election": "Election",
+            "emergency": "Emergency",
+            "event ": "Event",
+            "events ": "Event",
+            "fire": "Fire",
+            "housing": "Housing",
+            "introduce":"Introductions",
+            "introduction":"Introductions",
+            "lease ": "Lease",
+            "license": "License",
+            'memorandum': "Memorandum",
+            "moratorium": "Moratorium",
+            "notice": "Notice",
+            "nuisance": "Nuisance",
+            "ordinance": "Ordinance",
+            "police": "Police",
+            "presentation": "Presentation",
+            "proclaim": "Proclamation",
+            "proclamation": "Proclamation",
+            "professional": "Professional Service Agreements",
+            "program": "Program",
+            "propose": "Proposal",
+            "proposal": "Proposal",
+            "presentation": "Presentation",
+            "public hearing": "Public Hearing",
+            "purchase": "Purchase",
+            "recognition": "Presentation",
+            "recogniz": "Presentation",
+            "reject": "Reject",
+            "report": "Report",
+            "request ": "Request ",
+            "resolution": "Resolution",
+            "rescind": "Rescind",
+            "retail": "Retail",
+            "rfp": "Request for Proposal",
+            "treasurer": "Treasurer",
+            "study": "Study",
+            "update": "Update"
+        }
+
+        count = 0
+
+        # Fetch agenda data from MongoDB
+        agenda_items = mongo.db.Agenda.find({
+            '$and': [
+                {"MeetingType": " City Council "},
+                {'Date': {'$gte': date_threshold}}
+            ]
+        }).sort('Date', -1)
+
+        for x in agenda_items:
+            count += 1
+            matching_topics = []
+
+            # Check if the description or item type contains any of the topic keywords
+            for keyword, topic in topic_mappings.items():
+                if (
+                    keyword in x.get('Description', '').lower()
+                    or keyword in x.get('ItemType', '').lower()
+                ):
+                    if topic not in matching_topics:  # Avoid duplicates
+                        matching_topics.append(topic)
+
+            # If no matches were found, add "No Match"
+            if not matching_topics:
+                matching_topics.append("No Match")
+
+            # Update the topic collection in MongoDB
+            try:
+                mongo.db.Agenda.update_one(
+                    {'_id': x['_id']},  # Filter document (match by unique ID)
+                    {
+                        '$set': {  # Update or set fields in the document
+                            "City": x.get('City'),
+                            "County": x.get('County'),
+                            "Date": x.get('Date'),
+                            "Num": x.get('Num'),
+                            "MeetingType": x.get('MeetingType'),
+                            "ItemType": x.get('ItemType'),
+                            "Description": x.get('Description'),
+                            "Topics": matching_topics  # Store the list of matching topics
+                        }
+                    },
+                    upsert=True  # Option for upsert
+                )
+            except Exception as e:
+                print(f"Error updating document ID {x['_id']}: {e}")
+
+topic()
+
 @app.route('/topicLink/<topic>', methods=['GET'])
 def topic_details(topic):
     from bson.objectid import ObjectId  # Import for MongoDB object ID
