@@ -1,6 +1,6 @@
 from flask_pymongo import PyMongo
-from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, json, g
-from forms import searchForm, monitorListform, chartForm, monitorListform2
+from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, json, g, Blueprint
+from forms import searchForm, monitorListform, chartForm, monitorListform2, searchForm2
 import bcrypt
 from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
@@ -10,11 +10,23 @@ import os
 import re
 from apscheduler.schedulers.background import BackgroundScheduler
 import random
+from flask_cors import CORS, cross_origin
 import time
 from collections import Counter
 import pandas as pd
+import string
+import matplotlib.pyplot as plt
+#from flask_debugtoolbar import DebugToolbarExtension
+import json
+from urllib.request import urlopen
+import numpy as np
+import geopandas as gpd
 import folium
 from folium.features import DivIcon
+import pgeocode
+import logging
+from werkzeug.exceptions import BadRequest
+
 
 app = Flask(__name__,)
 
