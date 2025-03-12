@@ -40,7 +40,6 @@ hstspreload==2023.1.1
 httpcore==0.9.1
 httpx==0.13.3
 hyperframe==5.2.0
-idna==3.4
 importlib-metadata==6.8.0
 itsdangerous==1.1.0
 jax==0.4.18
