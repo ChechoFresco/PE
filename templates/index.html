@@ -8,160 +8,118 @@
 <head>
     <!-- Bootsrap used to create dynamic-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <!-- Highlights words in table-->
-    <script>
-        $(document).ready(function () {
-            // Toggle the height of "td.description" on click
-            $(".table_1").on("click", "td.description", function () {
-                try {
-                    console.log('Description cell clicked'); // Log for debugging
-                    if (this.style.maxHeight === "6rem") {
-                        this.style.maxHeight = "fit-content";
-                    } else {
-                        this.style.maxHeight = "6rem";
-                    }
-                } catch (error) {
-                    console.error("An error occurred while toggling description height:", error);
-                }
-            });
-
-            // Title changing functionality
-            const texts = [
-                "proposed legislation", "local issues", "telecommunications", "local ordinances",
-                "medical", "cannabis regulations", "discussions", "utilities",
-                "Alcohol, tobacco and vaping", "climate change", "transportation",
-                "financial", "retail"
-            ];
-            let count = 0;
-
-            function changeText() {
-                try {
-                    $("#example").text(texts[count]);
-                    $("#example").css({
+    <!-- Style sheet-->
+    <link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+        <script>
+            $(document).ready(function () {
+                // Title changing
+                var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change", "transportation", "financial", "retail"];
+                var count = 0;
+                function changeText() {
+                    $("#billboard").text(texts[count]);
+                    $("#billboard").css({
                         "background": 'var(--rad2)',
                         "background-clip": 'text',
                         "color": 'transparent'
                     });
                     count = (count + 1) % texts.length; // Cycle through the array
-                } catch (error) {
-                    console.error("An error occurred while changing text:", error);
                 }
-            }
-
-            setInterval(changeText, 4000); // Change text every 4 seconds
-
-        try {
-            // Safely handle the chosen variable by providing a fallback if it's undefined or None
-            const searchValue = {{ chosen | tojson | default('abcdefg') }};
-            let searchValue2 = searchValue.replace('"', '').replace('"', '');
-            // Check if searchValue is a non-empty string
-            if (searchValue && searchValue !== '""') {
-                // Select all matching elements
-                const contentElements = document.querySelectorAll('tbody');
-
-                contentElements.forEach((element) => {
-                    const content = element.innerHTML;
-
-                    // Apply case-insensitive highlighting
-                    const highlightedContent = content.replace(
-                        new RegExp(searchValue2, 'gi'),
-                        '<span class="highlight">$&</span>'
-                    );
-
-                    element.innerHTML = highlightedContent; // Update the element content
+                setInterval(changeText, 4000);
+            $(document).ready(function () {
+                // Toggle the height of "td.description" on click
+                $(".table_1").on("click", "td.description", function () {
+                    try {
+                        console.log('Description cell clicked'); // Log for debugging
+                        if (this.style.maxHeight === "6rem") {
+                            this.style.maxHeight = "fit-content";
+                        } else {
+                            this.style.maxHeight = "6rem";
+                        }
+                    } catch (error) {
+                        console.error("An error occurred while toggling description height:", error);
+                    }
                 });
-            }
-        } catch (error) {
-            console.error("An error occurred while highlighting text:", error);
-        };
-    });
-
-</script>
-    <!-- Style sheet-->
-    <link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style"
-        onload="this.onload=null;this.rel='stylesheet'">
-    <!-- New shit-->
-    <script type="text/javascript">
-        function reply_click(clicked_id) {
-            alert(clicked_id);
-        }
-    </script>
-
+            });
+        });
+        </script>
 </head>
-<!--Alerts-->
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<script>
-    var messages = {{ messages | safe }};
-    for (var i = 0; i < messages.length; i++) {
-        alert(messages[i]);
-    }
-</script>
-{% endif %}
-{% endwith %}
-<!--Front Title-->
+<!--Main Marquee-->
 <div class="dash Main" id="mainPane">
     <div class="col-sm-offset-2 col-sm-8">
-        <h1 id="title">Follow <span id="example">policy change</span> in California.
+        <h1 id="title">Follow <span id="billboard">policy change</span> in California.
         </h1>
-        <h3 class='howwrk'>Staying on top of local legislation affecting you can be a challenge. Missing an
+        <h3 class='sellLine'>Staying on top of local legislation affecting you can be a challenge. Missing an
             issue can be costly in time and resource.
             Search, set notifications, and find your PolicyEdge.
         </h3>
     </div>
+</div>
     <!--Charts-->
+    {% if folium_map %}
     <div class="row" id="chartBox">
         <div class="col-sm-offset-2 col-sm-10">
             {{ folium_map | safe }}
         </div>
     </div>
-</div>
-
-<!--IssueRow-->
-<div class="changeIssue">
-    <div class="issueRow">
-        <form method="post">
-            {% from "_formhelpers.html" import render_field %}
-            <ul>
-                {{ render_field(form.chartSearch) }}
+    {% endif %}
+    <!--searchFreeDiv-->
+    <div class="searchFreeDiv">
+        <div class="mapSearch">
+            <form id="mapSearchForm" method="GET">
+                {% from "_formhelpers.html" import render_field %}
+                <ul>
+                    {{ render_field(form.chartSearch) }}
+                </ul>
                 <p>
-            </ul>
-            <p>
-                <input type="submit" name="customSearch" id="uniqueSearch">
-            </p>
-        </form>
-    </div>
-    <div class="issueRow">
-        <div class="container" id="freeButton">
-            <div>
-                {% if not session['username'] %}
-                <h3 class='free'>
-                    <a href="/register" aria-label="Subscribe to Policy Edge">Try for Free</a>
-                </h3>
-                {% endif %}
+                    <input type="submit" value="Search" id="mapSearchButton">
+                </p>
+            </form>
+        </div>
 
-                {% if session['username'] %}
-                <h3 class='howwrk'>Welcome back <span style="color: var(--black);">{{session['username']}}</span>
-                </h3>
-                {% endif %}
+        <div class="free">
+            <div class="container" id="freeButton">
+                <div>
+                    {% if not session['username'] %}
+                    <h3 class='free'>
+                        <a href="/register" aria-label="Subscribe to Policy Edge">Try for Free</a>
+                    </h3>
+                    {% endif %}
+
+                    {% if session['username'] %}
+                    <h3 class='howwrk'>Welcome back <span style="color: var(--black);">{{session['username']}}</span>
+                    </h3>
+                    {% endif %}
+                </div>
             </div>
         </div>
+        <div class="issue">
+            <label id="currIss">Current Issue</label>
+            <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> -Activity in last week
+            </h2>
+        </div>
     </div>
-    <div class="issueRow">
-        <label id="currIss">Current Issue</label>
-        <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> -Activity in last week
-        </h2>
-    </div>
-</div>
 
 <!--First table-->
 <div class="col-sm-12" id="conTable">
-    {% for city, agendas in city_agendas.items() %}
-    {% if agendas %}
+    {% for city, data in city_agendas.items() %}
+    {% if data.agendas %}
     <div class="texture">
         <table class="table_1" data-toggle="table" data-sortable="true" data-pagination="true" data-show-columns="true"
             data-page-size='5' class="table-responsive">
-            <caption class="reize">{{ city }}</caption>
+            <caption class="reize">
+                {{ city }}
+                <div id="listcontent">
+                    <p>Contents:</p>
+                    <ul>
+                        {% for topic, count in data.topic_counts.items() %}
+                            <a href="/topicLink/{{ topic }}?city={{ city }}" id='topicLink' class="topic-square" target="_blank">
+                                {{ topic }}: {{ count }}
+                            </a>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </caption>
             <thead class='h-12'>
                 <tr>
                     <th data-field='row-Date' data-sortable="true">Date</th>
@@ -172,27 +130,32 @@
                     <th data-field='row-Num' data-sortable="true">Item</th>
                     <th class='none' data-field='row-Description'>Description</th>
                     <th class='none' data-field='row-infoLocation'>infoLocation</th>
+                    <th class='none' data-field='row-id'>id</th>
+                    <th class='none' data-field='row-topic'>topic</th>
                 </tr>
             </thead>
             <tbody>
-                {% for agenda in agendas %}
+                {% for agenda in data.agendas %}
                 <tr class="lineSep">
-                    <td class='none'>{{agenda.Date}}</td>
-                    <td class='none'>{{agenda.County}}</td>
-                    <td class='none'>{{agenda.City}}</td>
-                    <td class='none'>{{agenda.MeetingType}}</td>
-                    <td class='none'>{{agenda.ItemType}}</td>
-                    <td class='none'>{{agenda.Num}}</td>
-                    <td class='description'>{{agenda.Description}}</td>
-                    <td class='infoLocation'><span class="glyphicon glyphicon-calendar">
-                        </span>{{agenda.Date|aTime}}<span class="glyphicon glyphicon-briefcase">
-                        </span>{{agenda.ItemType}} <span>#</span>{{agenda.Num}}</td>
+                    <td class='none'>{{ agenda.Date }}</td>
+                    <td class='none'>{{ agenda.County }}</td>
+                    <td class='none'>{{ agenda.City }}</td>
+                    <td class='none'>{{ agenda.MeetingType }}</td>
+                    <td class='none'>{{ agenda.ItemType }}</td>
+                    <td class='none'>{{ agenda.Num }}</td>
+                    <td class='description'>{{ agenda.Description }}</td>
+                    <td class='infoLocation'><span class="glyphicon glyphicon-calendar"></span>
+                        {{ agenda.Date|aTime }}
+                        <span class="glyphicon glyphicon-briefcase"></span>{{ agenda.ItemType }}
+                        <span>#</span>{{ agenda.Num }}
+                    </td>
+                    <td class='none'>{{ agenda._id }}</td>
+                    <td class='none'>{{ agenda.topic }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    {% else %}
     {% endif %}
     {% endfor %}
 </div>
@@ -202,4 +165,19 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
 <script src="https://unpkg.com/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
+<script>
+    document.getElementById("searchForm").onsubmit = function(event) {
+        var chosenValue = document.querySelector('[name="chartSearch"]').value;  // Get value from chartSearch input field
+        if (chosenValue) {
+            // Dynamically set the action URL based on the entered value
+            this.action = "/descriptionLink/" + encodeURIComponent(chosenValue);
+        } else {
+            // If no value is entered, prevent the form submission
+            event.preventDefault();
+            alert("Please enter a search term.");
+        }
+    };
+</script>
 {% endblock %}
+
+
