@@ -688,7 +688,7 @@ def index():
             folium_map = create_folium_map(geo_info)
         except:
             flash('Sorry. No matches found')
-        return render_template('descriptionLink.html', folium_map=folium_map._repr_html_(), form=form,chosen=chosen, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
+    return render_template('descriptionLink.html', folium_map=folium_map._repr_html_(), form=form,chosen=chosen, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
 
 
 @app.route('/register', methods=['GET', 'POST'])
