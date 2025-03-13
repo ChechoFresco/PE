@@ -1,10 +1,14 @@
 html, body {
-  overflow-x: hidden;
-  max-width: 1920px;
+  max-width: 1200px;
   margin: auto !important;
-  background-color: #202020;
+  background-color: #202020 !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
-
+#main-content {
+  flex: 1;
+}
 :root {
   --fontNav:28px;
   --font1: 5.3rem;
@@ -16,7 +20,7 @@ html, body {
   --black: #202020;
   --gray: #69677e;
   --textShadow: 2px 2px 3px #69677e;
-  --rad:linear-gradient(62deg, #fe721b 0%, #f0940ae3 100%);
+  --rad:linear-gradient(62deg, var(--orange) 0%, var(--white) 100%);
   --rad2:linear-gradient(180deg, var(--blue) 25%, var(--white) 100%);
 }
 
@@ -27,6 +31,7 @@ html, body {
     animation-iteration-count: 1;
     animation-timing-function: linear;
   }
+
 
   @keyframes spin {
     from {
