@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendas for {{ topic }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/share.css') }}">
+    <!-- Bootsrap used to create dynamic-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script>
+        $(document).ready(function () {
+        const searchValue = {{ topic | tojson if topic else (keyword | tojson if keyword else '"keyword"') }};
+        const contentElement = document.querySelector('tbody');
+        let searchValue2 = searchValue.replace('"', '').replace('"', '')
+        console.log(searchValue)
+        if (searchValue !== '') {
+            const content = contentElement.innerHTML;
+            const highlightedContent = content.replace(
+                new RegExp(searchValue2, 'gi'),
+                '<span class="highlight">$&</span>'
+            );
+            contentElement.innerHTML = highlightedContent;
+        } else {
+            False;
+        }
+        });
+    </script>
+
+</head>
+<body>
+    {% include "searchBar.html" %}
+    <!-- City Squares -->
+    {% if topic %}
+    <div id="topicDiv">
+        <h1>{{ topic }}</h1>
+    </div>
+    {%else%}
+    <div id="topicDiv">
+        <h1>{{ keyword }}</h1>
+    </div>
+    {% endif %}
+
+    <!-- Agenda Table -->
+    <div id="mainBox">
+            <!--Charts-->
+        {% if folium_map %}
+        <div class="col-md-5" id ='map'>
+            {{ folium_map | safe }}
+        </div>
+        {% endif %}
+        <div class="col-md-7" id="conTable">
+            <div id="conTable">
+                <table id="table_1" data-toggle="table" data-filter-control="true" data-sortable="true"
+                    data-pagination="true" data-show-columns="true" data-show-columns-toggle-all="true" data-page-size="6"
+                    class="table-responsive">
+                    <thead class="h-12">
+                        <tr id="tableHead">
+                            <th class="hidden-xs" data-field="row-Date" data-sortable="true">Date</th>
+                            <th class="hidden-xs" data-field="row-County" data-sortable="true">County</th>
+                            <th class="hidden-xs" data-field="row-City" data-sortable="true">City</th>
+                            <th class="hidden-xs" data-sortable="true">Meeting Type</th>
+                            <th class="hidden-xs" data-field="row-Item" data-sortable="true">Item Type</th>
+                            <th class="hidden-xs" data-field="row-Num" data-sortable="false">Item</th>
+                            <th class="none" data-field="row-Description" data-sortable="true">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in agendas %}
+                        <tr>
+                            <td class="none">{{ i.Date }}</td>
+                            <td class="none">{{ i.County }}</td>
+                            <td class="none">{{ i.City }}</td>
+                            <td class="none">{{ i.MeetingType }}</td>
+                            <td class="none">{{ i.ItemType }}</td>
+                            <td class="description">{{ i.Description }}</td>
+                            <td class="infoLocation">
+                                <span class="glyphicon glyphicon-calendar"></span>{{ i.Date|aTime }}
+                                <span class="glyphicon glyphicon-globe"></span>{{ i.County }}
+                                <span class="glyphicon glyphicon-globe"></span>{{ i.City }}
+                                <span class="glyphicon glyphicon-briefcase"></span>{{ i.MeetingType }}
+                                <span class="glyphicon glyphicon-list"></span>{{ i.ItemType }}
+                                <span>#</span>{{ i.Num }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- Bootstrap used for table -->
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
+{% endblock %}
+
+<!--
+<div class="col-sm-12" id="cityContainer">
+    {% if city_issue_counts %}
+        <ul id="cityBox">
+            {% for city, count in city_issue_counts.items() %}
+                <a href="/cityLink/{{ city }}?topic={{ topic }}" id="cityLink" class="city-square" target="_blank">
+                    {{ city }}: {{ count }} Items
+                </a>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No cities have agenda items for this topic in the selected date range.</p>
+    {% endif %}
+</div>
+-->
+
