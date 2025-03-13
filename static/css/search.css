@@ -1,47 +1,35 @@
-
 .highlight {
 	text-decoration-line: underline;
 	text-decoration-color: var(--blue);
 	text-decoration-thickness: 4px;
 }
-
 #mainPanel{
+    margin-top: 2rem;
     position: relative;
-    overflow: hidden;
-    background:linear-gradient(62deg, #fbac7e78 0%, #f7cf6873 100%);
-
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(73px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 2rem;
 }
-div.formdiv{
-    position: relative;
-    font-size: 2rem;
-    height: 19rem;
-    top: 9rem;
-    background-color: rgba(255, 255, 255, .02);
+h2{
+    color:var(--white) !important;
 }
 form{
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    z-index: 1;
     position: relative;
-    top:-4rem
-
+    width:fit-content;
+    margin:auto;
+    padding: 1px 1px;
 }
+
 label{
     color:white;
 }
-input[type=submit] {
-    position: relative;
-    background: var(--rad2);
-    border-radius: 2rem;
-    color: white;
-    cursor: pointer;
-    font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
-    padding: 4px 15px;
-    text-align: center;
-    border: 0;
-    left:1px;
-}
+
 input {
     position: relative;
     border-radius: 7px;
@@ -53,103 +41,38 @@ h3{
 #select{
     height: 34px;
     border-radius: 7px;
-
 }
-label[for="selectLA"]{
-    display:none;
-}
-#selectLA{
-    display:none;
+.form-group {
+    padding: 6px;
 }
 
-label[for="selectOC"]{
-    display:none;
+.btn-primary {
+    margin-bottom: 16px !important;
+    background-color: var(--orange) !important;
+    border-color: #2e6da4 !important;
+    border-radius: 15px !important;
+    padding: 8px 36px !important;
+    font-size: 18px !important;
 }
-#selectOC{
-    display:none;
+
+.no-results{
+    height:37rem;
 }
-label[for="selectRS"]{
-    display:none;
+#spaceMaker{
+    height: 5rem;
+    clear: both;
 }
-#selectRS{
-    display:none;
-}
-label[for="selectSB"]{
-    display:none;
-}
-#selectSB{
-    display:none;
-}
-label[for="selectSD"]{
-    display:none;
-}
-#selectSD{
-    display:none;
-}
-label[for="selectLACM"]{
-    display:none;
-}
-#selectLACM{
-    display:none;
-}
-label[for="selectLBCM"]{
-    display:none;
-}
-#selectLBCM{
-    display:none;
-}
-#committeeOpt{
-    display:none;
-}
-#orangeOpt{
-    display:none;
-}
-#lbcommitteeOpt{
-    display:none;
-}
-#riversideOpt{
-    display:none;
-}
-#sanbernandinoOpt{
-    display:none;
-}
-#sandiegoOpt{
-    display:none;
-}
-form div:nth-child(2){
-    display:none;
-}
-form div:nth-child(3){
-    display:none;
-}
-form div:nth-child(4){
-    display:none;
-}
-form div:nth-child(5){
-    display:none;
-}
-form div:nth-child(6){
-    display:none;
-}
-form div:nth-child(7){
-    display:none;
-}
-form div:nth-child(8){
-    display:none;
-}
-/*#dateblock{
-    position: relative;
-    float: right;
-    top: -14rem;
-}
-/* CSS for TOPNAV*/
-/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 844px) {
+    #mainPanel{
+        width: 60%;
+        margin: auto;
+    }
     div.formdiv {
         position: relative;
         font-size: 2rem;
         height: 40rem;
         top: 6rem;
+        width:80%;
     }
     img {
         display: none;
@@ -162,4 +85,3 @@ form div:nth-child(8){
     }
     }
 
-  /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
