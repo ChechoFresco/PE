@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/searchBar.css') }}" >
+
+    <div class="col-sm-12" id="mainPanel">
+        {% from "_formhelpers.html" import render_field %}
+            <form action='/results' method="post">
+            <div class="form-group">
+                {{ form.select.label }}<br>
+                {{ form.select(class="form-control") }}
+            </div>
+            <div id="cities-section" class="form-group", style="display: none;">
+                {{ form.selectLA.label}}
+                {{ form.selectLA(class="form-control city-field", id="LA", style="display: none;") }}
+                {{ form.selectOC(class="form-control city-field", id="OC", style="display: none;") }}
+                {{ form.selectRS(class="form-control city-field", id="RS", style="display: none;") }}
+                {{ form.selectSB(class="form-control city-field", id="SB", style="display: none;") }}
+                {{ form.selectSD(class="form-control city-field", id="SD", style="display: none;") }}
+                {{ form.selectLACM(class="form-control city-field", id="LACM", style="display: none;") }}
+                {{ form.selectLBCM(class="form-control city-field", id="LBCM", style="display: none;") }}
+            </div>
+            <div class="form-group">
+                {{ form.primary_search.label }}<br>
+                {{ form.primary_search(class="form-control", placeholder="Enter keyword") }}
+            </div>
+            <div class="form-group">
+                {{ form.startdate_field.label }}<br>
+                {{ form.startdate_field(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.enddate_field.label }}<br>
+                {{ form.enddate_field(class="form-control") }}
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    <div style="margin-top: 7rem;"></div>
+
+            <script>
+        $(document).ready(function () {
+            // Listen to the criteria select dropdown
+            $('#select').on('change', function () {
+                const selected = $(this).val();
+
+                // Hide all city and committee fields by default
+                $('.city-field').hide();
+
+                if (selected === 'LA County') {
+                    $('#LA').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Orange County') {
+                    $('#OC').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Riverside County') {
+                    $('#RS').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'San Bernardino County') {
+                    $('#SB').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'San Diego County') {
+                    $('#SD').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'LA Committees') {
+                    $('#LACM').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Long Beach Committees') {
+                    $('#LBCM').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Issue') {
+                    $('#LBCM').show();
+                    $("#cities-section").css({"display": 'none'});
+                }
+            });
+        });
+    </script>
