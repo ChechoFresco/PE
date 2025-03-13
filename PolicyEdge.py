@@ -162,7 +162,7 @@ sched.start()
 @app.route('/topic')
 def topic():
     with app.app_context():
-        date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
+        date_threshold = datetime.now() - timedelta(weeks=2)
         topic_mappings = {
             "agreement": "Awarded Agreement",
             "appointment": "Appointment",
