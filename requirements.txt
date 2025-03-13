@@ -13,6 +13,7 @@ Flask-WTF
 folium
 geopandas
 gunicorn
+Jinja2
 matplotlib
 numpy
 pandas
@@ -21,7 +22,7 @@ python-dateutil
 requests
 requests-oauthlib
 stripe
-WTForms
+WTForms<3.0
 wtforms-validators
 Werkzeug
 
