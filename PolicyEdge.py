@@ -49,6 +49,10 @@ stripe_keys = {
 }
 stripe.api_key = stripe_keys['secret_key']
 
+@app.route('/robots.txt')
+def robots_txt():
+    return send_from_directory(app.static_folder, 'robots.txt')
+
 def check4Issues2email():
     with app.app_context():
     ##########Date###############
