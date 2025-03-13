@@ -5,163 +5,95 @@
 <meta property="og:description" content="PolicyEdge provides a searchable trove of city government agendas. Start looking at city council agendas today." />
 {% endblock %}
 {% block content %}
+<html>
 <head>
+    <title>Search Form</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="col-sm-12" id="mainPanel">
-    <div class="formdiv">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <script>
+            var messages = {{ messages | safe }};
+            for (var i=0; i<messages.length; i++) {
+                alert(messages[i]);
+            }
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <div class="col-sm-12" id="mainPanel">
         {% from "_formhelpers.html" import render_field %}
-        <form action='/results' method="post">
-            <div>
-            {{ render_field(form.select) }}
-            </div>
-            <div>
-            {{ render_field(form.selectLA) }}
-            </div>
-            <div>
-            {{ render_field(form.selectOC) }}
-            </div>
-            <div>
-            {{ render_field(form.selectRS) }}
-            </div>
-            <div>
-            {{ render_field(form.selectSB) }}
-            </div>
-            <div>
-            {{ render_field(form.selectSD) }}
-            </div>
-            <div>
-            {{ render_field(form.selectLACM) }}
-            </div>
-            <div>
-            {{ render_field(form.selectLBCM) }}
-            </div>
-            <div>
-            {{ render_field(form.primary_search) }}
-            </div>
-            <div>
-            {{ render_field(form.startdate_field) }}
-            </div>
-            <div>
-            {{ render_field(form.enddate_field) }}
-            </div>
-            <div>
-            <input type="submit" value="Search">
-            </div>
-        </form>
+            <form action='/results' method="post">
+                <div class="form-group">
+                    {{ form.select.label }}<br>
+                    {{ form.select(class="form-control") }}
+                </div>
+                <div id="cities-section" class="form-group" style="display: none;">
+                    {{ form.selectLA.label}}
+                    {{ form.selectLA(class="form-control city-field", id="LA", style="display: none;") }}
+                    {{ form.selectOC(class="form-control city-field", id="OC", style="display: none;") }}
+                    {{ form.selectRS(class="form-control city-field", id="RS", style="display: none;") }}
+                    {{ form.selectSB(class="form-control city-field", id="SB", style="display: none;") }}
+                    {{ form.selectSD(class="form-control city-field", id="SD", style="display: none;") }}
+                    {{ form.selectLACM(class="form-control city-field", id="LACM", style="display: none;") }}
+                    {{ form.selectLBCM(class="form-control city-field", id="LBCM", style="display: none;") }}
+                </div>
+                <div class="form-group">
+                    {{ form.primary_search.label }}<br>
+                    {{ form.primary_search(class="form-control", placeholder="Enter keyword") }}
+                </div>
+                <div class="form-group">
+                    {{ form.startdate_field.label }}<br>
+                    {{ form.startdate_field(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.enddate_field.label }}<br>
+                    {{ form.enddate_field(class="form-control") }}
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
     </div>
-</div>
-{% include "results.html" %}
+    <div id="spaceMaker">
+    </div>
+
+    {% include "results.html" %}
 </body>
-<script>
-    function dynFrom(){
-        $('select').on('change', function() {
-            if (this.value==='Issue'){
-                document.getElementById("primary_search").style.display="inline";
-                document.querySelector("form div:nth-child(2)").style.display="none";
-                document.querySelector("form div:nth-child(3)").style.display="none";
-                document.querySelector("form div:nth-child(4)").style.display="none";
-                document.querySelector("form div:nth-child(5)").style.display="none";
-                document.querySelector("form div:nth-child(6)").style.display="none";
-                document.querySelector("form div:nth-child(7)").style.display="none";
-                document.querySelector("form div:nth-child(8)").style.display="none";
+        <script>
+        $(document).ready(function () {
+            // Listen to the criteria select dropdown
+            $('#select').on('change', function () {
+                const selected = $(this).val();
 
+                // Hide all city and committee fields by default
+                $('.city-field').hide();
 
-            }
-            if (this.value==='LA County'){
-                document.querySelector("label[for='selectLA']").style.display="inline";
-                document.querySelector("div:nth-child(2)").style.display="inline";
-                document.getElementById("selectLA").style.display="inline";
-                document.getElementById("selectLA").style.height = "34px";
-                document.querySelector("form div:nth-child(3)").style.display="none";
-                document.querySelector("form div:nth-child(4)").style.display="none";
-                document.querySelector("form div:nth-child(5)").style.display="none";
-                document.querySelector("form div:nth-child(6)").style.display="none";
-                document.querySelector("form div:nth-child(7)").style.display="none";
-                document.querySelector("form div:nth-child(8)").style.display="none";
-            }
-            if (this.value==="Orange County"){
-                document.querySelector("form div:nth-child(3)").style.display="inline";
-                document.querySelector("label[for='selectOC']").style.display="inline";
-                document.getElementById("selectOC").style.display="inline";
-                document.getElementById("selectOC").style.height = "34px";
-                document.querySelector("form div:nth-child(2)").style.display="none";
-                document.querySelector("form div:nth-child(4)").style.display="none";
-                document.querySelector("form div:nth-child(5)").style.display="none";
-                document.querySelector("form div:nth-child(6)").style.display="none";
-                document.querySelector("form div:nth-child(7)").style.display="none";
-                document.querySelector("form div:nth-child(8)").style.display="none";
-
-            }
-            if (this.value==="Riverside County"){
-                document.querySelector("form div:nth-child(4)").style.display="inline";
-                document.querySelector("label[for='selectRS']").style.display="inline";
-                document.getElementById("selectRS").style.display="inline";
-                document.getElementById("selectRS").style.height = "34px";
-                document.querySelector("form div:nth-child(2)").style.display="none";
-                document.querySelector("form div:nth-child(3)").style.display="none";
-                document.querySelector("form div:nth-child(5)").style.display="none";
-                document.querySelector("form div:nth-child(6)").style.display="none";
-                document.querySelector("form div:nth-child(7)").style.display="none";
-                document.querySelector("form div:nth-child(8)").style.display="none";
-            }
-            if (this.value==='San Bernandino County'){
-                document.querySelector("form div:nth-child(5)").style.display="inline";
-                document.querySelector("label[for='selectSB']").style.display="inline";
-                document.getElementById("selectSB").style.display="inline";
-                document.getElementById("selectSB").style.height = "34px";
-                document.querySelector("form div:nth-child(2)").style.display="none";
-                document.querySelector("form div:nth-child(3)").style.display="none";
-                document.querySelector("form div:nth-child(4)").style.display="none";
-                document.querySelector("form div:nth-child(6)").style.display="none";
-                document.querySelector("form div:nth-child(7)").style.display="none";
-                document.querySelector("form div:nth-child(8)").style.display="none";
-            }
-            if (this.value==="San Diego County"){
-                document.querySelector("form div:nth-child(6)").style.display="inline";
-                document.querySelector("label[for='selectSD']").style.display="inline";
-                document.getElementById("selectSD").style.display="inline";
-                document.getElementById("selectSD").style.height = "34px";
-                document.querySelector("form div:nth-child(2)").style.display="none";
-                document.querySelector("form div:nth-child(3)").style.display="none";
-                document.querySelector("form div:nth-child(4)").style.display="none";
-                document.querySelector("form div:nth-child(5)").style.display="none";
-                document.querySelector("form div:nth-child(7)").style.display="none";
-                document.querySelector("form div:nth-child(8)").style.display="none";
-            }
-            if (this.value==='LA Committees'){
-                document.querySelector("form div:nth-child(7)").style.display="inline";
-                document.querySelector("label[for='selectLACM']").style.display="inline";
-                document.querySelector("label[for='selectLACM']").innerHTML = "Committee:";
-                document.getElementById("selectLACM").style.display="inline";
-                document.getElementById("selectLACM").style.width = "25rem";
-                document.getElementById("selectLACM").style.height = "34px";
-                document.querySelector("form div:nth-child(2)").style.display="none";
-                document.querySelector("form div:nth-child(3)").style.display="none";
-                document.querySelector("form div:nth-child(4)").style.display="none";
-                document.querySelector("form div:nth-child(5)").style.display="none";
-                document.querySelector("form div:nth-child(6)").style.display="none";
-                document.querySelector("form div:nth-child(8)").style.display="none";
-            }
-            if (this.value==='Long Beach Committees'){
-                document.querySelector("form div:nth-child(8)").style.display="inline";
-                document.querySelector("label[for='selectLBCM']").style.display="inline";
-                document.getElementById("selectLBCM").style.display="inline";
-                document.getElementById("selectLBCM").style.width = "25rem";
-                document.getElementById("selectLBCM").style.height = "34px";
-                document.querySelector("label[for='selectLBCM']").innerHTML = "Committee:";
-                document.querySelector("form div:nth-child(2)").style.display="none";
-                document.querySelector("form div:nth-child(3)").style.display="none";
-                document.querySelector("form div:nth-child(4)").style.display="none";
-                document.querySelector("form div:nth-child(5)").style.display="none";
-                document.querySelector("form div:nth-child(6)").style.display="none";
-                document.querySelector("form div:nth-child(7)").style.display="none";
-
-            }
-        })
-    }
-    dynFrom()
-</script>
+                if (selected === 'LA County') {
+                    $('#LA').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Orange County') {
+                    $('#OC').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Riverside County') {
+                    $('#RS').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'San Bernardino County') {
+                    $('#SB').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'San Diego County') {
+                    $('#SD').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'LA Committees') {
+                    $('#LACM').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Long Beach Committees') {
+                    $('#LBCM').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Issue') {
+                    $('#LBCM').show();
+                    $("#cities-section").css({"display": 'none'});
+                }
+            });
+        });
+    </script>
 {% endblock %}
