@@ -1,91 +1,90 @@
-div#conTable{
-  margin-top: 3rem;
-  position: relative;
-  width: 100%;
+
+#billboard{
+  text-align: center;
+  background: var(--rad2);
+  background-clip: text;
+  color: transparent;
+  font-size: 4rem;
 }
-/* Select Options*/
-#issueRow {
-  top: 0rem;
+
+/* Main Table*/
+
+div.mainTable{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: 7rem;
+  align-items: flex-start;
+}
+
+/* Table Div*/
+div.texture{
+  padding: 1rem;
+  width: 57rem;
+  border-radius: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: #cfa01e3d -4px 4px 4px;
+  overflow: hidden;
   height: auto;
 }
+
+
+/* Titles*/
 caption {
-  color: var(--textColor);
   text-align: center;
-  font-size:4rem;
+  font-size:2.9rem;
   text-transform: capitalize;
+  background: var(--rad);
+  background-clip: text;
+  color: transparent;
 }
-
-input[type=submit] {
-  cursor: pointer;
-  height: 4rem;
-  width: 11rem;
-  color: var(--textColor);
-  background-color: rgba(255, 255, 255, .25);
-  border-radius: 0.45em;
-  font-family: "Raleway", sans-serif;
-  font-size: 1rem;
-  text-decoration: underline;
-  text-decoration-color: var(--orange);
-}
-
-input[type=submit]:nth-child(even) {
-  background-color: rgba(255, 255, 255, .0);
-}
-
-div.row-button input[type=submit]:hover {
-  text-shadow: 0 0 5px var(--orange);
-}
-
-div.row-button {
-  width: fit-content;
+caption:after {
+  content: "";
+  width: 75%;
+  height: 4px;
+  background: radial-gradient(var(--blue), var(--gray));
+  left: 15%;
+  position: absolute;
+  top: 6rem;
 }
 /* Table*/
 
-.fontSize{
-  float: right;
-  right:5rem;
-}
-
 #table_1 {
-  border: 0px;
-  margin: auto;
-  height:auto;
+  table-layout: fixed;
+  border:none;
+  background: white;
+  border-radius:3rem
 }
 #table_1:empty {
   display: none;
 }
-
-
+.table-bordered {
+  border: none;
+}
 tr {
   text-align: -webkit-center;
 }
+
 tr.lineSep:after {
   content: "";
-  width: 45%;
+  width: 60%;
   height: 1px;
-  background: radial-gradient(var(--orange), var(--blue));
+  background: radial-gradient(var(--blue), var(--gray));
   left: 26%;
   position: absolute;
 }
-
 th {
 	display: inline-block;
 	position: relative;
-	color: var(--textColor);
-	text-decoration: underline;
-	text-decoration-color: var(--blue);
-	text-decoration-thickness: 3px;
+  color: white;
+  text-shadow: 2px 2px 2px black;
+  font-size: 1.4rem;
 }
 
 td {
   display: block;
-  clear: both;
-  background-color: rgba(255, 255, 255, .0);
-  color: var(--textColor);
-  text-align: center;
   font-family: "Open Sans", sans-serif;
-  padding: 0p;
-  width: auto;
 }
 
 td.none {
@@ -97,15 +96,19 @@ th.none {
 td.infoLocation {
   display: flex;
   justify-content: space-evenly;
-  font-size: 1.3rem;
-  max-width: 107rem;
+  font-size: 1.2rem;
+  color: white;
+  text-shadow: 2px 2px 2px black;
 }
 td.description {
-  overflow: hidden;
-  max-height: 12rem;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   white-space: break-spaces;
-
+  color: white;
+  text-shadow: 0.5px 0.5px 0.5px black;
+  max-height: 6rem; /* Initial collapsed height */
+  overflow: hidden; /* Hide overflowing content */
+  transition: height 0.3s ease; /* Smooth height transition */
+  cursor: pointer; /* Indicate clickable element */
 }
 
 .table thead tr th,
@@ -122,6 +125,9 @@ span{
 
 /* Pagination */
 
+div.fixed-table-pagination{
+  bottom:-1rem;
+}
 .padding-0 {
   padding-right: 0;
   padding-left: 0;
@@ -132,17 +138,17 @@ span{
 }
 
 .pagination-info {
-  color: var(--textColor);
+  color: var(--white);
   font-size: 1rem;
 }
 
 .page-list {
-  color: var(--textColor);
+  color: var(--white);
   font-size: 1rem;
 }
 
 .pagination>.active>a {
-  background-color: cornflowerblue;
+  background-color: var(--gray);
   color: var(--textColor);
 }
 
@@ -164,8 +170,14 @@ span{
 }
 
 span.page-size {
-  color: var(--textColor);
+  color: black;
 }
+a.dropdown-item{
+  color: var(--orange);
+  text-decoration: none;
+  padding: 2px;
+}
+
 
 @media screen and (min-width: 001px) and (max-width: 400px){
   th {
