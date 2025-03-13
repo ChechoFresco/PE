@@ -1,0 +1,182 @@
+.highlight {
+	text-decoration-line: underline;
+	text-decoration-color: var(--orange);
+	text-decoration-thickness: 2px;
+}
+
+/* Main Div*/
+#mainBox {
+    padding-top: 3rem;
+    position: relative;
+    display:flex;
+}
+
+/* Charts*/
+#chartBox {
+    height: 350px;
+    width: 90%;
+    overflow: hidden;
+}
+/* Topic section*/
+#topicDiv{
+	max-width:1200px;
+    margin: auto;
+}
+
+
+ul{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+	max-width:1200px;
+	margin: auto;
+}
+
+#cityLink{
+    min-width: 20rem;
+    min-height: 2rem;
+}
+/* Table Div*/
+#mainBox {
+    position: relative;
+}
+#conTable {
+    color:white;
+    max-width: 1200px;
+    margin:auto;
+    padding: 6px;
+    box-shadow: #cfa01e3d -1px 0px 25px;
+    border-radius: 12px;
+}
+
+
+h1{
+    font-size:4rem !important;
+    justify-self: left;
+    color:var(--white) !important;
+    margin-left:1.5rem!important;
+}
+
+/* Table*/
+
+.table_1 {
+    table-layout: fixed;
+}
+
+
+tr {
+    text-align: -webkit-center;
+}
+
+
+.table-hover>tbody>tr:hover {
+    background-color: #202020 !important;
+}
+th {
+    display: inline-block;
+    position: relative;
+    font-size: 1.4rem;
+}
+
+td {
+    display: block;
+    font-family: "Open Sans", sans-serif;
+    background-color: var(--black);
+    color: rgb(198, 211, 250);
+    font-size: 1.2rem;
+}
+
+td.none {
+    display: none;
+}
+
+th.none {
+    display: none;
+}
+
+td.infoLocation {
+    display: flex;
+    justify-content: space-evenly;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+}
+
+td.description {
+    white-space: break-spaces;
+    /* Initial collapsed height */
+    overflow: hidden;
+}
+
+.table thead tr th,
+.table tbody tr td {
+    border: none !important;
+}
+.table-responsive{
+    border: none !important;
+
+}
+.glyphicon:not(.glyphicon-resize-vertical) {
+    color: var(--blue);
+}
+
+span {
+    color: var(--blue);
+}
+
+/* Pagination */
+
+div.fixed-table-pagination {
+    bottom: -1rem;
+}
+
+.padding-0 {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.columns {
+    display: none
+}
+
+.pagination-info {
+    color: var(--white);
+    font-size: 1rem;
+}
+
+.page-list {
+    color: var(--white);
+    font-size: 1rem;
+}
+
+.pagination>.active>a {
+    background-color: var(--orange);
+    color: var(--textColor);
+}
+
+.pagination>li>a {
+    color: var(--textColor);
+    background-color: ghostwhite;
+}
+
+.btn {
+    background-color: ghostwhite;
+}
+
+.pagination>li>span {
+    padding: 1px 11px;
+}
+
+.subrow {
+    color: var(--textColor);
+}
+
+span.page-size {
+    color: black;
+}
+
+a.dropdown-item {
+    color: var(--orange);
+    text-decoration: none;
+    padding: 2px;
+}
