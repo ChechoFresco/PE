@@ -35,7 +35,7 @@
 
     <script>
         $(document).ready(function () {
-            $('button#blowUp').click(function() {
+            $('button#fullExpand').click(function() {
                 if ($('td.description').css('maxHeight') === 'max-content') {
                     $('td.description').css('maxHeight', '9rem');
                 } else {
@@ -44,74 +44,99 @@
             });
         });
     </script>
-
+    <!-- JavaScript table expand -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}" >
 
 </head>
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <script>
-        var messages = {{ messages | safe }};
-        for (var i=0; i<messages.length; i++) {
-            alert(messages[i]);
-        }
-        </script>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <script>
+            var messages = {{ messages | safe }};
+            for (var i=0; i<messages.length; i++) {
+                alert(messages[i]);
+            }
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <!-- City Squares -->
+    {% if primeKey %}
+        <div id="primeDiv">
+            <h1 id="primeLetter">{{ primeKey }}</h1>
+        </div>
     {% endif %}
-{% endwith %}
-    <!--First table-->
+
+    {% if city_agendas %}
+        <div id="listcontent">
+            {% for city, data in city_agendas.items() %}
+                {% if data.issue_counts %}
+                        {% for city, count in data.issue_counts.items() %}
+                        <a href="/descriptionCityLink/{{ primeKey }}?city={{ city }}" id='topicLink' class="topic-square" target="_blank">
+                            {{ city }}: {{ count }}
+                        </a>
+                        {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+<!--First table-->
     {% if agendas %}
-    <div class="row" id="mainBox">
-        <div class="col-md-5" id ='map'>
-            {{ folium_map | safe }}
-        </div>
-        <div class="col-md-7" id="conTable">
-            <div class="fontSizeChange">
-                <label>Change Font Size</label>
-                <button id='plus'>+</button>
-                <button id='minus'>-</button>
+        <div class="row" id="mainBox">
+            <div class="col-md-5" id ='map'>
+                {{ folium_map | safe }}
             </div>
-            <div class="fontSizeExpand">
-                <label>Expand Rows</label>
-                <button id='maxHeight'><span class="glyphicon glyphicon-resize-vertical"></span></button>
+            <div class="col-md-7" id="conTable">
+                <div class="fontSizeChange">
+                    <label>Change Font Size</label>
+                    <button id='plus'>+</button>
+                    <button id='minus'>-</button>
+                </div>
+                <div class="fontSizeExpand">
+                    <label>Expand Rows</label>
+                    <button id='fullExpand'><span class="glyphicon glyphicon-resize-vertical"></span></button>
+                </div>
+                <table id="table_1" data-toggle="table" data-filter-control="true" data-sortable="true"
+                    data-pagination="true" data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='6'
+                    class="table-responsive">
+                    <thead class='h-12'>
+                        <tr>
+                            <th class='hidden-xs' data-field='row-Date' data-sortable="true">Date</th>
+                            <th class='hidden-xs' data-field='row-County' data-sortable="true">County</th>
+                            <th class='hidden-xs' data-field='row-City' data-sortable="true">City</th>
+                            <th class='hidden-xs' data-sortable="true">Meeting Type</th>
+                            <th class='hidden-xs' data-field='row-Item' data-sortable="true">Item Type</th>
+                            <th class='hidden-xs' data-field='row-Num' data-sortable="False">Item</th>
+                            <th class='none' data-field='row-Description' data-sortable="true">Item</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in agendas %}
+                        <tr class="lineSep">
+                            <td class='none'>{{i.Date}}</td>
+                            <td class='none'>{{i.County}}</td>
+                            <td class='none'>{{i.City}}</td>
+                            <td class='none'>{{i.MeetingType}}</td>
+                            <td class='none'>{{i.ItemType}}</td>
+                            <td class='description'>{{i.Description}}</td>
+                            <td class='infoLocation'><span class="glyphicon glyphicon-calendar"></span>{{i.Date|aTime}}
+                                <span class="glyphicon glyphicon-globe"></span>{{i.County}}<span
+                                    class="glyphicon glyphicon-globe"></span>{{i.City}} <span
+                                    class="glyphicon glyphicon-briefcase"></span>{{i.MeetingType}}<span
+                                    class="glyphicon glyphicon-list"></span>{{i.ItemType}}<span>#</span>{{i.Num}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            <table id="table_1" data-toggle="table" data-filter-control="true" data-sortable="true"
-                data-pagination="true" data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='6'
-                class="table-responsive">
-                <thead class='h-12'>
-                    <tr>
-                        <th class='hidden-xs' data-field='row-Date' data-sortable="true">Date</th>
-                        <th class='hidden-xs' data-field='row-County' data-sortable="true">County</th>
-                        <th class='hidden-xs' data-field='row-City' data-sortable="true">City</th>
-                        <th class='hidden-xs' data-sortable="true">Meeting Type</th>
-                        <th class='hidden-xs' data-field='row-Item' data-sortable="true">Item Type</th>
-                        <th class='hidden-xs' data-field='row-Num' data-sortable="False">Item</th>
-                        <th class='none' data-field='row-Description' data-sortable="true">Item</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for i in agendas %}
-                    <tr class="lineSep">
-                        <td class='none'>{{i.Date}}</td>
-                        <td class='none'>{{i.County}}</td>
-                        <td class='none'>{{i.City}}</td>
-                        <td class='none'>{{i.MeetingType}}</td>
-                        <td class='none'>{{i.ItemType}}</td>
-                        <td class='description'>{{i.Description}}</td>
-                        <td class='infoLocation'><span class="glyphicon glyphicon-calendar"></span>{{i.Date|aTime}}
-                            <span class="glyphicon glyphicon-globe"></span>{{i.County}}<span
-                                class="glyphicon glyphicon-globe"></span>{{i.City}} <span
-                                class="glyphicon glyphicon-briefcase"></span>{{i.MeetingType}}<span
-                                class="glyphicon glyphicon-list"></span>{{i.ItemType}}<span>#</span>{{i.Num}}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
         </div>
+
+
 <!-- Highlights words in table-->
 <script>
     $(document).ready(function () {
-        const searchValue = {{ primeKey | tojson}};
+    const searchValue = {{ primeKey | tojson if primeKey else '"keyword"' }};
     const contentElement = document.querySelector('tbody');
     let searchValue2 = searchValue.replace('"', '').replace('"', '')
     console.log(searchValue)
