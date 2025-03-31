@@ -205,8 +205,10 @@ body {
         min-width: 14rem;
         min-height: 1rem;
         font-size: 1rem;
-        color: var(--blue);
-    }
+        background: var(--rad2);
+        background-clip: text;
+        color: transparent;
+}
 
     /* Table option*/
 
@@ -219,7 +221,7 @@ body {
         display: block;
         width: 43%;
         height: 27px;
-        background: url('/static/St.Patrick.png') no-repeat;
+        background: url('/static/Easter.png') no-repeat;
     }
 
     th {
