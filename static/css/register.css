@@ -1,35 +1,89 @@
-#package{
-    position: relative;
-    height: auto;
-    margin-top:8rem;
-    margin:auto;
-
+body{
+    overflow: visible!important;
 }
+/*Main Div*/
 
-.frost {
-    position: relative;
-    min-height: 400px;
-    max-width:42rem;
-    border-radius: 2rem;
-    background: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
-    padding: 3%;
-    margin: 0 auto;
+    #mainDiv{
+        position: relative;
+        height: auto;
+        margin-top:8rem;
+    }
+
+    #wave{
+        position: absolute;
+        bottom: -30rem;
+        height: 80rem;
+        left: -55rem;
+    }
+/*Form half*/
+    .frost {
+        position: relative;
+        min-height: 400px;
+        max-width: 42rem;
+        border-radius: 2rem;
+        padding: 3%;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(73px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+/*#Chage shape of Logo*/
+
+    svg#main{
+        width: 13rem;
+        height: 10rem;
+        display: block;
+        margin: auto;
+    }
+    #building {
+        width: 100%;
+        margin: auto;
+        height:12rem;
+    }
+/*Form section*/
+
+    form{
+        margin: 6rem 0rem;
+        font-size:1.4rem;
+        width: fit-content;
+    }
+
+    label{
+        color:var(--white);
+        text-shadow: black 1px 1px 1px;
+    }
+    .form-text {
+        color:var(--white);
+        text-shadow: black 1px 1px 1px;
+    }
+
+    .btn-primary {
+        background: rgba(252, 252, 252, 0.8);
+        color:black;
+        position: relative;
+        top: 2rem;
+        margin: auto;
+        display: flex;
+        justify-content: space-evenly;
+        border-radius: 1.3rem;
+        min-width: 15rem;
+        min-height: 4rem;
+    }
+/*info half*/
+
+#textDiv{
+    color:white;
 }
-
-form{
-    margin: 6rem 0rem;
-    font-size:1.4rem;
-    width: fit-content;
-}
-
 h1{
     font-size:50px;
     background: var(--rad);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-shadow:2px 3px 6px #ffffff30;
 }
 h2{
-    color:#707070;
     font-size:16px;
 }
 .layout{
@@ -42,30 +96,16 @@ h2{
     align-items: center;
 }
 
-label{
-    color:var(--black);
-}
-.form-text {
-    color:var(--black);
-}
-.btn-primary {
-    background-color: var(--blue);
-    position: relative;
-    top: 2rem;
-    margin: auto;
-    display: flex;
-    justify-content: space-evenly;
-    border-radius: 2rem;
-    min-width: 15rem;
-    min-height: 4rem;
-}
-
-@media screen and (max-width: 768px) {
+@media (min-width: 401px) and (max-width: 768px) {
     #package{
         position: relative;
         width:auto;
         height:auto;
-        margin-top:1rem;
+        margin:auto;
+    }
+    #wave{
+        height: 88rem;
+        left: -29rem;
     }
     #mainText{
         text-align:center;
@@ -81,4 +121,22 @@ label{
     label{
         color:var(--black);
     }
+}
+@media (min-width: 1181px) {
+    #wave{
+        height: 72rem;
+    }
+}
+
+p.text-justify{
+    color:white
+}
+.site-footer{
+    color:white
+}
+ul.footer-links a{
+    color:white
+}
+p.copyright-text{
+    color:white
 }
