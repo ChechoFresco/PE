@@ -1972,7 +1972,7 @@ def sandiego():
 
 @app.route('/favicon.ico')
 def favicon():
-    return url_for('static', filename='static/favicon.ico')
+    return send_from_directory(app.static_folder, 'favicon.ico', mimetype='image/vnd.microsoft.icon')
     
 @app.errorhandler(404)
 def page_not_found(e):
