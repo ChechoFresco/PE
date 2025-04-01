@@ -437,6 +437,13 @@ a.dropdown-item {
     .page-list {
         font-size: 14px;
     }
+    .searchFreeDiv {
+    display: flex;
+    margin-top: 1rem;
+    max-width: 1000px;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
 }
 
 
