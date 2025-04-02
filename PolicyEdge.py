@@ -277,6 +277,7 @@ def topic_details(topic):
 
     # Retrieve the city from the query parameters
     city = request.args.get('city')
+    city =' '+city+' '
     # Query agendas related to the given topic and city
     query = {
         '$and': [
