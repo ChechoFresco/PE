@@ -58,6 +58,11 @@
     </div>
 
     {% include "results.html" %}
+    
+    {% if no_results %}
+        <div class="no-results">No results found.</div>
+    {% endif %}
+
 </body>
         <script>
         $(document).ready(function () {
