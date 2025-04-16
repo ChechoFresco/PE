@@ -266,8 +266,9 @@ def topic():
                 )
             except Exception as e:
                 print(f"Error updating document ID {x['_id']}: {e}")
-
-topic()
+sched = BackgroundScheduler(timezone='UTC')
+sched.add_job(topic, 'interval', seconds=3600)
+sched.start()
 
 @app.route('/topicLink/<topic>', methods=['GET'])
 def topic_details(topic):
