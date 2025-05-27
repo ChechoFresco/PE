@@ -596,8 +596,8 @@ def index():
         for agenda in agenda_items:
 
             if chosen in agenda['Description']:
+                city = agenda.get('City', '').strip()  # Remove extra spaces
                 cities_matched.append(city)
-            city = agenda.get('City', '').strip()  # Remove extra spaces
             topics = agenda.get('Topics', [])
 
             if city in city_agendas:
