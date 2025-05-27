@@ -64,7 +64,7 @@ def check4Issues2email():
 
         for x in all_users: #For each instance of a user
             email=x['email']#Grabs email for new schedEmail.html
-            if x['subscriptionActive'] == true: #Checks to see if user is subscribed
+            if x['subscriptionActive'] == True: #Checks to see if user is subscribed
     ##################Deletes old id for issues###############
                 check=mongo.db.User.find({'username':x['username']},{'_id':0 , 'agendaUnique_id': 1})
                 for q in check:
