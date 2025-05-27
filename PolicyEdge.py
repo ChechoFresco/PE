@@ -61,7 +61,6 @@ def check4Issues2email():
 
     ##########User roundup###############
         all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, 'agendaUnique_id':1, 'email':1, 'subscriptionActive':1, 'issues':1})#Creates list af all emails and usernames for sequence
-
         for x in all_users: #For each instance of a user
             email=x['email']#Grabs email for new schedEmail.html
             if x['subscriptionActive'] == True: #Checks to see if user is subscribed
