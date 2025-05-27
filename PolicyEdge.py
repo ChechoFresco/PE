@@ -766,7 +766,7 @@ def create_checkout_session():#register link to this page to create both profile
     username_found = mongo.db.User.find_one({"username": username})#Checks if username exist
     email_found = mongo.db.User.find_one({"email": email})#Check if email exist
     stripe_email_found = mongo.db.stripe_user.find_one({"email": email})
-    match = re.match('^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$', email)
+    match = re.match(r'^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$', email)
 
     if username_found:
         flash('There already is a user by that name')
