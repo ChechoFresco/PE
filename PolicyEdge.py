@@ -283,8 +283,9 @@ def topic_details(topic):
 
     # Retrieve the city from the query parameters
     city = request.args.get('city')
-    city =' '+city+' '
-    # Query agendas related to the given topic and city
+    if city:
+        city = city.strip()
+    query['$and'].append({"City": city})    # Query agendas related to the given topic and city
     query = {
         '$and': [
             {'Date': {'$gte': date_threshold}},
@@ -306,7 +307,7 @@ def topic_details(topic):
         return "No agendas found for this topic and city.", 404
 
     # Render the template with the agendas
-    return render_template('share.html', topic=topic, form=form, city=city, agendas=agendas)
+    return render_template('share.html', topic=topic, form=form, city=city, agendas=agendas
 
 @app.route('/cityLink/<city>', methods=['GET'])
 def city_details(city):
