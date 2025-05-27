@@ -105,6 +105,7 @@ def check4Issues2email():
                 userStoredAgendaId = []
 
                 for y in storedIssues:
+                    print(y['issues'])
                     issues_placeholder.append(y['issues'])
                     for yy in y.get('agendaUnique_id', []):
                         userStoredAgendaId.append(yy['_id'])
