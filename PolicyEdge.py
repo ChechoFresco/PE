@@ -161,7 +161,7 @@ def check4Issues2email():
                 pass
 
 sched = BackgroundScheduler(timezone='UTC')
-sched.add_job(check4Issues2email, 'interval', seconds=3600)
+sched.add_job(check4Issues2email, 'interval', seconds=30)
 sched.start()
 
 @app.route('/topic')
@@ -272,7 +272,7 @@ def topic():
             except Exception as e:
                 print(f"Error updating document ID {x['_id']}: {e}")
 sched = BackgroundScheduler(timezone='UTC')
-sched.add_job(topic, 'interval', seconds=30)
+sched.add_job(topic, 'interval', seconds=3600)
 sched.start()
 
 @app.route('/topicLink/<topic>', methods=['GET'])
