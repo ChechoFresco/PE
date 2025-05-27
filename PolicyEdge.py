@@ -55,98 +55,139 @@ def robots_txt():
 
 def check4Issues2email():
     with app.app_context():
-    ##########Date###############
         a = date.today()
-        today= int(a.strftime('%Y%m%d'))
+        today = int(a.strftime('%Y%m%d'))
 
-    ##########User roundup###############
-        all_users= mongo.db.User.find({}, {'_id': 0, "username" : 1, "email": 1, 'agendaUnique_id':1, 'email':1, 'subscriptionActive':1, 'issues':1})#Creates list af all emails and usernames for sequence
-        for x in all_users: #For each instance of a user
-            username=x['username']#Grabs email for new schedEmail.html
-            if x['subscriptionActive'] == True: #Checks to see if user is subscribed
-    ##################Deletes old id for issues###############
-                check=mongo.db.User.find({'username':x['username']},{'_id':0 , 'agendaUnique_id': 1})
+        all_users = mongo.db.User.find({}, {
+            '_id': 0,
+            "username": 1,
+            "email": 1,
+            'agendaUnique_id': 1,
+            'subscriptionActive': 1,
+            'issues': 1
+        })
+
+        for x in all_users:
+            try:
+                username = x.get('username')
+                email = x.get('email')
+
+                if not email:
+                    print(f"[WARN] No email found for user '{username}'. Skipping email send.")
+                    continue
+
+                if not x.get('subscriptionActive'):
+                    print(f"[INFO] User '{username}' is not subscribed. Skipping.")
+                    continue
+
+                # Delete old agendaUnique_id entries
+                check = mongo.db.User.find({'username': username}, {'_id': 0, 'agendaUnique_id': 1})
                 for q in check:
-                    print(q)
-                    for qq in q['agendaUnique_id']:
+                    for qq in q.get('agendaUnique_id', []):
                         if qq['Date'] < today:
                             stuff = {
-                                "_id": qq['_id'] ,
-                                "Date": qq['Date'] ,
+                                "_id": qq['_id'],
+                                "Date": qq['Date'],
                             }
-                            mongo.db.User.find_one_and_update({'username':x['username']}, {'$pull': {'agendaUnique_id': stuff}}, upsert = True)
+                            mongo.db.User.find_one_and_update({'username': username}, {'$pull': {'agendaUnique_id': stuff}}, upsert=True)
 
-    ##########Item roundup###############
-                storedIssues= mongo.db.User.find({'username':x['username']}, {'_id': 0, 'issues.searchWord':1, 'issues.County':1, 'issues.City':1, 'issues.Committee':1, 'agendaUnique_id':1, 'email':1})#Bring forth the following data
+                storedIssues = mongo.db.User.find({'username': username}, {
+                    '_id': 0,
+                    'issues.searchWord': 1,
+                    'issues.County': 1,
+                    'issues.City': 1,
+                    'issues.Committee': 1,
+                    'agendaUnique_id': 1,
+                    'email': 1
+                })
 
-
-                issues_placeholder= []#List of user subscribed issues
-                userStoredAgendaId=[]#List of user previous topics
+                issues_placeholder = []
+                userStoredAgendaId = []
 
                 for y in storedIssues:
-                    issues_placeholder.append(y['issues'])#subscribed issues
-                    for yy in y['agendaUnique_id']:
-                        userStoredAgendaId.append(yy['_id'])#previous topics
+                    issues_placeholder.append(y['issues'])
+                    for yy in y.get('agendaUnique_id', []):
+                        userStoredAgendaId.append(yy['_id'])
 
-                agenda=[]
-                agenda2=[]
+                agenda = []
+                agenda2 = []
 
-                for z in range(len(issues_placeholder[0])): #For every item in issues_placeholder, breaks down into individual parts in order for Multiquery to function
-                    issue_Search= (issues_placeholder[0][z]['searchWord'])#Grabs Issue
-                    county_Search= (issues_placeholder[0][z]['County'])
-                    city_Search= (issues_placeholder[0][z]['City'])#Grabs City
-                    committee_Search= (issues_placeholder[0][z]['Committee'])
+                if not issues_placeholder or len(issues_placeholder[0]) == 0:
+                    print(f"[INFO] No issues found for user '{username}'. Skipping email send.")
+                    continue
 
-    ##################Multiquery uses each _Search to run individual db.finds to create multiquery
-                    Multiquery=mongo.db.Agenda.find({'$and':[ {"MeetingType":{'$regex': committee_Search,  '$options': 'i' }}, {"City":{'$regex': city_Search, '$options': 'i'}}, {"County":{'$regex': county_Search, '$options': 'i'}}  ,{'Description': { "$regex": issue_Search,  '$options': 'i' }}, { 'Date':{'$gte':int(today)}}]})
+                for z in range(len(issues_placeholder[0])):
+                    issue_Search = issues_placeholder[0][z]['searchWord']
+                    county_Search = issues_placeholder[0][z]['County']
+                    city_Search = issues_placeholder[0][z]['City']
+                    committee_Search = issues_placeholder[0][z]['Committee']
 
-                    for query in Multiquery:#Places individualised results in agenda from Multiquery
+                    Multiquery = mongo.db.Agenda.find({
+                        '$and': [
+                            {"MeetingType": {'$regex': committee_Search, '$options': 'i'}},
+                            {"City": {'$regex': city_Search, '$options': 'i'}},
+                            {"County": {'$regex': county_Search, '$options': 'i'}},
+                            {'Description': {"$regex": issue_Search, '$options': 'i'}},
+                            {'Date': {'$gte': int(today)}}
+                        ]
+                    })
+
+                    for query in Multiquery:
                         agenda.append(query)
                         agenda2.append(issue_Search)
 
-                description=[]###Information is grabbed from loop done below
-                issue=[]
-                city=[]
-                Date=[]
-                County=[]
-                meeting_type=[]
-                item_type=[]
-                agendaLink=[]
+                description = []
+                issue = []
+                city = []
+                Date = []
+                County = []
+                meeting_type = []
+                item_type = []
+                agendaLink = []
 
-                email_body=[]
-                itemCount=0
+                email_body = []
+                itemCount = 0
 
                 for zz in agenda2:
                     issue.append(zz)
 
-                for i in agenda: #returned criteria
+                for i in agenda:
                     if i['_id'] not in userStoredAgendaId:
-                        itemCount+=1
-                        mongo.db.User.find_one_and_update({'username':x['username']}, {'$addToSet': {'agendaUnique_id':{'_id':i['_id'],'Date':i['Date']}}})# updates database with topics uniqueid
+                        itemCount += 1
+                        mongo.db.User.find_one_and_update(
+                            {'username': username},
+                            {'$addToSet': {'agendaUnique_id': {'_id': i['_id'], 'Date': i['Date']}}}
+                        )
                         description.append(i['Description'])
                         city.append(i['City'])
                         County.append(i['County'])
-                        intDate= (str(i['Date']))
-                        start_year = str(intDate[0:4])
-                        start_month = str(intDate[4:6])
-                        start_day = str(intDate[6:8])
-                        links=mongo.db.doc.find_one({"City":{'$regex': i['City'], '$options': 'i'}},{'_id': 0,'webAdress': 1} )
-                        links2= str(links).replace("{'webAdress': '","").replace("'}","")
+                        intDate = str(i['Date'])
+                        start_year = intDate[0:4]
+                        start_month = intDate[4:6]
+                        start_day = intDate[6:8]
+                        links = mongo.db.doc.find_one({"City": {'$regex': i['City'], '$options': 'i'}}, {'_id': 0, 'webAdress': 1})
+                        links2 = str(links).replace("{'webAdress': '", "").replace("'}", "")
                         agendaLink.append(links2)
-                        Date.append(start_month+'/'+start_day+'/'+start_year)
+                        Date.append(f"{start_month}/{start_day}/{start_year}")
                         meeting_type.append(i['MeetingType'])
                         item_type.append(i['ItemType'])
 
-                for y in range(len(city)):#range(len)city is used because it gives accurate count of topics being sent
-                    email_body.append("<p style ='font-weight: bold;' >The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(issue[y],city[y],meeting_type[y],County[y],Date[y],description[y], agendaLink[y]))
+                for y in range(len(city)):
+                    email_body.append(
+                        "<p style ='font-weight: bold;' >The following issue '{}' will be brought before the {} {} in {} on {}.</p>  {} <br></br> <br></br> Provided is a link to the agendas {}. <br></br><br></br><br></br>".format(
+                            issue[y], city[y], meeting_type[y], County[y], Date[y], description[y], agendaLink[y])
+                    )
 
-                if len(email_body)==0:
-                    pass
-                else:
-                    subject = 'You have {} items today from Policy Edge'.format(itemCount)
+                if len(email_body) == 0:
+                    print(f"[INFO] No new agenda items for user '{username}'. No email sent.")
+                    continue
+
+                # Try to send email
+                try:
+                    subject = f'You have {itemCount} items today from Policy Edge'
                     sender = 'AgendaPreciado@gmail.com'
-                    msg = Message(subject, sender=sender, recipients=[x['email']])
-                    msg.html = render_template('schedEmail.html', username=username, packed=zip(issue, city, meeting_type, County, Date, description, agendaLink ))
+                    msg = Message(subject, sender=sender, recipients=[email])
+                    msg.html = render_template('schedEmail.html', username=username, packed=zip(issue, city, meeting_type, County, Date, description, agendaLink))
                     with app.open_resource('/app/static/logo.png') as fp:
                         msg.attach(
                             filename="logo.png",
@@ -156,8 +197,14 @@ def check4Issues2email():
                             headers={"Content-ID": "<voucher_png>"}
                         )
                     mail.send(msg)
-            else:
-                pass
+                    print(f"[SUCCESS] Email sent to user '{username}' at '{email}'. Items: {itemCount}")
+
+                except Exception as e:
+                    print(f"[ERROR] Failed to send email to '{username}' ({email}): {e}")
+
+            except Exception as e:
+                print(f"[ERROR] Processing user '{x.get('username', 'unknown')}' failed: {e}")
+
 
 sched = BackgroundScheduler(timezone='UTC')
 sched.add_job(check4Issues2email, 'interval', seconds=30)
