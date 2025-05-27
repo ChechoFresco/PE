@@ -277,35 +277,28 @@ sched.start()
 
 @app.route('/topicLink/<topic>', methods=['GET'])
 def topic_details(topic):
-    from bson.objectid import ObjectId  # Import for MongoDB object ID
     form = searchForm2()
     date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
 
-    # Retrieve the city from the query parameters
-    city = request.args.get('city')
-    city =' '+city+' '
-    # Query agendas related to the given topic and city
+    city_param = request.args.get('city')
+    city = city_param.strip() if city_param else None
+
     query = {
         '$and': [
             {'Date': {'$gte': date_threshold}},
-            {'Topics': {'$regex': topic, '$options': 'i'}},  # Match topic (case-insensitive)
-            {"City": city},  # Match city if provided
-            {"Description": {"$ne": ""}},  # Ensure it's not an empty string
+            {'Topics': {'$regex': topic, '$options': 'i'}},
+            {"Description": {"$ne": ""}},
         ]
     }
 
-    # If no city is provided, remove the city filter
-    if not city:
-        query['$and'] = [condition for condition in query['$and'] if "City" not in condition]
+    if city:
+        query['$and'].append({"City": {"$regex": f"^{re.escape(city)}$", "$options": "i"}})
 
-    # Fetch matching agendas
     agendas = list(mongo.db.Agenda.find(query).sort('Date', -1))
 
-    # If no agendas are found, return a 404 error
     if not agendas:
         return "No agendas found for this topic and city.", 404
 
-    # Render the template with the agendas
     return render_template('share.html', topic=topic, form=form, city=city, agendas=agendas)
 
 @app.route('/cityLink/<city>', methods=['GET'])
