@@ -64,6 +64,7 @@ def check4Issues2email():
         for x in all_users: #For each instance of a user
             email=x['email']#Grabs email for new schedEmail.html
             if x['subscriptionActive'] == True: #Checks to see if user is subscribed
+                print(email)
     ##################Deletes old id for issues###############
                 check=mongo.db.User.find({'username':x['username']},{'_id':0 , 'agendaUnique_id': 1})
                 for q in check:
@@ -159,7 +160,7 @@ def check4Issues2email():
                 pass
 
 sched = BackgroundScheduler(timezone='UTC')
-sched.add_job(check4Issues2email, 'interval', seconds=3600)
+sched.add_job(check4Issues2email, 'interval', seconds=30)
 sched.start()
 
 @app.route('/topic')
