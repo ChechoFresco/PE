@@ -571,7 +571,7 @@ def index():
     # Get the date three months before today
     date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
     if request.method == 'GET':
-        chosen='Cannabis'
+        chosen='water'
     # Fetch agenda data from MongoDB
         agenda_items = mongo.db.Agenda.find({
             '$and': [
