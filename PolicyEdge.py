@@ -329,7 +329,6 @@ def topic_details(topic):
 
     # Retrieve the city from the query parameters
     city = request.args.get('city')
-    city =' '+city+' '
     # Query agendas related to the given topic and city
     query = {
         '$and': [
@@ -1061,11 +1060,10 @@ def results():
             # Exception handling for LACM and LBCM
             if criteria in ['LA Committees', 'Long Beach Committees']:
                 #criteria=' '+criteria+' '
-                county = ' LA County '
+                county = 'LA County'
                 filters.append({'County': {'$regex': county, '$options': 'i'}})  # Default to LA County
                 selected_city_field = f"select{criteria_nicknames[criteria].replace(' ', '')}"  # Dynamic form field match
                 selected_city = getattr(form, selected_city_field).data  # Get data from form
-                selected_city = ' '+selected_city+' '
                 if selected_city:  # If a city is selected, add it to the filter
                     filters.append({'MeetingType': {'$regex': selected_city, '$options': 'i'}})
             else:
@@ -1136,7 +1134,6 @@ def results():
         city_agendas = {city: {"agendas": [], "issue_counts": Counter()} for city in cities}
         for agenda in agenda_list:
             if primeKey in agenda.get('Description', ''):
-                city = agenda.get('City', '').strip()
                 cities_matched.append(city)
             city = agenda.get('City', '').strip()  # Remove extra spaces
 
