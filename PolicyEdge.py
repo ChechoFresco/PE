@@ -360,9 +360,6 @@ def city_details(city):
 
     # Retrieve the topic from the query parameters
     topic = request.args.get('topic')
-    city = ' '+city+' '
-    print(topic)
-    print(city)
     # Query agendas related to the given topic and city
     query = {
         '$and': [
@@ -629,8 +626,6 @@ def index():
         city_agendas = {city: {"agendas": [], "topic_counts": Counter()} for city in cities}
 
         for agenda in agenda_items:
-            print(agenda)
-            city = agenda.get('City', '').strip()
             if chosen in agenda['Description']:
                 cities_matched.append(city)
 
@@ -674,7 +669,6 @@ def index():
             cities_matched = []
 
             for agenda in agenda_items:
-                city = agenda.get('City', '').strip()
                 cities_matched.append(city)
                 if city in city_agendas:
                     city_agendas[city].append(agenda)
@@ -1764,7 +1758,6 @@ def losangeles():
 
         # Populate the city agendas by iterating over the agenda items
         for agenda in agenda_items:
-            city = agenda.get('City', '').strip()  # Remove extra spaces
             if city in city_agendas:
                 city_agendas[city].append(agenda)
 
@@ -1817,7 +1810,6 @@ def orange():
 
         # Populate the city agendas by iterating over the agenda items
         for agenda in agenda_items:
-            city = agenda.get('City', '').strip()  # Remove extra spaces
             if city in city_agendas:
                 city_agendas[city].append(agenda)
 
@@ -1867,7 +1859,6 @@ def riverside():
 
         # Populate the city agendas by iterating over the agenda items
         for agenda in agenda_items:
-            city = agenda.get('City', '').strip()  # Remove extra spaces
             if city in city_agendas:
                 city_agendas[city].append(agenda)
 
@@ -1916,7 +1907,6 @@ def sanbernandino():
 
         # Populate the city agendas by iterating over the agenda items
         for agenda in agenda_items:
-            city = agenda.get('City', '').strip()  # Remove extra spaces
             if city in city_agendas:
                 city_agendas[city].append(agenda)
 
@@ -1963,7 +1953,6 @@ def sandiego():
 
         # Populate the city agendas by iterating over the agenda items
         for agenda in agenda_items:
-            city = agenda.get('City', '').strip()  # Remove extra spaces
             if city in city_agendas:
                 city_agendas[city].append(agenda)
 
