@@ -613,7 +613,7 @@ def index():
         chosen = 'water'
         agenda_items = mongo.db.Agenda.find({
             '$and': [
-                {"MeetingType": {'$regex': "^ City Council $", '$options': 'i'}},
+                {"MeetingType": {'$regex': "City Council", '$options': 'i'}},
                 {'Date': {'$gte': date_threshold}},
                 {
                     '$and': [
@@ -629,6 +629,7 @@ def index():
         city_agendas = {city: {"agendas": [], "topic_counts": Counter()} for city in cities}
 
         for agenda in agenda_items:
+            print(agenda)
             city = agenda.get('City', '').strip()
             if chosen in agenda['Description']:
                 cities_matched.append(city)
