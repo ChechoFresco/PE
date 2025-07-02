@@ -275,7 +275,7 @@ def topic():
         # Fetch agenda data from MongoDB
         agenda_items = mongo.db.Agenda.find({
             '$and': [
-                {"MeetingType": " City Council "},
+                {"MeetingType": "City Council"},
                 {'Date': {'$gte': date_threshold}}
             ]
         }).sort('Date', -1)
@@ -568,92 +568,78 @@ def create_folium_map(geo_info):
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     form = chartForm()
-    # Get the date three months before today
+    # Get the date two weeks before today
     date_threshold = int((date.today() + relativedelta(weeks=-2)).strftime('%Y%m%d'))
+
+    # Define city list once
+    cities = [
+        '', 'Agoura Hills', 'Alhambra', 'Arcadia', 'Artesia', 'Azusa', 'Baldwin Park', 'Bell',
+        'Bellflower', 'Bell Gardens', 'Beverly Hills', 'Bradbury', 'Burbank', 'Calabasas',
+        'Carson', 'Cerritos', 'City of Industry', 'Claremont', 'Commerce', 'Compton',
+        'Covina', 'Cudahy', 'Culver City', 'Diamond Bar', 'Downey', 'Duarte', 'El Monte',
+        'El Segundo', 'Gardena', 'Glendale', 'Glendora', 'Hawaiian Gardens', 'Hawthorne',
+        'Hermosa Beach', 'Hidden Hills', 'Huntington Park', 'Inglewood', 'Irwindale',
+        'La Canada Flintridge', 'La Habra Heights', 'La Mirada', 'La Puente', 'La Verne',
+        'Lakewood', 'Lancaster', 'Lawndale', 'Lomita', 'Long Beach', 'Los Angeles',
+        'Lynwood', 'Malibu', 'Manhattan Beach', 'Maywood', 'Monrovia', 'Montebello',
+        'Monterey Park', 'Norwalk', 'Palmdale', 'Palos Verdes Estates', 'Paramount',
+        'Pasadena', 'Pico Rivera', 'Pomona', 'Rancho Palos Verdes', 'Redondo Beach',
+        'Rolling Hills', 'Rolling Hills Estates', 'Rosemead', 'South Pasadena',
+        'San Dimas', 'San Fernando', 'San Gabriel', 'San Marino', 'Santa Clarita',
+        'Santa Fe Springs', 'Santa Monica', 'Sierra Madre', 'Signal Hill', 'South El Monte',
+        'South Gate', 'Temple City', 'Torrance', 'Vernon', 'Walnut', 'West Covina',
+        'West Hollywood', 'Westlake Village', 'Whittier',
+        'Aliso Viejo', 'Anaheim', 'Brea', 'Buena Park', 'Costa Mesa', 'Cypress', 'Dana Point',
+        'Fountain Valley', 'Fullerton', 'Garden Grove', 'Huntington Beach', 'Irvine', 'La Habra', 'La Palma',
+        'Laguna Beach', 'Laguna Hills', 'Laguna Niguel', 'Laguna Woods', 'Lake Forest',
+        'Los Alamitos', 'Mission Viejo', 'Newport Beach', 'Orange', 'Placentia',
+        'Rancho Santa Margarita', 'San Clemente', 'San Juan Capistrano', 'Santa Ana',
+        'Seal Beach', 'Stanton', 'Tustin', 'Villa Park', 'Westminster', 'Yorba Linda',
+        'Banning', 'Beaumont', 'Blythe', 'Calimesa', 'Canyon Lake', 'Cathedral City', 'Coachella',
+        'Corona', 'Desert Hot Springs', 'Eastvale', 'Hemet', 'Indian Wells', 'Indio',
+        'Jurupa Valley', 'Lake Elsinore', 'La Quinta', 'Menifee', 'Moreno Valley', 'Murrieta',
+        'Norco', 'Palm Desert', 'Palm Springs', 'Perris', 'Rancho Mirage', 'Riverside',
+        'San Jacinto', 'Temecula', 'Wildomar',
+        'Adelanto', 'Apple Valley', 'Barstow', 'Big Bear Lake', 'Chino', 'Chino Hills',
+        'Colton', 'Fontana', 'Grand Terrace', 'Hesperia', 'Highland', 'Loma Linda',
+        'Montclair', 'Needles', 'Ontario', 'Rancho Cucamonga', 'Redlands', 'Rialto',
+        'San Bernardino', 'Twentynine Palms', 'Upland', 'Victorville', 'Yucaipa', 'Yucca Valley',
+        'Carlsbad', 'Chula Vista', 'Coronado', 'Del Mar', 'El Cajon', 'Encinitas', 'Escondido',
+        'Imperial Beach', 'La Mesa', 'Lemon Grove', 'National City', 'Oceanside', 'Poway',
+        'San Diego', 'San Marcos', 'Santee', 'Solana Beach', 'Vista'
+    ]
+
     if request.method == 'GET':
-        chosen='water'
-    # Fetch agenda data from MongoDB
+        chosen = 'water'
         agenda_items = mongo.db.Agenda.find({
             '$and': [
-                {"MeetingType": {'$regex': "^ City Council $", '$options': 'i'}},  # Case-insensitive match
+                {"MeetingType": {'$regex': "^ City Council $", '$options': 'i'}},
                 {'Date': {'$gte': date_threshold}},
                 {
                     '$and': [
-                        {"Description": {'$not': {'$regex': "minute", '$options': 'i'}}},  # Exclude 'minute'
-                        {"Description": {'$not': {'$regex': "warrant", '$options': 'i'}}}, # Exclude 'warrant'
-                        {"Description": {"$ne": ""}},  # Ensure it's not an empty string
+                        {"Description": {'$not': {'$regex': "minute", '$options': 'i'}}},
+                        {"Description": {'$not': {'$regex': "warrant", '$options': 'i'}}},
+                        {"Description": {"$ne": ""}}
                     ]
                 }
             ]
         }).sort('Date', -1)
 
-        cities = [
-            # Los Angeles County (LA)
-            '', 'Agoura Hills', 'Alhambra', 'Arcadia', 'Artesia', 'Azusa', 'Baldwin Park', 'Bell',
-            'Bellflower', 'Bell Gardens', 'Beverly Hills', 'Bradbury', 'Burbank', 'Calabasas',
-            'Carson', 'Cerritos', 'City of Industry', 'Claremont', 'Commerce', 'Compton',
-            'Covina', 'Cudahy', 'Culver City', 'Diamond Bar', 'Downey', 'Duarte', 'El Monte',
-            'El Segundo', 'Gardena', 'Glendale', 'Glendora', 'Hawaiian Gardens', 'Hawthorne',
-            'Hermosa Beach', 'Hidden Hills', 'Huntington Park', 'Inglewood', 'Irwindale',
-            'La Canada Flintridge', 'La Habra Heights', 'La Mirada', 'La Puente', 'La Verne',
-            'Lakewood', 'Lancaster', 'Lawndale', 'Lomita', 'Long Beach', 'Los Angeles',
-            'Lynwood', 'Malibu', 'Manhattan Beach', 'Maywood', 'Monrovia', 'Montebello',
-            'Monterey Park', 'Norwalk', 'Palmdale', 'Palos Verdes Estates', 'Paramount',
-            'Pasadena', 'Pico Rivera', 'Pomona', 'Rancho Palos Verdes', 'Redondo Beach',
-            'Rolling Hills', 'Rolling Hills Estate', 'Rosemead', 'S Pasadena',
-            'San Dimas', 'San Fernando', 'San Gabriel', 'San Marino', 'Santa Clarita',
-            'Santa Fe Springs', 'Santa Monica', 'Sierra Madre', 'Signal Hill', 'South El Monte',
-            'South Gate', 'Temple City', 'Torrance', 'Vernon', 'Walnut', 'West Covina',
-            'West Hollywood', 'Westlake Village', 'Whittier',
-
-            # Orange County (OC)
-            'Aliso Viejo', 'Anaheim', 'Brea', 'Buena Park', 'Costa Mesa', 'Cypress', 'Dana Point',
-            'Fountain Valley', 'Fullerton', 'Garden Grove', 'Huntington Beach', 'Irvine', 'La Habra', 'La Palma',
-            'Laguna Beach', 'Laguna Hills', 'Laguna Niguel', 'Laguna Woods', 'Lake Forest',
-            'Los Alamitos', 'Mission Viejo', 'Newport Beach', 'Orange', 'Placentia',
-            'Rancho Santa Margarita', 'San Clemente', 'San Juan Capistrano', 'Santa Ana',
-            'Seal Beach', 'Stanton', 'Tustin', 'Villa Park', 'Westminister', 'Yorba Linda',
-
-            # Riverside County (RS)
-            'Banning', 'Beaumont', 'Blythe', 'Calimesa', 'Canyon Lake', 'Cathedral City', 'Coachella',
-            'Corona', 'Desert Hot Springs', 'Eastvale', 'Hemet', 'Indian Wells', 'Indio',
-            'Jurupa Valley', 'Lake Elsinore', 'La Quinta', 'Menifee', 'Moreno Valley', 'Murrieta',
-            'Norco', 'Palm Desert', 'Palm Springs', 'Perris', 'Rancho Mirage', 'Riverside',
-            'San Jacinto', 'Temecula', 'Wildomar',
-
-            # San Bernardino County (SB)
-            'Adelanto', 'Apple Valley', 'Barstow', 'Big Bear Lake', 'Chino', 'Chino Hills',
-            'Colton', 'Fontana', 'Grand Terrace', 'Hesperia', 'Highland', 'Loma Linda',
-            'Montclair', 'Needles', 'Ontario', 'Rancho Cucamonga', 'Redlands', 'Rialto',
-            'San Bernardino', 'Twentynine Palms', 'Upland', 'Victorville', 'Yucaipa', 'Yucca Valley',
-
-            # San Diego County (SD)
-            'Carlsbad', 'Chula Vista', 'Coronado', 'Del Mar', 'El Cajon', 'Encinitas', 'Escondido',
-            'Imperial Beach', 'La Mesa', 'Lemon Grove', 'National City', 'Oceanside', 'Poway',
-            'San Diego', 'San Marcos', 'Santee', 'Solana Beach', 'Vista'
-        ]
-
         cities_matched = []
-
-        # Initialize a dictionary to store city-specific agendas
         city_agendas = {city: {"agendas": [], "topic_counts": Counter()} for city in cities}
 
         for agenda in agenda_items:
-
+            city = agenda.get('City', '').strip()
             if chosen in agenda['Description']:
-                city = agenda.get('City', '').strip()  # Remove extra spaces
                 cities_matched.append(city)
+
             topics = agenda.get('Topics', [])
-
             if city in city_agendas:
-                # Add agenda to the city's list
                 city_agendas[city]["agendas"].append(agenda)
-
-                # Count topics for this city
-                if isinstance(topics, list):  # Check if topics is a list
+                if isinstance(topics, list):
                     city_agendas[city]["topic_counts"].update(topics)
                 else:
-                    city_agendas[city]["topic_counts"].update([topics])  # Handle single topic as a string
+                    city_agendas[city]["topic_counts"].update([topics])
             else:
                 print(f"City not found in the predefined list: {city}")
 
@@ -661,85 +647,50 @@ def index():
         geo_info = fetch_geo_info(city_issue_counts)
         folium_map = create_folium_map(geo_info)
 
-        return render_template('index.html', folium_map=folium_map._repr_html_(), chosen=chosen, form=form, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
+        return render_template('index.html', folium_map=folium_map._repr_html_(),
+                               chosen=chosen, form=form,
+                               city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
+
     elif request.method == 'POST' and request.form.get('chartSearch'):
         try:
             chose = request.form['chartSearch']
-            chosen= "\""+chose+"\"" # Allows for exact phrases
-            mongo.db.User.find_one_and_update({'username':'Esther'}, {'$push': {'searches':chosen}}, upsert = True)
+            chosen = f'"{chose}"'
+            mongo.db.User.find_one_and_update(
+                {'username': 'Esther'},
+                {'$push': {'searches': chosen}},
+                upsert=True
+            )
 
-        # Fetch agenda data from MongoDB
             agenda_items = mongo.db.Agenda.find({
                 '$and': [
                     {'$text': {"$search": chosen}},
-                    {"MeetingType": " City Council "},
+                    {"MeetingType": {'$regex': "^ City Council $", '$options': 'i'}},
                     {'Date': {'$gte': date_threshold}}
                 ]
             }).sort('Date', -1)
 
-            cities = [
-                # Los Angeles County (LA)
-                '', 'Agoura Hills', 'Alhambra', 'Arcadia', 'Artesia', 'Azusa', 'Baldwin Park', 'Bell',
-                'Bellflower', 'Bell Gardens', 'Beverly Hills', 'Bradbury', 'Burbank', 'Calabasas',
-                'Carson', 'Cerritos', 'City of Industry', 'Claremont', 'Commerce', 'Compton',
-                'Covina', 'Cudahy', 'Culver City', 'Diamond Bar', 'Downey', 'Duarte', 'El Monte',
-                'El Segundo', 'Gardena', 'Glendale', 'Glendora', 'Hawaiian Gardens', 'Hawthorne',
-                'Hermosa Beach', 'Hidden Hills', 'Huntington Park', 'Inglewood', 'Irwindale',
-                'La Canada Flintridge', 'La Habra Heights', 'La Mirada', 'La Puente', 'La Verne',
-                'Lakewood', 'Lancaster', 'Lawndale', 'Lomita', 'Long Beach', 'Los Angeles',
-                'Lynwood', 'Malibu', 'Manhattan Beach', 'Maywood', 'Monrovia', 'Montebello',
-                'Monterey Park', 'Norwalk', 'Palmdale', 'Palos Verdes Estates', 'Paramount',
-                'Pasadena', 'Pico Rivera', 'Pomona', 'Rancho Palos Verdes', 'Redondo Beach',
-                'Rolling Hills', 'Rolling Hills Estates', 'Rosemead', 'South Pasadena',
-                'San Dimas', 'San Fernando', 'San Gabriel', 'San Marino', 'Santa Clarita',
-                'Santa Fe Springs', 'Santa Monica', 'Sierra Madre', 'Signal Hill', 'South El Monte',
-                'South Gate', 'Temple City', 'Torrance', 'Vernon', 'Walnut', 'West Covina',
-                'West Hollywood', 'Westlake Village', 'Whittier',
-
-                # Orange County (OC)
-                'Aliso Viejo', 'Anaheim', 'Brea', 'Buena Park', 'Costa Mesa', 'Cypress', 'Dana Point',
-                'Fountain Valley', 'Fullerton', 'Huntington Beach', 'Irvine', 'La Habra', 'La Palma',
-                'Laguna Beach', 'Laguna Hills', 'Laguna Niguel', 'Laguna Woods', 'Lake Forest',
-                'Los Alamitos', 'Mission Viejo', 'Newport Beach', 'Orange', 'Placentia',
-                'Rancho Santa Margarita', 'San Clemente', 'San Juan Capistrano', 'Santa Ana',
-                'Seal Beach', 'Stanton', 'Tustin', 'Villa Park', 'Westminster', 'Yorba Linda',
-
-                # Riverside County (RS)
-                'Banning', 'Beaumont', 'Blythe', 'Calimesa', 'Canyon Lake', 'Cathedral City', 'Coachella',
-                'Corona', 'Desert Hot Springs', 'Eastvale', 'Hemet', 'Indian Wells', 'Indio',
-                'Jurupa Valley', 'Lake Elsinore', 'La Quinta', 'Menifee', 'Moreno Valley', 'Murrieta',
-                'Norco', 'Palm Desert', 'Palm Springs', 'Perris', 'Rancho Mirage', 'Riverside',
-                'San Jacinto', 'Temecula', 'Wildomar',
-
-                # San Bernardino County (SB)
-                'Adelanto', 'Apple Valley', 'Barstow', 'Big Bear Lake', 'Chino', 'Chino Hills',
-                'Colton', 'Fontana', 'Grand Terrace', 'Hesperia', 'Highland', 'Loma Linda',
-                'Montclair', 'Needles', 'Ontario', 'Rancho Cucamonga', 'Redlands', 'Rialto',
-                'San Bernardino', 'Twentynine Palms', 'Upland', 'Victorville', 'Yucaipa', 'Yucca Valley',
-
-                # San Diego County (SD)
-                'Carlsbad', 'Chula Vista', 'Coronado', 'Del Mar', 'El Cajon', 'Encinitas', 'Escondido',
-                'Imperial Beach', 'La Mesa', 'Lemon Grove', 'National City', 'Oceanside', 'Poway',
-                'San Diego', 'San Marcos', 'Santee', 'Solana Beach', 'Vista'
-            ]
-
-            # Initialize a dictionary to store city-specific agendas
             city_agendas = {city: [] for city in cities}
             cities_matched = []
 
             for agenda in agenda_items:
-                city = agenda.get('City', '').strip()  # Remove extra spaces
+                city = agenda.get('City', '').strip()
                 cities_matched.append(city)
                 if city in city_agendas:
                     city_agendas[city].append(agenda)
 
-        # Create frequency dictionary per city for folium map
             city_issue_counts = Counter(cities_matched)
             geo_info = fetch_geo_info(city_issue_counts)
             folium_map = create_folium_map(geo_info)
-        except:
-            flash('Sorry. No matches found')
-    return render_template('descriptionLink.html', folium_map=folium_map._repr_html_(), form=form,chosen=chosen, city_agendas=city_agendas, title="Policy Edge Tracking Agendas")
+
+            return render_template('descriptionLink.html',
+                                   folium_map=folium_map._repr_html_(),
+                                   form=form, chosen=chosen,
+                                   city_agendas=city_agendas,
+                                   title="Policy Edge Tracking Agendas")
+        except Exception as e:
+            print("POST error:", e)
+            flash("Sorry. No matches found.")
+            return redirect(url_for('index'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
