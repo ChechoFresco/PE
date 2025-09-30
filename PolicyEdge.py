@@ -626,18 +626,19 @@ def index():
         city_agendas = {city: {"agendas": [], "topic_counts": Counter()} for city in cities}
 
         for agenda in agenda_items:
+            agenda_city = agenda.get('City', '')
             if chosen in agenda['Description']:
-                cities_matched.append(city)
-
+                cities_matched.append(agenda_city)
+        
             topics = agenda.get('Topics', [])
-            if city in city_agendas:
-                city_agendas[city]["agendas"].append(agenda)
+            if agenda_city in city_agendas:
+                city_agendas[agenda_city]["agendas"].append(agenda)
                 if isinstance(topics, list):
-                    city_agendas[city]["topic_counts"].update(topics)
+                    city_agendas[agenda_city]["topic_counts"].update(topics)
                 else:
-                    city_agendas[city]["topic_counts"].update([topics])
+                    city_agendas[agenda_city]["topic_counts"].update([topics])
             else:
-                print(f"City not found in the predefined list: {city}")
+                print(f"City not found in the predefined list: {agenda_city}")
 
         city_issue_counts = Counter(cities_matched)
         geo_info = fetch_geo_info(city_issue_counts)
