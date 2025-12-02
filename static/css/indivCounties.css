@@ -9,7 +9,7 @@
 
 /* Main Table*/
 
-div.mainTable{
+div.conTable{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
