@@ -50,13 +50,13 @@ caption:after {
 }
 /* Table*/
 
-#table_1 {
+.table_1 {
   table-layout: fixed;
   border:none;
-  background: white;
+  background: transparent;
   border-radius:3rem
 }
-#table_1:empty {
+.table_1:empty {
   display: none;
 }
 .table-bordered {
@@ -177,6 +177,7 @@ a.dropdown-item{
   text-decoration: none;
   padding: 2px;
 }
+
 
 
 @media screen and (min-width: 001px) and (max-width: 400px){
