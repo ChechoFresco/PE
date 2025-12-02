@@ -45,35 +45,43 @@
     {% for city, agendas in city_agendas.items() %}
         {% if agendas %}
         <div class="texture">
-            <table class="table_1" data-toggle="table" data-sortable="true" data-pagination="true" data-show-columns="true"
-                data-page-size='5' class="table-responsive">
+            <table class="table_1 table-responsive" data-toggle="table" data-sortable="true" data-pagination="true" data-show-columns="true"
+            data-page-size='5'>
                 <caption class="reize">{{ city }}</caption>
-                <thead class='h-12'>
+                <thead>
                     <tr>
                         <th data-field='row-Date' data-sortable="true">Date</th>
                         <th class='none' data-field='row-County'>County</th>
-                        <th class='none' data-field='row-City' >City</th>
+                        <th class='none' data-field='row-City'>City</th>
                         <th class='none' data-field='row-MeetingType'>Meeting Type</th>
                         <th data-field='row-Item' data-sortable="true">Item Type</th>
                         <th data-field='row-Num' data-sortable="true">Item</th>
-                        <th class='none' data-field='row-Description'>Item</th>
+                        <th class='none' data-field='row-Description'>Description</th>
+                        <th class='none' data-field='row-Details'>Details</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for agenda in agendas %}
-                        <tr class="lineSep">
-                            <td class='none'>{{agenda.Date}}</td>
-                            <td class='none'>{{agenda.ItemType}}</td>
-                            <td class='description'>{{agenda.Description}}</td>
-                            <td class='infoLocation'><span class="glyphicon glyphicon-calendar">
-                                </span>{{agenda.Date|aTime}}<span class="glyphicon glyphicon-briefcase">
-                                </span>{{agenda.ItemType}} <span>#</span>{{agenda.Num}}</td>
-                        </tr>
+                    <tr class="lineSep">
+                        <td class='none'>{{agenda.Date}}</td>
+                        <td class='none'>{{agenda.County}}</td>
+                        <td class='none'>{{agenda.City}}</td>
+                        <td class='none'>{{agenda.MeetingType}}</td>
+                        <td class='none'>{{agenda.ItemType}}</td>
+                        <td class='none'>{{agenda.Num}}</td>
+                        <td class='description'>{{agenda.Description}}</td>
+                        <td class='infoLocation'>
+                            <span class="glyphicon glyphicon-calendar"></span>
+                            {{agenda.Date|aTime}}
+                            <span class="glyphicon glyphicon-briefcase"></span>
+                            {{agenda.ItemType}}
+                            <span>#</span>{{agenda.Num}}
+                        </td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        {% else %}
         {% endif %}
     {% endfor %}
 </div>
