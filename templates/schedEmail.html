@@ -1,38 +1,234 @@
 <!DOCTYPE html>
-    <head>
-    </head>
-    <body>
-        <table style="border: 1px solid #dddddd;border-radius: 12px;">
-            <table>
-                <td style= 'width:100vw; text-align:center;'>
-                    <img src="cid:voucher_png" width=600 >
-                </td>
-            </table>
-            <table style = 'width: 66%;height: 1px;background:radial-gradient(orange,blue);margin:auto'></table>
-            <p style ='font-size: 16px;font-weight: normal;color: darkslategrey;font-family:Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;' >&nbsp;&nbsp;&nbsp;&nbsp;Hi {{ username }},</p>
-            <p style ='font-size: 16px;font-weight: normal;color: darkslategrey;font-family:Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;'> &nbsp;&nbsp;&nbsp;&nbsp;Here are the keywords that were mentioned this week. </p>
-
-            {% for a, b, c ,d ,e, f,g in packed: %}
-            <p style='font-size:20px;font-weight:normal;color:drakorange;font-family:sans-Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;text-transform:capitalize;text-align:center'>{{a}}</p>
-            <table style="background-color:#5e7cff;width: 95%;margin:auto" >
-                <p style='font-size: 14px;font-weight: normal; color: white;font-family: sans-Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;text-align:center'>
-                    <span style="font-weight: bold;">County:</span>{{d}}&nbsp;
-                    <span style="font-weight: bold;">City:</span>{{b}}&nbsp;
-                    <span style="font-weight: bold;">Meeting Type:</span>{{c}}&nbsp;
-                    <span style="font-weight: bold;">Date:</span>{{e}}&nbsp;
-                    <span style="font-weight: bold;">Link:</span>{{g}}&nbsp;
-                </p>
-            </table>
-            <table style="width: 94%;margin:auto">
-                <p style='font-size: 14px;font-weight: normal; color: slategray;font-family: sans-Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;'>{{f}}</p>
-            </table>
-            <br></br>
-            <table style = 'width: 66%;height: 1px;background:radial-gradient(orange,blue);margin:auto'></table>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #5e7cff;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .logo {
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 200px;
+            height: auto;
+        }
+        .content {
+            padding: 30px;
+        }
+        .greeting {
+            font-size: 18px;
+            color: darkslategrey;
+            margin-bottom: 10px;
+        }
+        .intro {
+            color: slategrey;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .keyword-highlight {
+            background-color: #f0f7ff;
+            border-left: 4px solid #5e7cff;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+        .keyword {
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: capitalize;
+        }
+        .agenda-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: ghostwhite;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            border-left: 4px solid #5e7cff;
+        }
+        .agenda-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .agenda-title {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .agenda-date {
+            background-color: #5e7cff;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .agenda-details {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .detail-label {
+            color: #5e7cff;
+            font-weight: bold;
+        }
+        .agenda-description {
+            color: #333;
+            line-height: 1.5;
+            font-size: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+        .signature {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .signature img {
+            max-width: 150px;
+            height: auto;
+        }
+        .stats {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        .stats-number {
+            font-size: 32px;
+            color: #5e7cff;
+            font-weight: bold;
+        }
+        .stats-label {
+            font-size: 16px;
+            color: slategrey;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Logo -->
+        <div class="header">
+            <div class="logo">
+                <img src="cid:logo" alt="Policy Edge Logo">
+            </div>
+            <h1 style="margin: 0; font-size: 24px;">New Agenda Items Found</h1>
+            <p style="margin: 10px 0 0 0; opacity: 0.9;">Your Personalized Government Tracking Update</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Greeting -->
+            <p class="greeting">Hi {{ username }},</p>
+            <p class="intro">We've been monitoring government agendas and found new items matching your interests:</p>
+            
+            <!-- Stats Summary -->
+            <div class="stats">
+                <div class="stats-number">{{ agendas|length }}</div>
+                <div class="stats-label">New Agenda Items Found</div>
+            </div>
+            
+            <!-- Keyword that triggered the match -->
+            {% if search_term %}
+            <div class="keyword-highlight">
+                <div class="keyword">Keyword: "{{ search_term }}"</div>
+                <p style="margin: 0; color: #666;">The following items match your search for <strong>"{{ search_term }}"</strong></p>
+            </div>
+            {% endif %}
+            
+            <!-- Agenda Items -->
+            {% for agenda in agendas %}
+            <div class="agenda-item">
+                <div class="agenda-header">
+                    <div class="agenda-title">{{ agenda.get('MeetingType', 'Government Meeting') }}</div>
+                    <div class="agenda-date">
+                        {% set date_str = agenda.get('Date', '')|string %}
+                        {% if date_str|length == 8 and date_str.isdigit() %}
+                            {{ date_str[4:6] }}/{{ date_str[6:8] }}/{{ date_str[0:4] }}
+                        {% else %}
+                            {{ date_str }}
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="agenda-details">
+                    {% if agenda.get('City') %}
+                    <div><span class="detail-label">City:</span> {{ agenda.get('City') }}</div>
+                    {% endif %}
+                    
+                    {% if agenda.get('County') %}
+                    <div><span class="detail-label">County:</span> {{ agenda.get('County') }}</div>
+                    {% endif %}
+                    
+                    {% if agenda.get('Committee') %}
+                    <div><span class="detail-label">Committee:</span> {{ agenda.get('Committee') }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="agenda-description">
+                    {{ agenda.get('Description', 'No description available') }}
+                </div>
+            </div>
             {% endfor %}
-            <p style='font-size: 16px;font-weight: normal; color: darkslategrey;font-family: sans-Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;'>Thanks for your continued support,</p>
-            <img src="cid:voucher_png" width=250>
-        <table>
-    </body>
+            
+            <!-- Closing -->
+            <p style="margin-top: 30px; color: #555;">
+                <strong>What happens next?</strong><br>
+                We'll continue monitoring and notify you when new matching items appear.
+            </p>
+            
+            <!-- Signature -->
+            <div class="signature">
+                <p style="margin-bottom: 15px; color: slategrey;">Thanks for your continued support,</p>
+                <img src="cid:logo" alt="Policy Edge Logo" style="max-width: 150px;">
+                <p style="margin-top: 5px; font-size: 12px; color: #888;">Policy Edge Team</p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>Policy Edge - Tracking government agendas for you</p>
+            <p style="font-size: 12px; color: #999;">
+                You're receiving this email because you subscribed to notifications.<br>
+                To manage your preferences or unsubscribe, visit your account settings.
+            </p>
+        </div>
+    </div>
+</body>
 </html>
-
-
