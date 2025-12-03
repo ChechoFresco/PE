@@ -375,7 +375,7 @@ def process_user_email_notifications(user, today):
     """Process and send email notifications for a single user"""
     username = user.get('username')
     email = user.get('email')
-    
+
     if not email or not user.get('subscriptionActive'):
         return
 
@@ -390,7 +390,7 @@ def process_user_email_notifications(user, today):
         {'username': username},
         {'issues': 1, 'agendaUnique_id': 1, '_id': 0}
     )
-    
+
     if not user_data or not user_data.get('issues'):
         return
 
@@ -400,25 +400,32 @@ def process_user_email_notifications(user, today):
     # Find matching agendas that user hasn't seen yet
     new_agendas = []
     for issue in issues:
+        search_term = issue.get('searchWord', '')  # Get the user's search term
+
         query = {
             '$and': [
                 {"MeetingType": {'$regex': issue.get('Committee', ''), '$options': 'i'}},
                 {"City": {'$regex': issue.get('City', ''), '$options': 'i'}},
                 {"County": {'$regex': issue.get('County', ''), '$options': 'i'}},
-                {'Description': {"$regex": issue.get('searchWord', ''), '$options': 'i'}},
+                {'Description': {"$regex": search_term, '$options': 'i'}},
                 {'Date': {'$gte': today}}
             ]
         }
         matching_agendas = list(mongo.db.Agenda.find(query))
-        
+
         for agenda in matching_agendas:
+            print(agenda)
             if agenda['_id'] not in seen_agenda_ids:
-                new_agendas.append(agenda)
+                # Create a copy with the search term included
+                agenda_data = dict(agenda)
+                agenda_data['searchWord'] = search_term  # Add search term
+                agenda_data['user_search_term'] = search_term  # Alternative key
+                new_agendas.append(agenda_data)  # FIXED: Use agenda_data instead of agenda!
                 # Mark as seen
                 mongo.db.User.update_one(
                     {'username': username},
                     {'$addToSet': {'agendaUnique_id': {
-                        '_id': agenda['_id'], 
+                        '_id': agenda['_id'],
                         'Date': agenda['Date']
                     }}}
                 )
@@ -432,16 +439,30 @@ def send_agenda_email(username, email, agendas):
     try:
         subject = f'You have {len(agendas)} new agenda items from Policy Edge'
         msg = Message(
-            subject, 
-            sender='AgendaPreciado@gmail.com', 
+            subject,
+            sender='AgendaPreciado@gmail.com',
             recipients=[email]
         )
-        
+
+        # Extract the search term that triggered this match
+        # Assuming all agendas were found by the same search term
+        search_term = ""
+        if agendas:
+            # Try to get search term from agenda data
+            search_term = agendas[0].get('searchWord', '')
+            # If not in agenda data, extract from the first agenda's description
+            # by finding what the user was searching for
+            if not search_term and agendas[0].get('Description'):
+                # This is a simplified approach - you should pass the actual search term
+                # from the user's issue
+                search_term = "your search"  # Placeholder
+
         # Render email template with agenda data
-        msg.html = render_template('schedEmail.html', 
-                                 username=username, 
-                                 agendas=agendas)
-        
+        msg.html = render_template('schedEmail.html',
+                                username=username,
+                                agendas=agendas,
+                                search_term=search_term)
+
         # Attach logo
         with app.open_resource('/app/static/logo.png') as fp:
             msg.attach(
@@ -451,7 +472,7 @@ def send_agenda_email(username, email, agendas):
                 disposition="inline",
                 headers={"Content-ID": "<logo_png>"}
             )
-        
+
         mail.send(msg)
         logger.info(f"Email sent to {username} at {email}. Items: {len(agendas)}")
         
