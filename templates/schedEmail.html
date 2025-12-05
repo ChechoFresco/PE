@@ -2,233 +2,158 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background-color: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .header {
-            background-color: #5e7cff;
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-        .logo {
-            margin-bottom: 20px;
-        }
-        .logo img {
-            max-width: 200px;
-            height: auto;
-        }
-        .content {
-            padding: 30px;
-        }
-        .greeting {
-            font-size: 18px;
-            color: darkslategrey;
-            margin-bottom: 10px;
-        }
-        .intro {
-            color: slategrey;
-            font-size: 16px;
-            margin-bottom: 30px;
-        }
-        .keyword-highlight {
-            background-color: #f0f7ff;
-            border-left: 4px solid #5e7cff;
-            padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 4px;
-        }
-        .keyword {
-            font-size: 20px;
-            color: #2c3e50;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-transform: capitalize;
-        }
-        .agenda-item {
-            margin-bottom: 25px;
-            padding: 20px;
-            background-color: ghostwhite;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            border-left: 4px solid #5e7cff;
-        }
-        .agenda-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        .agenda-title {
-            font-weight: bold;
-            color: #2c3e50;
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        .agenda-date {
-            background-color: #5e7cff;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .agenda-details {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .detail-label {
-            color: #5e7cff;
-            font-weight: bold;
-        }
-        .agenda-description {
-            color: #333;
-            line-height: 1.5;
-            font-size: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            text-align: center;
-            color: #777;
-            font-size: 14px;
-        }
-        .signature {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .signature img {
-            max-width: 150px;
-            height: auto;
-        }
-        .stats {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            text-align: center;
-            border: 1px solid #e0e0e0;
-        }
-        .stats-number {
-            font-size: 32px;
-            color: #5e7cff;
-            font-weight: bold;
-        }
-        .stats-label {
-            font-size: 16px;
-            color: slategrey;
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header with Logo -->
-        <div class="header">
-            <div class="logo">
-                <img src="cid:logo" alt="Policy Edge Logo">
-            </div>
-            <h1 style="margin: 0; font-size: 24px;">New Agenda Items Found</h1>
-            <p style="margin: 10px 0 0 0; opacity: 0.9;">Your Personalized Government Tracking Update</p>
-        </div>
-        
-        <!-- Content -->
-        <div class="content">
-            <!-- Greeting -->
-            <p class="greeting">Hi {{ username }},</p>
-            <p class="intro">We've been monitoring government agendas and found new items matching your interests:</p>
-            
-            <!-- Stats Summary -->
-            <div class="stats">
-                <div class="stats-number">{{ agendas|length }}</div>
-                <div class="stats-label">New Agenda Items Found</div>
-            </div>
-            
-            <!-- Keyword that triggered the match -->
-            {% if search_term %}
-            <div class="keyword-highlight">
-                <div class="keyword">Keyword: "{{ search_term }}"</div>
-                <p style="margin: 0; color: #666;">The following items match your search for <strong>"{{ search_term }}"</strong></p>
-            </div>
-            {% endif %}
-            
-            <!-- Agenda Items -->
-            {% for agenda in agendas %}
-            <div class="agenda-item">
-                <div class="agenda-header">
-                    <div class="agenda-title">{{ agenda.get('MeetingType', 'Government Meeting') }}</div>
-                    <div class="agenda-date">
-                        {% set date_str = agenda.get('Date', '')|string %}
-                        {% if date_str|length == 8 and date_str.isdigit() %}
-                            {{ date_str[4:6] }}/{{ date_str[6:8] }}/{{ date_str[0:4] }}
-                        {% else %}
-                            {{ date_str }}
-                        {% endif %}
-                    </div>
-                </div>
-                
-                <div class="agenda-details">
-                    {% if agenda.get('City') %}
-                    <div><span class="detail-label">City:</span> {{ agenda.get('City') }}</div>
-                    {% endif %}
-                    
-                    {% if agenda.get('County') %}
-                    <div><span class="detail-label">County:</span> {{ agenda.get('County') }}</div>
-                    {% endif %}
-                    
-                    {% if agenda.get('Committee') %}
-                    <div><span class="detail-label">Committee:</span> {{ agenda.get('Committee') }}</div>
-                    {% endif %}
-                </div>
-                
-                <div class="agenda-description">
-                    {{ agenda.get('Description', 'No description available') }}
-                </div>
-            </div>
-            {% endfor %}
-            
-            <!-- Closing -->
-            <p style="margin-top: 30px; color: #555;">
-                <strong>What happens next?</strong><br>
-                We'll continue monitoring and notify you when new matching items appear.
-            </p>
-            
-            <!-- Signature -->
-            <div class="signature">
-                <p style="margin-bottom: 15px; color: slategrey;">Thanks for your continued support,</p>
-                <img src="cid:logo" alt="Policy Edge Logo" style="max-width: 150px;">
-                <p style="margin-top: 5px; font-size: 12px; color: #888;">Policy Edge Team</p>
-            </div>
-        </div>
-        
-        <!-- Footer -->
-        <div class="footer">
-            <p>Policy Edge - Tracking government agendas for you</p>
-            <p style="font-size: 12px; color: #999;">
-                You're receiving this email because you subscribed to notifications.<br>
-                To manage your preferences or unsubscribe, visit your account settings.
-            </p>
-        </div>
-    </div>
+    {% macro simple_highlight(text, term) %}
+    {% if term and text %}
+        {% if term in text %}
+            {{ text|replace(term, '<strong><u>' + term + '</u></strong>')|safe }}
+        {% else %}
+            {{ text }}
+        {% endif %}
+    {% else %}
+        {{ text }}
+    {% endif %}
+{% endmacro %}
+    <table style="width:100%; background-color: slategrey; padding: 20px;" id="Background">
+        <tr>
+            <td align="center">
+                <table style="border:1px solid #5e7cff; border-radius:12px; max-width:700px; background-color:ghostwhite" id="innerPanel">
+                    <!-- Header with Logo -->
+                    <tr>
+                        <td style="text-align:center; padding: 30px 20px; background-color: #5e7cff53; border-radius: 12px 12px 0 0;">
+                            <img src="cid:logo" alt="Policy Edge Logo" width="400" height="90" style="display: block; margin: 0 auto;">
+                            <h1 style="margin: 20px 0 0 0; font-size: 24px; color: white; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
+                                New Agenda Items Found
+                            </h1>
+                        </td>
+                    </tr>
+
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 30px;">
+                            <!-- Greeting -->
+                            <p style='line-height:30px;font-size: 16px; font-weight:normal; color:darkslategrey; font-family:Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;'>
+                                Hi {{ username }},
+                            </p>
+                            <p style='font-size: 16px; font-weight:normal; color:darkslategrey; font-family:Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;margin-top:-11px;word-wrap: break-word;'>
+                                We've been monitoring government agendas and found new items matching your interests:
+                            </p>
+
+                            <!-- Stats Summary -->
+                            <table style="width:100%; background-color: #f8f9fa; border:1px solid #e0e0e0; border-radius:8px; margin: 20px 0; padding: 15px;">
+                                <tr>
+                                    <td align="center">
+                                        <div style="font-size: 32px; color: #5e7cff; font-weight: bold;">{{ total_agendas }}</div>
+                                        <div style="font-size: 16px; color: slategrey;">New Agenda Items Found</div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Items grouped by search term -->
+                            {% for search_term, agendas in agendas_by_search_term.items() %}
+                            <!-- Search Term Header -->
+                            <table style="width:100%; background-color: #f0f7ff; border-left: 4px solid #5e7cff; border-radius:4px; margin-bottom: 20px; padding: 15px;">
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 18px; color: #2c3e50; font-weight: bold; margin-bottom: 5px;">
+                                            Keyword: "{{ search_term|title}}"
+                                        </div>
+                                        <p style="margin: 0; color: #666; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
+                                            Found {{ agendas|length }} matching item{{ 's' if agendas|length > 1 else '' }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Agenda Items for this search term -->
+                            {% for agenda in agendas %}
+                            <table style="width:100%; margin-bottom: 25px; padding: 20px; background-color: ghostwhite; border: 1px solid #e0e0e0; border-radius: 8px; border-left: 4px solid #5e7cff;">
+                                <tr>
+                                    <td>
+                                        <!-- Agenda Header with flexible layout -->
+                                        <table style="width:100%; margin-bottom: 15px;">
+                                            <tr>
+                                                <td style="vertical-align: top;">
+                                                    <!-- Meeting Type Badge -->
+                                                    {% if agenda.get('MeetingType') %}
+                                                    <span style="background-color: #5e7cff; color: white; padding: 5px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; display: inline-block; margin-right: 10px; margin-bottom: 5px;">
+                                                        {{ agenda.get('MeetingType') }}
+                                                    </span>
+                                                    {% endif %}
+                                                    
+                                                    <!-- City -->
+                                                    {% if agenda.get('City') %}
+                                                    <span style="background-color: #5e7cff; color: white; padding: 5px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; display: inline-block; margin-right: 10px; margin-bottom: 5px;">
+                                                        {{ agenda.get('City') }}
+                                                    </span>
+                                                    {% endif %}
+                                                    
+                                                    <!-- County -->
+                                                    {% if agenda.get('County') %}
+                                                    <span style="background-color: #5e7cff; color: white; padding: 5px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; display: inline-block; margin-right: 10px; margin-bottom: 5px;">
+                                                        {{ agenda.get('County') }}
+                                                    </span>
+                                                    {% endif %}
+                                                
+                                                <!-- Date aligned to the right -->
+                                                    {% set date_str = agenda.get('Date', '')|string %}
+                                                    <span style="background-color: #5e7cff; color: white; padding: 5px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; display: inline-block;">
+                                                        {% if date_str|length == 8 and date_str.isdigit() %}
+                                                            {{ date_str[4:6] }}/{{ date_str[6:8] }}/{{ date_str[0:4] }}
+                                                        {% else %}
+                                                            {{ date_str }}
+                                                        {% endif %}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                            
+                                        <!-- Description Separator -->
+                                        <table style="width:100%; border-top: 1px solid #eee; margin: 15px 0;"></table>
+
+                                        <!-- Agenda Description with Highlighting -->
+                                        <div style="color: #333; line-height: 1.5; font-size: 15px; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
+                                            {{ agenda.get('Description', 'No description available')|highlight_corners(search_term) }}
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            {% endfor %}
+                            {% endfor %}
+
+                            <!-- What Happens Next -->
+                            <table style="width:100%; margin-top: 30px;">
+                                <tr>
+                                    <td>
+                                        <p style="color: #555; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
+                                            <strong>What happens next?</strong><br>
+                                            We'll continue monitoring and notify you when new matching items appear.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Signature -->
+                            <table style="width:100%; margin-top: 30px;">
+                                <tr>
+                                    <td align="center">
+                                        <p style="margin-bottom: 15px; color: slategrey; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
+                                            Thanks for your continued support,
+                                        </p>
+                                        <img src="cid:logo" alt="Policy Edge Logo" width="150" height="auto" style="display: block; margin: 0 auto;">
+                                        <p style="margin-top: 5px; font-size: 12px; color: #888; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
+                                            Policy Edge Team
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
