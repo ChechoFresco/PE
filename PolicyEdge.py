@@ -397,11 +397,14 @@ def process_user_email_notifications(user, today):
     issues = user_data['issues']
     seen_agenda_ids = {agenda['_id'] for agenda in user_data.get('agendaUnique_id', [])}
 
-    # Find matching agendas that user hasn't seen yet
-    new_agendas = []
+    # Dictionary to store agendas grouped by search term
+    agendas_by_search_term = {}
+    
     for issue in issues:
-        search_term = issue.get('searchWord', '')  # Get the user's search term
-
+        search_term = issue.get('searchWord', '')
+        if not search_term:
+            continue
+            
         query = {
             '$and': [
                 {"MeetingType": {'$regex': issue.get('Committee', ''), '$options': 'i'}},
@@ -414,13 +417,17 @@ def process_user_email_notifications(user, today):
         matching_agendas = list(mongo.db.Agenda.find(query))
 
         for agenda in matching_agendas:
-            print(agenda)
             if agenda['_id'] not in seen_agenda_ids:
                 # Create a copy with the search term included
                 agenda_data = dict(agenda)
-                agenda_data['searchWord'] = search_term  # Add search term
-                agenda_data['user_search_term'] = search_term  # Alternative key
-                new_agendas.append(agenda_data)  # FIXED: Use agenda_data instead of agenda!
+                agenda_data['searchWord'] = search_term
+                agenda_data['matchedSearchTerm'] = search_term
+                
+                # Group by search term
+                if search_term not in agendas_by_search_term:
+                    agendas_by_search_term[search_term] = []
+                agendas_by_search_term[search_term].append(agenda_data)
+                
                 # Mark as seen
                 mongo.db.User.update_one(
                     {'username': username},
@@ -431,38 +438,33 @@ def process_user_email_notifications(user, today):
                 )
 
     # Send email if there are new agendas
-    if new_agendas:
-        send_agenda_email(username, email, new_agendas)
+    if agendas_by_search_term:
+        send_agenda_email(username, email, agendas_by_search_term)
 
-def send_agenda_email(username, email, agendas):
-    """Send email notification about new matching agendas"""
+def send_agenda_email(username, email, agendas_by_search_term):
+    """Send email notification about new matching agendas grouped by search term"""
     try:
-        subject = f'You have {len(agendas)} new agenda items from Policy Edge'
+        # Calculate total agendas
+        total_agendas = sum(len(agendas) for agendas in agendas_by_search_term.values())
+        
+        subject = f'You have {total_agendas} new agenda items from Policy Edge'
         msg = Message(
             subject,
             sender='AgendaPreciado@gmail.com',
             recipients=[email]
         )
 
-        # Extract the search term that triggered this match
-        # Assuming all agendas were found by the same search term
-        search_term = ""
-        if agendas:
-            # Try to get search term from agenda data
-            search_term = agendas[0].get('searchWord', '')
-            # If not in agenda data, extract from the first agenda's description
-            # by finding what the user was searching for
-            if not search_term and agendas[0].get('Description'):
-                # This is a simplified approach - you should pass the actual search term
-                # from the user's issue
-                search_term = "your search"  # Placeholder
+        # Log what we're about to send
+        logger.info(f"Sending email to {username}")
+        logger.info(f"Search terms found: {list(agendas_by_search_term.keys())}")
+        logger.info(f"Total items: {total_agendas}")
 
-        # Render email template with agenda data
+        # Render the template with grouped data
         msg.html = render_template('schedEmail.html',
                                 username=username,
-                                agendas=agendas,
-                                search_term=search_term)
-
+                                agendas_by_search_term=agendas_by_search_term,
+                                total_agendas=total_agendas)
+        
         # Attach logo
         with app.open_resource('/app/static/logo.png') as fp:
             msg.attach(
@@ -473,11 +475,15 @@ def send_agenda_email(username, email, agendas):
                 headers={"Content-ID": "<logo_png>"}
             )
 
+        # Send the email
         mail.send(msg)
-        logger.info(f"Email sent to {username} at {email}. Items: {len(agendas)}")
-        
+        logger.info(f"✓ Email successfully sent to {username} at {email}")
+
     except Exception as e:
-        logger.error(f"Failed to send email to {username} ({email}): {e}")
+        logger.error(f"✗ Failed to send email to {username} ({email}): {e}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        
 
 def process_topics():
     """Background job to automatically categorize agenda items by topic"""
