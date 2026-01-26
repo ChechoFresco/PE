@@ -125,7 +125,7 @@
     /* Table*/
 
     div.texture {
-        width: 55rem;
+        width: 60rem;
         border-radius: 1rem;
         margin-bottom: 2rem;
         overflow: hidden;
@@ -205,7 +205,7 @@
         font-size: 1.1rem;
     }
     .table-hover>tbody>tr:hover {
-    background-color: var(--black);
+        background-color: var(--black);
     }
     td.none {
         display: none;
@@ -223,7 +223,7 @@
         white-space: break-spaces;
         text-shadow: 2px 2px 2px black;
         color: var(--gray);
-        max-height: 6rem;
+        max-height: 8rem;
         /* Initial collapsed height */
         overflow: hidden;
         /* Hide overflowing content */
