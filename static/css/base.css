@@ -135,71 +135,59 @@ html, body {
   }
 
 /* Add a black background color to the top navigation */
+/* Add a black background color to the top navigation */
 .topnav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  min-height: 90px;
-  padding: 0 2rem;
+  overflow: hidden;
+  margin: auto;
+  position: relative;
   border-bottom: 1px solid var(--white);
 }
 
-/* Right side container */
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 2rem; /* spacing between links */
-}
-
+/* Style the links inside the navigation bar */
 .topnav a {
-  display: flex;
-  align-items: center;
-  font-size: var(--fontNav);
-  text-decoration: none;
-  font-family: "Montserrat", sans-serif;
-  color: var(--white);
-}
-
-.topnav a:not(:first-child) {
-  margin-top: 15px;
-  padding: 1rem 3rem;
-  font-family: "Montserrat", sans-serif;
-  color: var(--white);
+display: flex;
+font-size: var(--fontNav);
+float: left;
 }
 
 /* Add an active class to highlight the current page */
 .topnav a.logo {
-  background-color: transparent;
+background-color: transparent;
 }
 
 #login {
-  background-image: var(--rad);
-  background-repeat: no-repeat;
-  background-position-y: 50px;
-  background-size:100% 5%;
-  width:fit-content;
+background-image: var(--rad);
+background-repeat: no-repeat;
+background-position-y: 50px;
+background-size:100% 5%;
+width:fit-content;
 }
 
 
 
 .topnav a:not(:first-child):hover {
-  background-image: var(--rad);
-  background-repeat: no-repeat;
-  background-position-y: 50px;
-  background-size:100% 5%;
-  width:fit-content;
-  text-decoration: none;
+background-image: var(--rad);
+background-repeat: no-repeat;
+background-position-y: 50px;
+background-size:100% 5%;
+width:fit-content;
+text-decoration: none;
 
 }
 
 .topnav a:not(:first-child):hover a#login {
-  text-decoration: none;
+text-decoration: none;
 }
-
+.topnav a:not(:first-child) {
+float: right;
+margin-top:15px;
+padding: 1rem 3rem;
+font-family: "Montserrat", sans-serif;
+color: var(--white);
+}
 /* Hide the link that should open and close the topnav on small screens */
 #ham {
-  display: none;
+display: none;
 }
 
 /* ################################################# */
