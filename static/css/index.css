@@ -222,7 +222,7 @@
     td.description {
         white-space: break-spaces;
         text-shadow: 2px 2px 2px black;
-        color: var(--gray);
+        color: var(--white);
         max-height: 8rem;
         /* Initial collapsed height */
         overflow: hidden;
