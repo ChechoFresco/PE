@@ -1,72 +1,77 @@
-.highlight {
-	text-decoration-line: underline;
-	text-decoration-color: var(--blue);
-	text-decoration-thickness: 4px;
+.search-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
-#mainPanel{
-    position: relative;
-    overflow: hidden;
-    background:rgba(255, 255, 255, .2);
+
+.search-form .form-group {
+    margin-bottom: 1rem;
 }
-h2{
-    color:var(--white) !important;
+
+.search-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #fff;
 }
-form{
+
+.search-form .form-control {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.search-form .form-control:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 10px rgba(94, 124, 255, 0.7);
+}
+
+.date-group {
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    position: relative;
-    width:fit-content;
-    margin:auto;
-    padding: 1px 1px;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
-label{
-    color:white;
-}
-
-input {
-    position: relative;
-    border-radius: 7px;
-}
-h3{
-    font-size:1.5rem;
-    color: white;
-}
-#select{
-    height: 34px;
-    border-radius: 7px;
-}
-.form-group {
-    padding: 6px;
+.date-group .form-group {
+    flex: 1;
 }
 
 .btn-primary {
-    margin-bottom: 16px !important;
+    display: inline-block;
+    padding: 0.7rem 2rem;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #5e7cff, #2e6da4);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.no-results{
-    height:37rem;
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2e6da4, #5e7cff);
+    box-shadow: 0 4px 15px rgba(94,124,255,0.5);
 }
-@media screen and (max-width: 844px) {
-    #mainPanel{
-        width: 60%;
-        margin: auto;
+
+.city-field {
+    display: none;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .date-group {
+        flex-direction: column;
     }
-    div.formdiv {
-        position: relative;
-        font-size: 2rem;
-        height: 40rem;
-        top: 6rem;
-        width:80%;
-    }
-    img {
-        display: none;
-    }
-    form {
-        display: block;
-    }
-    h3{
-        font-size:1.1rem;
-    }
-    }
+}
