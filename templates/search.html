@@ -1,68 +1,99 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
-
 {% block metadata %}
 <meta property="og:title" content="PolicyEdge Search City Council Agenda" />
 <meta property="og:description" content="PolicyEdge provides a searchable trove of city government agendas. Start looking at city council agendas today." />
-<link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
 {% endblock %}
-
 {% block content %}
+<html>
+<head>
+    <title>Search Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <script>
+            var messages = {{ messages | safe }};
+            for (var i=0; i<messages.length; i++) {
+                alert(messages[i]);
+            }
+            </script>
+        {% endif %}
+    {% endwith %}
 
-<div id="mainPanel">
-    {% from "_formhelpers.html" import render_field %}
-    <form action='/results' method="post">
-        <div class="form-group">
-            {{ form.select.label }}
-            {{ form.select(class="form-control", id="select") }}
-        </div>
+    <div class="col-sm-12" id="mainPanel">
+        {% from "_formhelpers.html" import render_field %}
+            <form action='/results' method="post">
+                <div class="form-group">
+                    {{ form.select.label }}<br>
+                    {{ form.select(class="form-control") }}
+                </div>
+                <div id="cities-section" class="form-group" style="display: none;">
+                    {{ form.selectLA.label}}
+                    {{ form.selectLA(class="form-control city-field", id="LA", style="display: none;") }}
+                    {{ form.selectOC(class="form-control city-field", id="OC", style="display: none;") }}
+                    {{ form.selectRS(class="form-control city-field", id="RS", style="display: none;") }}
+                    {{ form.selectSB(class="form-control city-field", id="SB", style="display: none;") }}
+                    {{ form.selectSD(class="form-control city-field", id="SD", style="display: none;") }}
+                    {{ form.selectLACM(class="form-control city-field", id="LACM", style="display: none;") }}
+                    {{ form.selectLBCM(class="form-control city-field", id="LBCM", style="display: none;") }}
+                </div>
+                <div class="form-group">
+                    {{ form.primary_search.label }}<br>
+                    {{ form.primary_search(class="form-control", placeholder="Enter keyword") }}
+                </div>
+                <div class="form-group">
+                    {{ form.startdate_field.label }}<br>
+                    {{ form.startdate_field(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.enddate_field.label }}<br>
+                    {{ form.enddate_field(class="form-control") }}
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+    </div>
+    <div id="spaceMaker">
+    </div>
 
-        <div id="cities-section">
-            {{ form.selectLA(class="form-control city-field", id="LA") }}
-            {{ form.selectOC(class="form-control city-field", id="OC") }}
-            {{ form.selectRS(class="form-control city-field", id="RS") }}
-            {{ form.selectSB(class="form-control city-field", id="SB") }}
-            {{ form.selectSD(class="form-control city-field", id="SD") }}
-            {{ form.selectLACM(class="form-control city-field", id="LACM") }}
-            {{ form.selectLBCM(class="form-control city-field", id="LBCM") }}
-        </div>
+    {% include "results.html" %}
+</body>
+        <script>
+        $(document).ready(function () {
+            // Listen to the criteria select dropdown
+            $('#select').on('change', function () {
+                const selected = $(this).val();
 
-        <div class="form-group">
-            {{ form.primary_search.label }}
-            {{ form.primary_search(class="form-control", placeholder="Enter keyword") }}
-        </div>
+                // Hide all city and committee fields by default
+                $('.city-field').hide();
 
-        <div class="form-group">
-            {{ form.startdate_field.label }}
-            {{ form.startdate_field(class="form-control") }}
-        </div>
-
-        <div class="form-group">
-            {{ form.enddate_field.label }}
-            {{ form.enddate_field(class="form-control") }}
-        </div>
-
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
-</div>
-
-<script>
-$(document).ready(function () {
-    $('#select').on('change', function () {
-        const selected = $(this).val();
-        $('.city-field').hide();
-
-        if(selected === 'LA County') $('#LA').show();
-        else if(selected === 'Orange County') $('#OC').show();
-        else if(selected === 'Riverside County') $('#RS').show();
-        else if(selected === 'San Bernardino County') $('#SB').show();
-        else if(selected === 'San Diego County') $('#SD').show();
-        else if(selected === 'LA Committees') $('#LACM').show();
-        else if(selected === 'Long Beach Committees') $('#LBCM').show();
-
-        if(selected !== 'Issue') $('#cities-section').show();
-        else $('#cities-section').hide();
-    });
-});
-</script>
-
+                if (selected === 'LA County') {
+                    $('#LA').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Orange County') {
+                    $('#OC').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Riverside County') {
+                    $('#RS').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'San Bernardino County') {
+                    $('#SB').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'San Diego County') {
+                    $('#SD').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'LA Committees') {
+                    $('#LACM').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Long Beach Committees') {
+                    $('#LBCM').show();
+                    $("#cities-section").css({"display": 'block'});
+                } else if (selected === 'Issue') {
+                    $('#LBCM').show();
+                    $("#cities-section").css({"display": 'none'});
+                }
+            });
+        });
+    </script>
 {% endblock %}
