@@ -540,7 +540,7 @@ scheduler = BackgroundScheduler(timezone='UTC')
 scheduler.add_job(
     check4Issues2email, 
     'interval', 
-    seconds=15,  # Run every hour
+    seconds=3600,  # Run every hour
     id='email_check',
     max_instances=1
 )
