@@ -473,7 +473,7 @@ def send_agenda_email(username, email, agendas_by_search_term):
                 content_type="image/png",
                 data=fp.read(),
                 disposition="inline",
-                headers={"Content-ID": "<logo_png>"}
+                headers={"Content-ID": "<logo>"}
             )
 
         # Send the email
