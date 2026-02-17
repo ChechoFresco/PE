@@ -2,7 +2,7 @@
 {% block metadata %}
 <meta property="og:title" content="PolicyEdge Search City Council Agenda" />
 <meta property="og:description" content="PolicyEdge provides a searchable trove of city government agendas. Start looking at city council agendas today." />
-<link rel="stylesheet" href="static/css/style.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
 {% block content %}
