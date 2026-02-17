@@ -42,12 +42,15 @@ ul{
     position: relative;
 }
 #conTable {
-    color:white;
-    max-width: 1200px;
-    margin:auto;
-    padding: 6px;
-    box-shadow: #cfa01e3d -1px 0px 25px;
-    border-radius: 12px;
+    max-width:700px;
+    margin:20px auto;
+    padding:20px;
+    background-color:#fdfdfd;
+    border-radius:12px;
+    border:1px solid #5e7cff;
+    box-shadow:0 8px 20px rgba(94,124,255,0.2);
+    color:#333;
+    font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
 }
 
 
@@ -83,7 +86,6 @@ td {
     display: block;
     font-family: "Open Sans", sans-serif;
     background-color: var(--black);
-    color: rgb(198, 211, 250);
     font-size: 1.2rem;
 }
 
