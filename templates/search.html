@@ -8,16 +8,20 @@
 <div id="mainPanel">
     {% from "_formhelpers.html" import render_field %}
     <form action='/results' method="post">
+
         <!-- Criteria Select -->
         <div class="form-group">
             {{ form.select.label }}
-            {{ form.select(class="form-control", id="select") }}
+            <select class="form-control" id="select">
+                {% for choice in form.select.choices %}
+                    <option value="{{ choice[0] }}">{{ choice[1] }}</option>
+                {% endfor %}
+            </select>
         </div>
 
-        <!-- Cities Section (hidden initially) -->
+        <!-- Cities Section -->
         <div id="cities-section" class="form-group">
-            {{ form.selectLA.label }}
-            {{ form.selectLA(class="form-control city-field", id="LA") }}
+            {{ form.selectLA.label }} {{ form.selectLA(class="form-control city-field", id="LA") }}
             {{ form.selectOC(class="form-control city-field", id="OC") }}
             {{ form.selectRS(class="form-control city-field", id="RS") }}
             {{ form.selectSB(class="form-control city-field", id="SB") }}
@@ -26,10 +30,10 @@
             {{ form.selectLBCM(class="form-control city-field", id="LBCM") }}
         </div>
 
-        <!-- Keyword -->
-        <div class="form-group">
+        <!-- Keyword with Icon -->
+        <div class="form-group search-input-wrapper">
             {{ form.primary_search.label }}
-            {{ form.primary_search(class="form-control", placeholder="Enter keyword") }}
+            <input type="text" class="form-control" placeholder="🔍 Enter keyword" name="{{ form.primary_search.name }}">
         </div>
 
         <!-- Dates -->
@@ -46,13 +50,8 @@
     </form>
 </div>
 
-<div id="spaceMaker"></div>
-
-{% include "results.html" %}
-
 <script>
 $(document).ready(function () {
-    // Hide cities section on load
     $('#cities-section').hide();
 
     $('#select').on('change', function () {
