@@ -135,18 +135,29 @@ html, body {
   }
 
 /* Add a black background color to the top navigation */
-  .topnav {
-    overflow: hidden;
-    margin: auto;
-    position: relative;
-    border-bottom: 1px solid var(--white);
-  }
+.topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-/* Style the links inside the navigation bar */
+  min-height: 90px;          /* Controls navbar height */
+  padding: 0 2rem;           /* Side spacing */
+  
+  border-bottom: 1px solid var(--white);
+}
+
 .topnav a {
   display: flex;
+  align-items: center;
   font-size: var(--fontNav);
-  float: left;
+  text-decoration: none;
+}
+
+.topnav a:not(:first-child) {
+  margin-top: 15px;
+  padding: 1rem 3rem;
+  font-family: "Montserrat", sans-serif;
+  color: var(--white);
 }
 
 /* Add an active class to highlight the current page */
@@ -162,13 +173,7 @@ html, body {
   width:fit-content;
 }
 
-.topnav a:not(:first-child) {
-  float: right;
-  margin-top:15px;
-  padding: 1rem 3rem;
-  font-family: "Montserrat", sans-serif;
-  color: var(--white);
-}
+
 
 .topnav a:not(:first-child):hover {
   background-image: var(--rad);
