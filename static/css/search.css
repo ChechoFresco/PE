@@ -1,17 +1,15 @@
-/* --- Modern Search Card --- */
 #mainPanel {
     max-width: 900px;
     margin: 3rem auto;
     padding: 2rem;
     background: rgba(255,255,255,0.1);
     backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
     border-radius: 2rem;
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     border: 1px solid rgba(255,255,255,0.2);
 }
 
-/* Form layout */
+/* Grid form layout */
 form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -19,7 +17,7 @@ form {
     align-items: end;
 }
 
-/* Inputs */
+/* Inputs & selects */
 input, select {
     width: 100%;
     padding: 0.5rem 1rem;
