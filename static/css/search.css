@@ -1,3 +1,4 @@
+/* --- Modern Glassy Card --- */
 #mainPanel {
     max-width: 900px;
     margin: 3rem auto;
@@ -5,11 +6,16 @@
     background: rgba(255,255,255,0.1);
     backdrop-filter: blur(40px);
     border-radius: 2rem;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
     border: 1px solid rgba(255,255,255,0.2);
+    transition: transform 0.2s ease;
 }
 
-/* Grid form layout */
+#mainPanel:hover {
+    transform: translateY(-2px);
+}
+
+/* Grid layout */
 form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -20,12 +26,13 @@ form {
 /* Inputs & selects */
 input, select {
     width: 100%;
-    padding: 0.5rem 1rem;
-    border-radius: 12px;
+    padding: 0.7rem 1.2rem;
+    border-radius: 15px;
     border: 1px solid rgba(255,255,255,0.3);
     background: rgba(255,255,255,0.15);
     color: white;
     font-size: 1rem;
+    font-weight: 500;
     transition: all 0.3s ease;
 }
 
@@ -33,6 +40,7 @@ input:focus, select:focus {
     outline: none;
     border-color: #ffb347;
     background: rgba(255,255,255,0.25);
+    box-shadow: 0 4px 15px rgba(255,180,71,0.3);
 }
 
 /* Labels */
@@ -46,9 +54,9 @@ label {
 /* Button */
 .btn-primary {
     grid-column: 1 / -1;
-    padding: 0.75rem 2rem;
+    padding: 0.85rem 2rem;
     font-size: 1.2rem;
-    border-radius: 1rem;
+    border-radius: 1.5rem;
     background: linear-gradient(135deg, #ff7e5f, #feb47b);
     border: none;
     color: white;
@@ -58,12 +66,17 @@ label {
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.35);
 }
 
 /* City Fields */
 .city-field {
     display: none;
+}
+
+/* Search input with icon */
+.search-input-wrapper input::placeholder {
+    font-style: italic;
 }
 
 /* Responsive */
@@ -73,4 +86,3 @@ label {
         gap: 1rem;
     }
 }
-
