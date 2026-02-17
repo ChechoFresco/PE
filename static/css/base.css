@@ -140,10 +140,16 @@ html, body {
   justify-content: space-between;
   align-items: center;
 
-  min-height: 90px;          /* Controls navbar height */
-  padding: 0 2rem;           /* Side spacing */
-  
+  min-height: 90px;
+  padding: 0 2rem;
   border-bottom: 1px solid var(--white);
+}
+
+/* Right side container */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem; /* spacing between links */
 }
 
 .topnav a {
@@ -151,6 +157,8 @@ html, body {
   align-items: center;
   font-size: var(--fontNav);
   text-decoration: none;
+  font-family: "Montserrat", sans-serif;
+  color: var(--white);
 }
 
 .topnav a:not(:first-child) {
