@@ -47,7 +47,7 @@ ul{
     padding:20px;
     border-radius:12px;
     box-shadow:0 8px 20px rgba(94,124,255,0.2);
-    color:#333;
+    color: var(--white);
     font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
 }
 
