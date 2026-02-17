@@ -442,6 +442,17 @@ def process_user_email_notifications(user, today):
     if agendas_by_search_term:
         send_agenda_email(username, email, agendas_by_search_term)
 
+def highlight_corners(text, search_term):
+    if not text or not search_term:
+        return text
+    # Wrap search_term matches in <mark> tags
+    import re
+    pattern = re.escape(search_term)
+    return re.sub(pattern, lambda m: f"<mark>{m.group(0)}</mark>", text, flags=re.IGNORECASE)
+
+# Register the filter
+app.jinja_env.filters['highlight_corners'] = highlight_corners
+
 def send_agenda_email(username, email, agendas_by_search_term):
     """Send email notification about new matching agendas grouped by search term"""
     try:
