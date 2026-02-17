@@ -85,6 +85,7 @@ td {
     font-family: "Open Sans", sans-serif;
     background-color: var(--black);
     font-size: 1.2rem;
+	color:var(--white);
 }
 
 td.none {
