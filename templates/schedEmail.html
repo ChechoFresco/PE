@@ -4,16 +4,16 @@
     <meta charset="utf-8">
 </head>
 <body>
-    {% macro simple_highlight(text, term) %}
-    {% if term and text %}
-        {% if term in text %}
-            {{ text|replace(term, '<strong><u>' + term + '</u></strong>')|safe }}
-        {% else %}
-            {{ text }}
-        {% endif %}
+{% macro simple_highlight(text, term) %}
+{% if term and text %}
+    {% if term in text %}
+        {{ text|replace(term, '<strong><u>' + term + '</u></strong>')|safe }}
     {% else %}
         {{ text }}
     {% endif %}
+{% else %}
+    {{ text }}
+{% endif %}
 {% endmacro %}
     <table style="width:100%; background-color: slategrey; padding: 20px;" id="Background">
         <tr>
@@ -114,8 +114,7 @@
 
                                         <!-- Agenda Description with Highlighting -->
                                         <div style="color: #333; line-height: 1.5; font-size: 15px; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
-                                            {{ agenda.get('Description', 'No description available')|highlight_corners(search_term) }}
-
+                                            {{ simple_highlight(agenda.get('Description', 'No description available'), search_term) }}
                                         </div>
                                     </td>
                                 </tr>
