@@ -6,8 +6,9 @@
 <body>
 {% macro simple_highlight(text, term) %}
 {% if term and text %}
-    {% set re_term = term|replace('"', '\\"') %}
-    {{ text | replace(term, '<u><em>' + term + '</em></u>') | safe }}
+    {% set safe_term = term|e %}
+    {% set replacement = '<span style="text-decoration: underline; font-style: italic; font-weight: bold;">' ~ safe_term ~ '</span>' %}
+    {{ text | replace(term, replacement) | safe }}
 {% else %}
     {{ text }}
 {% endif %}
