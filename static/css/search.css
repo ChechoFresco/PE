@@ -36,11 +36,11 @@
 }
 
 #searchPanel .btn-primary {
-    grid-column: 1 / -1;
+    grid-column: 1 / -1; /* spans full width of form grid */
     padding: 0.75rem 2rem;
     font-size: 1.2rem;
     border-radius: 1rem;
-    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    background: linear-gradient(135deg, #5e7cff, #3a5efc); /* blue gradient */
     border: none;
     color: white;
     cursor: pointer;
@@ -49,6 +49,6 @@
 
 #searchPanel .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 }
