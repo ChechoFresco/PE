@@ -15,6 +15,7 @@ from werkzeug.exceptions import BadRequest
 import atexit
 import folium
 from folium.features import DivIcon
+from urllib.parse import unquote
 
 # =============================================================================
 # INITIALIZATION AND CONFIGURATION
@@ -1070,9 +1071,10 @@ def topic():
     """Legacy topic route - now handled by background job"""
     return redirect(url_for('index'))
 
-@app.route('/topicLink/<topic>', methods=['GET'])
+@app.route("/topicLink/<path:topic>", methods=['GET'])
 def topic_details(topic):
     """Show agendas for a specific topic"""
+    topic = unquote(topic)
     form = searchForm2()
     date_threshold = get_date_threshold(weeks=-2)
     city = request.args.get('city')
