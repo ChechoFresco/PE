@@ -187,28 +187,31 @@
 				</defs>
 			</svg>
 		</a>
-		{% if not session['username'] %}
-		<a id='login' href="/login">Login</a>
-		{% endif %}
+		<div class="nav-links">
 
-		{% if session['username'] %}
-		<a id='login' href="/logout">Logout</a>
-		{% endif %}
-		<a href="/search">Search</a>
-		<a href="/savedIssues">Notification</a>
-		<a href="#" id='ham' class="menu-button [ js-menu-button ]">
-			<div class="icon nav-icon-1" id="expe">
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
-		</a>
+			{% if not session['username'] %}
+			<a id='login' href="/login">Login</a>
+			{% endif %}
+	
+			{% if session['username'] %}
+			<a id='login' href="/logout">Logout</a>
+			{% endif %}
+			<a href="/search">Search</a>
+			<a href="/savedIssues">Notification</a>
+			<a href="#" id='ham' class="menu-button [ js-menu-button ]">
+				<div class="icon nav-icon-1" id="expe">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</a>
+		</div>
 	</div>
 	{% block content %}{% endblock%}
 	<footer class="site-footer">
