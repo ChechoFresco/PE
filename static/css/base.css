@@ -24,117 +24,6 @@ html, body {
   --rad2:linear-gradient(180deg, var(--blue) 25%, var(--white) 100%);
 }
 
-
-/* Logo animation */
-  svg#logo {
-    animation-name: spin;
-    animation-duration: 10000ms;
-    animation-iteration-count: 1;
-    animation-timing-function: linear;
-  }
-
-
-  @keyframes spin {
-    from {
-      transform: rotateY(0deg);
-    }
-
-    to {
-      transform: rotateY(360deg);
-    }
-  }
-
-
-  #top1,
-  #top3,
-  #insideL,
-  #outsideL,
-  #leftGutter,
-  #leftBuild {
-    animation: moveTop 10s ease-in-out;
-  }
-
-
-  @keyframes moveTop {
-    0% {
-      transform: translateX(150px);
-    }
-
-    34% {
-      transform: translateX(80px);
-    }
-
-    37% {
-      transform: translateX(40px);
-    }
-
-    100% {
-      transform: translateX(0px);
-    }
-  }
-
-  #tip,
-  #top2,
-  #insideR,
-  #outsideR,
-  #rightGutter,
-  #rightBuild,
-  #pillars,
-  #pillars_2,
-  #pillars_3,
-  #pillars_4,
-  #pillars_5 {
-    animation: moveTop2 10s ease-in-out;
-  }
-
-  @keyframes moveTop2 {
-    0% {
-      transform: translateX(-150px);
-    }
-
-    34% {
-      transform: translateX(-80px);
-    }
-
-    37% {
-      transform: translateX(-40px);
-    }
-
-    100% {
-      transform: translateX(-0px);
-    }
-  }
-
-  #columnL,
-  #columnmid,
-  #columnR {
-    animation: moveBot 10s ease-in-out;
-  }
-
-  @keyframes moveBot {
-    0% {
-      transform: translateY(-150px);
-    }
-
-    34% {
-      transform: translateY(-80px);
-    }
-
-    37% {
-      transform: translateY(-40px);
-    }
-
-    100% {
-      transform: translateY(-0px);
-    }
-  }
-
-  #mid,
-  #midBottom {
-    animation: spin 6s ease-in-out;
-  }
-
-/* Add a black background color to the top navigation */
 /* Add a black background color to the top navigation */
 .topnav {
   overflow: hidden;
@@ -224,34 +113,9 @@ display: none;
     background-color: rgb(0 0 0 / 85%);
     z-index: 2;
     border-radius: 3ch;
-    -webkit-animation: slide1 1s forwards;
-    animation: slide1 1s forwards;
-  }
+    left: 0;
+}
 
-  @keyframes slide1 {
-    0% {
-      left: 50rem;
-    }
-
-    100% {
-      left: 0rem;
-    }
-  }
-
-  .frost.main {
-    -webkit-animation: slide2 1s forwards;
-    animation: slide2 1s forwards;
-  }
-
-  @keyframes slide2 {
-    0% {
-      left: 50rem;
-    }
-
-    100% {
-      left: 1rem;
-    }
-  }
 
   #login {
     border-radius: 3rem 3rem 0rem 0rem;
