@@ -6,177 +6,165 @@
 {% block content %}
 
 <head>
-    <!-- Bootsrap used to create dynamic-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <!-- Style sheet-->
-    <link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style"
-        onload="this.onload=null;this.rel='stylesheet'">
-        <script>
-            $(document).ready(function () {
-                // Title changing
-                var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change", "transportation", "financial", "retail"];
-                var count = 0;
-                function changeText() {
-                    $("#billboard").text(texts[count]);
-                    $("#billboard").css({
-                        "text-shadow": '0px 0px 3px white',
-                        "color": 'var(--black)'
-                    });
-                    count = (count + 1) % texts.length; // Cycle through the array
-                }
-                setInterval(changeText, 4000);
-            $(document).ready(function () {
-                // Toggle the height of "td.description" on click
-                $(".table_1").on("click", "td.description", function () {
-                    try {
-                        console.log('Description cell clicked'); // Log for debugging
-                        if (this.style.maxHeight === "6rem") {
-                            this.style.maxHeight = "fit-content";
-                        } else {
-                            this.style.maxHeight = "6rem";
-                        }
-                    } catch (error) {
-                        console.error("An error occurred while toggling description height:", error);
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-5OQeKv6x8Z3Gf2D3vM+zFQ9Vz0mIwD1Rm7/5Rdx3lKknl3e0N44xXJdYfYz8S4Uj" crossorigin="anonymous">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
+    <!-- Grid.js CSS + JS -->
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+
+    <!-- Page Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Billboard title text animation
+            const texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change", "transportation", "financial", "retail"];
+            let count = 0;
+            function changeText() {
+                const el = document.getElementById("billboard");
+                el.textContent = texts[count];
+                el.style.textShadow = '2px 2px 1px var(--orange)';
+                el.style.color = 'white';
+                count = (count + 1) % texts.length;
+            }
+            setInterval(changeText, 2000);
+
+            // Grid.js tables
+            {% for city, data in city_agendas.items() %}
+            {% if data.agendas %}
+            const tableData_{{ loop.index }} = [
+                {% for agenda in data.agendas %}
+                [
+                    "{{ agenda.Date }}",
+                    "{{ agenda.County }}",
+                    "{{ agenda.City }}",
+                    "{{ agenda.MeetingType }}",
+                    "{{ agenda.ItemType }}",
+                    "{{ agenda.Num }}",
+                    `<div class="description-cell" style="max-height:6rem; overflow:hidden;">{{ agenda.Description|escape }}</div>`,
+                    `<i class="bi bi-calendar"></i> {{ agenda.Date|aTime }} <i class="bi bi-briefcase"></i> {{ agenda.ItemType }} <span class="poundSign">#</span>{{ agenda.Num }}`,
+                    "{{ agenda._id }}",
+                    "{{ agenda.topic }}"
+                ],
+                {% endfor %}
+            ];
+
+            new gridjs.Grid({
+                columns: ["Date", "County", "City", "Meeting Type", "Item Type", "Item", "Description", "Info Location", "ID", "Topic"],
+                data: tableData_{{ loop.index }},
+                sort: true,
+                search: true,
+                pagination: { limit: 5 },
+                className: { table: "table table-striped table-hover table-responsive" },
+                resizable: true
+            }).render(document.getElementById("table-{{ city }}"));
+            {% endif %}
+            {% endfor %}
+
+            // Description toggle on click
+            document.addEventListener("click", function(e) {
+                const desc = e.target.closest(".description-cell");
+                if (desc) {
+                    if (desc.style.maxHeight === "6rem") {
+                        desc.style.maxHeight = "fit-content";
+                    } else {
+                        desc.style.maxHeight = "6rem";
                     }
-                });
+                }
             });
+
+            // Search form submission
+            const searchForm = document.getElementById("searchForm");
+            if (searchForm) {
+                searchForm.onsubmit = function(event) {
+                    const chosenValue = document.querySelector('[name="chartSearch"]').value;
+                    if (chosenValue) {
+                        this.action = "/descriptionLink/" + encodeURIComponent(chosenValue);
+                    } else {
+                        event.preventDefault();
+                        alert("Please enter a search term.");
+                    }
+                };
+            }
         });
-        </script>
+    </script>
 </head>
-<!--Main Marquee-->
+
+<!-- Main Marquee -->
 <div class="dash Main" id="mainPane">
-    <div class="col-sm-offset-2 col-sm-8">
-        <h1 id="title">Follow <span id="billboard">policy change</span> in California.
-        </h1>
+    <div class="col-12 col-md-8 offset-md-2">
+        <h1 id="title">Follow <span id="billboard">policy change</span> in California.</h1>
         <h3 class='sellLine'>Staying on top of local legislation affecting you can be a challenge. Missing an
-            issue can be costly in time and resource.
-            Search, set notifications, and find your PolicyEdge.
+            issue can be costly in time and resource. Search, set notifications, and find your PolicyEdge.
         </h3>
     </div>
 </div>
-    <!--Charts-->
-    {% if folium_map %}
-    <div class="row" id="chartBox">
-        <div class="col-sm-offset-2 col-sm-10">
-            {{ folium_map | safe }}
-        </div>
+
+<!-- Charts -->
+{% if folium_map %}
+<div class="row" id="chartBox">
+    <div class="col-12 col-md-10 offset-md-2">
+        {{ folium_map | safe }}
     </div>
-    {% endif %}
-    <!--searchFreeDiv-->
-    <div class="searchFreeDiv">
-        <div class="mapSearch">
-            <form id="mapSearchForm" method="GET">
-                {% from "_formhelpers.html" import render_field %}
-                <ul>
-                    {{ render_field(form.chartSearch) }}
-                </ul>
-                <p>
-                    <input type="submit" value="Search" id="mapSearchButton">
-                </p>
-            </form>
-        </div>
+</div>
+{% endif %}
 
-        <div class="free">
-            <div class="container" id="freeButton">
-                <div>
-                    {% if not session['username'] %}
-                    <h3 class='free'>
-                        <a href="/register" aria-label="Subscribe to Policy Edge">$20/Month</a>
-                    </h3>
-                    {% endif %}
+<!-- Search / Free Div -->
+<div class="searchFreeDiv">
+    <div class="mapSearch">
+        <form id="mapSearchForm" method="GET">
+            {% from "_formhelpers.html" import render_field %}
+            <ul>
+                {{ render_field(form.chartSearch) }}
+            </ul>
+            <p>
+                <input type="submit" value="Search" id="mapSearchButton">
+            </p>
+        </form>
+    </div>
 
-                    {% if session['username'] %}
-                    <h3 class='howwrk'>Welcome back <span style="color: var(--black);">{{session['username']}}</span>
-                    </h3>
-                    {% endif %}
-                </div>
+    <div class="free">
+        <div class="container" id="freeButton">
+            <div>
+                {% if not session['username'] %}
+                <h3 class='free'>
+                    <a href="/register" aria-label="Subscribe to Policy Edge">$20/Month</a>
+                </h3>
+                {% endif %}
+                {% if session['username'] %}
+                <h3 class='howwrk'>Welcome back <span style="color: var(--black);">{{session['username']}}</span></h3>
+                {% endif %}
             </div>
         </div>
-        <div class="issue">
-            <label id="currIss">Current Issue</label>
-            <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> -Activity in last week
-            </h2>
-        </div>
     </div>
 
-<!--First table-->
-<div class="col-sm-12" id="conTable">
+    <div class="issue">
+        <label id="currIss">Current Issue</label>
+        <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> -Activity in last week</h2>
+    </div>
+</div>
+
+<!-- Tables -->
+<div class="col-12" id="conTable">
     {% for city, data in city_agendas.items() %}
     {% if data.agendas %}
     <div class="texture">
-        <table class="table_1" data-toggle="table" data-sortable="true" data-pagination="true" data-show-columns="true"
-            data-page-size='5' class="table-responsive">
-            <caption class="reize">
-                {{ city }}
-                <div id="listcontent">
-                    <p>Contents:</p>
-                    <ul>
-                        {% for topic, count in data.topic_counts.items() %}
-                            <a href="/topicLink/{{ topic }}?city={{ city }}" id='topicLink' class="topic-square" target="_blank">
-                                {{ topic }}: {{ count }}
-                            </a>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </caption>
-            <thead class='h-12'>
-                <tr>
-                    <th data-field='row-Date' data-sortable="true">Date</th>
-                    <th class='none' data-field='row-County'>County</th>
-                    <th class='none' data-field='row-City'>City</th>
-                    <th class='none' data-field='row-MeetingType'>Meeting Type</th>
-                    <th data-field='row-Item' data-sortable="true">Item Type</th>
-                    <th data-field='row-Num' data-sortable="true">Item</th>
-                    <th class='none' data-field='row-Description'>Description</th>
-                    <th class='none' data-field='row-infoLocation'>infoLocation</th>
-                    <th class='none' data-field='row-id'>id</th>
-                    <th class='none' data-field='row-topic'>topic</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for agenda in data.agendas %}
-                <tr class="lineSep">
-                    <td class='none'>{{ agenda.Date }}</td>
-                    <td class='none'>{{ agenda.County }}</td>
-                    <td class='none'>{{ agenda.City }}</td>
-                    <td class='none'>{{ agenda.MeetingType }}</td>
-                    <td class='none'>{{ agenda.ItemType }}</td>
-                    <td class='none'>{{ agenda.Num }}</td>
-                    <td class='description'>{{ agenda.Description }}</td>
-                    <td class='infoLocation'><span class="glyphicon glyphicon-calendar"></span>
-                        {{ agenda.Date|aTime }}
-                        <span class="glyphicon glyphicon-briefcase"></span>{{ agenda.ItemType }}
-                        <span class="poundSign">#</span>{{ agenda.Num }}
-                    </td>
-                    <td class='none'>{{ agenda._id }}</td>
-                    <td class='none'>{{ agenda.topic }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <h3>{{ city }}</h3>
+        <div id="table-{{ city }}"></div>
     </div>
     {% endif %}
     {% endfor %}
 </div>
-<!-- Bootstrap used for table -->
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
-<script src="https://unpkg.com/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
-<script>
-    document.getElementById("searchForm").onsubmit = function(event) {
-        var chosenValue = document.querySelector('[name="chartSearch"]').value;  // Get value from chartSearch input field
-        if (chosenValue) {
-            // Dynamically set the action URL based on the entered value
-            this.action = "/descriptionLink/" + encodeURIComponent(chosenValue);
-        } else {
-            // If no value is entered, prevent the form submission
-            event.preventDefault();
-            alert("Please enter a search term.");
-        }
-    };
-</script>
-{% endblock %}
 
+<!-- Bootstrap 5 JS (bundle includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+qku3m1N5j2hHn4g8q+T7rXKf8IW1" crossorigin="anonymous"></script>
+
+{% endblock %}
 
