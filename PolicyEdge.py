@@ -4,18 +4,18 @@ from forms import searchForm, monitorListform, chartForm, monitorListform2, sear
 import bcrypt
 from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
-from flask_mail import Mail, Message
 import stripe
 import os
 import re
-from apscheduler.schedulers.background import BackgroundScheduler
 from collections import Counter
 import logging
 from werkzeug.exceptions import BadRequest
+from flask_mail import Mail
 import atexit
-import folium
-from folium.features import DivIcon
-from urllib.parse import unquote
+from map_utils import fetch_geo_info, create_folium_map
+from jobs import check4Issues2email
+from apscheduler.schedulers.background import BackgroundScheduler
+import atexit
 
 # =============================================================================
 # INITIALIZATION AND CONFIGURATION
