@@ -1,0 +1,52 @@
+{% macro city_table(_city, _data) %}
+<div class="city-wrapper texture">
+    <table class="table1 table-responsive"
+            data-toggle="table"
+            data-pagination="true"
+            data-search="true"
+            data-show-columns="true"
+            data-page-size="5">
+        <div class="cityCaption">
+            {{ _city }}
+        </div>
+        <div id="listcontent">
+            <p>Contents:</p>
+            <ul>
+                {% for topic, count in _data.topic_counts.items() %}
+                    <a href="/topicLink/{{ topic }}?city={{ _city }}" class="topic-square" target="_blank">
+                        {{ topic }}: {{ count }}
+                    </a>
+                {% endfor %}
+            </ul>
+        </div>
+        <thead class="h-12">
+            <tr>
+                <th data-field="Date" data-sortable="true">Date</th>
+                <th class="none" data-field="County">County</th>
+                <th class="none" data-field="City">City</th>
+                <th class="none" data-field="MeetingType">Meeting Type</th>
+                <th data-field="ItemType" data-sortable="true">Item Type</th>
+                <th data-field="Num" data-sortable="true">Item</th>
+                <th class="none" data-field="Description">Description</th>
+                <th class="none" data-field="infoLocation">infoLocation</th>
+                <th class="none" data-field="_id">id</th>
+                <th class="none" data-field="topic">topic</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agenda in _data.agendas %}
+            <tr>
+                <td class="description">{{ agenda.Description }}</td>
+                <td class="infoLocation">
+                    <span class="glyphicon glyphicon-calendar"></span>{{ agenda.Date|aTime }}
+                    <span class="glyphicon glyphicon-briefcase"></span>{{ agenda.ItemType }}
+                    <span class="poundSign">#</span>{{ agenda.Num }}
+                </td>
+                <td class="none">{{ agenda._id }}</td>
+                <td class="none">{{ agenda.topic }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endmacro %}
