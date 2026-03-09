@@ -665,7 +665,7 @@ def index():
     city_issue_counts = Counter(cities_matched)
 
     # Get geo info from Mongo
-    geo_info = fetch_geo_info(mongo, city_issue_counts)
+    geo_info = fetch_geo_info(city_issue_counts)
 
     # Build Folium map
     folium_map = create_folium_map(geo_info)
