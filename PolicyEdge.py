@@ -608,105 +608,100 @@ def index():
     form = chartForm()
     date_threshold = get_date_threshold(weeks=-2)
     
-    if request.method == 'GET':
-        # Default search for 'water' related agendas
+
+@app.route('/index', methods=['GET', 'POST'])
+def index():
+    form = chartForm()
+    date_threshold = get_date_threshold(weeks=-1)
+
+    # Determine search term
+    if request.method == 'POST' and request.form.get('chartSearch'):
+        search_term = request.form['chartSearch'].strip()
+        chosen = f'"{search_term}"'
+
+        # Log search
+        mongo.db.User.find_one_and_update(
+            {'username': 'Esther'},
+            {'$push': {'searches': chosen}},
+            upsert=True
+        )
+
+        # Query agendas
+        agenda_items = mongo.db.Agenda.find({
+            '$and': [
+                {'$text': {"$search": chosen}},
+                {"MeetingType": {'$regex': "City Council", '$options': 'i'}},
+                {'Date': {'$gte': date_threshold}}
+            ]
+        }).sort('Date', -1)
+
+    else:
+        # Default GET: last week's agendas
         chosen = 'water'
         agenda_items = mongo.db.Agenda.find({
             '$and': [
                 {"MeetingType": {'$regex': "City Council", '$options': 'i'}},
                 {'Date': {'$gte': date_threshold}},
-                {
-                    '$and': [
-                        {"Description": {'$not': {'$regex': "minute", '$options': 'i'}}},
-                        {"Description": {'$not': {'$regex': "warrant", '$options': 'i'}}},
-                        {"Description": {"$ne": ""}}
-                    ]
-                }
+                {'Description': {'$nin': ["", None]}},
+                {"Description": {'$not': {'$regex': "(minute|warrant)", '$options': 'i'}}}
             ]
         }).sort('Date', -1)
 
-        # Organize agendas by city
-        cities_matched = []
-        city_agendas = {city: {"agendas": [], "topic_counts": Counter()} for city in ALL_CITIES}
+    # Organize agendas by city
+    global ALL_CITY_AGENDAS_CACHE
+    ALL_CITY_AGENDAS_CACHE = {}
+    cities_matched = []
 
-        for agenda in agenda_items:
-            agenda_city = agenda.get('City', '')
-            if chosen in agenda.get('Description', ''):
-                cities_matched.append(agenda_city)
-            
-            topics = agenda.get('Topics', [])
-            if agenda_city in city_agendas:
-                city_agendas[agenda_city]["agendas"].append(agenda)
-                if isinstance(topics, list):
-                    city_agendas[agenda_city]["topic_counts"].update(topics)
-                else:
-                    city_agendas[agenda_city]["topic_counts"].update([topics])
+    for agenda in agenda_items:
+        city = agenda.get('City', '')
+        topics = agenda.get('Topics', [])
+        if city not in ALL_CITY_AGENDAS_CACHE:
+            ALL_CITY_AGENDAS_CACHE[city] = {"agendas": [], "topic_counts": Counter()}
+        ALL_CITY_AGENDAS_CACHE[city]["agendas"].append(agenda)
+        if isinstance(topics, list):
+            ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update(topics)
+        else:
+            ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update([topics])
+        if chosen.strip('"') in agenda.get('Description', ''):
+            cities_matched.append(city)
 
-        # Create map visualization
-        city_issue_counts = Counter(cities_matched)
-        geo_info = fetch_geo_info(city_issue_counts)
-        folium_map = create_folium_map(geo_info)
+    # Only send first 6 cities to template
+    initial_cities = dict(list(ALL_CITY_AGENDAS_CACHE.items())[:6])
 
-        return render_template(
-            'index.html', 
-            folium_map=folium_map._repr_html_(),
-            chosen=chosen, 
-            form=form,
-            city_agendas=city_agendas, 
-            title="Policy Edge Tracking Agendas"
-        )
+    # Map visualization
+    city_issue_counts = Counter(cities_matched)
 
-    elif request.method == 'POST' and request.form.get('chartSearch'):
-        # Handle search form submission
-        try:
-            search_term = request.form['chartSearch']
-            chosen = f'"{search_term}"'
-            
-            # Log search for analytics
-            mongo.db.User.find_one_and_update(
-                {'username': 'Esther'},  # Analytics user
-                {'$push': {'searches': chosen}},
-                upsert=True
-            )
+    # Get geo info from Mongo
+    geo_info = fetch_geo_info(mongo, city_issue_counts)
 
-            # Search for matching agendas
-            agenda_items = mongo.db.Agenda.find({
-                '$and': [
-                    {'$text': {"$search": chosen}},
-                    {"MeetingType": {'$regex': "^ City Council $", '$options': 'i'}},
-                    {'Date': {'$gte': date_threshold}}
-                ]
-            }).sort('Date', -1)
+    # Build Folium map
+    folium_map = create_folium_map(geo_info)
 
-            # Organize results by city
-            city_agendas = {city: [] for city in ALL_CITIES}
-            cities_matched = []
+    # Pass folium_map to template (use _repr_html_ in template)
+    return render_template(
+        'index.html',
+        folium_map=folium_map._repr_html_(),  # keep original name
+        form=form,
+        city_agendas=initial_cities,
+        title="Policy Edge Tracking Agendas",
+        chosen=chosen
+    )
 
-            for agenda in agenda_items:
-                city = agenda.get('City', '')
-                cities_matched.append(city)
-                if city in city_agendas:
-                    city_agendas[city].append(agenda)
+# ---------------------------
+# Load more cities via AJAX
+# ---------------------------
+@app.route('/load_more_cities')
+def load_more_cities():
+    start = int(request.args.get('start', 0))
+    count = int(request.args.get('count', 6))
+    cities_list = list(ALL_CITY_AGENDAS_CACHE.items())
+    cities_to_load = dict(cities_list[start:start+count])
 
-            # Create map visualization
-            city_issue_counts = Counter(cities_matched)
-            geo_info = fetch_geo_info(city_issue_counts)
-            folium_map = create_folium_map(geo_info)
+    rendered = ""
+    for city, data in cities_to_load.items():
+        rendered += render_template('partials/city_table_wrapper.html', _city=city, _data=data)
 
-            return render_template(
-                'descriptionLink.html',
-                folium_map=folium_map._repr_html_(),
-                form=form, 
-                chosen=chosen,
-                city_agendas=city_agendas,
-                title="Policy Edge Tracking Agendas"
-            )
-            
-        except Exception as e:
-            logger.error(f"Search error: {e}")
-            flash("Sorry. No matches found.")
-            return redirect(url_for('index'))
-
+    return rendered
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """User registration page"""
