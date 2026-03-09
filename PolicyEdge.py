@@ -604,13 +604,6 @@ def httpsroute():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    """Main index page with agenda search and visualization"""
-    form = chartForm()
-    date_threshold = get_date_threshold(weeks=-2)
-    
-
-@app.route('/index', methods=['GET', 'POST'])
-def index():
     form = chartForm()
     date_threshold = get_date_threshold(weeks=-1)
 
