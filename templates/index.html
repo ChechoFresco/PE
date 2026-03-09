@@ -148,6 +148,15 @@ window.addEventListener('load', () => {
         loadMoreCities();
     }
 });
+
+// Load folium map after page loads
+window.addEventListener('load', () => {
+    fetch("/get_folium_map")  // return folium_map HTML fragment
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('foliumMapContainer').innerHTML = html;
+        });
+});
 </script>
 <!-- Bootstrap used for table -->
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
