@@ -16,7 +16,7 @@ from map_utils import fetch_geo_info, create_folium_map
 from jobs import check4Issues2email
 from apscheduler.schedulers.background import BackgroundScheduler
 import atexit
-
+from urllib.parse import unquote
 # =============================================================================
 # INITIALIZATION AND CONFIGURATION
 # =============================================================================
