@@ -27,7 +27,7 @@
 <!-- ===== CHARTS ===== -->
 {% if folium_map %}
 <div class="row" id="chartBox">
-    <div class="col-sm-12">
+    <div class="col-sm-12" id="conTable" style="min-height: 800px;">
         {{ folium_map | safe }}
     </div>
 </div>
@@ -67,7 +67,7 @@
 
 <!-- ===== TABLE CONTAINER ===== -->
 {% from 'partials/city_tables.html' import city_table %}
-<div class="col-sm-12" id="conTable">
+<div class="col-sm-12" id="conTable" style="min-height: 800px;">
     {% for city, data in city_agendas.items() %}
         {{ city_table(city, data) }}
     {% endfor %}
