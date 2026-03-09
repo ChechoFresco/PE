@@ -1,181 +1,162 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
+
 {% block metadata %}
 <meta name="description" content="Tracking regulatory & legislative issues in local city councils">
 {% endblock %}
-{% block content %}
 
-<head>
-    <!-- Bootsrap used to create dynamic-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <!-- Style sheet-->
-    <link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style"
-        onload="this.onload=null;this.rel='stylesheet'">
-        <script>
-            $(document).ready(function () {
-                // Title changing
-                var texts = ["proposed legislation", "local issues", "telecommunications", "local ordinances", "medical", "cannabis regulations", "discussions", "utilities", "Alcohol, tobacco and vaping", "climate change", "transportation", "financial", "retail"];
-                var count = 0;
-                function changeText() {
-                    $("#billboard").text(texts[count]);
-                    $("#billboard").css({
-                        "text-shadow": '0px 0px 3px white',
-                        "color": 'var(--black)'
-                    });
-                    count = (count + 1) % texts.length; // Cycle through the array
-                }
-                setInterval(changeText, 4000);
-            $(document).ready(function () {
-                // Toggle the height of "td.description" on click
-                $(".table_1").on("click", "td.description", function () {
-                    try {
-                        console.log('Description cell clicked'); // Log for debugging
-                        if (this.style.maxHeight === "6rem") {
-                            this.style.maxHeight = "fit-content";
-                        } else {
-                            this.style.maxHeight = "6rem";
-                        }
-                    } catch (error) {
-                        console.error("An error occurred while toggling description height:", error);
-                    }
-                });
-            });
-        });
-        </script>
-</head>
-<!--Main Marquee-->
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
+
+
+
+<!-- ===== MAIN MARQUEE ===== -->
 <div class="dash Main" id="mainPane">
     <div class="col-sm-offset-2 col-sm-8">
-        <h1 id="title">Follow <span id="billboard">policy change</span> in California.
-        </h1>
-        <h3 class='sellLine'>Staying on top of local legislation affecting you can be a challenge. Missing an
-            issue can be costly in time and resource.
+        <h1 id="title">Follow <span id="billboard">policy change</span> in California.</h1>
+        <h3 class='sellLine'>
+            Staying on top of local legislation affecting you can be a challenge. Missing an issue can be costly in time and resource.
             Search, set notifications, and find your PolicyEdge.
         </h3>
     </div>
 </div>
-    <!--Charts-->
-    {% if folium_map %}
-    <div class="row" id="chartBox">
-        <div class="col-sm-offset-2 col-sm-10">
-            {{ folium_map | safe }}
-        </div>
+
+
+
+<!-- ===== CHARTS ===== -->
+{% if folium_map %}
+<div class="row" id="chartBox">
+    <div class="col-sm-12">
+        {{ folium_map | safe }}
     </div>
-    {% endif %}
-    <!--searchFreeDiv-->
-    <div class="searchFreeDiv">
-        <div class="mapSearch">
-            <form id="mapSearchForm" method="GET">
-                {% from "_formhelpers.html" import render_field %}
-                <ul>
-                    {{ render_field(form.chartSearch) }}
-                </ul>
-                <p>
-                    <input type="submit" value="Search" id="mapSearchButton">
-                </p>
-            </form>
-        </div>
+</div>
+{% endif %}
 
-        <div class="free">
-            <div class="container" id="freeButton">
-                <div>
-                    {% if not session['username'] %}
-                    <h3 class='free'>
-                        <a href="/register" aria-label="Subscribe to Policy Edge">$20/Month</a>
-                    </h3>
-                    {% endif %}
 
-                    {% if session['username'] %}
-                    <h3 class='howwrk'>Welcome back <span style="color: var(--black);">{{session['username']}}</span>
-                    </h3>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="issue">
-            <label id="currIss">Current Issue</label>
-            <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> -Activity in last week
-            </h2>
-        </div>
+
+<div class="searchFreeDiv">
+
+    <!-- Search Bar -->
+    <div class="mapSearch">
+        <form id="mapSearchForm" method="GET">
+            {% from "_formhelpers.html" import render_field %}
+            <ul>{{ render_field(form.chartSearch) }}</ul>
+            <p><input type="submit" value="Search" id="mapSearchButton"></p>
+        </form>
     </div>
 
-<!--First table-->
+    <!-- Subscription Button / Neon Pulse -->
+    <div class="subscription-section">
+        {% if not session['username'] %}
+            <a href="/register" class="neon-pulse" aria-label="Subscribe to Policy Edge">$20/Month</a>
+        {% else %}
+            <span class="welcome-message">Welcome back <span style="color: var(--black);">{{ session['username'] }}</span></span>
+        {% endif %}
+    </div>
+
+    <!-- Current Issue -->
+    <div class="issue">
+        <label id="currIss">Current Issue</label>
+        <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> - Activity in last week</h2>
+    </div>
+
+</div>
+
+
+
+<!-- ===== TABLE CONTAINER ===== -->
+{% from 'partials/city_tables.html' import city_table %}
 <div class="col-sm-12" id="conTable">
     {% for city, data in city_agendas.items() %}
-    {% if data.agendas %}
-    <div class="texture">
-        <table class="table_1" data-toggle="table" data-sortable="true" data-pagination="true" data-show-columns="true"
-            data-page-size='5' class="table-responsive">
-            <caption class="reize">
-                {{ city }}
-                <div id="listcontent">
-                    <p>Contents:</p>
-                    <ul>
-                        {% for topic, count in data.topic_counts.items() %}
-                            <a href="/topicLink/{{ topic }}?city={{ city }}" id='topicLink' class="topic-square" target="_blank">
-                                {{ topic }}: {{ count }}
-                            </a>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </caption>
-            <thead class='h-12'>
-                <tr>
-                    <th data-field='row-Date' data-sortable="true">Date</th>
-                    <th class='none' data-field='row-County'>County</th>
-                    <th class='none' data-field='row-City'>City</th>
-                    <th class='none' data-field='row-MeetingType'>Meeting Type</th>
-                    <th data-field='row-Item' data-sortable="true">Item Type</th>
-                    <th data-field='row-Num' data-sortable="true">Item</th>
-                    <th class='none' data-field='row-Description'>Description</th>
-                    <th class='none' data-field='row-infoLocation'>infoLocation</th>
-                    <th class='none' data-field='row-id'>id</th>
-                    <th class='none' data-field='row-topic'>topic</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for agenda in data.agendas %}
-                <tr class="lineSep">
-                    <td class='none'>{{ agenda.Date }}</td>
-                    <td class='none'>{{ agenda.County }}</td>
-                    <td class='none'>{{ agenda.City }}</td>
-                    <td class='none'>{{ agenda.MeetingType }}</td>
-                    <td class='none'>{{ agenda.ItemType }}</td>
-                    <td class='none'>{{ agenda.Num }}</td>
-                    <td class='description'>{{ agenda.Description }}</td>
-                    <td class='infoLocation'><span class="glyphicon glyphicon-calendar"></span>
-                        {{ agenda.Date|aTime }}
-                        <span class="glyphicon glyphicon-briefcase"></span>{{ agenda.ItemType }}
-                        <span class="poundSign">#</span>{{ agenda.Num }}
-                    </td>
-                    <td class='none'>{{ agenda._id }}</td>
-                    <td class='none'>{{ agenda.topic }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% endif %}
+        {{ city_table(city, data) }}
     {% endfor %}
 </div>
+<!-- ===== SCRIPTS ===== -->
+<script>
+$(document).ready(function () {
+    // Billboard rotating text
+    let texts = ["proposed legislation","local issues","telecommunications","local ordinances","medical","cannabis regulations","discussions","utilities","Alcohol, tobacco and vaping","climate change","transportation","financial","retail"];
+    let count = 0;
+    setInterval(() => {
+        $("#billboard").text(texts[count]).css({"text-shadow":"0px 0px 3px white","color":"var(--black)"});
+        count = (count + 1) % texts.length;
+    }, 4000);
+
+    // Toggle description height
+    $(".table1").on("click", "td.description", function () {
+        let $desc = $(this);
+
+        if ($desc.hasClass("expanded")) {
+            // Collapse back to default height
+            $desc.removeClass("expanded")
+                .css("max-height", "128px");
+        } else {
+            // Expand to full height
+            $desc.addClass("expanded");
+            let fullHeight = $desc.prop("scrollHeight") + "px";
+            $desc.css("max-height", fullHeight);
+        }
+    });
+});
+
+</script>
+
+<script>
+let start = 6; // first 6 cities already rendered
+const count = 6;
+let loading = false;
+
+function loadMoreCities() {
+    if (loading) return;
+    loading = true;
+
+    fetch(`/load_more_cities?start=${start}&count=${count}`)
+        .then(res => res.text())
+        .then(html => {
+            if (html.trim() !== "") {
+                // Insert new tables
+                document.getElementById('conTable').insertAdjacentHTML('beforeend', html);
+
+                // Initialize bootstrap-table on the newly added tables
+                $('#conTable .city-wrapper table').each(function() {
+                    if (!$(this).hasClass('bootstrap-table')) {
+                        $(this).bootstrapTable();
+                    }
+                });
+
+                start += count;
+            }
+            loading = false;
+        })
+        .catch(err => {
+            console.error("Failed to load more cities:", err);
+            loading = false;
+        });
+}
+
+// Infinite scroll listener
+window.addEventListener('scroll', () => {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+        loadMoreCities();
+    }
+});
+
+// Trigger load if page content is short
+window.addEventListener('load', () => {
+    if (document.body.offsetHeight <= window.innerHeight) {
+        loadMoreCities();
+    }
+});
+</script>
 <!-- Bootstrap used for table -->
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
 <script src="https://unpkg.com/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
-<script>
-    document.getElementById("searchForm").onsubmit = function(event) {
-        var chosenValue = document.querySelector('[name="chartSearch"]').value;  // Get value from chartSearch input field
-        if (chosenValue) {
-            // Dynamically set the action URL based on the entered value
-            this.action = "/descriptionLink/" + encodeURIComponent(chosenValue);
-        } else {
-            // If no value is entered, prevent the form submission
-            event.preventDefault();
-            alert("Please enter a search term.");
-        }
-    };
-</script>
+<!-- Bootsrap used to create dynamic-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
 {% endblock %}
 
