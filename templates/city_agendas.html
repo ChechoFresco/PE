@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendas for {{ topic }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/city_agendas.css') }}">
+    <!-- Bootsrap used to create dynamic-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<!-- Reveal Card-->
+    <script>
+        function toggleCard(element) {
+            let card;
+            if (element instanceof Event) {
+                card = element.target.closest('.topicSquare');
+            } else {
+                card = element;
+            }
+            let cardContent = card.nextElementSibling; // assuming .cardContent is next sibling
+            if (cardContent.style.display === "none" || cardContent.style.display === "") {
+                cardContent.style.display = "block";
+                card.parentElement.style.width = "80rem";
+                card.parentElement.style.height = "auto";
+            } else {
+                cardContent.style.display = "none";
+                card.parentElement.style.width = "57rem"; // reset width
+                card.parentElement.style.height = "12rem";
+            }
+        }
+    </script>
+</head>
+    <div class="titleContainer">
+        <h1>{{city}}</h1>
+    </div>
+    <div class="col-sm-12" id="tableContainer">
+        {% for date, data in city_agendas.items() %}
+        {% if data.agendas %}
+        <div class="independentCard">
+            <div class="topicSquare">
+                <div class="cityNameDiv">
+                    <span class="animatedCityName">
+                        <caption class="reize">
+                            <span class="animated-city-name">{{date|aTime}}
+                        </caption>
+                    </span>
+                </div>
+
+                <div class="listcontent">
+                    <div class="listcontent-header">
+                        <p>Topics Covered:</p>
+                        <p onclick="toggleCard(event)">Click to Explore Agenda</p> <!-- 👈 fix here -->
+                    </div>
+                    <ul>
+                        {% for topic, count in data.topic_counts.items() %}
+                            <li>
+                                <a href="/topicLink/{{ topic }}?city={{ city }}" class="topic-square" target="_blank">
+                                    {{ topic }}: {{ count }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Only this part hidden by default -->
+            <div class="cardContent" style="display: none;">
+                <table class="tableOptions table-responsive" data-toggle="table" data-sortable="true" data-pagination="true" data-show-columns="true" data-page-size="10">
+                    <thead class='h-12'>
+                        <tr>
+                            <th data-field='row-Date' data-sortable="true">Date</th>
+                            <th class='none' data-field='row-County'>County</th>
+                            <th class='none' data-field='row-City'>City</th>
+                            <th class='none' data-field='row-MeetingType'>Meeting Type</th>
+                            <th data-field='row-Item' data-sortable="true">Item Type</th>
+                            <th data-field='row-Num' data-sortable="true">Item</th>
+                            <th class='none' data-field='row-topic'>topic</th>
+                            <th class='none' data-field='row-Description'>Description</th>
+                            <th class='none' data-field='row-infoLocation'>infoLocation</th>
+                            <th class='none' data-field='row-id'>id</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for agenda in data.agendas %}
+                        <tr class="lineSep">
+                            <td class='none'>{{ agenda.Date }}</td>
+                            <td class='none'>{{ agenda.County }}</td>
+                            <td class='none'>{{ agenda.City }}</td>
+                            <td class='none'>{{ agenda.MeetingType }}</td>
+                            <td class='none'>{{ agenda.ItemType }}</td>
+                            <td class='none'>{{ agenda.Num }}</td>
+                            <td class="topics">
+                                <p>Topics:</p>
+                                <ul class="topics-grid">
+                                    {% for topic in agenda.Topics %}
+                                        <li>{{ topic }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td class="description">{{ agenda.Description }} </td>
+                            <td class='infoLocation'>
+                                <span class="glyphicon glyphicon-calendar"></span> {{ agenda.Date|aTime }}
+                                <span class="glyphicon glyphicon-briefcase"></span> {{ agenda.ItemType }}
+                                <span class="poundSign">#</span> {{ agenda.Num }}
+                                <span class="linkSign">🔗</span>
+                                <a href="{{ url_for('view_agenda', agenda_id=agenda._id) }}" target="_blank">
+                                    Share
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+<!-- Bootstrap used for table -->
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
+{% endblock %}
+
+<!--
+
+-->
