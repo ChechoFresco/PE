@@ -1,401 +1,517 @@
-.highlight {
-        text-decoration-line: underline;
-        text-decoration-color: var(--orange);
-        text-decoration-thickness: 2px;
-    }
-/* Main Dislay*/
-    #conTable {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
-        margin-top: 1rem;
-        align-items: flex-start;
-        color: white;
-    }
+
+/* ================================
+    Main Table
+   ================================ */
+
+#conTable {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+    align-items: flex-start;
+    color: white;
+}
 /* Main Title*/
-    #mainPane {
-        border-radius: 3rem;
-        position: relative;
-        overflow: hidden;
-    }
-    h1#title {
-        text-align: center;
-        font-size: var(--font1);
-        letter-spacing: -1px;
-        font-family: serif;
-        font-weight: 600;
-        color: var(--white);
-        text-shadow: 2px 2px 2px black;
-    }
-    h3.sellLine{
-        color: var(--gray);
-        font-size: 2rem;
-        letter-spacing: .1rem;
-        text-align: -webkit-center;
-        text-shadow: 2px 2px 2px black;
-    }
-
-
-/* Charts*/
-    #chartBox {
-        height: 350px;
-        width: 90%;
-        overflow: hidden;
-    }
-/* search bar section*/
-
-    /* Master Div*/
-
-    .searchFreeDiv {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 1rem;
-        max-width: 1000px;
-        margin:auto;
-    }
-
-    /* First Div*/
-
-    #mapSearchForm{
-        display: flex;
-        align-items: flex-end;
-    }
-    #chartSearch{
-        background:currentColor;
-    }
-        /* searchbar*/
-    #mapSearchForm ul{
-        margin: 1rem;
-        width:auto;
-    }
-        /* Button*/
-    #mapSearchForm p{
-        margin: 1rem;
-        width:auto;
-    }
-    #mapSearchButton {
-        border-radius: 1rem;
-        background: transparent;
-        color: var(--white);
-        cursor: pointer;
-        font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
-        text-align: center;
-        border: 1px solid #ffffff54;
-        width: 8rem;
-        height: 3rem;
-    }
-
-
-    /* Second Div*/
-
-    #freeButton {
-        text-align: -webkit-center;
-        width: 206px;
-        height: 107px
-    }
-
-    h3.free {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        font-size: 3rem;
-        text-align-last: center;
-        border-radius: .5rem;
-        width: max-content;
-        padding: .8rem;
-        background-color: var(--orange);
-    }
-
-    h3.free a {
-        color: white;
-        font-weight: 200;
-    }
-    /* ThirdDiv*/
-
-    #currIss {
-        font-size: var(--font3);
-        font-family: 'Merriweather', serif;
-        text-transform: capitalize;
-        color: var(--white);
-    }
-    h2 {
-        font-size: 16px;
-        color: var(--white);
-        margin-top: 1rem;
-    }
-    /* Table*/
-
-    div.texture {
-        width: 58rem;
-        border-radius: 1rem;
-        margin-bottom: 2rem;
-        overflow: hidden;
-        height: auto;
-        background: rgb(50 50 50 / 80%);
-    }
-    #table_1 {
-        table-layout: fixed;
-        border: none;
-        background: white;
-        border-radius: 3rem;
-        margin-top: 2rem;
-    }
-    .table-bordered {
-        border: none;
-    }
-
-
-/* Titles*/
-    caption {
-        text-align: center;
-        font-size: 1.9rem;
-        text-transform: capitalize;
-        font-weight: 500;
-        color: var(--white);
-    }
-
-
-    /* Topic section*/
-    div#listcontent{
-        margin-top:2rem;
-        color: var(--gray);
-        text-shadow: 2px 2px 2px black;
-    }
-    #listcontent ul{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-
-    div#listcontent p{
-        font-size: 1rem;
-        float: left;
-    }
-
-    #topicLink{
-        min-width: 14rem;
-        min-height: 1rem;
-        font-size: 1rem;
-        color: var(--gray);
-        text-shadow: 2px 2px 2px black;
-    }
-
-    /* Table option*/
-
-    tr {
-        text-align: -webkit-center;
-    }
-
-
-    th {
-        display: inline-block;
-        position: relative;
-        color: var(--gray);
-        text-shadow: 2px 2px 2px black;
-        font-size: 1.4rem;
-    }
-
-    td {
-        display: block;
-        font-family: "Open Sans", sans-serif;
-        font-size: 1.2rem;
-    }
-    td:hover{
-        color: white;
-        font-size: 1.3rem;
-    }
-    .table-hover>tbody>tr:hover {
-        background-color: var(--black);
-    }
-    td.none {
-        display: none;
-    }
-    th.none {
-        display: none;
-    }
-    td.infoLocation {
-        display: flex;
-        justify-content: space-evenly;
-        color: var(--gray);
-        text-shadow: 2px 2px 2px black;
-    }
-    td.description {
-        white-space: break-spaces;
-        text-shadow: 2px 2px 2px black;
-        color: var(--white);
-        max-height: 8rem;
-        /* Initial collapsed height */
-        overflow: hidden;
-        /* Hide overflowing content */
-        transition: height 0.3s ease;
-        /* Smooth height transition */
-        cursor: pointer;
-    }
-
-
-    .table thead tr th,
-    .table tbody tr td {
-        border: none;
-    }
-
-    .glyphicon:not(.glyphicon-resize-vertical) {
-        color: var(--orange);
-    }
-    span.poundSign{
-    color: var(--orange);
+#mainPane {
+    border-radius: 3rem;
+    position: relative;
+    overflow: hidden;
 }
-/* Pagination */
-
-div.fixed-table-pagination {
-    bottom: -1rem;
-}
-
-.padding-0 {
-    padding-right: 0;
-    padding-left: 0;
-}
-
-.columns {
-    display: none
-}
-
-.pagination-info {
+h1#title {
+    text-align: center;
+    font-size: var(--font1);
+    letter-spacing: -1px;
+    font-family: serif;
+    font-weight: 600;
     color: var(--white);
-    font-size: 1rem;
+    text-shadow: 2px 2px 2px black;
+}
+h3.sellLine{
+    color: var(--gray);
+    font-size: 2rem;
+    letter-spacing: .1rem;
+    text-align: -webkit-center;
+    text-shadow: 2px 2px 2px black;
 }
 
-.page-list {
-    color: var(--white);
-    font-size: 1rem;
+
+/* ================================
+    MAP
+   ================================ */
+#chartBox {
+    width: 100%;           /* full width of container */
+    height: 475px;         /* match map height */
+    margin-bottom: 20px;   /* spacing below map */
+    overflow: hidden;     /* allow popups/tooltips */
 }
 
-.pagination>.active>a {
-    background-color: var(--orange);
-    color: var(--textColor);
+
+
+/* ================================
+    SEARCH + SUBSCRIPTION + ISSUE ROW
+   ================================ */
+   .searchFreeDiv {
+    display: flex;
+    justify-content: space-evenly; /* evenly space items across the row */
+    align-items: center;           /* vertical center */
+    margin: 1rem auto;
+    max-width: 1000px;
+    gap: 1rem;                     /* optional extra spacing */
 }
 
-.pagination>li>a {
-    color: var(--black);
-    background-color: ghostwhite;
+/* Each child div: use equal flex so spacing works */
+.searchFreeDiv > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;           /* all three divs take equal horizontal space */
 }
 
-.btn {
-    background-color: ghostwhite;
+/* --------- SEARCH BAR --------- */
+.mapSearch {
+    flex: 1;              /* take proportional space */
+    max-width: 250px;     /* don’t stretch too much */
 }
 
-.pagination>li>span {
-    padding: 1px 11px;
+#mapSearchForm {
+    display: flex;
+    align-items: flex-end;
 }
 
-.subrow {
-    color: var(--textColor);
+/* --------- SUBSCRIPTION BUTTON --------- */
+.subscription-section {
+    flex: 1;          /* same as others */
+    text-align: center;
 }
 
-span.page-size {
-    color: black;
-}
-
-a.dropdown-item {
+.neon-pulse {
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 3rem;
+    font-weight: 600;
     color: var(--orange);
+    background: #000;
+    border: 2px solid var(--orange);
+    border-radius: 0.5rem;
     text-decoration: none;
-    padding: 2px;
+    overflow: visible;
+    z-index: 1;
+    transition: all 0.4s ease;
+    text-align: center;
 }
 
+/* Neon pulse effect */
+.neon-pulse::before,
+.neon-pulse::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border: 2px solid var(--orange);
+    border-radius: inherit;
+    opacity: 0;
+    animation: pulseOut 2s ease-out infinite;
+}
+
+.neon-pulse::after {
+    animation-delay: 1s;
+}
+
+@keyframes pulseOut {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+.neon-pulse:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px var(--orange);
+}
+
+/* Welcome message when logged in */
+.welcome-message {
+    font-family: system-ui, sans-serif;
+    font-size: 1.25rem;
+    color: var(--white);
+    text-align: center;
+}
+
+/* --------- CURRENT ISSUE --------- */
+.issue {
+    flex: 1;             /* take remaining space */
+    font-size: var(--font3);
+    font-family: 'Merriweather', serif;
+    text-transform: capitalize;
+    color: var(--white) !important;
+    text-align: center;
+}
+
+.issue h2 {
+    font-size: 16px;
+    color: var(--white);
+    margin-top: 0.5rem;
+}
+
+
+
+
+
+
+
+/* ==========================
+    Table Options
+   ========================== */
+div.texture {
+    width: 58rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    height: auto;
+    background: rgb(50 50 50 / 80%);
+}
+
+/* List Content / Topic Section*/
+.cityCaption {
+    caption-side: top;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--white);
+    text-shadow: 2px 2px 2px black;
+    margin-bottom: 0.5rem;
+    opacity: 0;                  /* start invisible */
+    transform: translateY(-10px); /* start slightly above */
+    animation: fadeSlideIn 1s ease forwards; /* play animation */
+}
+
+/* Keyframes for fade + slide */
+@keyframes fadeSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/*Container for topics */
+div#listcontent {
+    margin-top: 2rem;
+    color: var(--white);
+    text-shadow: 2px 2px 2px black;
+}
+
+/* Content title */
+div#listcontent p {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    float: left;
+}
+
+/* Topics list */
+#listcontent ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;                   /* space between items */
+    justify-content: flex-start;    /* left-aligned, neat */
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+/* Topic links */
+#topicLink,
+.topic-square {
+    display: inline-block;
+    min-width: 12rem;               /* slightly smaller for narrow screens */
+    max-width: 14rem;               /* prevent extremely long topics from stretching */
+    height: 1.8rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.95rem;
+    color: var(--white);
+    background-color: rgba(0, 0, 0, 0.2);
+    text-shadow: 1px 1px 1px black;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    margin: 0.25rem 0;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+    /* Prevent long text from breaking layout */
+    overflow: hidden;
+    text-overflow: ellipsis;        /* shows ... for long topics */
+    white-space: nowrap;            /* keep it on a single line */
+    text-align: center;
+}
+
+/* Hover effect */
+#topicLink:hover,
+.topic-square:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+tr {
+    text-align: -webkit-center;
+}
+
+th {
+    display: inline-block;
+    position: relative;
+    color: var(--gray);
+    text-shadow: 2px 2px 2px black;
+    font-size: 1.4rem;
+}
+
+td {
+    display: block;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.2rem;
+}
+/* Hides td th for ex. objectId etc...  */
+td.none {
+    display: none;
+}
+th.none {
+    display: none;
+}
+
+/* Remove all table borders */
+.table,
+.table th,
+.table td {
+    border: none !important;   /* removes all cell borders */
+    box-shadow: none !important; /* in case bootstrap-table adds shadows */
+}
+
+
+/* Optional: remove hover effect if any */
+.table tbody tr:hover {
+    background-color: transparent !important;
+}
+
+td:hover{
+    font-size: 1.3rem;
+}
+
+
+.description {
+    max-height: 8rem; /* initial collapsed height */
+    overflow: hidden;
+    cursor: pointer;
+    transition: max-height 0.3s ease;
+}
+
+.infoLocation {
+    display: flex;
+    justify-content: space-evenly;
+    color: var(--gray);
+}
+
+
+.glyphicon:not(.glyphicon-resize-vertical) {
+    color: var(--orange);
+}
+span.poundSign{
+color: var(--orange);
+}
+/* ==========================
+   Table Pagination Customization
+   ========================== */
+
+.bootstrap-table .pagination {
+    justify-content: flex-end; /* align right */
+    margin-top: 1rem;
+}
+
+/* Page number buttons */
+.bootstrap-table .pagination li a,
+.bootstrap-table .pagination li span {
+    background-color: var(--gray);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    margin: 0 0.15rem;
+    transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.bootstrap-table .pagination li a:hover {
+    background-color: #555; /* darker shade for hover */
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* Active page button */
+.bootstrap-table .pagination li.active a {
+    background-color: #f39c12; /* your accent color */
+    color: black;
+    font-weight: bold;
+}
+
+/* Disabled buttons */
+.bootstrap-table .pagination li.disabled a,
+.bootstrap-table .pagination li.disabled span {
+    background-color: rgba(0,0,0,0.1);
+    color: rgba(255,255,255,0.5);
+    cursor: not-allowed;
+}
+
+.bootstrap-table .page-list .btn.dropdown-toggle {
+    background-color: var(--gray);     /* main button color */
+    color: white;                       /* text color */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.25rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px black;
+    padding: 0.25rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.bootstrap-table .page-list .btn.dropdown-toggle:hover {
+    background-color: #555;  /* slightly darker on hover */
+    color: white;
+}
+
+.bootstrap-table .columns .btn.dropdown-toggle {
+    background-color: var(--white);   /* your main gray color */
+    color: white;                     /* text and icon color */
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 0.25rem;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.bootstrap-table .columns .btn.dropdown-toggle:hover {
+    color: white;
+}
+
+div.bootstrap-table .dropdown-menu {
+    color: var(--whiye);      /* matches your table and topic text */
+    text-shadow: 1px 1px 1px black;  /* optional, matches your theme */
+    font-weight: bold;
+    font-size: 0.95rem;       /* readable size */
+    opacity: 1 !important;    /* ensure it isn’t hidden */
+    background-color: var(--gray);   /* your main gray color */
+}
+
+/* Smaller screens adjustments */
+@media (max-width: 768px) {
+    .bootstrap-table .pagination li a,
+    .bootstrap-table .pagination li span {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.85rem;
+    }
+}
 
 /* ################################################# */
 /* ################################################# */
 /* ################################################# */
 @media (min-width: 001px) and (max-width: 600px) {
-    thead:after {
-        content: none;
-    }
+thead:after {
+    content: none;
+}
 
-    /* Title*/
+/* Title*/
 
-    h1#title {
-        font-size: 3rem;
-        text-align: center;
-        width: auto;
-    }
+h1#title {
+    font-size: 3rem;
+    text-align: center;
+    width: auto;
+}
 
-    #conanimation {
-        flex-direction: column;
-    }
+#conanimation {
+    flex-direction: column;
+}
 
-    svg.animated {
-        left: -7rem;
-    }
+svg.animated {
+    left: -7rem;
+}
 
-    h3.howwrk {
-        font-size: 2.4rem;
-    }
+h3.howwrk {
+    font-size: 2.4rem;
+}
 
-    .portfolio-experiment a {
-        left: 2rem;
-    }
+.portfolio-experiment a {
+    left: 2rem;
+}
 
 
 
-    /* search Buttons*/
-    form {
-        left: -2rem;
-        position: relative;
-    }
+/* search Buttons*/
+form {
+    left: -2rem;
+    position: relative;
+}
 
-    #uniqueSearch {
-        left: 8rem;
-    }
+#uniqueSearch {
+    left: 8rem;
+}
 
-    #currIss {
-        position: relative;
-        left: 8rem;
-    }
+#currIss {
+    position: relative;
+    left: 8rem;
+}
 
-    label {
-        font-size: 14px;
-    }
+label {
+    font-size: 14px;
+}
 
-    /* Map*/
-    #chartBox {
-        height: 26rem;
-        margin: 0 auto;
-    }
+/* Map*/
+#chartBox {
+    height: 26rem;
+    margin: 0 auto;
+}
 
-    /* Table*/
-    th {
-        display: none;
-        width: none;
-    }
+/* Table*/
+th {
+    display: none;
+    width: none;
+}
 
-    th {
-        margin: auto;
-        font-size: 1.2rem;
-    }
+th {
+    margin: auto;
+    font-size: 1.2rem;
+}
 
-    td.infoLocation {
-        font-size: 12px;
-    }
+td.infoLocation {
+    font-size: 12px;
+}
 
-    td.description {
-        font-size: 12px;
-    }
+td.description {
+    font-size: 12px;
+}
 
-    h3#title {
-        font-size: 1.7rem;
-    }
+h3#title {
+    font-size: 1.7rem;
+}
 
-    caption {
-        font-size: 2.8rem;
-        width: auto;
-    }
+caption {
+    font-size: 2.8rem;
+    width: auto;
+}
 
-    .pagination-info {
-        font-size: 14px;
-    }
+.pagination-info {
+    font-size: 14px;
+}
 
-    .page-list {
-        font-size: 14px;
-    }
+.page-list {
+    font-size: 14px;
+}
 }
 
 
