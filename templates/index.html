@@ -64,9 +64,11 @@
 
 <!-- ===== TABLE CONTAINER ===== -->
 {% from 'partials/city_tables.html' import city_table %}
-<div class="col-sm-12" id="conTable" style="min-height: 800px;">
+<div class="row" id="conTable">
     {% for city, data in city_agendas.items() %}
-        {{ city_table(city, data) }}
+        <div class="col-sm-6">
+            {{ city_table(city, data) }}
+        </div>
     {% endfor %}
 </div>
 <!-- ===== SCRIPTS ===== -->
