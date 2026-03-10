@@ -306,26 +306,25 @@ display: none;
 /* =====================
    SOCIAL ICONS - opaque circle background
 ===================== */
-.social-icons a {
-  display: inline-flex;          /* center the icon inside circle */
-  justify-content: center;
-  align-items: center;
-  list-style: none;       /* remove bullets */
-  width: 44px;
-  height: 44px;
-  line-height: 44px;
-  background-color: rgba(255, 255, 255, 0.1);  /* semi-transparent circle */
-  border-radius: 50%;            /* make it circular */
-  color: var(--white);           /* icon color */
-  font-size: 16px;
-  transition: all 0.3s ease;
+.social-icons {
+  list-style: none;        /* remove bullets */
+  padding: 0;              /* remove default padding */
+  margin: 0;               /* remove default margin */
+  display: flex;           /* horizontal layout */
+  gap: 0.8rem;             /* spacing between icons */
+  align-items: center;     /* vertically center if needed */
+  justify-content: space-between;
 }
 
-/* Hover effect: slightly brighter circle */
-.social-icons a:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  color: var(--white);           /* keep icon visible */
-  transform: scale(1.1);         /* optional pop effect */
+.social-icons li a {
+  color: #fff;             /* icon color */
+  font-size: 2.5rem;       /* icon size */
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.social-icons li a:hover {
+  color: #0d6efd;          /* highlight color on hover */
+  transform: scale(1.2);   /* subtle grow effect */
 }
 
 /* =====================
