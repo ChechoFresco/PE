@@ -73,95 +73,82 @@
 </div>
 <!-- ===== SCRIPTS ===== -->
 <script>
-$(document).ready(function () {
-    // Billboard rotating text
-    let texts = ["proposed legislation","local issues","telecommunications","local ordinances","medical","cannabis regulations","discussions","utilities","Alcohol, tobacco and vaping","climate change","transportation","financial","retail"];
-    let count = 0;
-    setInterval(() => {
-        $("#billboard").text(texts[count]).css({"text-shadow":"0px 0px 3px white","color":"var(--black)"});
-        count = (count + 1) % texts.length;
-    }, 4000);
+    $(document).ready(function () {
+// Billboard rotating text
+        let texts = ["proposed legislation","local issues","telecommunications","local ordinances","medical","cannabis regulations","discussions","utilities","Alcohol, tobacco and vaping","climate change","transportation","financial","retail"];
+        let count = 0;
+        setInterval(() => {
+            $("#billboard").text(texts[count]).css({"text-shadow":"0px 0px 3px white","color":"var(--black)"});
+            count = (count + 1) % texts.length;
+        }, 4000);
 
-    // Toggle description height
-    $(".table1").on("click", "td.description", function () {
-        let $desc = $(this);
-
-        if ($desc.hasClass("expanded")) {
-            // Collapse back to default height
-            $desc.removeClass("expanded")
-                .css("max-height", "128px");
-        } else {
-            // Expand to full height
-            $desc.addClass("expanded");
-            let fullHeight = $desc.prop("scrollHeight") + "px";
-            $desc.css("max-height", fullHeight);
-        }
-    });
-});
-
-</script>
-
-<script>
-let start = 6; // first 6 cities already rendered
-const count = 6;
-let loading = false;
-
-function loadMoreCities() {
-    if (loading) return;
-    loading = true;
-
-    fetch(`/load_more_cities?start=${start}&count=${count}`)
-        .then(res => res.text())
-        .then(html => {
-            if (html.trim() !== "") {
-                const container = document.createElement('div');
-                container.innerHTML = html;
-
-                const conTable = document.getElementById('conTable');
-                const newWrappers = container.querySelectorAll('.city-wrapper');
-
-                newWrappers.forEach(wrapper => {
-                    // Wrap it in the same col-sm-6 div
-                    const colDiv = document.createElement('div');
-                    colDiv.className = 'col-sm-6';
-                    colDiv.appendChild(wrapper);
-
-                    // Append to the main container
-                    conTable.appendChild(colDiv);
-
-                    // Initialize bootstrap-table explicitly for the table inside
-                    const table = wrapper.querySelector('table');
-                    if (table) $(table).bootstrapTable();
-                });
-
-                start += count;
+// Toggle description height
+        $(".table1").on("click", "td.description", function () {
+            let $desc = $(this);
+            if ($desc.hasClass("expanded")) {
+                // Collapse back to default height
+                $desc.removeClass("expanded")
+                    .css("max-height", "128px");
+            } else {
+                // Expand to full height
+                $desc.addClass("expanded");
+                let fullHeight = $desc.prop("scrollHeight") + "px";
+                $desc.css("max-height", fullHeight);
             }
-            loading = false;
-        })
-}
+        });
+    });
+
+// City Loader
+    let start = 6;
+    const count = 6;
+    let loading = false;
+
+    function loadMoreCities() {
+        if (loading) return;
+        loading = true;
+        fetch(`/load_more_cities?start=${start}&count=${count}`)
+            .then(res => res.text())
+            .then(html => {
+                if (html.trim() !== "") {
+                    const container = document.createElement('div');
+                    container.innerHTML = html;
+
+                    const conTable = document.getElementById('conTable');
+                    const newWrappers = container.querySelectorAll('.city-wrapper');
+
+                    newWrappers.forEach(wrapper => {
+                        // Wrap it in the same col-sm-6 div
+                        const colDiv = document.createElement('div');
+                        colDiv.className = 'col-sm-6';
+                        colDiv.appendChild(wrapper);
+
+                        // Append to the main container
+                        conTable.appendChild(colDiv);
+
+                        // Initialize bootstrap-table explicitly for the table inside
+                        const table = wrapper.querySelector('table');
+                        if (table) $(table).bootstrapTable();
+                    });
+
+                    start += count;
+                }
+                loading = false;
+            })
+    }
 
 // Infinite scroll listener
-window.addEventListener('scroll', () => {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
-        loadMoreCities();
-    }
-});
+    window.addEventListener('scroll', () => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+            loadMoreCities();
+        }
+    });
 
 // Trigger load if page content is short
-window.addEventListener('load', () => {
-    if (document.body.offsetHeight <= window.innerHeight) {
-        loadMoreCities();
-    }
-});
-
-// Load folium map after page loads
-window.addEventListener('load', () => {
-    fetch("/get_folium_map")  // return folium_map HTML fragment
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById('foliumMapContainer').innerHTML = html;
-        });
-});
+    window.addEventListener('load', () => {
+        if (document.body.offsetHeight <= window.innerHeight) {
+            loadMoreCities();
+        }
+    });
 </script>
 
 </script>
