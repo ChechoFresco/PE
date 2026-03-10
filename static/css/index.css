@@ -20,7 +20,7 @@
 }
 h1#title {
     text-align: center;
-    font-size: var(--font1);
+    font-size: 3rem;
     letter-spacing: -1px;
     font-family: serif;
     font-weight: 600;
@@ -29,7 +29,7 @@ h1#title {
 }
 h3.sellLine{
     color: var(--gray);
-    font-size: 2rem;
+    font-size: 1rem;
     letter-spacing: .1rem;
     text-align: -webkit-center;
     text-shadow: 2px 2px 2px black;
@@ -51,46 +51,100 @@ h3.sellLine{
 /* ================================
     SEARCH + SUBSCRIPTION + ISSUE ROW
    ================================ */
-   .searchFreeDiv {
-    display: flex;
-    justify-content: space-evenly; /* evenly space items across the row */
-    align-items: center;           /* vertical center */
+/* Container row */
+.searchFreeDiv {
+    display: flex;                 /* row layout */
+    justify-content: space-between;/* evenly spread the three items */
+    align-items: center;           /* vertically center them */
     margin: 1rem auto;
     max-width: 1000px;
-    gap: 1rem;                     /* optional extra spacing */
+    gap: 1rem;                     /* spacing between items */
+    flex-wrap: nowrap;             /* prevent stacking unless forced by screen */
 }
 
-/* Each child div: use equal flex so spacing works */
+/* Common style for all three children */
 .searchFreeDiv > div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex: 1;           /* all three divs take equal horizontal space */
+    flex: 1;                       /* make all children equal width */
+    min-width: 200px;              /* optional, prevent squishing */
 }
 
-/* --------- SEARCH BAR --------- */
+/* ===== SEARCH BAR ===== */
 .mapSearch {
-    flex: 1;              /* take proportional space */
-    max-width: 250px;     /* don’t stretch too much */
+    flex: 1;
+    max-width: 250px;              /* prevent it from stretching too wide */
 }
 
 #mapSearchForm {
-    display: flex;
-    align-items: flex-end;
+    width: 100%;
 }
 
-/* --------- SUBSCRIPTION BUTTON --------- */
+.search-bar-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.search-bar-wrapper input[type="text"] {
+    flex: 1;                        /* input fills available space */
+    padding: 0.4rem 0.6rem;
+    font-size: .6rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+    height: 2rem;
+
+}
+
+#mapSearchButton {
+    padding: 0.4rem 0.8rem;
+    font-size: .6rem;
+    border-radius: 0.25rem;
+    border: none;
+    background-color: var(--orange);
+    color: white;
+    cursor: pointer;
+    height: 2rem;
+}
+
+/* ===== SUBSCRIPTION BUTTON ===== */
 .subscription-section {
-    flex: 1;          /* same as others */
+    flex: 1;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===== CURRENT ISSUE ===== */
+.issue {
+    flex: 1;
     text-align: center;
 }
 
+.issue h2 {
+    font-size: 16px;
+    margin-top: 0.5rem;
+    color: var(--white);
+}
+
+/* --------- SUBSCRIPTION BUTTON --------- */
+/* Fix parent alignment */
+.subscription-section {
+    flex: none;        /* prevent stretching in flex containers */
+    text-align: center;
+    display: block;    /* ensure block alignment */
+}
+
+/* Neon pulse */
 .neon-pulse {
+    display: inline-block; /* explicitly needed for flex parent */
     position: relative;
-    display: inline-block;
+    z-index: 1;
     padding: 0.5rem 1rem;
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 600;
     color: var(--orange);
     background: #000;
@@ -98,7 +152,6 @@ h3.sellLine{
     border-radius: 0.5rem;
     text-decoration: none;
     overflow: visible;
-    z-index: 1;
     transition: all 0.4s ease;
     text-align: center;
 }
@@ -137,121 +190,137 @@ h3.sellLine{
     text-align: center;
 }
 
-/* --------- CURRENT ISSUE --------- */
-.issue {
-    flex: 1;             /* take remaining space */
-    font-size: var(--font3);
-    font-family: 'Merriweather', serif;
-    text-transform: capitalize;
-    color: var(--white) !important;
-    text-align: center;
-}
-
-.issue h2 {
-    font-size: 16px;
-    color: var(--white);
-    margin-top: 0.5rem;
-}
-
-
-
-
-
-
 
 /* ==========================
     Table Options
    ========================== */
+/* Wrapper background */
 div.texture {
-    width: 58rem;
     border-radius: 1rem;
     margin-bottom: 2rem;
     overflow: hidden;
     height: auto;
-    background: rgb(50 50 50 / 80%);
+    background: rgba(50, 50, 50, 0.8);  /* dark semi-transparent */
+    padding: 1rem;                       /* optional spacing */
 }
 
-/* List Content / Topic Section*/
-.cityCaption {
-    caption-side: top;
+/* Table styles */
+.table {
+    background: transparent !important; /* keep texture background visible */
+    border: none !important;            /* remove Bootstrap borders */
+    color: var(--white);                /* text color for table */
+}
+
+/* Remove striped rows or hover colors */
+.table tbody tr {
+    background: transparent !important;
+}
+.table tbody tr:hover {
+    background-color: rgba(255,255,255,0.05) !important; /* subtle hover */
+}
+
+/* Optional: keep text in cells readable */
+td, th {
+    color: var(--white);
+    text-shadow: 1px 1px 1px black;
+    font-size: .5rem;
+}
+
+/* td.description expand */
+td.description {
+    max-height: 128px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    font-size: .8rem;
+
+}
+td.description.expanded {
+    max-height: 500px; 
+}
+
+/* InfoLocation flex layout */
+.infoLocation {
+    display: flex;
+    justify-content: space-evenly;
+    color: var(--gray);
+    font-size: .8rem;
+
+}
+
+/* Topic links / city caption remain outside table */
+.city-info {
+    margin-top: 1rem;
     text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--white);
-    text-shadow: 2px 2px 2px black;
-    margin-bottom: 0.5rem;
-    opacity: 0;                  /* start invisible */
-    transform: translateY(-10px); /* start slightly above */
-    animation: fadeSlideIn 1s ease forwards; /* play animation */
 }
 
-/* Keyframes for fade + slide */
-@keyframes fadeSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/*Container for topics */
-div#listcontent {
-    margin-top: 2rem;
-    color: var(--white);
-    text-shadow: 2px 2px 2px black;
-}
-
-/* Content title */
-div#listcontent p {
+.cityCaption {
+    display: inline-block;
     font-size: 1rem;
     font-weight: bold;
-    margin-bottom: 0.5rem;
-    float: left;
+    color: var(--white);
+    background-color: var(--orange); /* semi-transparent blue */
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    text-shadow: 1px 1px 2px black;
 }
 
-/* Topics list */
-#listcontent ul {
+.listcontent p {
+    font-size: .6rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    justify-self: left;
+}
+
+.listcontent ul {
+    margin-bottom: 0rem;
+}
+
+.topic-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;                   /* space between items */
-    justify-content: flex-start;    /* left-aligned, neat */
+    gap: 0.2rem;
+    justify-content: center; /* center the topic links */
     padding: 0;
-    list-style: none;
     margin: 0;
+    list-style: none;
 }
 
-/* Topic links */
-#topicLink,
 .topic-square {
     display: inline-block;
-    min-width: 12rem;               /* slightly smaller for narrow screens */
-    max-width: 14rem;               /* prevent extremely long topics from stretching */
-    height: 1.8rem;
+    min-width: 4rem;
+    max-width: 11rem;
+    height: 1.4rem;
     padding: 0.25rem 0.5rem;
-    font-size: 0.95rem;
+    font-size: 0.5rem;
     color: var(--white);
     background-color: rgba(0, 0, 0, 0.2);
-    text-shadow: 1px 1px 1px black;
     text-decoration: none;
     border-radius: 0.25rem;
-    margin: 0.25rem 0;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-
-    /* Prevent long text from breaking layout */
     overflow: hidden;
-    text-overflow: ellipsis;        /* shows ... for long topics */
-    white-space: nowrap;            /* keep it on a single line */
+    text-overflow: ellipsis;
+    white-space: nowrap;
     text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Hover effect */
-#topicLink:hover,
 .topic-square:hover {
     background-color: rgba(0, 0, 0, 0.4);
     transform: translateY(-2px);
+}
+
+
+/* Make bootstrap-table search smaller */
+.bootstrap-table .search input.form-control {
+    height: 1.8rem;        /* smaller height */
+    font-size: 0.85rem;    /* smaller text */
+    padding: 0.25rem 0.5rem;
+    max-width: 150px;      /* optional max width */
+    display: inline-block; /* allow inline with toggle button */
+}
+
+/* Hide the "Columns" dropdown button from bootstrap-table */
+.bootstrap-table .columns [data-bs-toggle="dropdown"] {
+    display: none !important;
 }
 
 tr {
@@ -261,9 +330,8 @@ tr {
 th {
     display: inline-block;
     position: relative;
-    color: var(--gray);
+    color: var(--gray) !important;
     text-shadow: 2px 2px 2px black;
-    font-size: 1.4rem;
 }
 
 td {
@@ -285,6 +353,8 @@ th.none {
 .table td {
     border: none !important;   /* removes all cell borders */
     box-shadow: none !important; /* in case bootstrap-table adds shadows */
+    background-color: transparent !important;
+
 }
 
 
@@ -294,7 +364,7 @@ th.none {
 }
 
 td:hover{
-    font-size: 1.3rem;
+    font-size: .8rem;
 }
 
 
@@ -302,6 +372,8 @@ td.description {
     max-height: 128px;
     overflow: hidden;
     transition: max-height 0.3s ease;
+    color:white !important;
+    background-color: transparent !important;
 }
 td.description.expanded {
     max-height: 500px; /* or large enough for content */
@@ -310,15 +382,11 @@ td.description.expanded {
 .infoLocation {
     display: flex;
     justify-content: space-evenly;
-    color: var(--gray);
+    color: var(--gray) !important;
 }
 
-
-.glyphicon:not(.glyphicon-resize-vertical) {
+.bi{
     color: var(--orange);
-}
-span.poundSign{
-color: var(--orange);
 }
 /* ==========================
    Table Pagination Customization
