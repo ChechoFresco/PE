@@ -115,24 +115,30 @@ function loadMoreCities() {
         .then(res => res.text())
         .then(html => {
             if (html.trim() !== "") {
-                // Insert new tables
-                document.getElementById('conTable').insertAdjacentHTML('beforeend', html);
+                const container = document.createElement('div');
+                container.innerHTML = html;
 
-                // Initialize bootstrap-table on the newly added tables
-                $('#conTable .city-wrapper table').each(function() {
-                    if (!$(this).hasClass('bootstrap-table')) {
-                        $(this).bootstrapTable();
-                    }
+                const conTable = document.getElementById('conTable');
+                const newWrappers = container.querySelectorAll('.city-wrapper');
+
+                newWrappers.forEach(wrapper => {
+                    // Wrap it in the same col-sm-6 div
+                    const colDiv = document.createElement('div');
+                    colDiv.className = 'col-sm-6';
+                    colDiv.appendChild(wrapper);
+
+                    // Append to the main container
+                    conTable.appendChild(colDiv);
+
+                    // Initialize bootstrap-table explicitly for the table inside
+                    const table = wrapper.querySelector('table');
+                    if (table) $(table).bootstrapTable();
                 });
 
                 start += count;
             }
             loading = false;
         })
-        .catch(err => {
-            console.error("Failed to load more cities:", err);
-            loading = false;
-        });
 }
 
 // Infinite scroll listener
