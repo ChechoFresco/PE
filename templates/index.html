@@ -37,17 +37,18 @@
 
 
 
+<!-- ===== SEARCH ===== -->
 <div class="searchFreeDiv">
-
     <!-- Search Bar -->
     <div class="mapSearch">
         <form id="mapSearchForm" method="GET">
             {% from "_formhelpers.html" import render_field %}
-            <ul>{{ render_field(form.chartSearch) }}</ul>
-            <p><input type="submit" value="Search" id="mapSearchButton"></p>
+            <div class="search-bar-wrapper">
+                {{ render_field(form.chartSearch) }}
+                <button type="submit" id="mapSearchButton">Search</button>
+            </div>
         </form>
     </div>
-
     <!-- Subscription Button / Neon Pulse -->
     <div class="subscription-section">
         {% if not session['username'] %}
@@ -56,13 +57,11 @@
             <span class="welcome-message">Welcome back <span style="color: var(--black);">{{ session['username'] }}</span></span>
         {% endif %}
     </div>
-
     <!-- Current Issue -->
     <div class="issue">
         <label id="currIss">Current Issue</label>
         <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> - Activity in last week</h2>
     </div>
-
 </div>
 
 
