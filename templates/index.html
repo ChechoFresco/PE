@@ -10,21 +10,26 @@
 
 <!-- ===== MAIN MARQUEE ===== -->
 <div class="dash Main" id="mainPane">
-    <div class="col-sm-offset-2 col-sm-8">
-        <h1 id="title">Follow <span id="billboard">policy change</span> in California.</h1>
-        <h3 class='sellLine'>
-            Staying on top of local legislation affecting you can be a challenge. Missing an issue can be costly in time and resource.
-            Search, set notifications, and find your PolicyEdge.
-        </h3>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-8">
+                <h1 id="title">Follow <span id="billboard">policy change</span> in California.</h1>
+                <h3 class='sellLine'>
+                    Staying on top of local legislation affecting you can be a challenge. Missing an issue can be costly in time and resource.
+                    Search, set notifications, and find your PolicyEdge.
+                </h3>
+            </div>
+        </div>
     </div>
 </div>
+
 
 
 
 <!-- ===== CHARTS ===== -->
 {% if folium_map %}
 <div class="row" id="chartBox">
-    <div class="col-sm-12" id="conTable" style="min-height: 800px;">
+    <div id="foliumMapContainer" style="width: 100%; min-height: 500px;">
         {{ folium_map | safe }}
     </div>
 </div>
