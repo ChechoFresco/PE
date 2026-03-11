@@ -3,6 +3,7 @@ bcrypt
 Flask
 Flask-PyMongo
 Flask-APScheduler
+Flask-Compress>=1.13
 flask-crontab
 Flask-Jsonpify
 Flask-Login
