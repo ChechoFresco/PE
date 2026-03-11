@@ -62,7 +62,7 @@ background-color: transparent;
   padding-bottom: 5px;
   background-image: var(--rad);
   background-repeat: no-repeat;
-  background-position-y: 50px;
+  background-position-y: 60px;
   background-size: 100% 5%;
   width: fit-content;
   color: var(--white);
