@@ -1,4 +1,5 @@
 from flask_pymongo import PyMongo
+from flask_compress import Compress
 from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, send_from_directory
 from forms import searchForm, monitorListform, chartForm, monitorListform2, searchForm2
 import bcrypt
@@ -22,6 +23,7 @@ from urllib.parse import unquote
 # =============================================================================
 
 app = Flask(__name__)
+Compress(app)
 
 # Configuration - Using environment variables for security
 app.config['MONGO_URI'] = os.environ.get("MONGO_URI")
