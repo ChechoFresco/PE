@@ -18,9 +18,13 @@ from jobs import check4Issues2email
 from apscheduler.schedulers.background import BackgroundScheduler
 import atexit
 from urllib.parse import unquote
+from dotenv import load_dotenv
+
 # =============================================================================
 # INITIALIZATION AND CONFIGURATION
 # =============================================================================
+
+load_dotenv()  # read environment variables from .env
 
 app = Flask(__name__)
 Compress(app)
@@ -1309,7 +1313,7 @@ def internal_error(error):
 
 if __name__ == '__main__':
     # Production configuration - disable debug mode
-    app.run(debug=False, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5001)
 
 
 
