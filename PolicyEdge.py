@@ -946,10 +946,14 @@ def privacypolicy():
     """Privacy policy page"""
     return render_template('privacypolicy.html', title='Privacy Policy')
 
+
+# =============================================================================
+# Counties
+# =============================================================================
+
 def get_county_agendas(county_name, weeks_back=16):
     """Helper function to get agendas for a specific county"""
     date_threshold = int((date.today() + relativedelta(weeks=-weeks_back)).strftime('%Y%m%d'))
-    
     try:
         agenda_items = mongo.db.Agenda.find({
             '$and': [
@@ -970,90 +974,36 @@ def get_county_agendas(county_name, weeks_back=16):
         logger.error(f"Error querying {county_name} agendas: {e}")
         return []
 
-@app.route('/losangeles')
-def losangeles():
-    """Los Angeles County agendas page"""
-    agenda_items = get_county_agendas('LA County')
-    city_agendas = {city: [] for city in CITIES['LA']}
-    
+COUNTY_ROUTES = {
+    "losangeles": {"name": "LA County", "template": "losangeles.html", "title": "PolicyEdge agenda tracking monitoring Los Angeles County Search Results"},
+    "orange": {"name": "Orange County", "template": "orange.html", "title": "PolicyEdge agenda tracking monitoring all of Orange County"},
+    "riverside": {"name": "Riverside County", "template": "riverside.html", "title": "PolicyEdge agenda tracking monitoring all of Riverside County"},
+    "sanbernardino": {"name": "San Bernardino County", "template": "sanbernardino.html", "title": "PolicyEdge agenda tracking monitoring all of San Bernardino County"},
+    "sandiego": {"name": "San Diego County", "template": "sandiego.html", "title": "PolicyEdge agenda tracking monitoring all of San Diego County"},
+}
+
+def render_county_agendas(county_key):
+    county_info = COUNTY_ROUTES[county_key]
+    agenda_items = get_county_agendas(county_info["name"])
+
+    # Build a dictionary keyed by City found in agenda items
+    city_agendas = {}
     for agenda in agenda_items:
-        city = agenda.get('City', '')
-        if city in city_agendas:
-            city_agendas[city].append(agenda)
-    
+        city = agenda.get("City", "")
+        if city not in city_agendas:
+            city_agendas[city] = []
+        city_agendas[city].append(agenda)
+
     return render_template(
-        'losangeles.html',
+        county_info["template"],
         city_agendas=city_agendas,
-        title="PolicyEdge agenda tracking monitoring Los Angeles County Search Results"
+        title=county_info["title"]
     )
 
-@app.route('/orange')
-def orange():
-    """Orange County agendas page"""
-    agenda_items = get_county_agendas('Orange County')
-    city_agendas = {city: [] for city in CITIES['OC']}
-    
-    for agenda in agenda_items:
-        city = agenda.get('City', '')
-        if city in city_agendas:
-            city_agendas[city].append(agenda)
-    
-    return render_template(
-        'orange.html',
-        city_agendas=city_agendas,
-        title="PolicyEdge agenda tracking monitoring all of Orange County"
-    )
+# Dynamically add routes
+for route_name in COUNTY_ROUTES:
+    app.add_url_rule(f'/{route_name}', route_name, lambda route_name=route_name: render_county_agendas(route_name))
 
-@app.route('/riverside')
-def riverside():
-    """Riverside County agendas page"""
-    agenda_items = get_county_agendas('Riverside County')
-    city_agendas = {city: [] for city in CITIES['RS']}
-    
-    for agenda in agenda_items:
-        city = agenda.get('City', '')
-        if city in city_agendas:
-            city_agendas[city].append(agenda)
-    
-    return render_template(
-        'riverside.html',
-        city_agendas=city_agendas,
-        title="PolicyEdge agenda tracking monitoring all of Riverside County"
-    )
-
-@app.route('/sanbernardino')
-def sanbernardino():
-    """San Bernardino County agendas page"""
-    agenda_items = get_county_agendas('San Bernardino County')
-    city_agendas = {city: [] for city in CITIES['SB']}
-    
-    for agenda in agenda_items:
-        city = agenda.get('City', '')
-        if city in city_agendas:
-            city_agendas[city].append(agenda)
-    
-    return render_template(
-        'sanbernardino.html',
-        city_agendas=city_agendas,
-        title="PolicyEdge agenda tracking monitoring all of San Bernardino County"
-    )
-
-@app.route('/sandiego')
-def sandiego():
-    """San Diego County agendas page"""
-    agenda_items = get_county_agendas('San Diego County')
-    city_agendas = {city: [] for city in CITIES['SD']}
-    
-    for agenda in agenda_items:
-        city = agenda.get('City', '')
-        if city in city_agendas:
-            city_agendas[city].append(agenda)
-    
-    return render_template(
-        'sandiego.html',
-        city_agendas=city_agendas,
-        title="PolicyEdge agenda tracking monitoring all of San Diego County"
-    )
 
 # =============================================================================
 # ERROR HANDLERS
