@@ -403,7 +403,7 @@ def route_create_checkout_session():
     })
 
     session.update({'username': username, 'email': email})
-    return create_checkout_session(email, your_domain=app.config['YOUR_DOMAIN'])
+    return create_checkout_session(email, your_domain=app.your_domain)
 
 @app.route('/webhook', methods=['POST'])
 def route_webhook():
