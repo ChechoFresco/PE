@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/searchBar.css') }}">
+
+<div class="search-container">
+    {% from "_formhelpers.html" import render_field %}
+    <form action='/results' method="post" class="search-form">
+        <!-- Criteria Select -->
+        <div class="form-group">
+            {{ form.select.label }}
+            {{ form.select(class="form-control", id="select") }}
+        </div>
+
+        <!-- Cities Section -->
+        <div id="cities-section" class="form-group" style="display: none;">
+            {{ form.selectLA.label }}
+            {{ form.selectLA(class="form-control city-field", id="LA") }}
+            {{ form.selectOC(class="form-control city-field", id="OC") }}
+            {{ form.selectRS(class="form-control city-field", id="RS") }}
+            {{ form.selectSB(class="form-control city-field", id="SB") }}
+            {{ form.selectSD(class="form-control city-field", id="SD") }}
+            {{ form.selectLACM(class="form-control city-field", id="LACM") }}
+            {{ form.selectLBCM(class="form-control city-field", id="LBCM") }}
+        </div>
+
+        <!-- Keyword Input -->
+        <div class="form-group">
+            {{ form.primary_search.label }}
+            {{ form.primary_search(class="form-control", placeholder="Enter keyword") }}
+        </div>
+
+        <!-- Date Inputs -->
+        <div class="date-group">
+            <div class="form-group">
+                {{ form.startdate_field.label }}
+                {{ form.startdate_field(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.enddate_field.label }}
+                {{ form.enddate_field(class="form-control") }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+<script>
+$(document).ready(function () {
+    $('#select').on('change', function () {
+        const selected = $(this).val();
+        $('.city-field').hide();
+
+        if(selected === 'LA County') $('#LA').show();
+        else if(selected === 'Orange County') $('#OC').show();
+        else if(selected === 'Riverside County') $('#RS').show();
+        else if(selected === 'San Bernardino County') $('#SB').show();
+        else if(selected === 'San Diego County') $('#SD').show();
+        else if(selected === 'LA Committees') $('#LACM').show();
+        else if(selected === 'Long Beach Committees') $('#LBCM').show();
+
+        if(selected !== 'Issue') $('#cities-section').show();
+        else $('#cities-section').hide();
+    });
+});
+</script>

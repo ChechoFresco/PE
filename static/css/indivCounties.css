@@ -1,0 +1,407 @@
+
+#countyTitle{
+  text-align: center;
+  background: var(--rad2);
+  background-clip: text;
+  color: transparent;
+  font-size: 4rem;
+}
+
+
+
+/* ==========================
+    Table Options
+   ========================== */
+/* Wrapper background */
+div.texture {
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  height: auto;
+  background: rgba(50, 50, 50, 0.8);  /* dark semi-transparent */
+  padding: 1rem;                       /* optional spacing */
+}
+
+/* Table styles */
+.table {
+  background: transparent !important; /* keep texture background visible */
+  border: none !important;            /* remove Bootstrap borders */
+  color: var(--white);                /* text color for table */
+}
+
+/* Remove striped rows or hover colors */
+.table tbody tr {
+  background: transparent !important;
+}
+.table tbody tr:hover {
+  background-color: rgba(255,255,255,0.05) !important; /* subtle hover */
+}
+
+/* Optional: keep text in cells readable */
+td, th {
+  color: var(--white);
+  text-shadow: 1px 1px 1px black;
+  font-size: .5rem;
+}
+
+/* td.description expand */
+td.description {
+  max-height: 128px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  font-size: .8rem;
+
+}
+td.description.expanded {
+  max-height: 500px; 
+}
+
+/* InfoLocation flex layout */
+.infoLocation {
+  display: flex;
+  justify-content: space-evenly;
+  color: var(--gray);
+  font-size: .8rem;
+
+}
+
+/* Topic links / city caption remain outside table */
+.city-info {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.cityCaption {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--white);
+  background-color: var(--orange); /* semi-transparent blue */
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+  text-shadow: 1px 1px 2px black;
+}
+
+.listcontent p {
+  font-size: .6rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  justify-self: left;
+}
+
+.listcontent ul {
+  margin-bottom: 0rem;
+}
+
+.topic-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  justify-content: center; /* center the topic links */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.topic-square {
+  display: inline-block;
+  min-width: 4rem;
+  max-width: 11rem;
+  height: 1.4rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.5rem;
+  color: var(--white);
+  background-color: rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.topic-square:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+
+/* Make bootstrap-table search smaller */
+.bootstrap-table .search input.form-control {
+  height: 1.8rem;        /* smaller height */
+  font-size: 0.85rem;    /* smaller text */
+  padding: 0.25rem 0.5rem;
+  max-width: 150px;      /* optional max width */
+  display: inline-block; /* allow inline with toggle button */
+}
+
+/* Hide the "Columns" dropdown button from bootstrap-table */
+.bootstrap-table .columns [data-bs-toggle="dropdown"] {
+  display: none !important;
+}
+
+tr {
+  text-align: -webkit-center;
+}
+
+th {
+  display: inline-block;
+  position: relative;
+  color: var(--gray) !important;
+  text-shadow: 2px 2px 2px black;
+}
+
+td {
+  display: block;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.2rem;
+}
+/* Hides td th for ex. objectId etc...  */
+td.none {
+  display: none;
+}
+th.none {
+  display: none;
+}
+
+/* Remove all table borders */
+.table,
+.table th,
+.table td {
+  border: none !important;   /* removes all cell borders */
+  box-shadow: none !important; /* in case bootstrap-table adds shadows */
+  background-color: transparent !important;
+
+}
+
+
+/* Optional: remove hover effect if any */
+.table tbody tr:hover {
+  background-color: transparent !important;
+}
+
+td:hover{
+  font-size: .8rem;
+}
+
+
+td.description {
+  max-height: 128px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  color:white !important;
+  background-color: transparent !important;
+}
+td.description.expanded {
+  max-height: 500px; /* or large enough for content */
+}
+
+.infoLocation {
+  display: flex;
+  justify-content: space-evenly;
+  color: var(--gray) !important;
+}
+
+.bi{
+  color: var(--orange);
+}
+/* ==========================
+ Table Pagination Customization
+ ========================== */
+
+.bootstrap-table .pagination {
+  justify-content: flex-end; /* align right */
+  margin-top: 1rem;
+}
+
+/* Page number buttons */
+.bootstrap-table .pagination li a,
+.bootstrap-table .pagination li span {
+  background-color: var(--gray);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  margin: 0 0.15rem;
+  transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.bootstrap-table .pagination li a:hover {
+  background-color: #555; /* darker shade for hover */
+  color: white;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+/* Active page button */
+.bootstrap-table .pagination li.active a {
+  background-color: #f39c12; /* your accent color */
+  color: black;
+  font-weight: bold;
+}
+
+/* Disabled buttons */
+.bootstrap-table .pagination li.disabled a,
+.bootstrap-table .pagination li.disabled span {
+  background-color: rgba(0,0,0,0.1);
+  color: rgba(255,255,255,0.5);
+  cursor: not-allowed;
+}
+
+.bootstrap-table .page-list .btn.dropdown-toggle {
+  background-color: var(--gray);     /* main button color */
+  color: white;                       /* text color */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px black;
+  padding: 0.25rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.bootstrap-table .page-list .btn.dropdown-toggle:hover {
+  background-color: #555;  /* slightly darker on hover */
+  color: white;
+}
+
+.bootstrap-table .columns .btn.dropdown-toggle {
+  background-color: var(--white);   /* your main gray color */
+  color: white;                     /* text and icon color */
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 0.25rem;
+  font-weight: bold;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.bootstrap-table .columns .btn.dropdown-toggle:hover {
+  color: white;
+}
+
+div.bootstrap-table .dropdown-menu {
+  color: var(--whiye);      /* matches your table and topic text */
+  text-shadow: 1px 1px 1px black;  /* optional, matches your theme */
+  font-weight: bold;
+  font-size: 0.95rem;       /* readable size */
+  opacity: 1 !important;    /* ensure it isn’t hidden */
+  background-color: var(--gray);   /* your main gray color */
+}
+
+/* Smaller screens adjustments */
+@media (max-width: 768px) {
+  .bootstrap-table .pagination li a,
+  .bootstrap-table .pagination li span {
+      padding: 0.2rem 0.4rem;
+      font-size: 0.85rem;
+  }
+}
+
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
+@media (min-width: 001px) and (max-width: 600px) {
+thead:after {
+  content: none;
+}
+
+/* Title*/
+
+h1#title {
+  font-size: 3rem;
+  text-align: center;
+  width: auto;
+}
+
+#conanimation {
+  flex-direction: column;
+}
+
+svg.animated {
+  left: -7rem;
+}
+
+h3.howwrk {
+  font-size: 2.4rem;
+}
+
+.portfolio-experiment a {
+  left: 2rem;
+}
+
+
+
+/* search Buttons*/
+form {
+  left: -2rem;
+  position: relative;
+}
+
+#uniqueSearch {
+  left: 8rem;
+}
+
+#currIss {
+  position: relative;
+  left: 8rem;
+}
+
+label {
+  font-size: 14px;
+}
+
+/* Map*/
+#chartBox {
+  height: 26rem;
+  margin: 0 auto;
+}
+
+/* Table*/
+th {
+  display: none;
+  width: none;
+}
+
+th {
+  margin: auto;
+  font-size: 1.2rem;
+}
+
+td.infoLocation {
+  font-size: 12px;
+}
+
+td.description {
+  font-size: 12px;
+}
+
+h3#title {
+  font-size: 1.7rem;
+}
+
+caption {
+  font-size: 2.8rem;
+  width: auto;
+}
+
+.pagination-info {
+  font-size: 14px;
+}
+
+.page-list {
+  font-size: 14px;
+}
+}
+
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */

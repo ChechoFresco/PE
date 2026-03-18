@@ -1,0 +1,10 @@
+echo "__pycache__/
+*.pyc
+bin/
+build/
+include/
+lib/
+.env
+venv/
+Selenium_env/
+.DS_Store" > .gitignore

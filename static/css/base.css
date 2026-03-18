@@ -1,0 +1,356 @@
+html {
+  height: 100%;
+}
+
+body {
+  max-width: 1200px;
+  margin: auto !important;
+  min-height: 100vh; /* ensures body fills viewport */
+  background: linear-gradient(to bottom, #202020, #000000);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+
+/* =====================
+   GLOBAL TUNING
+===================== */
+
+:root {
+  --fontNav:28px;
+  --font1: 5.3rem;
+  --font2: 2rem;
+  --font3: 1.5rem;
+  --blue: #5e7cff;
+  --orange: #fabc3e;
+  --white: #e8e8e8;
+  --black: #202020;
+  --gray: #aaaaaa;
+  --textShadow: 2px 2px 3px #69677e;
+  --rad:linear-gradient(62deg, var(--orange) 0%, var(--white) 100%);
+  --rad2:linear-gradient(180deg, var(--blue) 25%, var(--white) 100%);
+  --duration-long: 10s;
+  --duration-spin: 6s;
+  --ease-smooth: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+
+/* Add a black background color to the top navigation */
+.topnav {
+  overflow: hidden;
+  margin: auto;
+  position: relative;
+  border-bottom: 1px solid var(--white);
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+display: flex;
+font-size: var(--fontNav);
+float: left;
+}
+
+/* Add an active class to highlight the current page */
+.topnav a.logo {
+background-color: transparent;
+}
+
+#login {
+  display: inline-block;
+  padding-bottom: 5px;
+  background-image: var(--rad);
+  background-repeat: no-repeat;
+  background-position-y: 60px;
+  background-size: 100% 5%;
+  width: fit-content;
+  color: var(--white);
+  text-decoration: none;
+}
+
+
+
+.topnav a:not(:first-child):hover {
+background-image: var(--rad);
+padding-bottom: 5px;
+background-repeat: no-repeat;
+background-position-y: 50px;
+background-size:100% 5%;
+width:fit-content;
+text-decoration: none;
+}
+
+.topnav a:not(:first-child):hover a#login {
+text-decoration: none;
+}
+.topnav a:not(:first-child) {
+float: right;
+margin-top:15px;
+padding: 1rem 3rem;
+font-family: "Montserrat", sans-serif;
+color: var(--white);
+}
+/* When hovering any other link inside topnav, hide login underline */
+.topnav:hover a:not(#login):hover ~ #login,
+.topnav:hover a:not(#login):hover,
+.topnav:hover a:not(#login) {
+  background-size: 0 0; /* hides the line */
+}
+/* Hide the link that should open and close the topnav on small screens */
+#ham {
+display: none;
+}
+
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
+/* CSS for TOPNAV*/
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+@media screen and (max-width: 904px) {
+
+  .topnav a:not(:first-child) {
+    display: none;
+    background-image: none !important;
+  }
+
+  .topnav a#ham {
+    top: 2rem;
+    float: right;
+    text-align: left;
+    display: block;
+    background-color: transparent;
+    text-decoration: none;
+  }
+
+  svg#logo {
+    height: 7rem;
+    width: 24rem;
+  }
+  .topnav.responsive {
+    position: absolute;
+    height: 90vh;
+    background-color: rgb(0 0 0 / 85%);
+    z-index: 2;
+    border-radius: 3ch;
+    -webkit-animation: slide1 1s forwards;
+    animation: slide1 1s forwards;
+  }
+  @keyframes slide1 {
+    0% {
+      left: 50rem;
+    }
+
+    100% {
+      left: 0rem;
+    }
+  }
+
+  #login {
+    border-radius: 3rem 3rem 0rem 0rem;
+  }
+  .topnav.responsive a#ham {
+    position: absolute;
+    right: 0rem;
+  }
+  .topnav.responsive a:not(.icon, #ham) {
+    display: grid;
+    text-align: center;
+    width: 100%;
+    top: 0rem;
+    color:white;
+  }
+
+
+  /* nav-icon-1 */
+  .nav-icon-1 {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    transition: .1s;
+    margin: 10px 10px;
+    cursor: pointer;
+    display: inline-block;
+    background-color: transparent;
+    mix-blend-mode: exclusion;
+  }
+
+  .nav-icon-1 span {
+    width: 5px;
+    height: 5px;
+    background-color: #fff;
+    display: block;
+    border-radius: 50%;
+    position: absolute;
+
+  }
+
+  .nav-icon-1:hover span {
+    transform: scale(1.2);
+    transition: 350ms cubic-bezier(.8, .5, .2, 1.4);
+  }
+/* Grid positions */
+.nav-icon-1 span:nth-child(1){left:0;top:0;}
+.nav-icon-1 span:nth-child(2){left:12px;top:0;}
+.nav-icon-1 span:nth-child(3){right:0;top:0;}
+
+.nav-icon-1 span:nth-child(4){left:0;top:12px;}
+.nav-icon-1 span:nth-child(5){left:12px;top:12px;}
+.nav-icon-1 span:nth-child(6){right:0;top:12px;}
+
+.nav-icon-1 span:nth-child(7){left:0;bottom:0;}
+.nav-icon-1 span:nth-child(8){left:12px;bottom:0;}
+.nav-icon-1 span:nth-child(9){right:0;bottom:0;}
+
+
+/* Open animation */
+.nav-icon-1.open{
+    transform:rotate(180deg);
+    cursor:pointer;
+    transition:.2s cubic-bezier(.8,.5,.2,1.4);
+}
+
+.nav-icon-1.open span{
+    border-radius:50%;
+    transition:.5s cubic-bezier(.8,.5,.2,1.4);
+    transition-delay:200ms;
+}
+
+/* Moving dots */
+.nav-icon-1.open span:nth-child(2){left:6px;top:6px;}
+.nav-icon-1.open span:nth-child(4){left:6px;top:18px;}
+.nav-icon-1.open span:nth-child(6){right:6px;top:6px;}
+.nav-icon-1.open span:nth-child(8){left:18px;bottom:6px;}
+}
+
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
+/* ################################################# */
+/* =====================
+   FOOTER LAYOUT
+===================== */
+.site-footer {
+  background-color: transparent;
+  color: var(--white);
+  padding: 2rem 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.site-footer hr {
+  border-top-color: #bbb;
+  opacity: 0.3;
+  margin: 1.5rem 0;
+}
+
+/* =====================
+   FOOTER LOGO & DESCRIPTION
+===================== */
+.site-footer .footer-logo {
+  display: block;
+  margin-bottom: 1rem;
+  max-width: 150px;
+  height: auto;
+}
+
+.site-footer p {
+  color: var(--gray);
+  margin-bottom: 1rem;
+}
+
+/* =====================
+   FOOTER HEADINGS
+===================== */
+.site-footer h3 {
+  color: var(--white);
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* =====================
+   FOOTER TEXT LINKS ONLY
+===================== */
+/* Target only text link lists (ignore social-icons) */
+.site-footer > .container ul:not(.social-icons) {
+  list-style: none;       /* remove bullets */
+  padding-left: 0;        /* remove left padding */
+  margin: 0;
+}
+
+.site-footer > .container ul:not(.social-icons) li {
+  margin-bottom: 0.5rem;
+}
+
+.site-footer > .container ul:not(.social-icons) li a {
+  color: var(--gray);
+  text-decoration: none;  /* remove underline */
+  font-weight: 500;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.site-footer > .container ul:not(.social-icons) li a:hover {
+  color: var(--white);
+  text-decoration: underline;
+  text-decoration-color: var(--blue);
+  text-decoration-thickness: 2px;
+}
+
+/* =====================
+   SOCIAL ICONS - opaque circle background
+===================== */
+.social-icons {
+  list-style: none;        /* remove bullets */
+  padding: 0;              /* remove default padding */
+  margin: 0;               /* remove default margin */
+  display: flex;           /* horizontal layout */
+  gap: 0.8rem;             /* spacing between icons */
+  align-items: center;     /* vertically center if needed */
+  justify-content: space-between;
+}
+
+.social-icons li a {
+  color: #fff;             /* icon color */
+  font-size: 2.5rem;       /* icon size */
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.social-icons li a:hover {
+  color: #0d6efd;          /* highlight color on hover */
+  transform: scale(1.2);   /* subtle grow effect */
+}
+
+/* =====================
+   COPYRIGHT
+===================== */
+.site-footer .copyright-text {
+  color: var(--gray);
+  margin: 0;
+}
+
+/* =====================
+   RESPONSIVE FIXES
+===================== */
+@media (max-width: 991px) {
+  .site-footer [class^="col-"] {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .site-footer .social-icons,
+  .site-footer .copyright-text {
+    text-align: center;
+  }
+
+  .site-footer h3 {
+    text-align: center;
+  }
+}

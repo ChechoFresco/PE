@@ -1,0 +1,90 @@
+/* login.css */
+
+/* Body background */
+body {
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Frosted glass effect for the card */
+.frosted {
+    position: relative; /* important for absolute particles */
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 2px solid white;
+    overflow: hidden; /* hide particles outside div */
+}
+
+/* Particle Field */
+.particles-field {
+    position: absolute;
+    inset: 0; /* cover the div */
+    pointer-events: none; /* so it doesn’t block clicks */
+    opacity: 0.5;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+/* Particle Animation */
+@keyframes particleFloat {
+    0% { transform: translate(var(--x), var(--y)) scale(0); }
+    50% { transform: translate(calc(var(--x) * -1), calc(var(--y) * -1)) scale(1); }
+    100% { transform: translate(var(--x), var(--y)) scale(0); }
+}
+
+/* Centering the SVG and making it responsive */
+.card svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Form inputs */
+.form-control {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+}
+
+label{
+    color:white;
+}
+/* Buttons */
+.btn-primary {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-weight: 400;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+
+/* Links under the form */
+.card a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.card a:hover {
+    color: #0a58ca;
+    text-decoration: underline;
+}
+
+/* Responsive tweaks for small screens */
+@media (max-width: 576px) {
+    .frosted {
+        padding: 2rem 1rem;
+    }
+}

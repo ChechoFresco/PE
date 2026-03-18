@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block metadata %}
+<meta property="og:title" content="PolicyEdge Search City Council Agenda" />
+<meta property="og:description" content="PolicyEdge provides a searchable trove of city government agendas. Start looking at city council agendas today." />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+{% endblock %}
+
+{% block content %}
+<div id="searchPanel">
+    {% from "_formhelpers.html" import render_field %}
+    <form action='/results' method="post">
+        <!-- Criteria Select -->
+        <div class="form-group">
+            {{ form.select.label }}<br>
+            {{ form.select(class="form-control", id="select") }}
+        </div>
+
+        <!-- Cities Section -->
+        <div id="cities-section" class="form-group">
+            {{ form.selectLA.label }} {{ form.selectLA(class="form-control city-field", id="LA") }}
+            {{ form.selectOC(class="form-control city-field", id="OC") }}
+            {{ form.selectRS(class="form-control city-field", id="RS") }}
+            {{ form.selectSB(class="form-control city-field", id="SB") }}
+            {{ form.selectSD(class="form-control city-field", id="SD") }}
+            {{ form.selectLACM(class="form-control city-field", id="LACM") }}
+            {{ form.selectLBCM(class="form-control city-field", id="LBCM") }}
+        </div>
+
+        <!-- Keyword Input -->
+        <div class="form-group search-input-wrapper">
+            {{ form.primary_search.label }}
+            {{ form.primary_search(class="form-control", placeholder="🔍 Enter keyword") }}
+        </div>
+
+        <!-- Dates -->
+        <div class="form-group">
+            {{ form.startdate_field.label }}
+            {{ form.startdate_field(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.enddate_field.label }}
+            {{ form.enddate_field(class="form-control") }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+<div id="spaceMaker"></div>
+
+{% include "results.html" %}
+
+
+<script>
+$(document).ready(function () {
+    // Hide city section initially
+    $('#cities-section').hide();
+
+    $('#select').on('change', function () {
+        const selected = $(this).val();
+        $('.city-field').hide();
+
+        if (selected === 'LA County') $('#LA').show();
+        else if (selected === 'Orange County') $('#OC').show();
+        else if (selected === 'Riverside County') $('#RS').show();
+        else if (selected === 'San Bernardino County') $('#SB').show();
+        else if (selected === 'San Diego County') $('#SD').show();
+        else if (selected === 'LA Committees') $('#LACM').show();
+        else if (selected === 'Long Beach Committees') $('#LBCM').show();
+
+        if (selected !== 'Issue') $('#cities-section').fadeIn(200);
+        else $('#cities-section').fadeOut(200);
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% macro city_table(_city, _data) %}
+<div class="city-wrapper texture">
+
+    <!-- City caption and topic list wrapper -->
+    <div class="city-info">
+        <div class="cityCaption">{{ _city }}</div>
+        <div class="listcontent">
+            <p>Contents:</p>
+            <ul class="topic-list">
+                {% for topic, count in _data.topic_counts.items() %}
+                    <li>
+                        <a href="/topicLink/{{ topic }}?city={{ _city }}" class="topic-square" target="_blank">
+                            {{ topic }}: {{ count }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Table wrapper -->
+    <div class="table-responsive">
+        <table class="table1"
+                data-toggle="table"
+                data-pagination="true"
+                data-search="true"
+                data-show-columns="true"
+                data-page-size="5">
+            <thead>
+                <tr>
+                    <!-- Hidden but sortable columns -->
+                    <th data-field="Date" data-sortable="true">Date</th>
+                    <th data-field="ItemType" data-sortable="true">Item Type</th>
+                    <th data-field="Num" data-sortable="true" >Item</th>
+
+                    <!-- Hidden columns -->
+                    <th data-field="Description" class="none">Description</th>
+                    <th data-field="infoLocation" class="none">Info Location</th>
+                    <th data-field="County" class="none">County</th>
+                    <th data-field="City" class="none">City</th>
+                    <th data-field="MeetingType" class="none">Meeting Type</th>
+                    <th data-field="_id" class="none">id</th>
+                    <th data-field="topic" class="none">topic</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agenda in _data.agendas %}
+                <tr>
+                    <!-- Hidden values for sorting -->
+                    <td class="none">{{ agenda.Date|aTime }}</td>
+                    <td class="none">{{ agenda.ItemType }}</td>
+                    <td class="none">{{ agenda.Num }}</td>
+
+                    <!-- Visible columns -->
+                    <td class="description">{{ agenda.Description }}</td>
+                    <td class="infoLocation">
+                        <i class="bi bi-calendar"></i>{{ agenda.Date|aTime }}
+                        <i class="bi bi-briefcase"></i>{{ agenda.ItemType }}
+                        <span class="bi">#</span>{{ agenda.Num }}
+                    </td>
+
+                    <!-- Other hidden metadata -->
+                    <td class="none">{{ agenda.County }}</td>
+                    <td class="none">{{ agenda.City }}</td>
+                    <td class="none">{{ agenda.MeetingType }}</td>
+                    <td class="none">{{ agenda._id }}</td>
+                    <td class="none">{{ agenda.topic }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endmacro %}
