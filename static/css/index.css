@@ -103,7 +103,8 @@ h3.sellLine{
     font-size: .6rem;
     border-radius: 0.25rem;
     border: none;
-    background-color: var(--orange);
+    background: rgba(255, 165, 0, 0.08);
+    border: 2px solid var(--orange);    
     color: white;
     cursor: pointer;
     height: 2rem;
@@ -147,7 +148,7 @@ h3.sellLine{
     font-size: 2rem;
     font-weight: 600;
     color: var(--orange);
-    background: #000;
+    background: rgba(255, 165, 0, 0.08);
     border: 2px solid var(--orange);
     border-radius: 0.5rem;
     text-decoration: none;
@@ -259,7 +260,8 @@ td.description.expanded {
     font-size: 1rem;
     font-weight: bold;
     color: var(--white);
-    background-color: var(--orange); /* semi-transparent blue */
+    background-color: rgba(255, 165, 0, 0.08);
+    border: 1px solid var(--orange);
     padding: 0.2rem 0.5rem;
     border-radius: 5px;
     text-shadow: 1px 1px 2px black;
