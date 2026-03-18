@@ -54,15 +54,11 @@
                     <td class="none">{{ agenda.Num }}</td>
 
                     <!-- Visible columns -->
-                    <td>
-                        <div class="stack">
-                            <div class="description">{{ agenda.Description }}</div>
-                            <div class="infoLocation">
-                                <i class="bi bi-calendar"></i>{{ agenda.Date|aTime }}
-                                <i class="bi bi-briefcase"></i>{{ agenda.ItemType }}
-                                <span class="bi">#</span>{{ agenda.Num }}
-                            </div>
-                        </div>
+                    <td class="description">{{ agenda.Description }}</td>
+                    <td class="infoLocation">
+                        <i class="bi bi-calendar"></i>{{ agenda.Date|aTime }}
+                        <i class="bi bi-briefcase"></i>{{ agenda.ItemType }}
+                        <span class="bi">#</span>{{ agenda.Num }}
                     </td>
 
                     <!-- Other hidden metadata -->
