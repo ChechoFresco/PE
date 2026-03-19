@@ -10,15 +10,14 @@ from dateutil.relativedelta import relativedelta
 import os
 import re
 import json
-from collections import Counter
 import logging
+from collections import Counter
 from werkzeug.exceptions import BadRequest
 from flask_mail import Mail
 import atexit
-import atexit
 from urllib.parse import unquote
 from stripe_service import init as stripe_init, create_checkout_session, handle_webhook, get_user_stripe_customer, validate_registration
-from helpers import get_date_threshold, handle_issue_operation, get_user_saved_agendas, int2date
+from helpers import get_date_threshold, handle_issue_operation, get_user_saved_agendas, int2date, get_county_agendas
 from map_utils import fetch_geo_info, create_folium_map
 from jobs import check4Issues2email, start_scheduler
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -602,42 +601,15 @@ COUNTY_ROUTES = {
 }
 
 # -------------------------------
-# HELPER: GET COUNTY AGENDAS
-# -------------------------------
-def get_county_agendas(county_name, weeks_back=16):
-    """Fetch City Council agendas for a specific county in the last `weeks_back` weeks"""
-    date_threshold = int((date.today() + relativedelta(weeks=-weeks_back)).strftime('%Y%m%d'))
-
-    try:
-        agenda_items = mongo.db.Agenda.find({
-            '$and': [
-                {'Date': {'$gte': date_threshold}},
-                {'MeetingType': {'$regex': 'City Council', '$options': 'i'}},
-                {'County': {'$regex': county_name, '$options': 'i'}},
-                {"$expr": {"$gt": [{"$strLenCP": "$Description"}, 5]}},
-                {
-                    '$and': [
-                        {"Description": {'$not': {'$regex': "minute"}}},
-                        {"Description": {'$not': {'$regex': "warrant"}}}
-                    ]
-                }
-            ]
-        }).sort('Date', -1)
-
-        return list(agenda_items)
-
-    except Exception as e:
-        logger.error(f"Error querying {county_name} agendas: {e}")
-        return []
-
-# -------------------------------
 # ROUTE FACTORY FOR COUNTIES
 # -------------------------------
 def render_county_agendas(county_key):
     county_info = COUNTY_ROUTES[county_key]
-    agenda_items = get_county_agendas(county_info["name"])
+    
+    # Fetch agendas dynamically for this county
+    agenda_items = get_county_agendas(mongo, county_info["name"])
 
-    # Build a dictionary keyed by City found in agenda items
+    # Build city dictionary
     city_agendas = {}
     cities_matched = []
 
@@ -651,23 +623,27 @@ def render_county_agendas(county_key):
             city_agendas[city]["topic_counts"].update(topics)
         else:
             city_agendas[city]["topic_counts"].update([topics])
-        if 'water' in agenda.get('Description', ''):  # or some chosen filter
-            cities_matched.append(city)
 
-    # Only send first 6 cities to template
+    # Only show first 6 cities
     initial_cities = dict(list(city_agendas.items())[:6])
 
     return render_template(
         county_info["template"],
         city_agendas=initial_cities,
-        title=county_info["title"]
+        title=county_info["title"],
+        county_name=county_info["name"]
     )
+
 # -------------------------------
 # REGISTER COUNTY ROUTES
 # -------------------------------
 for route_name in COUNTY_ROUTES:
-    app.add_url_rule(f'/{route_name}', route_name, lambda route_name=route_name: render_county_agendas(route_name))
-
+    # Use lambda with default argument to capture route_name correctly
+    app.add_url_rule(
+        f'/{route_name}',
+        endpoint=route_name,
+        view_func=lambda route_name=route_name: render_county_agendas(route_name)
+    )
 # =============================================================================
 # STATIC PAGES AND COUNTY-SPECIFIC ROUTES
 # =============================================================================
@@ -676,21 +652,11 @@ app.register_blueprint(static_pages)
 # ERROR HANDLERS
 # =============================================================================
 register_error_handlers(app)
-
 # =============================================================================
 # APPLICATION ENTRY POINT
 # =============================================================================
-
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))
     debug = os.environ.get('FLASK_DEBUG', 'False') == 'True'
 
     app.run(debug=debug, host='0.0.0.0', port=port)
-
-
-
-
-
-
-
-

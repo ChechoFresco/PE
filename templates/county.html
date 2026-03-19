@@ -16,7 +16,7 @@
       background: var(--rad2);
       background-clip: text;
       color: transparent;
-      font-size: 4rem;
+      font-size: 3.2rem;
     }
 </style>
 <!-- Alerts -->
@@ -31,7 +31,7 @@
     {% endif %}
 {% endwith %}
 
-<h1 class="mb-4", id="titleCounty">City Agendas</h1>
+<h1 class="mb-4", id="titleCounty">{{county_name}}</h1>
 
 {% from 'partials/city_tables.html' import city_table %}
 <div class="row" id="conTable">
