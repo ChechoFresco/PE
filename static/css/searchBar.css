@@ -1,77 +1,106 @@
+/* === Compact Container === */
 .search-container {
-    max-width: 1200px;
-    margin: 3rem auto;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border-radius: 1.5rem;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    max-width: 900px;
+    margin: 1.5rem auto;
+    padding: 1.2rem 1.2rem;
+
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.12);
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
 }
 
+/* === Form Grid Layout === */
+.search-form {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.6rem;
+    align-items: end;
+}
+
+/* === Form Groups === */
 .search-form .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 
+/* Labels smaller */
 .search-form label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #fff;
+    font-size: 0.7rem;
+    margin-bottom: 0.2rem;
+    color: rgba(255,255,255,0.7);
 }
 
+/* Inputs tighter */
 .search-form .form-control {
-    width: 100%;
-    padding: 0.65rem 1rem;
-    border-radius: 12px;
-    border: none;
-    background: rgba(255, 255, 255, 0.15);
+    padding: 0.45rem 0.6rem;
+    font-size: 13px;
+
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.12);
+
+    background: rgba(255,255,255,0.12);
     color: #fff;
-    font-size: 16px;
-    transition: all 0.3s ease;
+
+    transition: all 0.2s ease;
 }
 
+/* Focus still nice but subtle */
 .search-form .form-control:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 10px rgba(94, 124, 255, 0.7);
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(94,124,255,0.7);
+
+    box-shadow: 0 0 0 2px rgba(94,124,255,0.2);
 }
 
-.date-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+/* === Layout Assignments === */
+/* Row layout control */
+.form-group:nth-child(1) { grid-column: span 1; } /* select */
+#cities-section         { grid-column: span 2; }
+.form-group:nth-child(3){ grid-column: span 2; } /* keyword */
+.date-group             { grid-column: span 1; display: flex; gap: 0.4rem; }
+.btn-primary            { grid-column: span 1; }
+
+/* Date inputs tighter */
+.date-group .form-control {
+    padding: 0.4rem;
 }
 
-.date-group .form-group {
-    flex: 1;
-}
-
+/* === Button Compact === */
 .btn-primary {
-    display: inline-block;
-    padding: 0.7rem 2rem;
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
+    padding: 0.45rem 0.8rem;
+    font-size: 13px;
+    border-radius: 10px;
+
     background: linear-gradient(135deg, #5e7cff, #2e6da4);
     border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    color: #fff;
+
+    height: 34px;
 }
 
+/* Hover still crisp */
 .btn-primary:hover {
-    background: linear-gradient(135deg, #2e6da4, #5e7cff);
-    box-shadow: 0 4px 15px rgba(94,124,255,0.5);
+    box-shadow: 0 4px 12px rgba(94,124,255,0.4);
 }
 
+/* Hide city fields */
 .city-field {
     display: none;
 }
 
-/* Responsive */
-@media screen and (max-width: 768px) {
-    .date-group {
-        flex-direction: column;
+/* === Responsive === */
+@media (max-width: 768px) {
+    .search-form {
+        grid-template-columns: 1fr;
+    }
+
+    #cities-section,
+    .date-group,
+    .btn-primary {
+        grid-column: span 1;
     }
 }
