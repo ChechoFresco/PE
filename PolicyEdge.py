@@ -444,7 +444,7 @@ def results():
         elif criteria in ['LA County', 'Orange County', 'Riverside County', 'San Diego County', 'San Bernardino County']:
             filters.append({'$text': {"$search": primeKey}})
             filters.append({'County': {'$regex': criteria, '$options': 'i'}})
-            
+
             # Handle city selection
             city_field_map = {
                 'LA County': 'selectLA', 'Orange County': 'selectOC',
@@ -456,7 +456,7 @@ def results():
                 selected_city = getattr(form, selected_city_field).data
                 if selected_city:
                     filters.append({'City': {'$regex': selected_city, '$options': 'i'}})
-                    
+
         elif criteria in ['LA Committees', 'Long Beach Committees']:
             filters.append({'$text': {"$search": primeKey}})
             filters.append({'County': {'$regex': 'LA County', '$options': 'i'}})
@@ -470,35 +470,42 @@ def results():
 
         # Execute search
         agenda_list = list(mongo.db.Agenda.find({'$and': filters}).sort('Date', -1).limit(300))
-        
-        # Organize results by city
-        city_agendas = {city: {"agendas": [], "issue_counts": Counter()} for city in ALL_CITIES}
+            # Organize agendas by city
+        global ALL_CITY_AGENDAS_CACHE
+        ALL_CITY_AGENDAS_CACHE = {}
         cities_matched = []
 
         for agenda in agenda_list:
-            city = agenda.get('City', '').strip()
-            if primeKey in agenda.get('Description', ''):
+            city = agenda.get('City', '')
+            topics = agenda.get('Topics', [])
+            if city not in ALL_CITY_AGENDAS_CACHE:
+                ALL_CITY_AGENDAS_CACHE[city] = {"agendas": [], "topic_counts": Counter()}
+            ALL_CITY_AGENDAS_CACHE[city]["agendas"].append(agenda)
+            if isinstance(topics, list):
+                ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update(topics)
+            else:
+                ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update([topics])
+            if primeKey.strip('"') in agenda.get('Description', ''):
                 cities_matched.append(city)
-                
-            if city in city_agendas:
-                city_agendas[city]["agendas"].append(agenda)
-                topics = agenda.get('Topics', [])
-                if isinstance(topics, list):
-                    city_agendas[city]["issue_counts"].update(topics)
-                else:
-                    city_agendas[city]["issue_counts"].update([topics])
 
-        # Create map visualization
+        # Only send first 6 cities to template
+        initial_cities = dict(list(ALL_CITY_AGENDAS_CACHE.items())[:6])
+
+        # Map visualization
         city_issue_counts = Counter(cities_matched)
-        geo_info = fetch_geo_info(city_issue_counts)
+
+        # Get geo info from Mongo
+        geo_info = fetch_geo_info(mongo, city_issue_counts)
+
+        # Build Folium map
         folium_map = create_folium_map(geo_info)
-        
+
         return render_template(
             'search.html',
             folium_map=folium_map._repr_html_(),
             primeKey=primeKey,
             city_issue_counts=city_issue_counts,
-            city_agendas=city_agendas,
+            city_agendas=initial_cities,
             form=form,
             agendas=agenda_list,
             title="PolicyEdge Search Results"
@@ -790,10 +797,10 @@ def internal_error(error):
 # =============================================================================
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Heroku sets PORT automatically
-    app.run(debug=False, host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT', 5001))
+    debug = os.environ.get('FLASK_DEBUG', 'False') == 'True'
 
-
+    app.run(debug=debug, host='0.0.0.0', port=port)
 
 
 

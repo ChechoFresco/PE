@@ -27,7 +27,7 @@ div.texture {
 td, th {
   color: var(--white);
   text-shadow: 1px 1px 1px black;
-  font-size: 0.5rem;
+  font-size: 1.2rem;
 }
 
 /* td.description expand */
@@ -35,14 +35,11 @@ td.description {
   max-height: 128px;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   color: white !important;
   background-color: transparent !important;
 }
 
-td.description.expanded {
-  max-height: 500px;
-}
 
 /* InfoLocation flex layout */
 .infoLocation {
@@ -60,7 +57,7 @@ td.description.expanded {
 
 .cityCaption {
   display: inline-block;
-  font-size: 1rem;
+  font-size: 1.8rem;
   font-weight: bold;
   color: var(--white);
   background-color: var(--orange);
@@ -70,7 +67,7 @@ td.description.expanded {
 }
 
 .listcontent p {
-  font-size: 0.6rem;
+  font-size: 1.6rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
   justify-self: left;
@@ -94,9 +91,9 @@ td.description.expanded {
   display: inline-block;
   min-width: 4rem;
   max-width: 11rem;
-  height: 1.4rem;
+  height: 3.4rem;
   padding: 0.25rem 0.5rem;
-  font-size: 0.5rem;
+  font-size: 1.5rem;
   color: var(--white);
   background-color: rgba(0, 0, 0, 0.2);
   text-decoration: none;
@@ -116,7 +113,7 @@ td.description.expanded {
 /* Bootstrap table search */
 .bootstrap-table .search input.form-control {
   height: 1.8rem;
-  font-size: 0.85rem;
+  font-size: 1.75rem;
   padding: 0.25rem 0.5rem;
   max-width: 150px;
   display: inline-block;
@@ -142,7 +139,7 @@ th {
 td {
   display: block;
   font-family: "Open Sans", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
 }
 
 td.none, th.none {
@@ -159,7 +156,7 @@ td.none, th.none {
 }
 
 td:hover {
-  font-size: 0.8rem;
+  font-size: 1.9rem;
 }
 
 .bi {
@@ -229,7 +226,7 @@ div.bootstrap-table .dropdown-menu {
   color: var(--whiye);
   text-shadow: 1px 1px 1px black;
   font-weight: bold;
-  font-size: 0.95rem;
+  font-size: 1.6rem;
   opacity: 1 !important;
   background-color: var(--gray);
 }
