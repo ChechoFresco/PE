@@ -790,8 +790,8 @@ def internal_error(error):
 # =============================================================================
 
 if __name__ == '__main__':
-    # Production configuration - disable debug mode
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    port = int(os.environ.get('PORT', 5000))  # Heroku sets PORT automatically
+    app.run(debug=False, host='0.0.0.0', port=port)
 
 
 
