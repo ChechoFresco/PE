@@ -66,6 +66,8 @@ logger = logging.getLogger(__name__)
 # =============================================================================
 # CONSTANTS AND CONFIGURATION DATA
 # =============================================================================
+global ALL_CITY_AGENDAS_CACHE
+ALL_CITY_AGENDAS_CACHE = {}
 # Comprehensive city lists organized by county
 CITIES = {
     'LA': [
@@ -124,11 +126,6 @@ ALL_CITIES = [city for county_cities in CITIES.values() for city in county_citie
 def get_date_threshold(weeks=-2):
     """Get date threshold in YYYYMMDD format for database queries"""
     return int((date.today() + relativedelta(weeks=weeks)).strftime('%Y%m%d'))
-
-
-
-
-
 
 def handle_issue_operation(user, form_data, operation):
     """Handle adding or removing issues from user's saved list"""
@@ -313,6 +310,103 @@ def index():
         chosen=chosen
     )
 
+@app.route('/search')
+def search():
+    """Search page for agenda items"""
+    form = searchForm2()
+    return render_template('search.html', form=form, title='Search')
+
+@app.route('/results', methods=['GET', 'POST'])
+def results():
+    """Handle search form submission and display results"""
+    form = searchForm2(request.form)
+    
+    if request.method == 'POST':
+        primeKey = form.primary_search.data.strip()
+        start_date = form.startdate_field.data
+        end_date = form.enddate_field.data
+
+        # Set date range defaults
+        start = int(start_date.strftime('%Y%m%d')) if start_date else get_date_threshold(weeks=-52)
+        end = int(end_date.strftime('%Y%m%d')) if end_date else int(date.today().strftime('%Y%m%d'))
+        
+        criteria = form.select.data
+        filters = []
+
+        # Build search filters based on criteria
+        if criteria == 'Issue':
+            filters.append({'$text': {"$search": primeKey}})
+        elif criteria in ['LA County', 'Orange County', 'Riverside County', 'San Diego County', 'San Bernardino County']:
+            filters.append({'$text': {"$search": primeKey}})
+            filters.append({'County': {'$regex': criteria, '$options': 'i'}})
+
+            # Handle city selection
+            city_field_map = {
+                'LA County': 'selectLA', 'Orange County': 'selectOC',
+                'Riverside County': 'selectRS', 'San Bernardino County': 'selectSB',
+                'San Diego County': 'selectSD'
+            }
+            selected_city_field = city_field_map.get(criteria)
+            if selected_city_field:
+                selected_city = getattr(form, selected_city_field).data
+                if selected_city:
+                    filters.append({'City': {'$regex': selected_city, '$options': 'i'}})
+
+        elif criteria in ['LA Committees', 'Long Beach Committees']:
+            filters.append({'$text': {"$search": primeKey}})
+            filters.append({'County': {'$regex': 'LA County', '$options': 'i'}})
+            committee_field = 'selectLACM' if criteria == 'LA Committees' else 'selectLBCM'
+            selected_committee = getattr(form, committee_field).data
+            if selected_committee:
+                filters.append({'MeetingType': {'$regex': selected_committee, '$options': 'i'}})
+
+        # Add date range filter
+        filters.append({'Date': {'$gte': start, '$lte': end}})
+
+        # Execute search
+        agenda_list = list(mongo.db.Agenda.find({'$and': filters}).sort('Date', -1).limit(300))
+            # Organize agendas by city
+
+        cities_matched = []
+
+        for agenda in agenda_list:
+            city = agenda.get('City', '')
+            topics = agenda.get('Topics', [])
+            if city not in ALL_CITY_AGENDAS_CACHE:
+                ALL_CITY_AGENDAS_CACHE[city] = {"agendas": [], "topic_counts": Counter()}
+            ALL_CITY_AGENDAS_CACHE[city]["agendas"].append(agenda)
+            if isinstance(topics, list):
+                ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update(topics)
+            else:
+                ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update([topics])
+            if primeKey.strip('"') in agenda.get('Description', ''):
+                cities_matched.append(city)
+
+        # Only send first 6 cities to template
+        initial_cities = dict(list(ALL_CITY_AGENDAS_CACHE.items())[:6])
+
+        # Map visualization
+        city_issue_counts = Counter(cities_matched)
+
+        # Get geo info from Mongo
+        geo_info = fetch_geo_info(mongo, city_issue_counts)
+
+        # Build Folium map
+        folium_map = create_folium_map(geo_info)
+
+        return render_template(
+            'search.html',
+            folium_map=folium_map._repr_html_(),
+            primeKey=primeKey,
+            city_issue_counts=city_issue_counts,
+            city_agendas=initial_cities,
+            form=form,
+            agendas=agenda_list,
+            title="PolicyEdge Search Results"
+        )
+
+    return render_template('search.html', form=form, title="PolicyEdge Search")
+
 # ---------------------------
 # Load more cities via AJAX
 # ---------------------------
@@ -415,103 +509,6 @@ def route_webhook():
 # SEARCH AND AGENDA ROUTES
 # =============================================================================
 
-@app.route('/search')
-def search():
-    """Search page for agenda items"""
-    form = searchForm2()
-    return render_template('search.html', form=form, title='Search')
-
-@app.route('/results', methods=['GET', 'POST'])
-def results():
-    """Handle search form submission and display results"""
-    form = searchForm2(request.form)
-    
-    if request.method == 'POST':
-        primeKey = form.primary_search.data.strip()
-        start_date = form.startdate_field.data
-        end_date = form.enddate_field.data
-
-        # Set date range defaults
-        start = int(start_date.strftime('%Y%m%d')) if start_date else get_date_threshold(weeks=-52)
-        end = int(end_date.strftime('%Y%m%d')) if end_date else int(date.today().strftime('%Y%m%d'))
-        
-        criteria = form.select.data
-        filters = []
-
-        # Build search filters based on criteria
-        if criteria == 'Issue':
-            filters.append({'$text': {"$search": primeKey}})
-        elif criteria in ['LA County', 'Orange County', 'Riverside County', 'San Diego County', 'San Bernardino County']:
-            filters.append({'$text': {"$search": primeKey}})
-            filters.append({'County': {'$regex': criteria, '$options': 'i'}})
-
-            # Handle city selection
-            city_field_map = {
-                'LA County': 'selectLA', 'Orange County': 'selectOC',
-                'Riverside County': 'selectRS', 'San Bernardino County': 'selectSB',
-                'San Diego County': 'selectSD'
-            }
-            selected_city_field = city_field_map.get(criteria)
-            if selected_city_field:
-                selected_city = getattr(form, selected_city_field).data
-                if selected_city:
-                    filters.append({'City': {'$regex': selected_city, '$options': 'i'}})
-
-        elif criteria in ['LA Committees', 'Long Beach Committees']:
-            filters.append({'$text': {"$search": primeKey}})
-            filters.append({'County': {'$regex': 'LA County', '$options': 'i'}})
-            committee_field = 'selectLACM' if criteria == 'LA Committees' else 'selectLBCM'
-            selected_committee = getattr(form, committee_field).data
-            if selected_committee:
-                filters.append({'MeetingType': {'$regex': selected_committee, '$options': 'i'}})
-
-        # Add date range filter
-        filters.append({'Date': {'$gte': start, '$lte': end}})
-
-        # Execute search
-        agenda_list = list(mongo.db.Agenda.find({'$and': filters}).sort('Date', -1).limit(300))
-            # Organize agendas by city
-        global ALL_CITY_AGENDAS_CACHE
-        ALL_CITY_AGENDAS_CACHE = {}
-        cities_matched = []
-
-        for agenda in agenda_list:
-            city = agenda.get('City', '')
-            topics = agenda.get('Topics', [])
-            if city not in ALL_CITY_AGENDAS_CACHE:
-                ALL_CITY_AGENDAS_CACHE[city] = {"agendas": [], "topic_counts": Counter()}
-            ALL_CITY_AGENDAS_CACHE[city]["agendas"].append(agenda)
-            if isinstance(topics, list):
-                ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update(topics)
-            else:
-                ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update([topics])
-            if primeKey.strip('"') in agenda.get('Description', ''):
-                cities_matched.append(city)
-
-        # Only send first 6 cities to template
-        initial_cities = dict(list(ALL_CITY_AGENDAS_CACHE.items())[:6])
-
-        # Map visualization
-        city_issue_counts = Counter(cities_matched)
-
-        # Get geo info from Mongo
-        geo_info = fetch_geo_info(mongo, city_issue_counts)
-
-        # Build Folium map
-        folium_map = create_folium_map(geo_info)
-
-        return render_template(
-            'search.html',
-            folium_map=folium_map._repr_html_(),
-            primeKey=primeKey,
-            city_issue_counts=city_issue_counts,
-            city_agendas=initial_cities,
-            form=form,
-            agendas=agenda_list,
-            title="PolicyEdge Search Results"
-        )
-
-    return render_template('search.html', form=form, title="PolicyEdge Search")
 
 @app.route('/savedIssues', methods=['GET', 'POST'])
 def savedIssues():

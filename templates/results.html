@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 {% block content %}
 <head>
-    <!-- Creates table-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <!-- JavaScript table expand -->
-    <!-- JavaScript table expand -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}" >
+    <style>
+        /* Highlight words in table */
+        .highlight {
+            text-decoration-line: underline;
+            text-decoration-color: var(--orange);
+            text-decoration-thickness: 4px;
+        }
 
+        /* Topic section */
+        #primeDiv {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        #primeLetter {
+            color: white;
+            text-transform: capitalize;
+        }
+    </style>
 </head>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -32,11 +45,12 @@
             <!-- ===== CHARTS ===== -->
             {% if folium_map %}
             <div class="row" id="chartBox">
-                <div id="foliumMapContainer" style="width: 100%; min-height: 500px;">
+                <div id="foliumMapContainer" style="width: 60%; min-height: 500px; margin: auto">
                     {{ folium_map | safe }}
                 </div>
             </div>
             {% endif %}
+            
             {% from 'partials/city_tables.html' import city_table %}
             <div class="row" id="conTable">
                 {% for city, data in city_agendas.items() %}
