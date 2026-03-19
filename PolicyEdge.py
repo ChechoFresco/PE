@@ -572,40 +572,31 @@ def city_details(city):
 # -------------------------------
 # COUNTY ROUTES CONFIGURATION
 # -------------------------------
-COUNTY_ROUTES = {
-    "losangeles": {
-        "name": "LA County",
-        "template": "county.html",
-        "title": "PolicyEdge agenda tracking monitoring Los Angeles County Search Results"
-    },
-    "orange": {
-        "name": "Orange County",
-        "template": "county.html",
-        "title": "PolicyEdge agenda tracking monitoring all of Orange County"
-    },
-    "riverside": {
-        "name": "Riverside County",
-        "template": "county.html",
-        "title": "PolicyEdge agenda tracking monitoring all of Riverside County"
-    },
-    "sanbernandino": {
-        "name": "San Bernandino County",
-        "template": "county.html",
-        "title": "PolicyEdge agenda tracking monitoring all of San Bernardino County"
-    },
-    "sandiego": {
-        "name": "San Diego County",
-        "template": "county.html",
-        "title": "PolicyEdge agenda tracking monitoring all of San Diego County"
-    },
+
+# Map custom route keys to full county names
+COUNTY_KEY_MAP = {
+    "losangeles": "LA County",
+    "orange": "Orange County",
+    "riverside": "Riverside County",
+    "sanbernandino": "San Bernardino County",
+    "sandiego": "San Diego County",
 }
 
+# Build COUNTY_ROUTES dynamically using the map
+COUNTY_ROUTES = {
+    key: {
+        "name": name,
+        "template": "county.html",
+        "title": f"PolicyEdge agenda tracking monitoring all of {name}"
+    }
+    for key, name in COUNTY_KEY_MAP.items()
+}
 # -------------------------------
 # ROUTE FACTORY FOR COUNTIES
 # -------------------------------
 def render_county_agendas(county_key):
     county_info = COUNTY_ROUTES[county_key]
-    
+
     # Fetch agendas dynamically for this county
     agenda_items = get_county_agendas(mongo, county_info["name"])
 
@@ -633,7 +624,6 @@ def render_county_agendas(county_key):
         title=county_info["title"],
         county_name=county_info["name"]
     )
-
 # -------------------------------
 # REGISTER COUNTY ROUTES
 # -------------------------------

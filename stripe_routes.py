@@ -1,11 +1,26 @@
 # stripe_routes.py
 import os, json, stripe, logging
-from flask import Blueprint, request, session, redirect, url_for, jsonify, render_template
-from werkzeug.utils import secure_filename
+from flask import Blueprint, request, session, redirect, url_for, jsonify, render_template, flash
 from PolicyEdge import mongo, YOUR_DOMAIN, stripe_keys  # import your app config
+import bcrypt
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 stripe_bp = Blueprint('stripe', __name__)
+
+# -----------------------------
+# Helper: log user events
+# -----------------------------
+def log_user_event(username, email, event_name, extra=None):
+    data = {
+        "username": username,
+        "email": email,
+        "event": event_name,
+        "timestamp": datetime.utcnow()
+    }
+    if extra:
+        data.update(extra)
+    mongo.db.user_logs.insert_one(data)
 
 # -----------------------------
 # Stripe checkout for new user
@@ -13,42 +28,46 @@ stripe_bp = Blueprint('stripe', __name__)
 @stripe_bp.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
     stripe.api_key = stripe_keys['secret_key']
-    
+
     username = request.form["username"]
     email = request.form["email"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
-    
+
     # Validate registration
     errors = validate_registration(username, email, password1, password2)
     if errors:
         for error in errors:
             flash(error)
         return render_template('register.html')
-    
-    # Create user account
+
+    # Hash password and create user
     hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
     user_data = {
-        'username': username, 
-        'email': email, 
-        'password': hashed, 
+        'username': username,
+        'email': email,
+        'password': hashed,
         'stripe_id': [],
-        'issues': [], 
-        'agendaUnique_id': [], 
+        'issues': [],
+        'agendaUnique_id': [],
         'subscriptionActive': False
     }
     mongo.db.User.insert_one(user_data)
     mongo.db.stripe_user.insert_one({
-        'username': username, 
-        'email': email, 
-        'stripeCustomerId': [], 
+        'username': username,
+        'email': email,
+        'stripeCustomerId': [],
         'stripeSubscriptionId': []
     })
-    
-    # Set session and redirect to checkout
-    session.update({'username': username, 'email': email})
-    return create_stripe_checkout_session(email)
 
+    # Set session
+    session.update({'username': username, 'email': email})
+
+    # Log registration and checkout start
+    log_user_event(username, email, "registration_completed")
+    log_user_event(username, email, "checkout_started")
+
+    return create_stripe_checkout_session(email)
 
 # -----------------------------
 # Stripe checkout for existing user
@@ -61,9 +80,13 @@ def create_checkout_session2():
         return redirect(url_for("login"))
 
     email = session["email"]
+    username = session["username"]
     existing_customer_id = get_user_stripe_customer(email)
-    return create_stripe_checkout_session(email, existing_customer_id)
 
+    # Log checkout started
+    log_user_event(username, email, "checkout_started")
+
+    return create_stripe_checkout_session(email, existing_customer_id)
 
 # -----------------------------
 # Stripe Customer Portal
@@ -81,71 +104,57 @@ def customer_portal():
     )
     return redirect(portal_session.url, code=303)
 
-
 # -----------------------------
-# Stripe Webhook
+# Stripe Webhook for event tracking
 # -----------------------------
 @stripe_bp.route('/webhook', methods=['POST'])
 def webhook_received():
     webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
-    request_data = json.loads(request.data)
-    
-    if webhook_secret:
-        signature = request.headers.get('stripe-signature')
-        try:
-            event = stripe.Webhook.construct_event(
-                payload=request.data, 
-                sig_header=signature, 
-                secret=webhook_secret
-            )
-            data = event['data']
-        except Exception as e:
-            logger.error(f"Webhook verification failed: {e}")
-            return jsonify({'status': 'error'}), 400
-        event_type = event['type']
-    else:
-        data = request_data['data']
-        event_type = request_data['type']
+    payload = request.data
+    sig_header = request.headers.get('stripe-signature')
 
-    # Handle Stripe events
-    handle_stripe_event(event_type, data)
-    return jsonify({'status': 'success'})
+    try:
+        if webhook_secret:
+            event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
+        else:
+            event = json.loads(payload)
+    except Exception as e:
+        logger.error(f"Stripe webhook error: {e}")
+        return jsonify({'status': 'error'}), 400
 
+    event_type = event['type']
+    data = event['data']['object']
 
-# -----------------------------
-# Event Handler
-# -----------------------------
-def handle_stripe_event(event_type, data):
+    # Log and handle events
     if event_type == 'checkout.session.completed':
-        logger.info("Payment succeeded!")
+        email = data.get('customer_email')
+        mongo.db.User.update_one({'email': email}, {'$set': {'subscriptionActive': True}})
+        log_user_event(None, email, "checkout_completed", {"stripe_session_id": data.get('id')})
+        logger.info(f"Checkout completed for {email}")
 
-    elif event_type == 'customer.created':
-        customer_id = data.object.id
-        customer_email = data.object.email
-        mongo.db.User.update_one({'email': customer_email}, {'$push': {'stripe_id': customer_id}})
-        mongo.db.stripe_user.update_one({'email': customer_email}, {'$push': {'stripeCustomerId': customer_id}})
-        logger.info(f"New Stripe customer created: {customer_email}")
+    elif event_type == 'checkout.session.expired':
+        email = data.get('customer_email')
+        log_user_event(None, email, "checkout_expired", {"stripe_session_id": data.get('id')})
+        logger.info(f"Checkout expired for {email}")
 
     elif event_type == 'customer.subscription.created':
-        subscription_id = data.object.id
-        customer_id = data.object.customer
-        mongo.db.stripe_user.update_one({'stripeCustomerId': customer_id}, {'$push': {'stripeSubscriptionId': subscription_id}})
+        customer_id = data.get('customer')
         mongo.db.User.update_one({'stripe_id': customer_id}, {'$set': {'subscriptionActive': True}})
-        logger.info(f"New subscription created for customer: {customer_id}")
+        log_user_event(None, None, "subscription_created", {"customer_id": customer_id})
+        logger.info(f"Subscription created for {customer_id}")
 
     elif event_type == 'customer.subscription.updated':
-        subscription = data.object
-        customer_id = subscription.customer
-        status_mapping = {
-            'active': True, 'trialing': True, 'past_due': False,
-            'canceled': False, 'unpaid': False, 'incomplete': False
-        }
-        status = subscription.status
-        if status in status_mapping:
-            mongo.db.User.update_one({'stripe_id': customer_id}, {'$set': {'subscriptionActive': status_mapping[status]}})
-            logger.info(f"Subscription updated for {customer_id}: {status}")
+        customer_id = data.get('customer')
+        status = data.get('status')
+        active_status = status in ['active', 'trialing']
+        mongo.db.User.update_one({'stripe_id': customer_id}, {'$set': {'subscriptionActive': active_status}})
+        log_user_event(None, None, "subscription_updated", {"customer_id": customer_id, "status": status})
+        logger.info(f"Subscription updated for {customer_id}: {status}")
 
     elif event_type == 'customer.subscription.deleted':
-        customer_id = data.object.customer
+        customer_id = data.get('customer')
         mongo.db.User.update_one({'stripe_id': customer_id}, {'$set': {'subscriptionActive': False}})
-        logger.info(f"Subscription canceled for customer: {customer_id}")
+        log_user_event(None, None, "subscription_deleted", {"customer_id": customer_id})
+        logger.info(f"Subscription canceled for {customer_id}")
+
+    return jsonify({'status': 'success'})

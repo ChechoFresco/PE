@@ -63,7 +63,8 @@ td.description.expanded {
   font-size: 1rem;
   font-weight: bold;
   color: var(--white);
-  background-color: var(--orange);
+  background: rgba(255, 165, 0, 0.08);
+  border: 2px solid var(--orange);
   padding: 0.2rem 0.5rem;
   border-radius: 5px;
   text-shadow: 1px 1px 2px black;
