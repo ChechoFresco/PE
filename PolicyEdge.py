@@ -2,7 +2,7 @@
 
 from flask_pymongo import PyMongo
 from flask_compress import Compress
-from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, send_from_directory
+from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, send_from_directory, Blueprint
 from forms import searchForm, monitorListform, chartForm, monitorListform2, searchForm2
 import bcrypt
 from datetime import date, datetime
@@ -22,6 +22,8 @@ from helpers import get_date_threshold, handle_issue_operation, get_user_saved_a
 from map_utils import fetch_geo_info, create_folium_map
 from jobs import check4Issues2email, start_scheduler
 from apscheduler.schedulers.background import BackgroundScheduler
+from static_routes import static_pages
+from error_handlers import register_error_handlers
 import stripe
 from dotenv import load_dotenv
 # =============================================================================
@@ -65,6 +67,7 @@ logger = logging.getLogger(__name__)
 # =============================================================================
 # CONSTANTS AND CONFIGURATION DATA
 # =============================================================================
+
 global ALL_CITY_AGENDAS_CACHE
 ALL_CITY_AGENDAS_CACHE = {}
 # Comprehensive city lists organized by county
@@ -567,41 +570,6 @@ def city_details(city):
         city_issue_counts=city_issue_counts,
     )
 
-
-# =============================================================================
-# STATIC PAGES AND COUNTY-SPECIFIC ROUTES
-# =============================================================================
-
-@app.route('/success')
-def success():
-    """Subscription success page"""
-    return render_template("success.html", title='PolicyEdge subscription successful')
-
-@app.route('/cancel')
-def cancelled():
-    """Subscription cancellation page"""
-    return render_template("cancel.html", title='Cancel PolicyEdge subscription')
-
-@app.route('/noSubscription')
-def noSubscription():
-    """No active subscription page"""
-    return render_template("noSubscription.html", title='PolicyEdge subscription not active')
-
-@app.route('/about')
-def about():
-    """About page"""
-    return render_template('about.html', title="About Policy Edge creator Sergio Preciado")
-
-@app.route('/termsofservice')
-def termsofservice():
-    """Terms of service page"""
-    return render_template('termsofservice.html', title='Terms of Service')
-
-@app.route('/privacypolicy')
-def privacypolicy():
-    """Privacy policy page"""
-    return render_template('privacypolicy.html', title='Privacy Policy')
-
 # -------------------------------
 # COUNTY ROUTES CONFIGURATION
 # -------------------------------
@@ -701,19 +669,13 @@ for route_name in COUNTY_ROUTES:
     app.add_url_rule(f'/{route_name}', route_name, lambda route_name=route_name: render_county_agendas(route_name))
 
 # =============================================================================
+# STATIC PAGES AND COUNTY-SPECIFIC ROUTES
+# =============================================================================
+app.register_blueprint(static_pages)
+# =============================================================================
 # ERROR HANDLERS
 # =============================================================================
-
-@app.errorhandler(404)
-def page_not_found(e):
-    """404 error handler"""
-    return render_template('404.html', title="404"), 404
-
-@app.errorhandler(500)
-def internal_error(error):
-    """500 error handler"""
-    logger.error(f"Internal server error: {error}")
-    return render_template('500.html', title="500"), 500
+register_error_handlers(app)
 
 # =============================================================================
 # APPLICATION ENTRY POINT
