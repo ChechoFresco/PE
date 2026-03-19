@@ -271,13 +271,15 @@ def index():
         }).sort('Date', -1)
 
     # Organize agendas by city
-    global ALL_CITY_AGENDAS_CACHE
-    ALL_CITY_AGENDAS_CACHE = {}
     cities_matched = []
+    folium_agendas = {}  # key = city, value = list of matching agenda dicts
 
     for agenda in agenda_items:
         city = agenda.get('City', '')
+        description = agenda.get('Description', '')
         topics = agenda.get('Topics', [])
+
+        # Update the full cache (if you still need it)
         if city not in ALL_CITY_AGENDAS_CACHE:
             ALL_CITY_AGENDAS_CACHE[city] = {"agendas": [], "topic_counts": Counter()}
         ALL_CITY_AGENDAS_CACHE[city]["agendas"].append(agenda)
@@ -285,7 +287,17 @@ def index():
             ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update(topics)
         else:
             ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update([topics])
-        if chosen.strip('"') in agenda.get('Description', ''):
+
+        # Only keep agendas that match `chosen`
+        if chosen.strip('"') in description:
+            if city not in folium_agendas:
+                folium_agendas[city] = {"agendas": [], "topic_counts": Counter()}
+            folium_agendas[city]["agendas"].append(agenda)
+            # Optionally track topic counts
+            if isinstance(topics, list):
+                folium_agendas[city]["topic_counts"].update(topics)
+            else:
+                folium_agendas[city]["topic_counts"].update([topics])
             cities_matched.append(city)
 
     # Only send first 6 cities to template
@@ -298,7 +310,7 @@ def index():
     geo_info = fetch_geo_info(mongo, city_issue_counts)
 
     # Build Folium map
-    folium_map = create_folium_map(geo_info)
+    folium_map = create_folium_map(geo_info, folium_agendas)
 
     # Pass folium_map to template (use _repr_html_ in template)
     return render_template(
@@ -391,8 +403,8 @@ def results():
         # Get geo info from Mongo
         geo_info = fetch_geo_info(mongo, city_issue_counts)
 
-        # Build Folium map
-        folium_map = create_folium_map(geo_info)
+        # Build Folium map **with agenda details**
+        folium_map = create_folium_map(geo_info, ALL_CITY_AGENDAS_CACHE)
 
         return render_template(
             'search.html',
