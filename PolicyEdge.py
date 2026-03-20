@@ -2,10 +2,10 @@
 
 from flask_pymongo import PyMongo
 from flask_compress import Compress
-from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, send_from_directory, Blueprint
+from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, send_from_directory, Blueprint, abort
 from forms import searchForm, monitorListform, chartForm, monitorListform2, searchForm2
 import bcrypt
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import os
 import re
@@ -66,9 +66,9 @@ logger = logging.getLogger(__name__)
 # =============================================================================
 # CONSTANTS AND CONFIGURATION DATA
 # =============================================================================
-
 global ALL_CITY_AGENDAS_CACHE
 ALL_CITY_AGENDAS_CACHE = {}
+
 # Comprehensive city lists organized by county
 CITIES = {
     'LA': [
@@ -120,13 +120,30 @@ CITIES = {
 # Combined list of all cities for dropdowns
 ALL_CITIES = [city for county_cities in CITIES.values() for city in county_cities]
 # =============================================================================
-# TEMPLATE FILTERS
+# Stop bots
 # =============================================================================
-app.template_filter('aTime')(int2date)
-# =============================================================================
-# SCHEDULER CONFIGURATION
-# =============================================================================
-scheduler = start_scheduler(mongo, mail)
+@app.before_request
+def log_requests():
+    ip = request.remote_addr
+    ua = request.headers.get("User-Agent")
+    path = request.path
+    ts = datetime.utcnow()  # current UTC timestamp
+
+    # Save to MongoDB
+    mongo.db.RequestLogs.insert_one({
+        "ip": ip,
+        "user_agent": ua,
+        "path": path,
+        "timestamp": ts
+    })
+    # Check for too many requests in last minute
+    one_min_ago = ts - timedelta(seconds=60)
+    recent_count = mongo.db.RequestLogs.count_documents({
+        "ip": ip,
+        "timestamp": {"$gte": one_min_ago}
+    })
+    if recent_count > 20:  # adjust threshold
+        abort(429)  # Too Many Requests
 # =============================================================================
 # ROUTES
 # =============================================================================
@@ -352,6 +369,9 @@ def load_more_cities():
 
     return rendered
 
+# =============================================================================
+# Resgister Login
+# =============================================================================
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """User registration page"""
@@ -495,84 +515,9 @@ def savedIssues():
             agendaas=agendas,
             title='Subscription List'
         )
-
-# =============================================================================
-# TOPIC AND CITY DETAIL ROUTES
-# =============================================================================
-
-@app.route('/topic')
-def topic():
-    """Legacy topic route - now handled by background job"""
-    return redirect(url_for('index'))
-
-@app.route("/topicLink/<path:topic>", methods=['GET'])
-def topic_details(topic):
-    """Show agendas for a specific topic"""
-    topic = unquote(topic)
-    form = searchForm2()
-    date_threshold = get_date_threshold(weeks=-2)
-    city = request.args.get('city')
-
-    query = {
-        '$and': [
-            {'Date': {'$gte': date_threshold}},
-            {'Topics': {'$regex': topic, '$options': 'i'}},
-            {"Description": {"$ne": ""}},
-        ]
-    }
-    if city:
-        query['$and'].append({"City": city})
-
-    agendas = list(mongo.db.Agenda.find(query).sort('Date', -1))
-
-    if not agendas:
-        return "No agendas found for this topic.", 404
-
-    return render_template(
-        'share.html', 
-        topic=topic, 
-        form=form, 
-        city=city, 
-        agendas=agendas
-    )
-
-@app.route('/cityLink/<city>', methods=['GET'])
-def city_details(city):
-    """Show agendas for a specific city"""
-    form = searchForm2()
-    date_threshold = get_date_threshold(weeks=-2)
-    topic = request.args.get('topic')
-
-    query = {
-        '$and': [
-            {'Date': {'$gte': date_threshold}},
-            {"Description": {"$ne": ""}},
-            {'City': {'$regex': city, '$options': 'i'}},
-        ]
-    }
-    
-    if topic:
-        query['$and'].append({'Topics': {'$regex': topic, '$options': 'i'}})
-
-    agendas = list(mongo.db.Agenda.find(query).sort('Date', -1))
-
-    city_issue_counts = Counter([agenda.get('City', 'Unknown').strip() for agenda in agendas])
-    unique_city_count = len(city_issue_counts)
-
-    return render_template(
-        'share.html',
-        topic=topic,
-        city=city,
-        agendas=agendas,
-        form=form,
-        unique_city_count=unique_city_count,
-        city_issue_counts=city_issue_counts,
-    )
-
 # -------------------------------
 # COUNTY ROUTES CONFIGURATION
 # -------------------------------
-
 # Map custom route keys to full county names
 COUNTY_KEY_MAP = {
     "losangeles": "LA County",
@@ -581,7 +526,6 @@ COUNTY_KEY_MAP = {
     "sanbernandino": "San Bernardino County",
     "sandiego": "San Diego County",
 }
-
 # Build COUNTY_ROUTES dynamically using the map
 COUNTY_ROUTES = {
     key: {
@@ -596,10 +540,8 @@ COUNTY_ROUTES = {
 # -------------------------------
 def render_county_agendas(county_key):
     county_info = COUNTY_ROUTES[county_key]
-
     # Fetch agendas dynamically for this county
     agenda_items = get_county_agendas(mongo, county_info["name"])
-
     # Build city dictionary
     city_agendas = {}
     cities_matched = []
@@ -614,7 +556,6 @@ def render_county_agendas(county_key):
             city_agendas[city]["topic_counts"].update(topics)
         else:
             city_agendas[city]["topic_counts"].update([topics])
-
     # Only show first 6 cities
     initial_cities = dict(list(city_agendas.items())[:6])
 
@@ -634,6 +575,14 @@ for route_name in COUNTY_ROUTES:
         endpoint=route_name,
         view_func=lambda route_name=route_name: render_county_agendas(route_name)
     )
+# =============================================================================
+# TEMPLATE FILTERS
+# =============================================================================
+app.template_filter('aTime')(int2date)
+# =============================================================================
+# SCHEDULER CONFIGURATION
+# =============================================================================
+scheduler = start_scheduler(mongo, mail)
 # =============================================================================
 # STATIC PAGES AND COUNTY-SPECIFIC ROUTES
 # =============================================================================
