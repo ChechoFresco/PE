@@ -11,7 +11,7 @@
             <ul class="topic-list">
                 {% for topic, count in _data.topic_counts.items() %}
                     <li>
-                        <a href="/topicLink/{{ topic }}?city={{ _city }}" class="topic-square" target="_blank">
+                        <a class="topic-square" target="_blank">
                             {{ topic }}: {{ count }}
                         </a>
                     </li>

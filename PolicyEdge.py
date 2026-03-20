@@ -236,13 +236,10 @@ def index():
 
     # Only send first 6 cities to template
     initial_cities = dict(list(ALL_CITY_AGENDAS_CACHE.items())[:6])
-
     # Map visualization
     city_issue_counts = Counter(cities_matched)
-
     # Get geo info from Mongo
     geo_info = fetch_geo_info(mongo, city_issue_counts)
-
     # Build Folium map
     folium_map = create_folium_map(geo_info, folium_agendas)
 
@@ -266,7 +263,7 @@ def search():
 def results():
     """Handle search form submission and display results"""
     form = searchForm2(request.form)
-    
+
     if request.method == 'POST':
         primeKey = form.primary_search.data.strip()
         start_date = form.startdate_field.data
@@ -275,7 +272,7 @@ def results():
         # Set date range defaults
         start = int(start_date.strftime('%Y%m%d')) if start_date else get_date_threshold(weeks=-52)
         end = int(end_date.strftime('%Y%m%d')) if end_date else int(date.today().strftime('%Y%m%d'))
-        
+
         criteria = form.select.data
         filters = []
 
@@ -330,13 +327,10 @@ def results():
 
         # Only send first 6 cities to template
         initial_cities = dict(list(ALL_CITY_AGENDAS_CACHE.items())[:6])
-
         # Map visualization
         city_issue_counts = Counter(cities_matched)
-
         # Get geo info from Mongo
         geo_info = fetch_geo_info(mongo, city_issue_counts)
-
         # Build Folium map **with agenda details**
         folium_map = create_folium_map(geo_info, ALL_CITY_AGENDAS_CACHE)
 
