@@ -380,7 +380,7 @@ def login():
         return redirect(url_for('index'))
 
     if request.method == "POST":
-        identifier = request.form.get("email")  # can be email OR username
+        identifier = request.form.get("username")  # can be email OR username
         password = request.form.get("password")
 
         if not identifier or not password:
@@ -402,6 +402,8 @@ def login():
             return redirect(url_for('index'))
         else:
             flash('Invalid login credentials')
+    print("Rendering template from:", os.path.abspath("templates/login.html"))
+    return render_template('login.html', title="Please Login")
 
 @app.route('/logout')
 def logout():
