@@ -369,21 +369,30 @@ def load_more_cities():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """User registration page"""
-    if "username" in session:
+    if "username" in session or "email" in session:
         return redirect(url_for("index"))
     return render_template("register.html", title="Register for PolicyEdge")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """User login page"""
-    if "username" in session:
+    if "username" in session or "email" in session:
         return redirect(url_for('index'))
 
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
+        identifier = request.form.get("email")  # can be email OR username
+        password = request.form.get("password")
 
-        user = mongo.db.User.find_one({"username": username})
+        if not identifier or not password:
+            flash("Missing credentials")
+            return redirect(url_for('login'))
+
+        user = mongo.db.User.find_one({
+            "$or": [
+                {"email": identifier},
+                {"username": identifier}
+            ]
+        })
 
         if user and bcrypt.checkpw(password.encode('utf-8'), user["password"]):
             session['username'] = user["username"]
@@ -392,9 +401,7 @@ def login():
             flash('Login successful!')
             return redirect(url_for('index'))
         else:
-            flash('Invalid username or password')
-    print("Rendering template from:", os.path.abspath("templates/login.html"))
-    return render_template('login.html', title="Please Login")
+            flash('Invalid login credentials')
 
 @app.route('/logout')
 def logout():
@@ -406,7 +413,7 @@ def logout():
 @app.route('/subscription')
 def get_index():
     """Subscription management page"""
-    if "username" in session:
+    if "username" in session or "email" in session:
         return render_template('subscription.html', title='Re-subscribe to PolicyEdge')
     else:
         return redirect(url_for("login"))
