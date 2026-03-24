@@ -6,18 +6,6 @@
     <!-- City caption and topic list wrapper -->
     <div class="city-info">
         <div class="cityCaption">{{ _city }}</div>
-        <div class="listcontent">
-            <p>Contents:</p>
-            <ul class="topic-list">
-                {% for topic, count in _data.topic_counts.items() %}
-                    <li>
-                        <a class="topic-square" target="_blank">
-                            {{ topic }}: {{ count }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
     </div>
 
     <!-- Table wrapper -->

@@ -44,35 +44,65 @@ def handle_issue_operation(mongo, user, form_data, operation):
         {operation: {'issues': issue_data}}
     )
 
-def get_user_saved_agendas(mongo, user, days_back=60, days_forward=30):
+def get_user_saved_agendas(mongo, username, days_back=60, days_forward=30):
     """Get agendas matching user's saved issues"""
+    if not username:
+        return []
+
     today = int(date.today().strftime('%Y%m%d'))
     start_date = int((date.today() + relativedelta(days=-days_back)).strftime('%Y%m%d'))
     end_date = int((date.today() + relativedelta(days=days_forward)).strftime('%Y%m%d'))
-    
-    # Get user's saved issues
-    user_data = mongo.db.User.find_one(
-        {'username': user}, 
-        {'_id': 0, 'issues': 1}
-    )
-    
+
+    print(f"Searching agendas from {start_date} to {end_date} for user {username}")
+
+    user_data = mongo.db.User.find_one({'username': username}, {'_id': 0, 'issues': 1})
+
     if not user_data or not user_data.get('issues'):
+        print("No saved issues found")
         return []
-    
+
     agendas = []
+
     for issue in user_data['issues']:
+        print("Checking issue:", issue)
+        
+        # Grab values from issue
+        searchWord = issue.get('searchWord', '').strip()
+        city = issue.get('City', '').strip()
+        committee = issue.get('Committee', '').strip()
+        county = issue.get('County', '').strip()
+
+        # If the saved issue was just a keyword search
+        if county == 'Issue':
+            county = ''
+            city = ''
+            committee = ''
+
+        # Build text search for Description
+        text_query = {}
+        if searchWord:
+            text_query = {'$text': {'$search': f'"{searchWord}"'}}
+
+        # Build the MongoDB query
         query = {
             '$and': [
-                {"MeetingType": {'$regex': issue.get('Committee', ''), '$options': 'i'}},
-                {"City": {'$regex': issue.get('City', ''), '$options': 'i'}},
-                {"County": {'$regex': issue.get('County', ''), '$options': 'i'}},
-                {'Description': {"$regex": issue.get('searchWord', ''), '$options': 'i'}},
-                {'Date': {'$lte': end_date, '$gte': start_date}}
+                {"MeetingType": {'$regex': committee, '$options': 'i'}},
+                {"City": {'$regex': city, '$options': 'i'}},
+                {"County": {'$regex': county, '$options': 'i'}},
+                {"Date": {'$gte': start_date, '$lte': end_date}}
             ]
         }
-        matching_agendas = list(mongo.db.Agenda.find(query).sort('Date', -1))
-        agendas.extend(matching_agendas)
-    
+
+        if text_query:
+            query['$and'].append(text_query)
+
+        # Fetch results
+        results = mongo.db.Agenda.find(query).sort('Date', -1)
+        for agenda in results:
+            print("Agenda:", agenda.get('Description', ''), agenda.get('Date', ''))
+            agendas.append(agenda)
+
+    print(f"Total agendas found: {len(agendas)}")
     return agendas
 
 # -------------------------------
