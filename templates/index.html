@@ -9,71 +9,103 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 
 <!-- ===== MAIN MARQUEE ===== -->
-<div class="dash Main" id="mainPane">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-sm-8">
-                <h1 id="title">Follow <span id="billboard">policy change</span> in California.</h1>
-                <h3 class='sellLine'>
-                    Staying on top of local legislation affecting you can be a challenge. Missing an issue can be costly in time and resource.
-                    Search, set notifications, and find your PolicyEdge.
-                </h3>
+<div class="section-block">
+    <div class="page-container">
+        <div class="dash Main" id="mainPane">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-sm-8">
+                        <h1 id="title">Follow <span id="billboard">policy change</span> in California.</h1>
+                        <h3 class='sellLine'>
+                            Staying on top of local legislation affecting you can be a challenge. Missing an issue can be costly in time and resource.
+                            Search, set notifications, and find your PolicyEdge.
+                        </h3>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
 <!-- ===== CHARTS ===== -->
-{% if folium_map %}
-<div class="row" id="chartBox">
-    <div id="foliumMapContainer" style="width: 100%; min-height: 500px;">
-        {{ folium_map | safe }}
+<div class="section-block">
+    <div class="page-container">
+        {% if folium_map %}
+        <div class="row" id="chartBox">
+            <div id="foliumMapContainer">
+                {{ folium_map | safe }}
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
-{% endif %}
 
 
 
 <!-- ===== SEARCH ===== -->
-<div class="searchFreeDiv">
-    <!-- Search Bar -->
-    <div class="mapSearch">
-        <form id="mapSearchForm" method="GET">
-            {% from "_formhelpers.html" import render_field %}
-            <div class="search-bar-wrapper">
-                {{ render_field(form.chartSearch) }}
-                <button type="submit" id="mapSearchButton">Search</button>
+<div class="section-block">
+    <div class="page-container">
+        <div class="searchFreeDiv">
+            <!-- Search Bar -->
+            <div class="mapSearch">
+                <form id="mapSearchForm" method="POST">
+                    {% from "_formhelpers.html" import render_field %}
+                    <div class="search-bar-wrapper">
+                        {{ render_field(form.chartSearch) }}
+                        <button type="submit" id="mapSearchButton">Search</button>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
-    <!-- Subscription Button / Neon Pulse -->
-    <div class="subscription-section">
-        {% if not session['username'] %}
-            <a href="/register" class="neon-pulse" aria-label="Subscribe to Policy Edge">$20/Month</a>
-        {% else %}
-            <span class="welcome-message">Welcome back <span style="color: var(--black);">{{ session['username'] }}</span></span>
-        {% endif %}
-    </div>
-    <!-- Current Issue -->
-    <div class="issue">
-        <label id="currIss">Current Issue</label>
-        <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> - Activity in last week</h2>
+            <!-- Subscription Button / Neon Pulse -->
+            <div class="subscription-section">
+                {% if not session['username'] %}
+                    <a href="/register" class="neon-pulse" aria-label="Subscribe to Policy Edge">$20/Month</a>
+                {% else %}
+                    <span class="welcome-message">Welcome back <span style="color: var(--black);">{{ session['username'] }}</span></span>
+                {% endif %}
+            </div>
+            <!-- Current Issue -->
+            <div class="issue">
+                <label id="currIss">Current Issue</label>
+                <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> - Activity in last week</h2>
+            </div>
+        </div>
     </div>
 </div>
 
 
+
+<!-- ===== WEEKLY AGENDA INFO ===== -->
+<div class="section-block">
+    <div class="page-container">
+        <div class="agenda-info text-center my-3">
+            <p class="mb-1">
+                Showing <strong>weekly city council agendas</strong> across <strong>Southern California</strong>
+            </p>
+            <p class="mb-1">
+                Updated regularly to highlight recent activity related to your selected issue
+            </p>
+        </div>
+    </div>
+</div>
 
 <!-- ===== TABLE CONTAINER ===== -->
-{% from 'partials/city_tables.html' import city_table %}
-<div class="row" id="conTable">
-    {% for city, data in city_agendas.items() %}
-        <div class="col-sm-6">
-            {{ city_table(city, data) }}
+<div class="section-block">
+    <div class="page-container">
+        {% from 'partials/city_tables.html' import city_table %}
+        <div class="row" id="conTable">
+            {% for city, data in city_agendas.items() %}
+                <div class="col-sm-6">
+                    {{ city_table(city, data) }}
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    </div>
 </div>
+
 <!-- ===== SCRIPTS ===== -->
 <script>
     $(document).ready(function () {

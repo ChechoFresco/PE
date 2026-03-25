@@ -92,32 +92,34 @@
 
 <body>
 	<nav class="topnav" id="myTopnav">
-		<a href="/index" class="logoMain" aria-label="PolicyEdge Homepage">
-			<img class="logo" src="{{ url_for('static', filename='logo.svg') }}" alt="PolicyEdge Logo" width="330" height="75">
-		</a>
-	
-		{% if not session['username'] %}
-		<a href="/login" id="login">Login</a>
-		{% else %}
-			<a href="/logout" id="login">Logout</a>
-		{% endif %}
+		<div class="topnav-inner">
+			<a href="/index" class="logoMain" aria-label="PolicyEdge Homepage">
+				<img class="logo" src="{{ url_for('static', filename='logo.svg') }}" alt="PolicyEdge Logo" width="330" height="75">
+			</a>
 		
-		<a href="/search">Search</a>
-		<a href="/savedIssues">Notification</a>
-	
-		<a href="#" id='ham' class="menu-button [ js-menu-button ]">
-			<div class="icon nav-icon-1" id="expe">
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
-		</a>
+			{% if not session['username'] %}
+			<a href="/login" id="login">Login</a>
+			{% else %}
+				<a href="/logout" id="login">Logout</a>
+			{% endif %}
+			
+			<a href="/search">Search</a>
+			<a href="/savedIssues">Notification</a>
+		
+			<a href="#" id='ham' class="menu-button [ js-menu-button ]">
+				<div class="icon nav-icon-1" id="expe">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</a>
+		</div>
 	</nav>
 	
 	<main>
@@ -171,7 +173,6 @@
 			</div>
 		</div>
 	</footer>
-	
 	<script defer>
 	document.addEventListener('DOMContentLoaded', () => {
 		const menuButton = document.querySelector('.js-menu-button');

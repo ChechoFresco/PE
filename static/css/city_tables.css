@@ -63,8 +63,7 @@ td.description.expanded {
   font-size: 1rem;
   font-weight: bold;
   color: var(--white);
-  background: rgba(255, 165, 0, 0.08);
-  border: 2px solid var(--orange);
+  background: rgba(255, 166, 0, 0.2);
   padding: 0.2rem 0.5rem;
   border-radius: 5px;
   text-shadow: 1px 1px 2px black;
@@ -249,19 +248,12 @@ div.bootstrap-table .dropdown-menu {
 /* ################################################# */
 @media (min-width: 1px) and (max-width: 600px) {
   thead:after { content: none; }
-
-  h1#title { font-size: 3rem; text-align: center; width: auto; }
-  #conanimation { flex-direction: column; }
-  svg.animated { left: -7rem; }
-  h3.howwrk { font-size: 2.4rem; }
   .portfolio-experiment a { left: 2rem; }
 
   form { left: -2rem; position: relative; }
   #uniqueSearch { left: 8rem; }
   #currIss { left: 8rem; }
   label { font-size: 14px; }
-
-  #chartBox { height: 26rem; margin: 0 auto; }
 
   th { display: none; margin: auto; font-size: 1.2rem; }
   td.infoLocation { font-size: 12px; }

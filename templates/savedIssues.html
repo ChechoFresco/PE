@@ -12,7 +12,7 @@
                 {{ form.select.label }}
                 {{ form.select(class="form-control", id="select") }}
             </div>
-    
+
             <!-- Cities Section -->
             <div id="cities-section" class="form-group" style="display: none;">
                 {{ form.selectLA.label }}
@@ -24,18 +24,18 @@
                 {{ form.selectLACM(class="form-control city-field", id="LACM") }}
                 {{ form.selectLBCM(class="form-control city-field", id="LBCM") }}
             </div>
-    
+
             <!-- Keyword Input -->
             <div class="form-group">
                 {{ form.primary_search.label }}
                 {{ form.primary_search(class="form-control", placeholder="Enter keyword") }}
             </div>
-    
+
             <button type="submit" name="action" value="Add" class="btn btn-primary">Add</button>
             <button type="submit" name="action" value="Delete" class="btn btn-danger">Delete</button>
         </form>
     </div>
-    
+
     <!-- jQuery for city logic -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script>
@@ -43,7 +43,6 @@
         $('#select').on('change', function () {
             const selected = $(this).val();
             $('.city-field').hide();
-    
             if(selected === 'LA County') $('#LA').show();
             else if(selected === 'Orange County') $('#OC').show();
             else if(selected === 'Riverside County') $('#RS').show();
@@ -51,7 +50,7 @@
             else if(selected === 'San Diego County') $('#SD').show();
             else if(selected === 'LA Committees') $('#LACM').show();
             else if(selected === 'Long Beach Committees') $('#LBCM').show();
-    
+
             if(selected !== 'Issue') $('#cities-section').show();
             else $('#cities-section').hide();
         });
@@ -60,11 +59,12 @@
 
     <!-- Saved Issues Display -->
     <div class="saved-issues-container mb-4">
-        <h4>Your Saved Issues</h4>
+        <h4>Tracked Issues</h4>
+        <small class="text" style ="color: white;">You’ll be notified when these appear in agendas</small>
         <div class="row g-2">
             {% for x in issues_placeholders %}
-            <div class="col-md-6 col-lg-4">
-                <div class="issue-card p-2">
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="issue-card p-1">
                     <div class="issue-info mb-1">
                         <p class="mb-1"><strong>Issue:</strong> {{ x['searchWord'] }}</p>
                         {% if x['City'] %}
@@ -82,7 +82,7 @@
                         <input type="hidden" name="select" value="{{ x['County'] }}">
                         <input type="hidden" name="selectLA" value="{{ x['City'] }}">
                         <input type="hidden" name="selectLACM" value="{{ x['Committee'] }}">
-                        <button type="submit" name="action" value="Delete" class="btn btn-outline-danger btn-sm">
+                        <button type="submit" name="action" value="Delete" class="btn btn-outline-danger btn-sm py-0 px-1" style="font-size: 0.65rem; line-height: 1;">
                             Delete
                         </button>
                     </form>

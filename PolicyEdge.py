@@ -121,26 +121,29 @@ ALL_CITIES = [city for county_cities in CITIES.values() for city in county_citie
 # =============================================================================
 @app.before_request
 def log_requests():
+    if app.debug:
+        return  # Skip in development
+
     ip = request.remote_addr
     ua = request.headers.get("User-Agent")
     path = request.path
-    ts = datetime.utcnow()  # current UTC timestamp
+    ts = datetime.utcnow()
 
-    # Save to MongoDB
     mongo.db.RequestLogs.insert_one({
         "ip": ip,
         "user_agent": ua,
         "path": path,
         "timestamp": ts
     })
-    # Check for too many requests in last minute
+
     one_min_ago = ts - timedelta(seconds=60)
     recent_count = mongo.db.RequestLogs.count_documents({
         "ip": ip,
         "timestamp": {"$gte": one_min_ago}
     })
-    if recent_count > 20:  # adjust threshold
-        abort(429)  # Too Many Requests
+
+    if recent_count > 20:
+        abort(429)
 # =============================================================================
 # ROUTES
 # =============================================================================
@@ -168,7 +171,7 @@ def index():
     form = chartForm()
     date_threshold = get_date_threshold(weeks=-1)
 
-    # Determine search term
+    # ===== GET SEARCH TERM =====
     if request.method == 'POST' and request.form.get('chartSearch'):
         search_term = request.form['chartSearch'].strip()
         chosen = f'"{search_term}"'
@@ -180,7 +183,7 @@ def index():
             upsert=True
         )
 
-        # Query agendas
+        # Query with search
         agenda_items = mongo.db.Agenda.find({
             '$and': [
                 {'$text': {"$search": chosen}},
@@ -190,8 +193,9 @@ def index():
         }).sort('Date', -1)
 
     else:
-        # Default GET: last week's agendas
+        # Default GET
         chosen = 'water'
+
         agenda_items = mongo.db.Agenda.find({
             '$and': [
                 {"MeetingType": {'$regex': "City Council", '$options': 'i'}},
@@ -201,54 +205,57 @@ def index():
             ]
         }).sort('Date', -1)
 
-        # Organize agendas by city
-        cities_matched = []
-        city_agendas = {}      # All agendas grouped by city
-        folium_agendas = {}    # Only agendas that match the search keyword
+    # ===== SHARED LOGIC (RUNS FOR BOTH) =====
 
-        for agenda in agenda_items:
-            city = agenda.get('City', '')
-            description = agenda.get('Description', '')
-            topics = agenda.get('Topics', [])
+    cities_matched = []
+    city_agendas = {}
+    folium_agendas = {}
 
-            # Add agenda to city_agendas (all agendas)
-            if city not in city_agendas:
-                city_agendas[city] = {"agendas": [], "topic_counts": Counter()}
-            city_agendas[city]["agendas"].append(agenda)
+    for agenda in agenda_items:
+        city = agenda.get('City', '')
+        description = agenda.get('Description', '')
+        topics = agenda.get('Topics', [])
+
+        # All agendas
+        if city not in city_agendas:
+            city_agendas[city] = {"agendas": [], "topic_counts": Counter()}
+        city_agendas[city]["agendas"].append(agenda)
+
+        if isinstance(topics, list):
+            city_agendas[city]["topic_counts"].update(topics)
+        else:
+            city_agendas[city]["topic_counts"].update([topics])
+
+        # Matching agendas
+        if chosen.strip('"') in description:
+            if city not in folium_agendas:
+                folium_agendas[city] = {"agendas": [], "topic_counts": Counter()}
+            folium_agendas[city]["agendas"].append(agenda)
+
             if isinstance(topics, list):
-                city_agendas[city]["topic_counts"].update(topics)
+                folium_agendas[city]["topic_counts"].update(topics)
             else:
-                city_agendas[city]["topic_counts"].update([topics])
+                folium_agendas[city]["topic_counts"].update([topics])
 
-            # Add agenda to folium_agendas if it matches `chosen`
-            if chosen.strip('"') in description:
-                if city not in folium_agendas:
-                    folium_agendas[city] = {"agendas": [], "topic_counts": Counter()}
-                folium_agendas[city]["agendas"].append(agenda)
-                if isinstance(topics, list):
-                    folium_agendas[city]["topic_counts"].update(topics)
-                else:
-                    folium_agendas[city]["topic_counts"].update([topics])
-                cities_matched.append(city)
+            cities_matched.append(city)
 
-        # Only send first 6 cities to template
-        initial_cities = dict(list(city_agendas.items())[:6])
+    # Limit cities
+    initial_cities = dict(list(city_agendas.items())[:6])
 
-        # Map visualization
-        city_issue_counts = Counter(cities_matched)
-        geo_info = fetch_geo_info(mongo, city_issue_counts)
+    # Map
+    city_issue_counts = Counter(cities_matched)
+    geo_info = fetch_geo_info(mongo, city_issue_counts)
+    folium_map = create_folium_map(geo_info, folium_agendas)
 
-        # Build Folium map with matching agendas
-        folium_map = create_folium_map(geo_info, folium_agendas)
-
-        return render_template(
-            'index.html',
-            folium_map=folium_map._repr_html_(),
-            form=form,
-            city_agendas=initial_cities,
-            title="Policy Edge Tracking Agendas",
-            chosen=chosen
-        )
+    # ✅ ALWAYS RETURN
+    return render_template(
+        'index.html',
+        folium_map=folium_map._repr_html_(),
+        form=form,
+        city_agendas=initial_cities,
+        title="Policy Edge Tracking Agendas",
+        chosen=chosen
+    )
 
 @app.route('/search')
 def search():
