@@ -79,14 +79,18 @@ COMMITTEE_CHOICES = {
 }
 
 SEARCH_CRITERIA_CHOICES = [
-        ('Issue', 'Issue'), ('LA County', 'LA County'),
-        ('LA Committees', 'LA Committees'), ('Orange County', 'Orange County'),
-        ('Long Beach Committees', 'Long Beach Committees'), ('Riverside County', 'Riverside County'),
-        ('San Diego County', 'San Diego County'), ('San Bernardino County', 'San Bernardino County')
-        ]
+        ('', 'Select Source'),  # placeholder default
+        ('LA County', 'LA County'),
+        ('Orange County', 'Orange County'),
+        ('Riverside County', 'Riverside County'),
+        ('San Bernardino County', 'San Bernardino County'),
+        ('San Diego County', 'San Diego County'),
+        ('LA Committees', 'LA Committees'),
+        ('Long Beach Committees', 'Long Beach Committees'),
+]
 
 
-class searchForm2(Form):
+class searchForm(Form):
         select = SelectField('Criteria:', choices=SEARCH_CRITERIA_CHOICES)
         selectLA = SelectField('Cities:', choices=CITY_CHOICES["LA"])
         selectOC = SelectField('Cities:', choices=CITY_CHOICES["OC"])
@@ -99,36 +103,19 @@ class searchForm2(Form):
         startdate_field = DateField('Start Date:', format='%Y%m%d')
         enddate_field = DateField('End Date:', format='%Y%m%d')
 
-class searchForm(Form):
-        select = SelectField('Criteria:', choices=SEARCH_CRITERIA_CHOICES)
-        selectLA = SelectField('Cities:', choices=CITY_CHOICES["LA"])
-        selectOC = SelectField('Cities:', choices=CITY_CHOICES["OC"])
-        selectSB = SelectField('Cities:', choices=CITY_CHOICES["SB"])
-        selectRS = SelectField('Cities:', choices=CITY_CHOICES["RS"])
-        selectSD = SelectField('Cities:', choices=CITY_CHOICES["SD"])
-        selectLACM = SelectField('Committees:', choices=COMMITTEE_CHOICES["LACM"])
-        selectLBCM = SelectField('Committees:', choices=COMMITTEE_CHOICES["LBCM"])
-        primary_search = StringField('Keyword:', validators=[Length(min=1, max=25), DataRequired()])
-        startdate_field = DateField('Start Date:', format='%Y%m%d')
-        enddate_field = DateField('End Date:', format='%Y%m%d')
+class monitorListform(searchForm):
+    """
+    Inherits from searchForm so all choices, validators, and fields are available.
+    Can override fields if needed, e.g., remove start/end date.
+    """
 
+    # Remove date fields since they're not needed for monitor
+    startdate_field = None
+    enddate_field = None
 
-class monitorListform(Form):
-        monitor_search = StringField('Issue', validators=[Length(min=1, max=25), DataRequired()])
-        city_search = StringField('City:')
-        committee_search = StringField('Committee:')
-        county_search = StringField('County:')
-
-
-class monitorListform2(Form):
-        select = SelectField('Criteria:', choices=SEARCH_CRITERIA_CHOICES)
-        selectLA = SelectField('Cities:', choices=CITY_CHOICES["LA"])
-        selectOC = SelectField('Cities:', choices=CITY_CHOICES["OC"])
-        selectSB = SelectField('Cities:', choices=CITY_CHOICES["SB"])
-        selectRS = SelectField('Cities:', choices=CITY_CHOICES["RS"])
-        selectSD = SelectField('Cities:', choices=CITY_CHOICES["SD"])
-        selectLACM = SelectField('Committees:', choices=COMMITTEE_CHOICES["LACM"])
-        selectLBCM = SelectField('Committees:', choices=COMMITTEE_CHOICES["LBCM"])
+    # You can also override labels or add new validators
+    select = SelectField('Source:', choices=SEARCH_CRITERIA_CHOICES)
+    primary_search = StringField('Topic:', validators=[DataRequired()])
 
 class chartForm(Form):
         chartSearch = StringField('',render_kw={"placeholder": "Explore Other Issues?"}, validators=[Length(min=1, max=25),DataRequired()])

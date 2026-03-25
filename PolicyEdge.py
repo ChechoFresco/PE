@@ -3,7 +3,7 @@
 from flask_pymongo import PyMongo
 from flask_compress import Compress
 from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, send_from_directory, Blueprint, abort
-from forms import searchForm, monitorListform, chartForm, monitorListform2, searchForm2
+from forms import searchForm, monitorListform, chartForm
 import bcrypt
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -66,9 +66,6 @@ logger = logging.getLogger(__name__)
 # =============================================================================
 # CONSTANTS AND CONFIGURATION DATA
 # =============================================================================
-global ALL_CITY_AGENDAS_CACHE
-ALL_CITY_AGENDAS_CACHE = {}
-
 # Comprehensive city lists organized by county
 CITIES = {
     'LA': [
@@ -124,26 +121,29 @@ ALL_CITIES = [city for county_cities in CITIES.values() for city in county_citie
 # =============================================================================
 @app.before_request
 def log_requests():
+    if app.debug:
+        return  # Skip in development
+
     ip = request.remote_addr
     ua = request.headers.get("User-Agent")
     path = request.path
-    ts = datetime.utcnow()  # current UTC timestamp
+    ts = datetime.utcnow()
 
-    # Save to MongoDB
     mongo.db.RequestLogs.insert_one({
         "ip": ip,
         "user_agent": ua,
         "path": path,
         "timestamp": ts
     })
-    # Check for too many requests in last minute
+
     one_min_ago = ts - timedelta(seconds=60)
     recent_count = mongo.db.RequestLogs.count_documents({
         "ip": ip,
         "timestamp": {"$gte": one_min_ago}
     })
-    if recent_count > 20:  # adjust threshold
-        abort(429)  # Too Many Requests
+
+    if recent_count > 20:
+        abort(429)
 # =============================================================================
 # ROUTES
 # =============================================================================
@@ -171,7 +171,7 @@ def index():
     form = chartForm()
     date_threshold = get_date_threshold(weeks=-1)
 
-    # Determine search term
+    # ===== GET SEARCH TERM =====
     if request.method == 'POST' and request.form.get('chartSearch'):
         search_term = request.form['chartSearch'].strip()
         chosen = f'"{search_term}"'
@@ -183,7 +183,7 @@ def index():
             upsert=True
         )
 
-        # Query agendas
+        # Query with search
         agenda_items = mongo.db.Agenda.find({
             '$and': [
                 {'$text': {"$search": chosen}},
@@ -193,8 +193,9 @@ def index():
         }).sort('Date', -1)
 
     else:
-        # Default GET: last week's agendas
+        # Default GET
         chosen = 'water'
+
         agenda_items = mongo.db.Agenda.find({
             '$and': [
                 {"MeetingType": {'$regex': "City Council", '$options': 'i'}},
@@ -204,49 +205,52 @@ def index():
             ]
         }).sort('Date', -1)
 
-    # Organize agendas by city
+    # ===== SHARED LOGIC (RUNS FOR BOTH) =====
+
     cities_matched = []
-    folium_agendas = {}  # key = city, value = list of matching agenda dicts
+    city_agendas = {}
+    folium_agendas = {}
 
     for agenda in agenda_items:
         city = agenda.get('City', '')
         description = agenda.get('Description', '')
         topics = agenda.get('Topics', [])
 
-        # Update the full cache (if you still need it)
-        if city not in ALL_CITY_AGENDAS_CACHE:
-            ALL_CITY_AGENDAS_CACHE[city] = {"agendas": [], "topic_counts": Counter()}
-        ALL_CITY_AGENDAS_CACHE[city]["agendas"].append(agenda)
-        if isinstance(topics, list):
-            ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update(topics)
-        else:
-            ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update([topics])
+        # All agendas
+        if city not in city_agendas:
+            city_agendas[city] = {"agendas": [], "topic_counts": Counter()}
+        city_agendas[city]["agendas"].append(agenda)
 
-        # Only keep agendas that match `chosen`
+        if isinstance(topics, list):
+            city_agendas[city]["topic_counts"].update(topics)
+        else:
+            city_agendas[city]["topic_counts"].update([topics])
+
+        # Matching agendas
         if chosen.strip('"') in description:
             if city not in folium_agendas:
                 folium_agendas[city] = {"agendas": [], "topic_counts": Counter()}
             folium_agendas[city]["agendas"].append(agenda)
-            # Optionally track topic counts
+
             if isinstance(topics, list):
                 folium_agendas[city]["topic_counts"].update(topics)
             else:
                 folium_agendas[city]["topic_counts"].update([topics])
+
             cities_matched.append(city)
 
-    # Only send first 6 cities to template
-    initial_cities = dict(list(ALL_CITY_AGENDAS_CACHE.items())[:6])
-    # Map visualization
+    # Limit cities
+    initial_cities = dict(list(city_agendas.items())[:6])
+
+    # Map
     city_issue_counts = Counter(cities_matched)
-    # Get geo info from Mongo
     geo_info = fetch_geo_info(mongo, city_issue_counts)
-    # Build Folium map
     folium_map = create_folium_map(geo_info, folium_agendas)
 
-    # Pass folium_map to template (use _repr_html_ in template)
+    # ✅ ALWAYS RETURN
     return render_template(
         'index.html',
-        folium_map=folium_map._repr_html_(),  # keep original name
+        folium_map=folium_map._repr_html_(),
         form=form,
         city_agendas=initial_cities,
         title="Policy Edge Tracking Agendas",
@@ -256,13 +260,13 @@ def index():
 @app.route('/search')
 def search():
     """Search page for agenda items"""
-    form = searchForm2()
+    form = searchForm()
     return render_template('search.html', form=form, title='Search')
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     """Handle search form submission and display results"""
-    form = searchForm2(request.form)
+    form = searchForm(request.form)
 
     if request.method == 'POST':
         primeKey = form.primary_search.data.strip()
@@ -308,31 +312,37 @@ def results():
 
         # Execute search
         agenda_list = list(mongo.db.Agenda.find({'$and': filters}).sort('Date', -1).limit(300))
-            # Organize agendas by city
 
+        # Organize agendas by city
         cities_matched = []
+        city_agendas = {}
 
         for agenda in agenda_list:
             city = agenda.get('City', '')
             topics = agenda.get('Topics', [])
-            if city not in ALL_CITY_AGENDAS_CACHE:
-                ALL_CITY_AGENDAS_CACHE[city] = {"agendas": [], "topic_counts": Counter()}
-            ALL_CITY_AGENDAS_CACHE[city]["agendas"].append(agenda)
+            
+            if city not in city_agendas:
+                city_agendas[city] = {"agendas": [], "topic_counts": Counter()}
+            
+            city_agendas[city]["agendas"].append(agenda)
+            
             if isinstance(topics, list):
-                ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update(topics)
+                city_agendas[city]["topic_counts"].update(topics)
             else:
-                ALL_CITY_AGENDAS_CACHE[city]["topic_counts"].update([topics])
+                city_agendas[city]["topic_counts"].update([topics])
+            
             if primeKey.strip('"') in agenda.get('Description', ''):
                 cities_matched.append(city)
 
         # Only send first 6 cities to template
-        initial_cities = dict(list(ALL_CITY_AGENDAS_CACHE.items())[:6])
+        initial_cities = dict(list(city_agendas.items())[:6])
+
         # Map visualization
         city_issue_counts = Counter(cities_matched)
-        # Get geo info from Mongo
         geo_info = fetch_geo_info(mongo, city_issue_counts)
-        # Build Folium map **with agenda details**
-        folium_map = create_folium_map(geo_info, ALL_CITY_AGENDAS_CACHE)
+
+        # Build Folium map with agenda details
+        folium_map = create_folium_map(geo_info, city_agendas)
 
         return render_template(
             'search.html',
@@ -354,8 +364,32 @@ def results():
 def load_more_cities():
     start = int(request.args.get('start', 0))
     count = int(request.args.get('count', 6))
-    cities_list = list(ALL_CITY_AGENDAS_CACHE.items())
-    cities_to_load = dict(cities_list[start:start+count])
+    username = session.get('username')  # If needed for savedIssues
+
+    # Build city_agendas dynamically (no global cache)
+    city_agendas = {}  # key = city, value = {"agendas": [...], "topic_counts": Counter()}
+
+    # Example: for savedIssues, get user's saved agendas
+    if username:
+        agenda_list = get_user_saved_agendas(mongo, username)
+    else:
+        # For index.html or search, you may pass all agenda_items here
+        agenda_list = list(mongo.db.Agenda.find().sort('Date', -1).limit(300))
+
+    for agenda in agenda_list:
+        city = agenda.get('City', '')
+        topics = agenda.get('Topics', [])
+        if city not in city_agendas:
+            city_agendas[city] = {"agendas": [], "topic_counts": Counter()}
+        city_agendas[city]["agendas"].append(agenda)
+        if isinstance(topics, list):
+            city_agendas[city]["topic_counts"].update(topics)
+        else:
+            city_agendas[city]["topic_counts"].update([topics])
+
+    # Only slice the cities requested
+    cities_list = list(city_agendas.items())
+    cities_to_load = dict(cities_list[start:start + count])
 
     rendered = ""
     for city, data in cities_to_load.items():
@@ -476,7 +510,7 @@ def savedIssues():
     if not user_subscribed:
         return render_template('noSubscription.html')
     
-    form = monitorListform2()
+    form = monitorListform()
     user = session["username"]
     
     if request.method == 'GET':
@@ -486,22 +520,33 @@ def savedIssues():
             {'_id': 0, 'issues': 1}
         )
         issues_placeholder = user_data.get('issues', []) if user_data else []
-        
-        # Get matching agendas
-        agendas = get_user_saved_agendas(user)
-        
+
+        user_agendas = get_user_saved_agendas(mongo, user)  # returns list
+        print(user_agendas)
+        # Organize by city like search.html
+        city_agendas_dict = {}
+        for agenda in user_agendas:
+            city = agenda.get('City', '')
+            if city not in city_agendas_dict:
+                city_agendas_dict[city] = {"agendas": []}
+            city_agendas_dict[city]["agendas"].append(agenda)
+
+        # Slice first 6 cities
+        initial_cities = dict(list(city_agendas_dict.items())[:6])
+
+        # Pass to template
         return render_template(
-            'savedIssues.html', 
-            issues_placeholders=issues_placeholder, 
-            form=form, 
-            agendaas=agendas,
+            'savedIssues.html',
+            issues_placeholders=issues_placeholder,
+            form=form,
+            city_agendas=initial_cities,  # 🔹 now a dict, not a list
             title='Subscription List'
         )
     
     elif request.method == 'POST':
         # Handle add/delete operations for saved issues
         operation = request.form.get('action')
-        handle_issue_operation(user, request.form, operation)
+        handle_issue_operation(mongo, user, request.form, operation)
         
         # Refresh the page with updated data
         user_data = mongo.db.User.find_one(
@@ -509,13 +554,24 @@ def savedIssues():
             {'_id': 0, 'issues': 1}
         )
         issues_placeholder = user_data.get('issues', []) if user_data else []
-        agendas = get_user_saved_agendas(user)
         
+        user_agendas = get_user_saved_agendas(mongo, user)  # returns list
+
+        city_agendas_dict = {}
+        for agenda in user_agendas:
+            city = agenda.get('City', '')
+            if city not in city_agendas_dict:
+                city_agendas_dict[city] = {"agendas": []}
+            city_agendas_dict[city]["agendas"].append(agenda)
+
+                    # Slice first 6 cities
+        initial_cities = dict(list(city_agendas_dict.items())[:6])
+
         return render_template(
             'savedIssues.html',
             issues_placeholders=issues_placeholder,
             form=form,
-            agendaas=agendas,
+            city_agendas=initial_cities,
             title='Subscription List'
         )
 # -------------------------------

@@ -3,16 +3,19 @@ html {
 }
 
 body {
-  max-width: 1200px;
-  margin: auto !important;
-  min-height: 100vh; /* ensures body fills viewport */
-  background: linear-gradient(to bottom, #202020, #000000);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+
+  background-image:
+    linear-gradient(rgba(47, 87, 85, 0.85), rgba(47, 87, 85, 0.85)),
+    url("/static/Main-2.jpeg");
+
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
-
-
 
 /* =====================
    GLOBAL TUNING
@@ -23,17 +26,13 @@ body {
   --font1: 5.3rem;
   --font2: 2rem;
   --font3: 1.5rem;
-  --blue: #5e7cff;
   --orange: #fabc3e;
   --white: #e8e8e8;
-  --black: #202020;
-  --gray: #aaaaaa;
+  --gray: #2F5755;
+  --gray2: #E0D9D9;
   --textShadow: 2px 2px 3px #69677e;
   --rad:linear-gradient(62deg, var(--orange) 0%, var(--white) 100%);
   --rad2:linear-gradient(180deg, var(--blue) 25%, var(--white) 100%);
-  --duration-long: 10s;
-  --duration-spin: 6s;
-  --ease-smooth: cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 
@@ -42,9 +41,14 @@ body {
   overflow: hidden;
   margin: auto;
   position: relative;
-  border-bottom: 1px solid var(--white);
+  border-bottom: 1px solid var(--orange);
 }
 
+.topnav-inner {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 1rem; /* optional spacing */
+}
 /* Style the links inside the navigation bar */
 .topnav a {
 display: flex;
@@ -234,7 +238,6 @@ display: none;
    FOOTER LAYOUT
 ===================== */
 .site-footer {
-  background-color: transparent;
   color: var(--white);
   padding: 2rem 0;
   font-size: 15px;
@@ -258,7 +261,7 @@ display: none;
 }
 
 .site-footer p {
-  color: var(--gray);
+  color: var(--white);
   margin-bottom: 1rem;
 }
 
@@ -289,7 +292,7 @@ display: none;
 }
 
 .site-footer > .container ul:not(.social-icons) li a {
-  color: var(--gray);
+  color: var(--white);
   text-decoration: none;  /* remove underline */
   font-weight: 500;
   display: inline-block;
@@ -318,7 +321,7 @@ display: none;
 
 .social-icons li a {
   color: #fff;             /* icon color */
-  font-size: 2.5rem;       /* icon size */
+  font-size: 1.8rem;       /* icon size */
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
@@ -331,7 +334,7 @@ display: none;
    COPYRIGHT
 ===================== */
 .site-footer .copyright-text {
-  color: var(--gray);
+  color: var(--white);
   margin: 0;
 }
 

@@ -1,338 +1,182 @@
-<!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}">
 
-<head>
-    <meta name="viewport" content="Subscribed member page">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}">
+<div class="container py-5">
 
-    <script>
-        $(document).ready(function () {
-            $('button#plus').click(function () {
-                var currentSize = parseInt($("td.description").css("font-size"));
-                $("td.description").css("font-size", currentSize += 1);
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('button#minus').click(function () {
-                var currentSize = parseInt($("td.description").css("font-size"));
-                $("td.description").css("font-size", currentSize -= 1);
-            });
-        });
-    </script>
-<!-- 
-    <script>
-        $(document).ready(function () {
-            $('tr').click(function () {
-                var issue = $(this).text();
-                var maybe = issue.split("\n");
-                var is = (JSON.stringify(maybe[1]));
-                var is2 = (JSON.stringify(maybe[2]));
-                var is3 = (JSON.stringify(maybe[3]));
-                var is4 = (JSON.stringify(maybe[4]));
-                $(".input-issue").val(is.replace("Issue:", "").replace('            ', "").replace("            ", "").replace('"', '').replace('"', '').replace(' ', ''));
-                $(".input-city").val(is2.replace("City:", "").replace('            ', "").replace("            ", "").replace('"', '').replace('"', '').replace(' ', ''));
-                $(".input-committee").val(is3.replace("Committee:", "").replace('            ', "").replace("            ", "").replace('"', '').replace('"', '').replace(' ', ''));
-                $(".input-county").val(is4.replace("County:", "").replace('            ', "").replace("            ", "").replace('"', '').replace('"', '').replace(' ', ''));
-            });
-        });
-    </script>
--->
-    <script>
-        $(document).ready(function () {
-            $("#table_1").on("click", "td.description", function () {
-                if (this.style.maxHeight === "9rem") {
-                    this.style.maxHeight = "fit-content";
-                }
-                else {
-                    this.style.maxHeight = "9rem";
-                }
-            });
-        });
-    </script>
+    <!-- Form Card -->
+    <div class="search-container">
+        <form method="post" class="search-form">
+            <!-- Criteria Select -->
+            <div class="form-group">
+                {{ form.select.label }}
+                {{ form.select(class="form-control", id="select") }}
+            </div>
 
-</head>
-<div class="row">
-    <div class="col-sm-12">
-        <div class="formdiv">
-            {% from "_formhelpers.html" import render_field %}
-                <form method="post">
-                    <div>
-                        {{ render_field(form.select) }}
-                    </div>
-                    <div>
-                        {{ render_field(form.selectLA, class='input-city') }}
-                    </div>
-                    <div>
-                        {{ render_field(form.selectOC) }}
-                    </div>
-                    <div>
-                        {{ render_field(form.selectRS) }}
-                    </div>
-                    <div>
-                        {{ render_field(form.selectSB) }}
-                    </div>
-                    <div>
-                        {{ render_field(form.selectSD) }}
-                    </div>
-                    <div>
-                        {{ render_field(form.selectLACM) }}
-                    </div>
-                    <div>
-                        {{ render_field(form.selectLBCM) }}
-                    </div>
-                    <div>
-                        {{ render_field(form.primary_search, class='input-issue') }}
-                    </div>
-                    <div id="buttons">
-                        <p><input class="add" type="submit" value="Add" name='action' id="monitorListform2"></p>
-                        <p><input class="delete" type='submit' value="Delete" name='action' id="monitorListform2"></p>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+            <!-- Cities Section -->
+            <div id="cities-section" class="form-group" style="display: none;">
+                {{ form.selectLA.label }}
+                {{ form.selectLA(class="form-control city-field", id="LA") }}
+                {{ form.selectOC(class="form-control city-field", id="OC") }}
+                {{ form.selectRS(class="form-control city-field", id="RS") }}
+                {{ form.selectSB(class="form-control city-field", id="SB") }}
+                {{ form.selectSD(class="form-control city-field", id="SD") }}
+                {{ form.selectLACM(class="form-control city-field", id="LACM") }}
+                {{ form.selectLBCM(class="form-control city-field", id="LBCM") }}
+            </div>
 
-<div class="containeraddDelete">
-    {% for x in issues_placeholders%}
-    <table class='border'>
-        <tr class='subrow' id="conaddDel">
-            <td class='subMenu'>Issue: {{x['searchWord']}}</td>
-            <td class='subMenu'>City:{{x['City']}}</td>
-            <td class='subMenu'>Committee:{{x['Committee']}}</td>
-            <td class='subMenu'>County:{{x['County']}}</td>
-        </tr>
-    </table>
-    {% endfor %}
+            <!-- Keyword Input -->
+            <div class="form-group">
+                {{ form.primary_search.label }}
+                {{ form.primary_search(class="form-control", placeholder="Enter keyword") }}
+            </div>
 
-</div>
-
-
-<div id="conTable">
-    <div class="fontSizeChange">
-        <label>Change Font Size</label>
-        <button id= 'plus'>+</button>
-        <button id = 'minus'>-</button>
-    </div>
-    <div class="fontSizeExpand">
-        <label>Expand Rows</label>
-        <button id = 'blowUp'><span class="glyphicon glyphicon-resize-vertical"></span></button>
+            <button type="submit" name="action" value="Add" class="btn btn-primary">Add</button>
+            <button type="submit" name="action" value="Delete" class="btn btn-danger">Delete</button>
+        </form>
     </div>
 
-    <table id="table" data-toggle="table" data-filter-control="true" data-sortable="true" data-pagination="true"
-        data-show-columns="true" data-show-columns-toggle-all="true" data-page-size='12' class="table-responsive">
-        <thead class='h-12'>
-            <tr>
-                <th class='hidden-xs'data-field='row-Date' data-sortable="true">Date</th>
-                <th  class='hidden-xs'data-field= 'row-County' data-sortable="true">County</th>
-                <th class='hidden-xs'data-field='row-City' data-sortable="true">City</th>
-                <th  class='hidden-xs'data-sortable="true">Meeting Type</th>
-                <th  class='hidden-xs'data-field= 'row-Item' data-sortable="true">Item Type</th>
-                <th class='hidden-xs'data-field= 'row-Num' data-sortable="False">Item</th>
-                <th class='none' data-field='row-Description' data-sortable="true">Item</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in agendaas %}
-            <tr>
-                <td class='none'>{{i.Date}}</td>
-                <td class='none'>{{i.County}}</td>
-                <td class='none'>{{i.City}}</td>
-                <td class='none'>{{i.MeetingType}}</td>
-                <td class='none'>{{i.ItemType}}</td>
-                <td class='description'>{{i.Description}}</td>
-                <td class='infoLocation'><span class="glyphicon glyphicon-calendar"></span>{{i.Date|aTime}}
-                    <span class="glyphicon glyphicon-globe"></span>{{i.County}}<span
-                        class="glyphicon glyphicon-globe"></span>{{i.City}} <span
-                        class="glyphicon glyphicon-briefcase"></span>{{i.MeetingType}}<span
-                        class="glyphicon glyphicon-list"></span>{{i.ItemType}}<span>#</span>{{i.Num}}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-<script>
-    function dynFrom(){
-        $('select').on('change', function() {
-            if (this.value==='Issue'){
-                document.getElementById("primary_search").style.display="inline";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
+    <!-- jQuery for city logic -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $('#select').on('change', function () {
+            const selected = $(this).val();
+            $('.city-field').hide();
+            if(selected === 'LA County') $('#LA').show();
+            else if(selected === 'Orange County') $('#OC').show();
+            else if(selected === 'Riverside County') $('#RS').show();
+            else if(selected === 'San Bernardino County') $('#SB').show();
+            else if(selected === 'San Diego County') $('#SD').show();
+            else if(selected === 'LA Committees') $('#LACM').show();
+            else if(selected === 'Long Beach Committees') $('#LBCM').show();
 
-            }
-            if (this.value==='LA Committees'){
-                document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
-                document.querySelector("label[for='primary_search']").style.display= "inline";
-
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="inline";
-                document.querySelector("label[for='selectLACM']").innerHTML = "Committee:";
-                document.getElementById("selectLACM").style.display="inline";
-                document.getElementById("selectLACM").style.width = "25rem";
-                document.getElementById("selectLACM").style.height = "34px";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
-            }
-            if (this.value==='Long Beach Committees'){
-                document.getElementById("primary_search").style.display="inline";//gets rid of 'committees:'' search bar
-                document.querySelector("label[for='primary_search']").style.display= "inline";//display primary_search text
-
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="inline";
-                document.getElementById("selectLBCM").style.display="inline";
-                document.getElementById("selectLBCM").style.width = "25rem";
-                document.getElementById("selectLBCM").style.height = "34px";
-                document.querySelector("label[for='selectLBCM']").innerHTML = "Committee:";
-
-            }
-            if (this.value==='LA County'){
-                document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").style.display="inline";
-
-                document.querySelector("label[for='selectLA']").style.display="inline";
-                document.getElementById("selectLA").style.display="inline";
-                document.getElementById("selectLA").style.height = "34px";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
-            }
-            if (this.value==="Orange County"){
-                document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").style.display="inline";
-
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="inline";
-                document.getElementById("selectOC").style.display="inline";
-                document.getElementById("selectOC").style.height = "34px";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
-            }
-            if (this.value==="San Diego County"){
-                document.getElementById("primary_search").style.display="inline";
-                document.querySelector("label[for='primary_search']").style.display="inline";
-
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="inline";
-                document.getElementById("selectSD").style.display="inline";
-                document.getElementById("selectSD").style.height = "34px";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
-            }
-            if (this.value==="Riverside County"){
-                document.getElementById("primary_search").style.display="inline";
-
-                document.querySelector("label[for='primary_search']").style.display="inline";
-
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="inline";
-                document.getElementById("selectRS").style.display="inline";
-                document.getElementById("selectRS").style.height = "34px";
-                document.querySelector("label[for='selectSB']").style.display="none";
-                document.getElementById("selectSB").style.display="none";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
-            }
-            if (this.value==='San Bernandino County'){
-                document.getElementById("primary_search").style.display="inline";
-
-                document.querySelector("label[for='primary_search']").style.display="inline";
-
-                document.querySelector("label[for='selectLA']").style.display="none";
-                document.getElementById("selectLA").style.display="none";
-                document.querySelector("label[for='selectOC']").style.display="none";
-                document.getElementById("selectOC").style.display="none";
-                document.querySelector("label[for='selectSD']").style.display="none";
-                document.getElementById("selectSD").style.display="none";
-                document.querySelector("label[for='selectRS']").style.display="none";
-                document.getElementById("selectRS").style.display="none";
-                document.querySelector("label[for='selectSB']").style.display="inline";
-                document.getElementById("selectSB").style.display="inline";
-                document.getElementById("selectSB").style.height = "34px";
-                document.querySelector("label[for='selectLACM']").style.display="none";
-                document.getElementById("selectLACM").style.display="none";
-                document.querySelector("label[for='selectLBCM']").style.display="none";
-                document.getElementById("selectLBCM").style.display="none";
-            }
-        })
-    }
-    dynFrom()
+            if(selected !== 'Issue') $('#cities-section').show();
+            else $('#cities-section').hide();
+        });
+    });
 </script>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
-<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+    <!-- Saved Issues Display -->
+    <div class="saved-issues-container mb-4">
+        <h4>Tracked Issues</h4>
+        <small class="text" style ="color: white;">You’ll be notified when these appear in agendas</small>
+        <div class="row g-2">
+            {% for x in issues_placeholders %}
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="issue-card p-1">
+                    <div class="issue-info mb-1">
+                        <p class="mb-1"><strong>Issue:</strong> {{ x['searchWord'] }}</p>
+                        {% if x['City'] %}
+                        <p class="mb-1"><strong>City:</strong> {{ x['City'] }}</p>
+                        {% endif %}
+                        {% if x['Committee'] %}
+                        <p class="mb-1"><strong>Committee:</strong> {{ x['Committee'] }}</p>
+                        {% endif %}
+                        {% if x['County'] %}
+                        <p class="mb-0"><strong>County:</strong> {{ x['County'] }}</p>
+                        {% endif %}
+                    </div>
+                    <form method="post" class="text-end">
+                        <input type="hidden" name="primary_search" value="{{ x['searchWord'] }}">
+                        <input type="hidden" name="select" value="{{ x['County'] }}">
+                        <input type="hidden" name="selectLA" value="{{ x['City'] }}">
+                        <input type="hidden" name="selectLACM" value="{{ x['Committee'] }}">
+                        <button type="submit" name="action" value="Delete" class="btn btn-outline-danger btn-sm py-0 px-1" style="font-size: 0.65rem; line-height: 1;">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Agendas Table -->
+    <!-- ===== TABLE CONTAINER ===== -->
+    {% from 'partials/city_tables.html' import city_table %}
+    <div class="row" id="conTable">
+        {% for city, data in city_agendas.items() %}
+            <div class="col-sm-6">
+                {{ city_table(city, data) }}
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+<script>
+    // Toggle description height
+    $(".table1").on("click", "td.description", function () {
+        let $desc = $(this);
+        if ($desc.hasClass("expanded")) {
+            // Collapse back to default height
+            $desc.removeClass("expanded")
+                .css("max-height", "128px");
+        } else {
+            // Expand to full height
+            $desc.addClass("expanded");
+            let fullHeight = $desc.prop("scrollHeight") + "px";
+            $desc.css("max-height", fullHeight);
+        }
+    });
+// City Loader
+    let start = 6;
+    const count = 6;
+    let loading = false;
+
+    function loadMoreCities() {
+        if (loading) return;
+        loading = true;
+        fetch(`/load_more_cities?start=${start}&count=${count}`)
+            .then(res => res.text())
+            .then(html => {
+                if (html.trim() !== "") {
+                    const container = document.createElement('div');
+                    container.innerHTML = html;
+
+                    const conTable = document.getElementById('conTable');
+                    const newWrappers = container.querySelectorAll('.city-wrapper');
+
+                    newWrappers.forEach(wrapper => {
+                        // Wrap it in the same col-sm-6 div
+                        const colDiv = document.createElement('div');
+                        colDiv.className = 'col-sm-6';
+                        colDiv.appendChild(wrapper);
+
+                        // Append to the main container
+                        conTable.appendChild(colDiv);
+
+                        // Initialize bootstrap-table explicitly for the table inside
+                        const table = wrapper.querySelector('table');
+                        if (table) $(table).bootstrapTable();
+                    });
+
+                    start += count;
+                }
+                loading = false;
+            })
+    }
+
+// Infinite scroll listener
+    window.addEventListener('scroll', () => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+            loadMoreCities();
+        }
+    });
+
+// Trigger load if page content is short
+    window.addEventListener('load', () => {
+        if (document.body.offsetHeight <= window.innerHeight) {
+            loadMoreCities();
+        }
+    });
+</script>
+
+<!-- Optional Bootstrap JS (Popper included) -->
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Table CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.4/dist/bootstrap-table.min.css">
+<script src="https://unpkg.com/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
 {% endblock %}
-
-

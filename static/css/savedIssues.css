@@ -1,359 +1,198 @@
-/*#Chage shape of Logo*/
-a.logoMain {
-    position: relative;
-    left: 30%;
-    top: 15rem;
-    height: 25rem;
-}
-svg#logo{
-    width: 57rem;
-    height: 10rem;
-}
-div.formdiv{
-    position: relative;
-    font-size:2rem;
-    height:auto;
-    margin-top:5rem;
-    background-color: rgba(255, 255, 255, .02);
-	display: flex;
-	justify-content: center;
 
-}
-form{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    border-radius: 1rem;
-	width:90rem;
-    height: 10rem;
+/* === Compact Container === */
+.search-container {
+    max-width: 900px;
+    margin: 1.5rem auto;
+    padding: 1.2rem 1.2rem;
+
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.12);
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
 }
 
-label{
-    color:white;
-}
-input[type=submit] {
-    position: relative;
-    background-color: var(--blue);
-    border-radius: 2rem;
-    color: white;
-    cursor: pointer;
-    font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
-    padding: 4px 15px;
-    text-align: center;
-    border: 0;
-    left:1px;
-}
-input {
-    position: relative;
-    border-radius: 7px;
-}
-h3{
-    font-size:1.5rem;
-    color: white;
-}
-#select{
-    height: 34px;
-    border-radius: 7px;
-
-}
-label[for="selectLA"]{
-    display:none;
-}
-#selectLA{
-    display:none;
+/* === Form Grid Layout === */
+.search-form {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.6rem;
+    align-items: end;
 }
 
-label[for="selectOC"]{
-    display:none;
-}
-#selectOC{
-    display:none;
-}
-label[for="selectRS"]{
-    display:none;
-}
-#selectRS{
-    display:none;
-}
-label[for="selectSB"]{
-    display:none;
-}
-#selectSB{
-    display:none;
-}
-label[for="selectSD"]{
-    display:none;
-}
-#selectSD{
-    display:none;
-}
-label[for="selectLACM"]{
-    display:none;
-}
-#selectLACM{
-    display:none;
-}
-label[for="selectLBCM"]{
-    display:none;
-}
-#selectLBCM{
-    display:none;
-}
-#committeeOpt{
-    display:none;
-}
-#orangeOpt{
-    display:none;
-}
-#lbcommitteeOpt{
-    display:none;
-}
-#riversideOpt{
-    display:none;
-}
-#sanbernandinoOpt{
-    display:none;
-}
-#sandiegoOpt{
-    display:none;
+/* === Form Groups === */
+.search-form .form-group {
+    margin-bottom: 0;
 }
 
-label {
-	color: var(--black);
-	text-align: center;
-	width: fit-content;
+/* Labels smaller */
+.search-form label {
+    font-size: 0.7rem;
+    margin-bottom: 0.2rem;
+    color: #fff;
 }
 
-#monitorListform {
-	position: relative;
+/* Inputs tighter */
+.search-form .form-control {
+    padding: 0.45rem 0.6rem;
+    font-size: 13px;
+
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.12);
+
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+
+    transition: all 0.2s ease;
 }
 
-.containeraddDelete {
-	position: relative;
-	height: auto;
-	margin: 0 auto;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-	margin-top: 3rem;
+/* Focus style */
+.search-form .form-control:focus {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(94,124,255,0.7);
+
+    box-shadow: 0 0 0 2px rgba(94,124,255,0.2);
 }
 
-table.border {
-    background-color: rgb(43 83 255 / 1%);
-    border-radius: 3px;
-    overflow: hidden;
-	margin: 8px;
-	box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
-}
-.subMenu {
-	font-size: 1.5rem;
-	width: 18rem;
-	text-align: center;
-    background-color: rgba(94, 124, 255, 0.03);
-}
-#buttons{
-	display: flex;
-    flex-direction: row;
-    position: relative;
-    top: 20px;
+/* Placeholder text slightly faded */
+.search-form ::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
 }
 
-
-
-
-
-
-div#conTable {
-	position: relative;
-	height: auto;
-	margin-top: 2rem;
-    background-color: rgba(94, 124, 255, 0.03);
+/* Dropdown arrow color fix */
+.search-form select {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
 }
 
-caption {
-	color: var(--black);
-	text-align: center;
-	text-shadow: 5px 3px 2px black;
-	text-transform: capitalize;
-	font-size: 6.1rem;
-	font-family: 'Merriweather', serif;
-}
+/* === Layout Assignments === */
+.form-group:nth-child(1) { grid-column: span 1; } /* select */
+#cities-section         { grid-column: span 2; }
+.form-group:nth-child(3){ grid-column: span 2; } /* keyword */
+.btn-group              { grid-column: span 1; display: flex; gap: 0.5rem; justify-content: start; }
 
-label {
-	color: var(--black);
-}
-
-.fontSizeChange {
-	position: relative;
-	float: right;
-	right: 3rem;
-}
-
-.fontSizeExpand {
-	position: relative;
-	float: Left;
-	Left: 3rem;
-}
-
-#table {
-	border: none;
-	margin: auto;
-	width: 85%;
-}
-
-tr {
-	text-align: -webkit-center;
-    background-color: rgba(255, 255, 255, .02);
-    backdrop-filter: blur(5px);
-	width:fit-content
-}
-
-tr.packed:after {
-	content: "";
-	width: 45%;
-	height: 1px;
-	background: radial-gradient(var(--lBlue), var(--blue));
-	left: 26%;
-	position: absolute;
-}
-
-.table-hover>tbody>tr:hover td.infoLocation {
-	box-shadow: 0px 6px 9px 0px var(--lightgray);
-}
-
-th {
-	display: inline-block;
-	position: relative;
-	color: var(--black);
-}
-
-td {
-	display: block;
-	clear: both;
-	color: var(--black);
-	text-align: center;
-	font-family: "Open Sans", sans-serif;
-	padding: 0px;
-	margin: 0px auto;
-	width: auto;
-}
-
-td.none {
-	display: none;
-}
-
-th.none {
-	display: none;
-}
-
-td.infoLocation {
-	display: flex;
-	justify-content: space-evenly;
-	font-size: 1em;
-}
-.glyphicon:not(.glyphicon-resize-vertical){
-	color: var(--blue);
-}
-td.description {
-	overflow: hidden;
-	max-height: 18rem;
-	font-size: var(--font3);
-	white-space: break-spaces;
-	color: var(--gray);
-}
-
-
-span#prettyTable2 {
-	color: var(--black);
-}
-
-.table thead tr th,
-.table tbody tr td {
-	border: none;
-}
-
-/* Pagination */
-.padding-0 {
-	padding-right: 0;
-	padding-left: 0;
-}
-
-.columns {
-	display: none
-}
-
-.pagination-info {
-	color: white;
-	font-size: .7em;
-}
-
-.page-list {
-	color: white;
-	font-size: .7em;
-}
-
+/* === Buttons === */
 .btn {
-	padding: 3px 0px;
+    padding: 0.45rem 0.8rem;
+    font-size: 13px;
+    border-radius: 10px;
+    height: 41px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all 0.2s ease;
+	text-align: center;
 }
 
-.pagination>li>a,
-.pagination>li>span {
-	padding: 1px 11px;
+/* Primary Button */
+.btn-primary {
+    background: linear-gradient(135deg, #5e7cff, #2e6da4);
+    color: #fff;
 }
 
-.subrow {
-	color: white;
+.btn-primary:hover {
+    box-shadow: 0 4px 12px rgba(94,124,255,0.4);
 }
 
-span.page-size {
-	color: black
+/* Danger Button */
+.btn-danger {
+    background: linear-gradient(135deg, #ff5e5e, #d42e2e);
+    color: #fff;
 }
 
-@media screen and (max-width: 600px) {
-	.frost {
-		border: 0px solid;
-		padding: 0rem;
-	}
-
-	div#form {
-		position: relative;
-		width: 100vw;
-		height: 18rem;
-		border-radius: 1.2rem;
-		padding: 1rem;
-		columns: 3;
-	}
-
-	#monitorListform.delete {
-		left: -17rem;
-	}
-
-	#monitorListform.add {
-		left: -22rem;
-	}
-
-	div#conTable {
-		display: block;
-		width: fit-content;
-	}
-
-	#table_1 {
-		border: 0px;
-	}
-
-	td {
-		width: 100vw;
-	}
+.btn-danger:hover {
+    box-shadow: 0 4px 12px rgba(255,94,94,0.4);
 }
-@media screen and (max-width: 1200px) {
-	a.logoMain {
-		left: 1%;
-		top: 2rem;
-		height: 14rem;
-	}
-	svg#logo{
-		height: 7rem;
-		width: 24rem;
-	}
-	}
+
+/* Force all text in the form to be white */
+.search-form, 
+.search-form label, 
+.search-form .form-control, 
+.search-form select, 
+.search-form input {
+    color: #ffffff !important;
+}
+
+/* Hide city fields initially */
+.city-field {
+    display: none;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .search-form {
+        grid-template-columns: 1fr;
+    }
+
+    #cities-section,
+    .btn-group {
+        grid-column: span 1;
+    }
+
+    .btn-group {
+        justify-content: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+
+
+/* === Saved Issues Container === */
+.saved-issues-container h4 {
+    color: White;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--orange);
+    padding-bottom: 0.2rem;
+    font-size: 1rem;
+}
+
+/* === Issue Card === */
+.issue-card {
+    background: rgba(255, 165, 0, 0.08);
+    border: 1px solid var(--orange);
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 0.5rem;
+}
+
+/* Hover effect */
+.issue-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* Issue text */
+.issue-card p {
+    font-size: 0.8rem;
+    margin-bottom: 0.15rem;
+    color: White;
+}
+
+/* Strong labels */
+.issue-card p strong {
+    color: white;
+}
+
+/* Delete button */
+.issue-card .btn-outline-danger {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+}
+
+/* Hide empty fields is already handled in Jinja */
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .issue-card {
+        margin-bottom: 0.5rem;
+    }
+}
+
+
