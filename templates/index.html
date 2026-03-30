@@ -20,6 +20,13 @@
                             Staying on top of local legislation affecting you can be a challenge. Missing an issue can be costly in time and resource.
                             Search, set notifications, and find your PolicyEdge.
                         </h3>
+                        <div class="subscription-section">
+                            {% if not session['username'] %}
+                                <a href="/register" class="subscription" aria-label="Subscribe to Policy Edge">$20/Month</a>
+                            {% else %}
+                                <span class="welcome-message">Welcome back <span style="color: var(--white);">{{ session['username'] }}</span></span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,49 +41,51 @@
 <div class="section-block">
     <div class="page-container">
         {% if folium_map %}
-        <div class="row" id="chartBox">
-            <div id="foliumMapContainer">
+        <div class="row" id="chartBox" style="display: flex; gap: 20px; align-items: flex-start;">
+
+            <!-- LEFT: Folium Map -->
+            <div id="foliumMapContainer" style="flex: 2;">
                 {{ folium_map | safe }}
+            </div>
+
+            <!-- RIGHT: Stats / Cards -->
+            <div id="statsCards">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Selected Issue</h5>
+                        <p class="card-text">{{ chosen|replace('"', '')}}</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Items this week</h5>
+                        <p class="card-text">{{ num_agenda_items }}</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Cities in Action</h5>
+                        <p class="card-text">{{ num_cities }}</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Explore Other Issues?</h5>
+                        <!-- Form goes here -->
+                        <form id="mapSearchForm" method="POST">
+                            {% from "_formhelpers.html" import render_field %}
+                            <div class="search-bar-wrapper">
+                                {{ render_field(form.chartSearch) }}
+                                <button type="submit" id="mapSearchButton">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         {% endif %}
     </div>
 </div>
-
-
-
-<!-- ===== SEARCH ===== -->
-<div class="section-block">
-    <div class="page-container">
-        <div class="searchFreeDiv">
-            <!-- Search Bar -->
-            <div class="mapSearch">
-                <form id="mapSearchForm" method="POST">
-                    {% from "_formhelpers.html" import render_field %}
-                    <div class="search-bar-wrapper">
-                        {{ render_field(form.chartSearch) }}
-                        <button type="submit" id="mapSearchButton">Search</button>
-                    </div>
-                </form>
-            </div>
-            <!-- Subscription Button / Neon Pulse -->
-            <div class="subscription-section">
-                {% if not session['username'] %}
-                    <a href="/register" class="neon-pulse" aria-label="Subscribe to Policy Edge">$20/Month</a>
-                {% else %}
-                    <span class="welcome-message">Welcome back <span style="color: var(--black);">{{ session['username'] }}</span></span>
-                {% endif %}
-            </div>
-            <!-- Current Issue -->
-            <div class="issue">
-                <label id="currIss">Current Issue</label>
-                <h2><span style="color: var(--orange); font-size:18px;">{{chosen|safe}}</span> - Activity in last week</h2>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
 <!-- ===== WEEKLY AGENDA INFO ===== -->
 <div class="section-block">

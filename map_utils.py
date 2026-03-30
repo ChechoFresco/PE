@@ -1,7 +1,7 @@
 # map_utils.py
-import folium
+from folium import Map, Circle, Marker, Popup
 from folium.features import DivIcon
-from folium import Tooltip
+from folium import Popup
 
 def fetch_geo_info(mongo, city_issue_counts):
     """Fetch geo-location data from MongoDB for map generation"""
@@ -23,9 +23,9 @@ def fetch_geo_info(mongo, city_issue_counts):
 def create_folium_map(geo_info, ALL_CITY_AGENDAS_CACHE):
     """
     geo_info: list of tuples (city, state_id, county_name, lat, lon, issue_count, web_address)
-    all_city_agendas: dict mapping city -> list of agenda dicts with 'Description', 'Date', etc.
+    ALL_CITY_AGENDAS_CACHE: dict mapping city -> dict with 'agendas' and 'topic_counts'
     """
-    folium_map = folium.Map(
+    folium_map = Map(
         location=(34, -118), 
         zoom_start=9, 
         tiles="cartodbpositron"
@@ -34,22 +34,21 @@ def create_folium_map(geo_info, ALL_CITY_AGENDAS_CACHE):
     for city, state_id, county_name, lat, lon, issue_count, web_address in geo_info:
         agendas = ALL_CITY_AGENDAS_CACHE.get(city, {}).get("agendas", [])
 
-        # Build HTML popup with multiple agenda items
         if agendas:
-            tooltip_html = f"""
+            # Build HTML popup with multiple agenda items
+            popup_html = f"""
             <div style="
                 max-height:400px;
-                width:600px;
+                width:400px;
                 overflow:auto;
-                background-color:#111;
-                color:#ff7a00;
+                background-color:#d1e2f5;
+                color:#2F5755;
                 padding:8px;
                 border-radius:10px;
                 font-family:Arial, sans-serif;
                 font-size:13px;
-                text-wrap:auto;
             ">
-                <h4 style="margin:0 0 6px 0; color:#ff7a00;">{city}</h4>
+                <h4 style="margin:0 0 6px 0; color:#2F5755;">{city}</h4>
             """
 
             for idx, agenda in enumerate(agendas[:5], 1):
@@ -57,27 +56,29 @@ def create_folium_map(geo_info, ALL_CITY_AGENDAS_CACHE):
                 date = agenda.get("Date", "")
                 topics = ", ".join(agenda.get("Topics", [])) if isinstance(agenda.get("Topics"), list) else agenda.get("Topics", "")
                 
-                tooltip_html += f"""
+                popup_html += f"""
                 <div style="margin-bottom:6px; padding-bottom:4px; border-bottom:1px solid #ff7a00;">
                     <p><b>{idx}.</b> {desc}</p>
                     <p><b>Date:</b> {date} | <b>Topics:</b> {topics}</p>
                 </div>
                 """
 
-            tooltip_html += "</div>"
+            popup_html += "</div>"
 
-            # Add the Circle marker with tooltip
-            folium.Circle(
+            popup = Popup(popup_html, max_width=400, min_width=300)
+
+            # Circle marker with popup
+            Circle(
                 location=[lat, lon],
                 radius=float(issue_count) * 50,
                 color='#5e7cff',
                 fill=True,
                 fill_color='#5e7cff',
-                tooltip=Tooltip(tooltip_html, sticky=True)  # sticky keeps it visible while hovering
+                popup=popup
             ).add_to(folium_map)
         
-        # Text marker with count
-        folium.Marker(
+        # Small text marker with count (optional)
+        Marker(
             location=[lat, lon],
             icon=DivIcon(
                 icon_size=(10, 10),

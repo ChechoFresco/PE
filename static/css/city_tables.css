@@ -250,7 +250,6 @@ div.bootstrap-table .dropdown-menu {
   thead:after { content: none; }
   .portfolio-experiment a { left: 2rem; }
 
-  form { left: -2rem; position: relative; }
   #uniqueSearch { left: 8rem; }
   #currIss { left: 8rem; }
   label { font-size: 14px; }
