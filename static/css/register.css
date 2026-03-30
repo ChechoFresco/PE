@@ -10,9 +10,6 @@
 
 #textDiv h1 {
     font-size: 3rem;
-    background: var(--rad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     text-shadow: 2px 3px 6px #ffffff30;
 }
 

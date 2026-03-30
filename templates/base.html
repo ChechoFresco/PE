@@ -91,36 +91,33 @@
 
 
 <body>
-	<nav class="topnav" id="myTopnav">
-		<div class="topnav-inner">
-			<a href="/index" class="logoMain" aria-label="PolicyEdge Homepage">
-				<img class="logo" src="{{ url_for('static', filename='logo.svg') }}" alt="PolicyEdge Logo" width="330" height="75">
-			</a>
-		
-			{% if not session['username'] %}
-			<a href="/login" id="login">Login</a>
-			{% else %}
-				<a href="/logout" id="login">Logout</a>
-			{% endif %}
+			<!-- LEFT: LOGO -->
+			<nav class="topnav" id="myTopnav">
+			<div class="topnav-inner">
+				<!-- LOGO -->
+				<a href="/index" class="logoMain" aria-label="PolicyEdge Homepage">
+					<img src="{{ url_for('static', filename='cityHall.svg') }}" alt="PolicyEdge Logo" width="60" height="60">
+					<span class="logo-text">PolicyEdge</span>
+				</a>
 			
-			<a href="/search">Search</a>
-			<a href="/savedIssues">Notification</a>
-		
-			<a href="#" id='ham' class="menu-button [ js-menu-button ]">
-				<div class="icon nav-icon-1" id="expe">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
+				<!-- NAV LINKS -->
+				<div class="topnav-links">
+				<a href="/login" id="login">Login</a>
+				<a href="/search">Search</a>
+				<a href="/savedIssues">Notification</a>
 				</div>
-			</a>
-		</div>
-	</nav>
+			
+				<!-- HAMBURGER -->
+				<div id="ham" class="menu-button js-menu-button" aria-label="Menu toggle" aria-expanded="false">
+				<div class="icon nav-icon-1" id="expe">
+					<span></span><span></span><span></span>
+					<span></span><span></span><span></span>
+					<span></span><span></span><span></span>
+				</div>
+				</div>
+			
+			</div> <!-- close topnav-inner -->
+			</nav>
 	
 	<main>
 		{% block content %}{% endblock %}
@@ -160,7 +157,7 @@
 			<hr>
 			<div class="row">
 				<div class="col-md-8">
-					<p>Copyright &copy; 2022 All Rights Reserved by Policy Edge</p>
+					<p>Copyright &copy; 2026 All Rights Reserved by Policy Edge</p>
 				</div>
 				<div class="col-md-4">
 					<ul class="social-icons">
@@ -173,30 +170,5 @@
 			</div>
 		</div>
 	</footer>
-	<script defer>
-	document.addEventListener('DOMContentLoaded', () => {
-		const menuButton = document.querySelector('.js-menu-button');
-		const topnav = document.getElementById('myTopnav');
-		const icon = document.getElementById('expe');
-	
-		menuButton.addEventListener('click', () => {
-			topnav.classList.toggle('responsive');
-			icon.classList.toggle('open');
-			menuButton.setAttribute('aria-expanded', topnav.classList.contains('responsive'));
-		});
-	});
-	</script>
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-		  const menuBtn = document.querySelector('.js-menu-button');
-		  const topnav = document.getElementById('myTopnav');
-		  const hamburger = document.getElementById('expe');
-		
-		  menuBtn.addEventListener('click', () => {
-			topnav.classList.toggle('responsive');
-			hamburger.classList.toggle('open');
-		  });
-		});
-		</script>
 	</body>
 	</html>

@@ -176,13 +176,6 @@ def index():
         search_term = request.form['chartSearch'].strip()
         chosen = f'"{search_term}"'
 
-        # Log search
-        mongo.db.User.find_one_and_update(
-            {'username': 'Esther'},
-            {'$push': {'searches': chosen}},
-            upsert=True
-        )
-
         # Query with search
         agenda_items = mongo.db.Agenda.find({
             '$and': [
@@ -194,7 +187,7 @@ def index():
 
     else:
         # Default GET
-        chosen = 'water'
+        chosen = 'cannabis'
 
         agenda_items = mongo.db.Agenda.find({
             '$and': [
@@ -247,10 +240,15 @@ def index():
     geo_info = fetch_geo_info(mongo, city_issue_counts)
     folium_map = create_folium_map(geo_info, folium_agendas)
 
+    num_agenda_items = sum(len(data["agendas"]) for data in folium_agendas.values())
+    num_cities = len(set(cities_matched))   # unique cities matched
+
     # ✅ ALWAYS RETURN
     return render_template(
         'index.html',
         folium_map=folium_map._repr_html_(),
+        num_agenda_items=num_agenda_items,
+        num_cities=num_cities,
         form=form,
         city_agendas=initial_cities,
         title="Policy Edge Tracking Agendas",
@@ -582,7 +580,7 @@ COUNTY_KEY_MAP = {
     "losangeles": "LA County",
     "orange": "Orange County",
     "riverside": "Riverside County",
-    "sanbernandino": "San Bernardino County",
+    "sanbernardino": "San Bernardino County",
     "sandiego": "San Diego County",
 }
 # Build COUNTY_ROUTES dynamically using the map
