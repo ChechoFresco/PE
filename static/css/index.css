@@ -1,41 +1,78 @@
-/* NEW wrapper for content */
-.page-container {
+/* ================================
+   GLOBAL CONTAINERS
+   ================================ */
+   .page-container {
     max-width: 1200px;
     margin: auto;
-  }
-  .section-block:nth-child(odd) {
-    background-color: transparent; /* var(--gray) with opacity */
+}
+
+.section-block {
+    padding: 1.5rem 0.5rem;
+}
+
+.section-block:nth-child(odd) {
+    background-color: transparent;
 }
 
 .section-block:nth-child(even) {
-    background-color: var(--gray2);
-
-    background-image:
+    /* Radial + linear gradients with blue accents */
+    background: 
+        radial-gradient(ellipse 80% 60% at 20% 40%, rgba(26, 50, 99, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 80% 30%, rgba(74, 158, 202, 0.1) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 50% 80%, rgba(232, 152, 94, 0.1) 0%, transparent 70%),
+        linear-gradient(180deg, #fafbfc 0%, #f0f7f4 100%),
         linear-gradient(rgba(0,0,0,0.10) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0,0,0,0.10) 1px, transparent 1px);
 
-    background-size: 25px 25px;
 }
 
-/* spacing so it looks intentional */
-.section-block {
-    padding: 1.5rem .5rem;
-}
 /* ================================
-    Main Table
+   MAIN MARQUEE
    ================================ */
-
-   #conTable {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    margin-top: 1rem;
-    align-items: flex-start;
-    color: var(--white);
+   #billboard {
+    position: relative;
+    padding: 0 6px;
+    z-index: 1;
 }
 
-/* Main Title */
+#billboard::before {
+    content: "";
+    position: absolute;
+    left: -6px;
+    right: -6px;
+    top: 55%;
+    height: 0.7em;
+
+    background: linear-gradient(
+        100deg,
+        rgba(26, 50, 99, 0.0) 0%,
+        rgba(26, 50, 99, 0.25) 20%,
+        rgba(26, 50, 99, 0.45) 45%,
+        rgba(26, 50, 99, 0.35) 65%,
+        rgba(26, 50, 99, 0.15) 85%,
+        rgba(26, 50, 99, 0.0) 100%
+    );
+
+    border-radius: 8px;
+    transform: rotate(-1.5deg); /* slight imperfection */
+    filter: blur(0.5px); /* soft edges */
+}
+#billboard::after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: 60%;
+    height: 0.5em;
+
+    background: rgba(26, 50, 99, 0.15);
+    border-radius: 6px;
+
+    transform: rotate(1deg);
+    filter: blur(1px);
+
+    z-index: -2;
+}
 #mainPane {
     border-radius: 3rem;
     position: relative;
@@ -47,113 +84,34 @@ h1#title {
     font-size: 3rem;
     letter-spacing: -1px;
     font-family: serif;
-    font-weight: 600;
-    color: var(--white);
-    text-shadow: 2px 2px 2px black;
+    font-weight: 200;
+    color: var(--blue);
+    text-shadow: 2px 2px 2px white;
 }
 
 h3.sellLine {
-    color: var(--white);
+    color: var(--gray);
     font-size: 1rem;
-    letter-spacing: .1rem;
+    letter-spacing: 0.1rem;
     text-align: center;
-    text-shadow: 2px 2px 2px black;
+    text-shadow: 1px 1px 1px black;
 }
 
 /* ================================
-    MAP
+   SUBSCRIPTION SECTION
    ================================ */
-#chartBox {
-    height: auto;
-    overflow: hidden;
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-}
-
-#foliumMapContainer {
-    border: 2px solid var(--orange) !important;
-    padding: 0px !important;
-    border-radius: 8px;
-    flex: 2;
-}
-
-#foliumMapContainer iframe {
-    width: 100%;
-    height: 100%;
-}
-
-.card {
-    background: rgba(255, 165, 0, 0.08) !important;
-    border: 2px solid var(--orange) !important;
-    max-width: 280px;
-    margin-bottom: 0;
-}
-
-#statsCards {
-    flex: 1;
-    border-radius: 8px;
-    padding: 12px 16px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    text-align: center;
-    display: flex; 
-    flex-direction: column; 
-    gap: 10px; 
-}
-
-#statsCards h5 {
-    margin: 0 0 6px 0;
-    font-weight: 200;
-    font-size: .8em;
-    color: white;
-}
-
-#statsCards p {
-    margin: 0;
-    font-size: .8em;
-    font-weight: bold;
-    color: var(--orange);
-}
-
-/* ===== Map BAR ===== */
-.search-bar-wrapper {
-    display: flex;
-    gap: 0.5rem;
-    width: 100%;
-}
-
-.search-bar-wrapper input[type="text"] {
-    flex: 1;
-    padding: 0.4rem 0.6rem;
-    font-size: .6rem;
-    border-radius: 0.25rem;
-    border: 1px solid #ccc;
-    height: 2rem;
-}
-
-#mapSearchButton {
-    padding: 0.4rem 0.8rem;
-    font-size: .6rem;
-    border-radius: 0.25rem;
-    border: none;
-    color: var(--orange);
-    background: rgba(255, 165, 0, 0.08);
-    cursor: pointer;
-    font-weight: 200;
-    height: 2rem;
-}
-
-/* ================================ SEARCH + SUBSCRIPTION + ISSUE ROW ================================ */
-/* ===== SUBSCRIPTION ===== */
 .subscription-section {
     justify-self: center;
+    text-align: center;
+    margin-top: 1rem;
 }
 
 .subscription-section a.subscription {
     display: inline-block;
     padding: 0.5rem 1rem;
-    color: #fff;
-    border: 2px solid #fff;
+    color: var(--blue);
+    background: rgba(26, 50, 99, 0.05) !important;
+    border: 2px solid var(--blue);
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
@@ -172,44 +130,123 @@ h3.sellLine {
     text-align: center;
 }
 
-.agenda-info {
-    color: var(--white);
-    font-size: 1rem;
-    letter-spacing: .1rem;
-    text-align: center;
-    text-shadow: 2px 2px 2px black;
+/* ================================
+   MAP + CARDS
+   ================================ */
+#chartBox {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-top: 2rem;
 }
 
-/* ================================ MOBILE FIXES (IMPORTANT) ================================ */
+#foliumMapContainer {
+    flex: 2;
+    border-radius: 8px;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+#foliumMapContainer iframe {
+    width: 100%;
+    height: 100%;
+}
+
+#statsCards {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#statsCards h5 {
+    margin: 0 0 6px 0;
+    font-weight: 900;
+    font-size: 0.8em;
+    color: var(--blue);
+}
+
+#statsCards p {
+    margin: 0;
+    font-size: 0.8em;
+    font-weight: 300;
+    color: var(--blue);
+}
+
+.card {
+    background: rgba(26, 50, 99, 0.05) !important;
+    border: 1px solid var(--blue) !important;
+    max-width: 280px;
+}
+
+/* ================================
+   SEARCH BAR
+   ================================ */
+.search-bar-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.search-bar-wrapper input[type="text"] {
+    flex: 1;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.6rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+    height: 2rem;
+}
+
+#mapSearchButton {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.6rem;
+    border-radius: 0.25rem;
+    border: none;
+    color: var(--blue);
+    background: rgba(255, 165, 0, 0.08);
+    cursor: pointer;
+    font-weight: 200;
+    height: 2rem;
+}
+
+/* ================================
+   TABLES & MAIN CONTENT
+   ================================ */
+#conTable {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+    align-items: flex-start;
+    color: var(--white);
+}
+
+/* ================================
+   MOBILE RESPONSIVE
+   ================================ */
 @media (max-width: 600px) {
-    /* STACK HEADER CLEANLY */
-    .searchFreeDiv {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+
+    /* STACK MAP + CARDS */
+    #chartBox {
+        flex-direction: column !important;
         width: 100%;
-        gap: 0.75rem;
-        padding: 0 0.5rem;
+        height: auto;
+        gap: 12px;
     }
 
-    .searchFreeDiv > div {
-        min-width: unset;
-        align-items: center;
-        text-align: center;
+    #foliumMapContainer, #statsCards {
+        flex: unset;
+        width: 100%;
     }
 
-    #statsCards {
-        align-items: anchor-center;
-    }
-    
-    /* SEARCH BAR */
-    .mapSearch {
-        max-width: 100%;
-    }
-
+    /* STACK SEARCH BAR */
     .search-bar-wrapper {
         width: 100%;
-        flex-direction: column; /* stack input + button */
+        flex-direction: column;
         gap: 0.25rem;
     }
 
@@ -221,7 +258,6 @@ h3.sellLine {
     #mapSearchButton {
         font-size: 0.7rem;
         padding: 0.3rem 0.5rem;
-        white-space: nowrap;
     }
 
     /* SUBSCRIPTION */
@@ -230,44 +266,17 @@ h3.sellLine {
         text-align-last: center;
     }
 
-    .neon-pulse {
-        width: 100%;
-        max-width: 250px;
-        font-size: 1rem;
-        padding: 0.4rem 0.7rem;
-    }
-
     .welcome-message {
         font-size: 1rem;
     }
 
-    /* ISSUE */
-    .issue {
-        width: 100%;
+    /* HEADER TEXT ADJUSTMENTS */
+    h1#title {
+        font-size: 2rem;
     }
 
-    .issue h2 {
-        font-size: 14px;
-        line-height: 1.3;
-    }
-
-    #currIss {
-        display: block;
-        text-align: center;
-        margin-bottom: 4px;
-    }
-
-    /* MAP STACK */
-    #chartBox {
-        flex-direction: column !important; /* stack map on top of cards */
-        width: 100%;
-        height: auto;
-        gap: 12px; /* spacing between map and cards */
-    }
-
-    #foliumMapContainer, #statsCards {
-        flex: unset; /* remove desktop flex proportions */
-        width: 100%;
+    h3.sellLine {
+        font-size: 0.9rem;
     }
 
     /* TABLE STACK */
@@ -280,20 +289,6 @@ h3.sellLine {
         width: 100%;
     }
 
-    /* TEXT ADJUSTMENTS */
-    h1#title {
-        font-size: 2rem;
-    }
-
-    h3.sellLine {
-        font-size: 0.9rem;
-    }
-
-    caption {
-        font-size: 1.5rem;
-    }
-
-    /* TABLE CLEANUP */
     th {
         display: none;
     }

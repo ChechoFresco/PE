@@ -4,8 +4,21 @@ div.texture {
   margin-bottom: 2rem;
   overflow: hidden;
   height: auto;
-  background: rgba(50, 50, 50, 0.8);
   padding: 1rem;
+
+  background: rgba(26, 50, 99, 0.05) !important;
+
+
+  /* Subtle border for glass edge */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  /* Shadow for depth */
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1); /* inner highlight */
+
+  /* Optional: smoother rendering */
+  transition: all 0.3s ease;
 }
 
 /* Table styles */
@@ -35,8 +48,8 @@ td.description {
   max-height: 128px;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  font-size: 0.8rem;
-  color: white !important;
+  font-size: 0.7rem;
+  color: var(--gray) !important;
   background-color: transparent !important;
 }
 
@@ -48,7 +61,7 @@ td.description.expanded {
 .infoLocation {
   display: flex;
   justify-content: space-evenly;
-  color: var(--gray) !important;
+  color: var(--blue) !important;
   font-size: 0.8rem;
 }
 
@@ -61,9 +74,9 @@ td.description.expanded {
 .cityCaption {
   display: inline-block;
   font-size: 1rem;
-  font-weight: bold;
-  color: var(--white);
-  background: rgba(255, 166, 0, 0.2);
+  font-weight: 300;
+  color: var(--blue);
+  background: rgba(26, 50, 99, 0.1);
   padding: 0.2rem 0.5rem;
   border-radius: 5px;
   text-shadow: 1px 1px 2px black;
@@ -135,14 +148,15 @@ tr {
 th {
   display: inline-block;
   position: relative;
-  color: var(--gray) !important;
-  text-shadow: 2px 2px 2px black;
+  color: var(--blue) !important;
+  text-shadow: 1px 1px 1px black;
+  font-size: .6rem;
+
 }
 
 td {
   display: block;
   font-family: "Open Sans", sans-serif;
-  font-size: 1.2rem;
 }
 
 td.none, th.none {
@@ -163,7 +177,7 @@ td:hover {
 }
 
 .bi {
-  color: var(--orange);
+  color: var(--blue);
 }
 
 /* ==========================
@@ -176,7 +190,7 @@ td:hover {
 
 .bootstrap-table .pagination li a,
 .bootstrap-table .pagination li span {
-  background-color: var(--gray);
+  background-color: var(--blue);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0.25rem;
@@ -193,7 +207,7 @@ td:hover {
 }
 
 .bootstrap-table .pagination li.active a {
-  background-color: #f39c12;
+  background-color: var(--gray);
   color: black;
   font-weight: bold;
 }
