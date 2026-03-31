@@ -8,43 +8,38 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 
-<!-- ===== MAIN MARQUEE ===== -->
+<!-- ===== MAIN WRAPPER ===== -->
 <div class="section-block">
     <div class="page-container">
+
+        <!-- ===== MAIN MARQUEE ===== -->
         <div class="dash Main" id="mainPane">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-sm-8">
                         <h1 id="title">Follow <span id="billboard">policy change</span> in California.</h1>
                         <h3 class='sellLine'>
-                            Staying on top of local legislation affecting you can be a challenge. Missing an issue can be costly in time and resource.
+                            Staying on top of local legislation affecting you can be a challenge. Missing an issue can be costly in time and resources.
                             Search, set notifications, and find your PolicyEdge.
                         </h3>
                         <div class="subscription-section">
                             {% if not session['username'] %}
                                 <a href="/register" class="subscription" aria-label="Subscribe to Policy Edge">$20/Month</a>
                             {% else %}
-                                <span class="welcome-message">Welcome back <span style="color: var(--white);">{{ session['username'] }}</span></span>
+                                <span class="welcome-message">Welcome back <span style="color: var(--blue);">{{ session['username'] }}</span></span>
                             {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-
-
-
-<!-- ===== CHARTS ===== -->
-<div class="section-block">
-    <div class="page-container">
+        <!-- ===== CHARTS + MAP ===== -->
         {% if folium_map %}
-        <div class="row" id="chartBox" style="display: flex; gap: 20px; align-items: flex-start;">
+        <div class="row" id="chartBox">
 
             <!-- LEFT: Folium Map -->
-            <div id="foliumMapContainer" style="flex: 2;">
+            <div id="foliumMapContainer">
                 {{ folium_map | safe }}
             </div>
 
@@ -71,7 +66,6 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Explore Other Issues?</h5>
-                        <!-- Form goes here -->
                         <form id="mapSearchForm" method="POST">
                             {% from "_formhelpers.html" import render_field %}
                             <div class="search-bar-wrapper">
@@ -82,8 +76,10 @@
                     </div>
                 </div>
             </div>
+
         </div>
         {% endif %}
+
     </div>
 </div>
 

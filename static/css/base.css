@@ -5,8 +5,10 @@
 :root {
   --orange: #fabc3e;
   --white: #e8e8e8;
-  --gray: #cdd4ee;
+  --gray: #2d3e50e8;
   --gray2: #2d3e50e8;
+  --blue: #1A3263;
+
 }
 
 html {
@@ -17,13 +19,7 @@ body {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  background-image:
-  linear-gradient(rgba(26, 44, 74, 0.85), rgba(47, 87, 85, 0.85)),
-  url("/static/Main-2.jpeg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-color: white;
 }
 
 /* =====================
@@ -62,9 +58,6 @@ body {
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
-.topnav a.logoMain:hover {
-  color: var(--orange);
-}
 
 /* =====================
    NAV LINKS (ALL RIGHT)
@@ -79,9 +72,7 @@ body {
 .topnav-links a {
   position: relative;
   text-decoration: none;
-  color: var(--white);
   padding: 5px 0;           /* space for underline */
-  font-size: var(--fontNav);
   display: inline-block;     /* needed for pseudo-element width */
 }
 
@@ -106,7 +97,7 @@ body {
 }
 
 .topnav a, .topnav a#login, .topnav-links a { 
-  color: var(--white) !important; /* your desired color */ 
+  color: var(--blue) !important; /* your desired color */ 
   text-decoration: none !important; /* remove underline */ 
 }
 

@@ -8,3 +8,4 @@ lib/
 venv/
 Selenium_env/
 .DS_Store" > .gitignore
+.DS_Store
