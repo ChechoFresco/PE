@@ -1,16 +1,12 @@
 /* === Compact Container === */
-.search-container {
+.search-container2 {
     max-width: 900px;
     margin: 1.5rem auto;
     padding: 1.2rem 1.2rem;
-
-    background: rgba(255, 255, 255, 0.08);
+    background: white;
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
-
     border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.12);
-
     box-shadow: 0 6px 18px rgba(0,0,0,0.2);
 }
 
@@ -31,7 +27,7 @@
 .search-form label {
     font-size: 0.7rem;
     margin-bottom: 0.2rem;
-    color: rgba(255,255,255,0.7);
+    color: var(--blue);
 }
 
 /* Inputs tighter */
@@ -40,10 +36,10 @@
     font-size: 13px;
 
     border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid var(--blue);
 
     background: rgba(255,255,255,0.12);
-    color: #fff;
+    color: var(--blue);
 
     transition: all 0.2s ease;
 }
@@ -74,12 +70,9 @@
     padding: 0.45rem 0.8rem;
     font-size: 13px;
     border-radius: 10px;
-
     background: linear-gradient(135deg, #5e7cff, #2e6da4);
     border: none;
     color: #fff;
-
-    height: 34px;
 }
 
 /* Hover still crisp */

@@ -5,7 +5,7 @@
 :root {
   --orange: #fabc3e;
   --white: #e8e8e8;
-  --gray: #2d3e50e8;
+  --gray: #929292e8;
   --gray2: #2d3e50e8;
   --blue: #1A3263;
 
@@ -20,6 +20,17 @@ body {
   position: relative;
   overflow-x: hidden;
   background-color: white;
+}
+
+.section-block{
+  /* Radial + linear gradients with blue accents */
+  background: 
+      radial-gradient(ellipse 80% 60% at 20% 40%, rgba(26, 50, 99, 0.2) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(74, 158, 202, 0.1) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 50% 80%, rgba(232, 152, 94, 0.1) 0%, transparent 70%),
+      linear-gradient(180deg, #fafbfc 0%, #f0f7f4 100%),
+      linear-gradient(rgba(0,0,0,0.10) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.10) 1px, transparent 1px);
 }
 
 /* =====================
@@ -219,7 +230,7 @@ body {
    FOOTER LAYOUT
 ===================== */
 .site-footer {
-  color: var(--white);
+  color: var(--blue);
   padding: 2rem 0;
   font-size: 15px;
   line-height: 1.6;
@@ -242,7 +253,7 @@ body {
 }
 
 .site-footer p {
-  color: var(--white);
+  color: var(--blue);
   margin-bottom: 1rem;
 }
 
@@ -250,7 +261,7 @@ body {
    FOOTER HEADINGS
 ===================== */
 .site-footer h3 {
-  color: var(--white);
+  color: var(--blue);
   font-size: 1.25rem;
   margin-bottom: 1rem;
   font-weight: 700;
@@ -273,7 +284,7 @@ body {
 }
 
 .site-footer > .container ul:not(.social-icons) li a {
-  color: var(--white);
+  color: var(--blue);
   text-decoration: none;  /* remove underline */
   font-weight: 500;
   display: inline-block;
@@ -281,7 +292,7 @@ body {
 }
 
 .site-footer > .container ul:not(.social-icons) li a:hover {
-  color: var(--white);
+  color: var(--blue);
   text-decoration: underline;
   text-decoration-color: var(--blue);
   text-decoration-thickness: 2px;
@@ -301,7 +312,7 @@ body {
 }
 
 .social-icons li a {
-  color: #fff;             /* icon color */
+  color: var(--blue);             /* icon color */
   font-size: 1.8rem;       /* icon size */
   transition: transform 0.2s ease, color 0.2s ease;
 }

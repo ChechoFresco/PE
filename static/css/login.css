@@ -2,7 +2,13 @@
 
 /* Body background */
 body {
-    background-size: cover;
+        background:
+        radial-gradient(ellipse 80% 60% at 20% 40%, rgba(26, 50, 99, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 80% 30%, rgba(74, 158, 202, 0.1) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 50% 80%, rgba(232, 152, 94, 0.1) 0%, transparent 70%),
+        linear-gradient(180deg, #fafbfc 0%, #f0f7f4 100%),
+        linear-gradient(rgba(0,0,0,0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.10) 1px, transparent 1px);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 

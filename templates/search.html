@@ -9,10 +9,9 @@
 
 {% include "searchBar.html" %}
 
-<div id="spaceMaker"></div>
-
-{% include "results.html" %}
-
+<div class="results-container {% if not results %}no-results{% endif %}">
+    {% include "results.html" %}
+</div>
 
 <script>
 $(document).ready(function () {
