@@ -318,17 +318,17 @@ def results():
         for agenda in agenda_list:
             city = agenda.get('City', '')
             topics = agenda.get('Topics', [])
-            
+
             if city not in city_agendas:
                 city_agendas[city] = {"agendas": [], "topic_counts": Counter()}
-            
+
             city_agendas[city]["agendas"].append(agenda)
-            
+
             if isinstance(topics, list):
                 city_agendas[city]["topic_counts"].update(topics)
             else:
                 city_agendas[city]["topic_counts"].update([topics])
-            
+
             if primeKey.strip('"') in agenda.get('Description', ''):
                 cities_matched.append(city)
 

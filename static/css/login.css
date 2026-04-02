@@ -2,12 +2,19 @@
 
 /* Body background */
 body {
-    background-size: cover;
+        background:
+        radial-gradient(ellipse 80% 60% at 20% 40%, rgba(26, 50, 99, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 80% 30%, rgba(74, 158, 202, 0.1) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 50% 80%, rgba(232, 152, 94, 0.1) 0%, transparent 70%),
+        linear-gradient(180deg, #fafbfc 0%, #f0f7f4 100%),
+        linear-gradient(rgba(0,0,0,0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.10) 1px, transparent 1px);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Frosted glass effect for the card */
 .frosted {
+    margin-top: 5rem;
     position: relative; /* important for absolute particles */
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
@@ -46,6 +53,9 @@ body {
     max-width: 100%;
     height: auto;
 }
+.logo{
+    height: 6rem;
+}
 
 /* Form inputs */
 .form-control {
@@ -54,7 +64,7 @@ body {
 }
 
 label{
-    color:white;
+    color:black;
 }
 /* Buttons */
 .btn-primary {
@@ -62,6 +72,7 @@ label{
     padding: 0.75rem;
     font-weight: 400;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: var(--blue);
 }
 
 .btn-primary:hover {
@@ -72,7 +83,7 @@ label{
 
 /* Links under the form */
 .card a {
-    color: white;
+    color: black;
     text-decoration: none;
     transition: color 0.2s ease;
 }

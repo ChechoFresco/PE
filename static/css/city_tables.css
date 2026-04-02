@@ -5,22 +5,41 @@ div.texture {
   overflow: hidden;
   height: auto;
   padding: 1rem;
-
-  background: rgba(26, 50, 99, 0.05) !important;
-
-
   /* Subtle border for glass edge */
   border: 1px solid rgba(255, 255, 255, 0.15);
-
   /* Shadow for depth */
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.1); /* inner highlight */
-
   /* Optional: smoother rendering */
   transition: all 0.3s ease;
 }
 
+/* City Titles*/
+
+.city-info {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.cityCaption {
+  background-color: #2b42e975;
+  color: white !important;
+  border: 1px solid black;
+  border-radius: 7px;
+  padding: 8px 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  min-width: 14rem;
+  justify-self: center;
+}
+
+.cityCaption:hover {
+background-color: #15305f;      /* darker blue on hover */
+color: #fff;
+transform: scale(1.05);         /* subtle pop */
+}
 /* Table styles */
 .table {
   background: transparent !important;
@@ -39,7 +58,6 @@ div.texture {
 /* td and th text */
 td, th {
   color: var(--white);
-  text-shadow: 1px 1px 1px black;
   font-size: 0.5rem;
 }
 
@@ -48,9 +66,9 @@ td.description {
   max-height: 128px;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  font-size: 0.7rem;
-  color: var(--gray) !important;
-  background-color: transparent !important;
+  font-size: 0.82rem;
+  font-family: sans-serif;
+  color: black !important;
 }
 
 td.description.expanded {
@@ -66,21 +84,7 @@ td.description.expanded {
 }
 
 /* Topic links / city caption */
-.city-info {
-  margin-top: 1rem;
-  text-align: center;
-}
 
-.cityCaption {
-  display: inline-block;
-  font-size: 1rem;
-  font-weight: 300;
-  color: var(--blue);
-  background: rgba(26, 50, 99, 0.1);
-  padding: 0.2rem 0.5rem;
-  border-radius: 5px;
-  text-shadow: 1px 1px 2px black;
-}
 
 .listcontent p {
   font-size: 0.6rem;
@@ -207,8 +211,9 @@ td:hover {
 }
 
 .bootstrap-table .pagination li.active a {
-  background-color: var(--gray);
-  color: black;
+  background-color: #2b42e975;
+  border: 1px solid var(--blue);
+  color: white;
   font-weight: bold;
 }
 
@@ -221,9 +226,9 @@ td:hover {
 
 .bootstrap-table .page-list .btn.dropdown-toggle,
 .bootstrap-table .columns .btn.dropdown-toggle {
-  background-color: var(--gray);
+  background-color: #2b42e975;
   color: white;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid var(--blue);
   border-radius: 0.25rem;
   font-weight: bold;
   padding: 0.25rem 0.75rem;
@@ -269,8 +274,8 @@ div.bootstrap-table .dropdown-menu {
   label { font-size: 14px; }
 
   th { display: none; margin: auto; font-size: 1.2rem; }
-  td.infoLocation { font-size: 12px; }
-  td.description { font-size: 12px; }
+  td.infoLocation { font-size: 13px; }
+  td.description { font-size: 13px; }
   h3#title { font-size: 1.7rem; }
   caption { font-size: 2.8rem; width: auto; }
   .pagination-info { font-size: 14px; }

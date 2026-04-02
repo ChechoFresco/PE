@@ -17,7 +17,7 @@
     {% endif %}
 {% endwith %}
 
-<div class="container my-5" id="mainDiv" style="position: relative;">
+<div class="container my-5" id="mainDiv" style="position: relative; margin-top: 7rem">
 
     <!-- Particle field outside the card -->
     <div class="particles-field" id="particleField"></div>
@@ -26,7 +26,7 @@
         <div class="col-md-6 col-lg-4">
             <div class="card shadow p-4 frosted">
                 <!-- Logo -->
-                <img class="logo mb-3" src="{{ url_for('static', filename='logo.svg') }}" alt="PolicyEdge Logo" width="330" height="75">
+                <img class="logo mb-3" src="{{ url_for('static', filename='cityHall.svg') }}" alt="PolicyEdge Logo">
 
                 <!-- Login Form -->
                 <form method="POST" action="{{ url_for('login') }}">
