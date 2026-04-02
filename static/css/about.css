@@ -48,18 +48,19 @@ a:hover, a:active {
     text-transform: uppercase;
 }
 .aboutus-banner {
-    overflow: hidden;
-    border-radius: 1.5rem;
-    display: inline-block;
-}
+    width: 100%;
+    max-width: 500px;
+    height: 500px;        /* controls zoom level */
+    overflow: hidden;     /* hides outside parts */
+  }
 
 /* Image styling */
 .owner-img {
     width: 100%;
-    max-width: 400px;  /* max width for desktop */
-    height: auto;       /* keeps aspect ratio */
-    border-radius: 1.5rem;
-    transition: transform 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(2);
+    transform-origin: bottom;
 }
 
 /* Hover animation */
@@ -71,6 +72,9 @@ a:hover, a:active {
 
 /* Mobile adjustments */
 @media screen and (max-width: 768px) {
+    .aboutus-section {
+        margin-top: 2rem;
+    }
     .owner-img {
         max-width: 100%; /* full width on mobile */
         height: auto;    /* maintain aspect ratio */
@@ -78,5 +82,9 @@ a:hover, a:active {
 
     .aboutus-banner:hover .owner-img {
         transform: scale(1.05); /* slightly smaller zoom for small screens */
+    }
+    .aboutus-text {
+        color: var(--black);
+        font-size: 1rem;
     }
 }

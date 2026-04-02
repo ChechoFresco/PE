@@ -14,6 +14,7 @@ body {
 
 /* Frosted glass effect for the card */
 .frosted {
+    margin-top: 5rem;
     position: relative; /* important for absolute particles */
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
@@ -52,6 +53,9 @@ body {
     max-width: 100%;
     height: auto;
 }
+.logo{
+    height: 6rem;
+}
 
 /* Form inputs */
 .form-control {
@@ -60,7 +64,7 @@ body {
 }
 
 label{
-    color:white;
+    color:black;
 }
 /* Buttons */
 .btn-primary {
@@ -68,6 +72,7 @@ label{
     padding: 0.75rem;
     font-weight: 400;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: var(--blue);
 }
 
 .btn-primary:hover {
@@ -78,7 +83,7 @@ label{
 
 /* Links under the form */
 .card a {
-    color: white;
+    color: black;
     text-decoration: none;
     transition: color 0.2s ease;
 }

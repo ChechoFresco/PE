@@ -1,7 +1,7 @@
 /* === Compact Container === */
 .search-container2 {
     max-width: 900px;
-    margin: 1.5rem auto;
+    margin: 4.5rem auto;
     padding: 1.2rem 1.2rem;
     background: white;
     backdrop-filter: blur(25px);
@@ -70,7 +70,7 @@
     padding: 0.45rem 0.8rem;
     font-size: 13px;
     border-radius: 10px;
-    background: linear-gradient(135deg, #5e7cff, #2e6da4);
+    background: var(--blue) !important;
     border: none;
     color: #fff;
 }
