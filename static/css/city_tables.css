@@ -45,12 +45,29 @@ transform: scale(1.05);         /* subtle pop */
   background: transparent !important;
   border: none !important;
   color: var(--white);
+  width: 100%;
+  border-collapse: collapse; /* ensures lines don't double */
 }
 
 .table tbody tr {
   background: transparent !important;
+  position: relative; /* for gradient pseudo-element */
+  padding: 0; /* reset padding to avoid gaps with pseudo-element */
 }
 
+/* Gradient line between rows */
+.table tbody tr::after {
+  content: "";
+  display: block;
+  height: 2px; /* thickness of gradient line */
+  background: linear-gradient(to right, var(--blue), var(--green));
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Hover effect */
 .table tbody tr:hover {
   background-color: rgba(255,255,255,0.05) !important;
 }
@@ -153,9 +170,7 @@ th {
   display: inline-block;
   position: relative;
   color: var(--blue) !important;
-  text-shadow: 1px 1px 1px black;
   font-size: .6rem;
-
 }
 
 td {
@@ -181,7 +196,7 @@ td:hover {
 }
 
 .bi {
-  color: var(--blue);
+  color: var(--green);
 }
 
 /* ==========================
@@ -194,7 +209,7 @@ td:hover {
 
 .bootstrap-table .pagination li a,
 .bootstrap-table .pagination li span {
-  background-color: var(--blue);
+  background-color: var(--blueTrans);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0.25rem;
@@ -211,8 +226,7 @@ td:hover {
 }
 
 .bootstrap-table .pagination li.active a {
-  background-color: #2b42e975;
-  border: 1px solid var(--blue);
+  background-color: var(--green);
   color: white;
   font-weight: bold;
 }
@@ -226,9 +240,8 @@ td:hover {
 
 .bootstrap-table .page-list .btn.dropdown-toggle,
 .bootstrap-table .columns .btn.dropdown-toggle {
-  background-color: #2b42e975;
+  background-color: var(--blueTrans);
   color: white;
-  border: 1px solid var(--blue);
   border-radius: 0.25rem;
   font-weight: bold;
   padding: 0.25rem 0.75rem;
@@ -245,7 +258,7 @@ td:hover {
 }
 
 div.bootstrap-table .dropdown-menu {
-  color: var(--whiye);
+  color: var(--white);
   text-shadow: 1px 1px 1px black;
   font-weight: bold;
   font-size: 0.95rem;

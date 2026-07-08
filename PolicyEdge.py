@@ -6,16 +6,10 @@ from flask import Flask, render_template, url_for, request, redirect, flash, ses
 from forms import searchForm, monitorListform, chartForm
 import bcrypt
 from datetime import date, datetime, timedelta
-from dateutil.relativedelta import relativedelta
 import os
-import re
-import json
 import logging
 from collections import Counter
-from werkzeug.exceptions import BadRequest
 from flask_mail import Mail
-import atexit
-from urllib.parse import unquote
 from stripe_service import init as stripe_init, create_checkout_session, handle_webhook, get_user_stripe_customer, validate_registration
 from helpers import get_date_threshold, handle_issue_operation, get_user_saved_agendas, int2date, get_county_agendas
 from map_utils import fetch_geo_info, create_folium_map

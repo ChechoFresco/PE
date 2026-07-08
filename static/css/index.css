@@ -44,18 +44,20 @@
 
     background: linear-gradient(
         100deg,
-        rgba(26, 50, 99, 0.0) 0%,
-        rgba(26, 50, 99, 0.25) 20%,
-        rgba(26, 50, 99, 0.45) 45%,
-        rgba(26, 50, 99, 0.35) 65%,
-        rgba(26, 50, 99, 0.15) 85%,
-        rgba(26, 50, 99, 0.0) 100%
+        rgba(48, 86, 182, 0.0) 0%,    /* #3056b6 transparent start */
+        rgba(48, 86, 182, 0.25) 20%,   /* blue-ish */
+        rgba(140, 182, 48, 0.45) 45%,  /* green accent */
+        rgba(140, 182, 48, 0.35) 65%,  
+        rgba(48, 86, 182, 0.15) 85%,   
+        rgba(140, 182, 48, 0.0) 100%
     );
 
     border-radius: 8px;
     transform: rotate(-1.5deg); /* slight imperfection */
     filter: blur(0.5px); /* soft edges */
+    z-index: -1;
 }
+
 #billboard::after {
     content: "";
     position: absolute;
@@ -64,7 +66,7 @@
     top: 60%;
     height: 0.5em;
 
-    background: rgba(26, 50, 99, 0.15);
+    background: linear-gradient(100deg, rgba(48, 86, 182, 0.1), rgba(140, 182, 48, 0.1));
     border-radius: 6px;
 
     transform: rotate(1deg);
@@ -84,8 +86,8 @@ h1#title {
     letter-spacing: -1px;
     font-family: serif;
     font-weight: 200;
-    color: var(--blue);
-    text-shadow: 2px 2px 2px white;
+    color: var(--gray);
+    text-shadow: 2px 2px 2px black;
     margin-top: 2rem;
 }
 
@@ -101,32 +103,26 @@ h3.sellLine {
 /* ================================
    SUBSCRIPTION SECTION
    ================================ */
-.subscription-section {
+    .subscription-section{
     justify-self: center;
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.subscription-section a.subscription {
+    }
+    .subscription-section a.subscription {
+    position: relative;
     display: inline-block;
     padding: 0.5rem 1rem;
     color: var(--white);
-    background: var(--blue)!important;
-    border-radius: 8px;
+    background: var(--gray)!important;  /* solid button background */
+    border-radius: 50px;               /* fully rounded */
     text-decoration: none;
     font-weight: bold;
-    transition: background 0.3s, color 0.3s;
-}
-
-.subscription-section a.subscription:hover {
-    background-color: #fff;
-    color: var(--white);
+    overflow: hidden;
+    text-shadow: 1px 1px 3px #3056b6bf;
 }
 
 .welcome-message {
     font-family: system-ui, sans-serif;
     font-size: 1.25rem;
-    color: var(--white);
+    color: var(--blue);
     text-align: center;
 }
 
@@ -171,14 +167,14 @@ h3.sellLine {
 #statsCards h5 {
     margin: 0 0 6px 0;
     font-weight: 900;
-    font-size: 0.8em;
-    color: var(--blue);
+    font-size: 0.9em;
+    color: var(--gray);
 }
 
 #statsCards p {
     margin: 0;
     font-size: 0.8em;
-    font-weight: 300;
+    font-weight: 500;
     color: var(--blue);
 }
 
