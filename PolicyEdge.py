@@ -19,6 +19,8 @@ from static_routes import static_pages
 from error_handlers import register_error_handlers
 import stripe
 from dotenv import load_dotenv
+
+from flask_sqlalchemy import SQLAlchemy
 # =============================================================================
 # INITIALIZATION AND CONFIGURATION
 # =============================================================================
@@ -27,6 +29,7 @@ load_dotenv()
 app = Flask(__name__)
 Compress(app)
 
+db = SQLAlchemy()
 # Configuration - Using environment variables for security
 app.config['MONGO_URI'] = os.environ.get("MONGO_URI")
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -38,6 +41,10 @@ app.config['MAIL_USE_SSL'] = True
 app.secret_key = os.environ.get("SESS_KEY")
 app.config['YOUR_DOMAIN'] = os.environ.get("YOUR_DOMAIN", "http://127.0.0.1:5001/")
 
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db.init_app(app)
 # Initialize extensions
 mongo = PyMongo(app)
 mail = Mail(app)
@@ -110,34 +117,20 @@ CITIES = {
 
 # Combined list of all cities for dropdowns
 ALL_CITIES = [city for county_cities in CITIES.values() for city in county_cities]
+
+@app.route("/pg-test")
+def pg_test():
+    count = db.session.execute(
+        db.text("SELECT COUNT(*) FROM agenda_items")
+    ).scalar()
+
+    return f"Postgres connected. Agenda items: {count}"
 # =============================================================================
 # Stop bots
 # =============================================================================
 @app.before_request
 def log_requests():
-    if app.debug:
-        return  # Skip in development
-
-    ip = request.remote_addr
-    ua = request.headers.get("User-Agent")
-    path = request.path
-    ts = datetime.utcnow()
-
-    mongo.db.RequestLogs.insert_one({
-        "ip": ip,
-        "user_agent": ua,
-        "path": path,
-        "timestamp": ts
-    })
-
-    one_min_ago = ts - timedelta(seconds=60)
-    recent_count = mongo.db.RequestLogs.count_documents({
-        "ip": ip,
-        "timestamp": {"$gte": one_min_ago}
-    })
-
-    if recent_count > 20:
-        abort(429)
+    pass
 # =============================================================================
 # ROUTES
 # =============================================================================
