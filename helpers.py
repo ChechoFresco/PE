@@ -105,33 +105,7 @@ def get_user_saved_agendas(mongo, username, days_back=60, days_forward=30):
     print(f"Total agendas found: {len(agendas)}")
     return agendas
 
-# -------------------------------
-# HELPER: GET COUNTY AGENDAS
-# -------------------------------
-def get_county_agendas(mongo, county_name, weeks_back=16):
-    """Fetch City Council agendas for a specific county in the last `weeks_back` weeks"""
-    date_threshold = int((date.today() + relativedelta(weeks=-weeks_back)).strftime('%Y%m%d'))
 
-    try:
-        agenda_items = mongo.db.Agenda.find({
-            '$and': [
-                {'Date': {'$gte': date_threshold}},
-                {'MeetingType': {'$regex': 'City Council', '$options': 'i'}},
-                {'County': {'$regex': county_name, '$options': 'i'}},
-                {"$expr": {"$gt": [{"$strLenCP": "$Description"}, 5]}},
-                {
-                    '$and': [
-                        {"Description": {'$not': {'$regex': "minute"}}},
-                        {"Description": {'$not': {'$regex': "warrant"}}}
-                    ]
-                }
-            ]
-        }).sort('Date', -1)
-
-        return list(agenda_items)
-
-    except Exception as e:
-        return []
     
 def int2date(agDate: int) -> str:
     """Convert integer date (YYYYMMDD) to formatted string (Month Day, Year)"""
