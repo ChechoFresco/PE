@@ -7,6 +7,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/city_tables.css') }}">
 
 <!-- ===== MAIN WRAPPER ===== -->
 <div class="section-block">
@@ -118,7 +119,7 @@
         let texts = ["proposed legislation","local issues","telecommunications","local ordinances","medical","cannabis regulations","discussions","utilities","Alcohol, tobacco and vaping","climate change","transportation","financial","retail"];
         let count = 0;
         setInterval(() => {
-            $("#billboard").text(texts[count]).css({"text-shadow":"0px 0px 3px white","color":"var(--black)"});
+            $("#billboard").text(texts[count]);
             count = (count + 1) % texts.length;
         }, 4000);
 

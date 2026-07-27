@@ -3,22 +3,40 @@ from folium import Map, Circle, Marker, Popup
 from folium.features import DivIcon
 from folium import Popup
 
-def fetch_geo_info(mongo, city_issue_counts):
-    """Fetch geo-location data from MongoDB for map generation"""
-    geo_info = []
-    for city, count in city_issue_counts.items():
-        location_data = mongo.db.geoLoc.find_one({'city': city}, {'_id': 0})
-        if location_data:
-            geo_info.append((
-                location_data['city'], 
-                location_data['state_id'], 
-                location_data['county_name'],
-                location_data['lat'], 
-                location_data['lng'], 
-                str(count), 
-                location_data['webAdress']
-            ))
-    return geo_info
+def fetch_geo_info(db, GeoLocation, city_issue_counts):
+    """Fetch geographic information from PostgreSQL."""
+    if not city_issue_counts:
+        return []
+
+    counts_by_city = {
+        city.lower(): count
+        for city, count in city_issue_counts.items()
+    }
+
+    locations = (
+        db.session.query(GeoLocation)
+        .filter(
+            db.func.lower(GeoLocation.city).in_(
+                list(counts_by_city.keys())
+            )
+        )
+        .all()
+    )
+
+    return [
+        (
+            location.city,
+            location.state_id,
+            location.county_name,
+            location.latitude,
+            location.longitude,
+            str(counts_by_city.get(location.city.lower(), 0)),
+            location.website or "",
+        )
+        for location in locations
+        if location.latitude is not None
+        and location.longitude is not None
+    ]
 
 def create_folium_map(geo_info, ALL_CITY_AGENDAS_CACHE):
     """

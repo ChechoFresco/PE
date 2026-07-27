@@ -1,4 +1,4 @@
-echo "__pycache__/
+**pycache**/
 *.pyc
 bin/
 build/
@@ -7,5 +7,5 @@ lib/
 .env
 venv/
 Selenium_env/
-.DS_Store" > .gitignore
 .DS_Store
+static/.DS_Store

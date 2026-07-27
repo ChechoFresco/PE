@@ -6,18 +6,12 @@ from flask import Flask, render_template, url_for, request, redirect, flash, ses
 from forms import searchForm, monitorListform, chartForm
 import bcrypt
 from datetime import date, datetime, timedelta
-from dateutil.relativedelta import relativedelta
 import os
-import re
-import json
 import logging
 from collections import Counter
-from werkzeug.exceptions import BadRequest
 from flask_mail import Mail
-import atexit
-from urllib.parse import unquote
 from stripe_service import init as stripe_init, create_checkout_session, handle_webhook, get_user_stripe_customer, validate_registration
-from helpers import get_date_threshold, handle_issue_operation, get_user_saved_agendas, int2date, get_county_agendas
+from helpers import (get_date_threshold,handle_issue_operation,get_user_saved_agendas,int2date,)
 from map_utils import fetch_geo_info, create_folium_map
 from jobs import check4Issues2email, start_scheduler
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -25,6 +19,9 @@ from static_routes import static_pages
 from error_handlers import register_error_handlers
 import stripe
 from dotenv import load_dotenv
+
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.dialects.postgresql import JSONB
 # =============================================================================
 # INITIALIZATION AND CONFIGURATION
 # =============================================================================
@@ -33,6 +30,7 @@ load_dotenv()
 app = Flask(__name__)
 Compress(app)
 
+db = SQLAlchemy()
 # Configuration - Using environment variables for security
 app.config['MONGO_URI'] = os.environ.get("MONGO_URI")
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -44,10 +42,18 @@ app.config['MAIL_USE_SSL'] = True
 app.secret_key = os.environ.get("SESS_KEY")
 app.config['YOUR_DOMAIN'] = os.environ.get("YOUR_DOMAIN", "http://127.0.0.1:5001/")
 
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+    "pool_pre_ping": True,
+    "pool_recycle": 300,
+}
+
+db.init_app(app)
 # Initialize extensions
 mongo = PyMongo(app)
 mail = Mail(app)
-stripe_init(mongo)
 
 # Constants
 stripe_keys = {
@@ -62,6 +68,132 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+class County(db.Model):
+    __tablename__ = "counties"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+
+
+class City(db.Model):
+    __tablename__ = "cities"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+    county_id = db.Column(db.Integer, db.ForeignKey("counties.id"))
+
+
+class Meeting(db.Model):
+    __tablename__ = "meetings"
+    id = db.Column(db.Integer, primary_key=True)
+    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
+    meeting_type = db.Column(db.Text)
+    meeting_date = db.Column(db.Date)
+
+
+class Agenda(db.Model):
+    __tablename__ = "Agendas"
+
+    id = db.Column(db.BigInteger, primary_key=True)
+    county = db.Column(db.Text)
+    city = db.Column(db.Text)
+    date = db.Column(db.Integer)
+    num = db.Column(db.Text)
+    meeting_type = db.Column(db.Text)
+    item_type = db.Column(db.Text)
+    description = db.Column(db.Text)
+
+class GeoLocation(db.Model):
+    __tablename__ = "geoloc"
+
+    mongo_id = db.Column("_id", db.Text, primary_key=True)
+    city = db.Column(db.Text, nullable=False, index=True)
+    state_id = db.Column(db.Text)
+    county_name = db.Column(db.Text)
+    latitude = db.Column("lat", db.Float)
+    longitude = db.Column("lng", db.Float)
+    website = db.Column("webadress", db.Text)
+
+from sqlalchemy.dialects.postgresql import JSONB
+
+
+class User(db.Model):
+    __tablename__ = "users"
+
+    id = db.Column(db.BigInteger, primary_key=True)
+    username = db.Column(db.Text, nullable=False, unique=True)
+    email = db.Column(db.Text, nullable=False, unique=True)
+    password_hash = db.Column(db.Text, nullable=False)
+    stripe_customer_id = db.Column(db.Text)
+    stripe_subscription_id = db.Column(db.Text)
+    subscription_active = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=False
+    )
+    issues = db.Column(
+        JSONB,
+        nullable=False,
+        default=list
+    )
+    agenda_unique_ids = db.Column(
+        JSONB,
+        nullable=False,
+        default=list
+    )
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        server_default=db.func.now(),
+        nullable=False
+    )
+
+
+# Must be below the User class
+stripe_init(db, User)
+
+# -------------------------------
+# HELPER: GET COUNTY AGENDAS
+# -------------------------------
+def get_county_agendas(county_name, weeks_back=16):
+    """Return recent City Council agenda items for a county."""
+    threshold_date = date.today() - timedelta(weeks=weeks_back)
+
+    try:
+        rows = (
+            db.session.query(Agenda, Meeting, City, County)
+            .join(Meeting, Agenda.meeting_id == Meeting.id)
+            .join(City, Meeting.city_id == City.id)
+            .join(County, City.county_id == County.id)
+            .filter(Meeting.meeting_date >= threshold_date)
+            .filter(Meeting.meeting_type.ilike("%City Council%"))
+            .filter(County.name.ilike(f"%{county_name}%"))
+            .filter(Agenda.description.isnot(None))
+            .filter(db.func.length(db.func.trim(Agenda.description)) > 5)
+            .filter(~Agenda.description.ilike("%minute%"))
+            .filter(~Agenda.description.ilike("%warrant%"))
+            .order_by(Meeting.meeting_date.desc())
+            .all()
+        )
+
+        return [
+            {
+                "County": county.name,
+                "City": city.name,
+                "Date": int(meeting.meeting_date.strftime("%Y%m%d")),
+                "Num": item.item_number,
+                "MeetingType": meeting.meeting_type,
+                "ItemType": item.item_type,
+                "Description": item.description,
+                "Topics": [],
+            }
+            for item, meeting, city, county in rows
+        ]
+
+    except Exception:
+        logger.exception(
+            "Failed to fetch agendas for county %s",
+            county_name,
+        )
+        return []
 
 # =============================================================================
 # CONSTANTS AND CONFIGURATION DATA
@@ -116,34 +248,20 @@ CITIES = {
 
 # Combined list of all cities for dropdowns
 ALL_CITIES = [city for county_cities in CITIES.values() for city in county_cities]
+
+@app.route("/pg-test")
+def pg_test():
+    count = db.session.execute(
+        db.text('SELECT COUNT(*) FROM "Agendas"')
+    ).scalar()
+
+    return f"Postgres connected. Agendas: {count}"
 # =============================================================================
 # Stop bots
 # =============================================================================
 @app.before_request
 def log_requests():
-    if app.debug:
-        return  # Skip in development
-
-    ip = request.remote_addr
-    ua = request.headers.get("User-Agent")
-    path = request.path
-    ts = datetime.utcnow()
-
-    mongo.db.RequestLogs.insert_one({
-        "ip": ip,
-        "user_agent": ua,
-        "path": path,
-        "timestamp": ts
-    })
-
-    one_min_ago = ts - timedelta(seconds=60)
-    recent_count = mongo.db.RequestLogs.count_documents({
-        "ip": ip,
-        "timestamp": {"$gte": one_min_ago}
-    })
-
-    if recent_count > 20:
-        abort(429)
+    pass
 # =============================================================================
 # ROUTES
 # =============================================================================
@@ -171,34 +289,47 @@ def index():
     form = chartForm()
     date_threshold = get_date_threshold(weeks=-1)
 
-    # ===== GET SEARCH TERM =====
     if request.method == 'POST' and request.form.get('chartSearch'):
         search_term = request.form['chartSearch'].strip()
         chosen = f'"{search_term}"'
-
-        # Query with search
-        agenda_items = mongo.db.Agenda.find({
-            '$and': [
-                {'$text': {"$search": chosen}},
-                {"MeetingType": {'$regex': "City Council", '$options': 'i'}},
-                {'Date': {'$gte': date_threshold}}
-            ]
-        }).sort('Date', -1)
-
+        search_clean = search_term
     else:
-        # Default GET
         chosen = 'cannabis'
+        search_clean = 'cannabis'
 
-        agenda_items = mongo.db.Agenda.find({
-            '$and': [
-                {"MeetingType": {'$regex': "City Council", '$options': 'i'}},
-                {'Date': {'$gte': date_threshold}},
-                {'Description': {'$nin': ["", None]}},
-                {"Description": {'$not': {'$regex': "(minute|warrant)", '$options': 'i'}}}
-            ]
-        }).sort('Date', -1)
+    query = (
+        Agenda.query
+        .filter(Agenda.meeting_type.ilike("%City Council%"))
+        .filter(Agenda.date >= date_threshold)
+        .filter(Agenda.description.isnot(None))
+        .filter(Agenda.description != "")
+    )
 
-    # ===== SHARED LOGIC (RUNS FOR BOTH) =====
+    if request.method == 'POST' and request.form.get('chartSearch'):
+        query = query.filter(
+            Agenda.description.ilike(f"%{search_clean}%")
+        )
+    else:
+        query = query.filter(
+            ~Agenda.description.ilike("%minute%"),
+            ~Agenda.description.ilike("%warrant%")
+        )
+
+    results = query.order_by(Agenda.date.desc()).all()
+
+    agenda_items = [
+        {
+            "County": item.county,
+            "City": item.city,
+            "Date": item.date,
+            "Num": item.num,
+            "MeetingType": item.meeting_type,
+            "ItemType": item.item_type,
+            "Description": item.description,
+            "Topics": []
+        }
+        for item in results
+    ]
 
     cities_matched = []
     city_agendas = {}
@@ -209,9 +340,12 @@ def index():
         description = agenda.get('Description', '')
         topics = agenda.get('Topics', [])
 
-        # All agendas
         if city not in city_agendas:
-            city_agendas[city] = {"agendas": [], "topic_counts": Counter()}
+            city_agendas[city] = {
+                "agendas": [],
+                "topic_counts": Counter()
+            }
+
         city_agendas[city]["agendas"].append(agenda)
 
         if isinstance(topics, list):
@@ -219,10 +353,13 @@ def index():
         else:
             city_agendas[city]["topic_counts"].update([topics])
 
-        # Matching agendas
-        if chosen.strip('"') in description:
+        if search_clean.lower() in description.lower():
             if city not in folium_agendas:
-                folium_agendas[city] = {"agendas": [], "topic_counts": Counter()}
+                folium_agendas[city] = {
+                    "agendas": [],
+                    "topic_counts": Counter()
+                }
+
             folium_agendas[city]["agendas"].append(agenda)
 
             if isinstance(topics, list):
@@ -232,18 +369,28 @@ def index():
 
             cities_matched.append(city)
 
-    # Limit cities
     initial_cities = dict(list(city_agendas.items())[:6])
 
-    # Map
     city_issue_counts = Counter(cities_matched)
-    geo_info = fetch_geo_info(mongo, city_issue_counts)
-    folium_map = create_folium_map(geo_info, folium_agendas)
 
-    num_agenda_items = sum(len(data["agendas"]) for data in folium_agendas.values())
-    num_cities = len(set(cities_matched))   # unique cities matched
+    geo_info = fetch_geo_info(
+        db,
+        GeoLocation,
+        city_issue_counts
+    )
 
-    # ✅ ALWAYS RETURN
+    folium_map = create_folium_map(
+        geo_info,
+        folium_agendas
+    )
+
+    num_agenda_items = sum(
+        len(data["agendas"])
+        for data in folium_agendas.values()
+    )
+
+    num_cities = len(set(cities_matched))
+
     return render_template(
         'index.html',
         folium_map=folium_map._repr_html_(),
@@ -263,64 +410,132 @@ def search():
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
-    """Handle search form submission and display results"""
     form = searchForm(request.form)
 
     if request.method == 'POST':
-        primeKey = form.primary_search.data.strip()
+        primeKey = (form.primary_search.data or '').strip()
         start_date = form.startdate_field.data
         end_date = form.enddate_field.data
-
-        # Set date range defaults
-        start = int(start_date.strftime('%Y%m%d')) if start_date else get_date_threshold(weeks=-52)
-        end = int(end_date.strftime('%Y%m%d')) if end_date else int(date.today().strftime('%Y%m%d'))
-
         criteria = form.select.data
-        filters = []
 
-        # Build search filters based on criteria
-        if criteria == 'Issue':
-            filters.append({'$text': {"$search": primeKey}})
-        elif criteria in ['LA County', 'Orange County', 'Riverside County', 'San Diego County', 'San Bernardino County']:
-            filters.append({'$text': {"$search": primeKey}})
-            filters.append({'County': {'$regex': criteria, '$options': 'i'}})
+        # Agenda.date is stored as an integer in YYYYMMDD format
+        if start_date:
+            start = int(start_date.strftime("%Y%m%d"))
+        else:
+            start = get_date_threshold(weeks=-52)
 
-            # Handle city selection
+        if end_date:
+            end = int(end_date.strftime("%Y%m%d"))
+        else:
+            end = int(date.today().strftime("%Y%m%d"))
+
+        query = (
+            Agenda.query
+            .filter(Agenda.date >= start)
+            .filter(Agenda.date <= end)
+            .filter(Agenda.description.isnot(None))
+            .filter(Agenda.description != "")
+        )
+
+        if primeKey:
+            query = query.filter(
+                Agenda.description.ilike(f"%{primeKey}%")
+            )
+
+        county_names = [
+            'LA County',
+            'Orange County',
+            'Riverside County',
+            'San Diego County',
+            'San Bernardino County'
+        ]
+
+        if criteria in county_names:
+            query = query.filter(
+                Agenda.county.ilike(f"%{criteria}%")
+            )
+
             city_field_map = {
-                'LA County': 'selectLA', 'Orange County': 'selectOC',
-                'Riverside County': 'selectRS', 'San Bernardino County': 'selectSB',
+                'LA County': 'selectLA',
+                'Orange County': 'selectOC',
+                'Riverside County': 'selectRS',
+                'San Bernardino County': 'selectSB',
                 'San Diego County': 'selectSD'
             }
+
             selected_city_field = city_field_map.get(criteria)
+
             if selected_city_field:
-                selected_city = getattr(form, selected_city_field).data
+                selected_city = getattr(
+                    form,
+                    selected_city_field
+                ).data
+
                 if selected_city:
-                    filters.append({'City': {'$regex': selected_city, '$options': 'i'}})
+                    query = query.filter(
+                        Agenda.city.ilike(f"%{selected_city}%")
+                    )
 
         elif criteria in ['LA Committees', 'Long Beach Committees']:
-            filters.append({'$text': {"$search": primeKey}})
-            filters.append({'County': {'$regex': 'LA County', '$options': 'i'}})
-            committee_field = 'selectLACM' if criteria == 'LA Committees' else 'selectLBCM'
-            selected_committee = getattr(form, committee_field).data
+            query = query.filter(
+                Agenda.county.ilike("%LA County%")
+            )
+
+            committee_field = (
+                'selectLACM'
+                if criteria == 'LA Committees'
+                else 'selectLBCM'
+            )
+
+            selected_committee = getattr(
+                form,
+                committee_field
+            ).data
+
             if selected_committee:
-                filters.append({'MeetingType': {'$regex': selected_committee, '$options': 'i'}})
+                query = query.filter(
+                    Agenda.meeting_type.ilike(
+                        f"%{selected_committee}%"
+                    )
+                )
 
-        # Add date range filter
-        filters.append({'Date': {'$gte': start, '$lte': end}})
+        results_rows = (
+            query
+            .order_by(Agenda.date.desc())
+            .limit(300)
+            .all()
+        )
 
-        # Execute search
-        agenda_list = list(mongo.db.Agenda.find({'$and': filters}).sort('Date', -1).limit(300))
+        agenda_list = [
+            {
+                "County": item.county,
+                "City": item.city,
+                "Date": item.date,
+                "Num": item.num,
+                "MeetingType": item.meeting_type,
+                "ItemType": item.item_type,
+                "Description": item.description,
+                "Topics": []
+            }
+            for item in results_rows
+        ]
 
-        # Organize agendas by city
         cities_matched = []
         city_agendas = {}
 
         for agenda in agenda_list:
             city = agenda.get('City', '')
+            description = agenda.get('Description', '')
             topics = agenda.get('Topics', [])
 
+            if not city:
+                continue
+
             if city not in city_agendas:
-                city_agendas[city] = {"agendas": [], "topic_counts": Counter()}
+                city_agendas[city] = {
+                    "agendas": [],
+                    "topic_counts": Counter()
+                }
 
             city_agendas[city]["agendas"].append(agenda)
 
@@ -329,18 +544,25 @@ def results():
             else:
                 city_agendas[city]["topic_counts"].update([topics])
 
-            if primeKey.strip('"') in agenda.get('Description', ''):
+            if not primeKey or primeKey.lower() in description.lower():
                 cities_matched.append(city)
 
-        # Only send first 6 cities to template
-        initial_cities = dict(list(city_agendas.items())[:6])
+        initial_cities = dict(
+            list(city_agendas.items())[:6]
+        )
 
-        # Map visualization
         city_issue_counts = Counter(cities_matched)
-        geo_info = fetch_geo_info(mongo, city_issue_counts)
 
-        # Build Folium map with agenda details
-        folium_map = create_folium_map(geo_info, city_agendas)
+        geo_info = fetch_geo_info(
+            db,
+            GeoLocation,
+            city_issue_counts
+        )
+
+        folium_map = create_folium_map(
+            geo_info,
+            city_agendas
+        )
 
         return render_template(
             'search.html',
@@ -353,7 +575,11 @@ def results():
             title="PolicyEdge Search Results"
         )
 
-    return render_template('search.html', form=form, title="PolicyEdge Search")
+    return render_template(
+        'search.html',
+        form=form,
+        title="PolicyEdge Search"
+    )
 
 # ---------------------------
 # Load more cities via AJAX
@@ -362,36 +588,69 @@ def results():
 def load_more_cities():
     start = int(request.args.get('start', 0))
     count = int(request.args.get('count', 6))
-    username = session.get('username')  # If needed for savedIssues
+    username = session.get('username')
 
-    # Build city_agendas dynamically (no global cache)
-    city_agendas = {}  # key = city, value = {"agendas": [...], "topic_counts": Counter()}
+    city_agendas = {}
 
-    # Example: for savedIssues, get user's saved agendas
     if username:
+        # User accounts and saved agendas remain in MongoDB for now
         agenda_list = get_user_saved_agendas(mongo, username)
+
     else:
-        # For index.html or search, you may pass all agenda_items here
-        agenda_list = list(mongo.db.Agenda.find().sort('Date', -1).limit(300))
+        rows = (
+            Agenda.query
+            .filter(Agenda.description.isnot(None))
+            .filter(Agenda.description != "")
+            .order_by(Agenda.date.desc())
+            .limit(300)
+            .all()
+        )
+
+        agenda_list = [
+            {
+                "County": item.county,
+                "City": item.city,
+                "Date": item.date,
+                "Num": item.num,
+                "MeetingType": item.meeting_type,
+                "ItemType": item.item_type,
+                "Description": item.description,
+                "Topics": []
+            }
+            for item in rows
+        ]
 
     for agenda in agenda_list:
         city = agenda.get('City', '')
         topics = agenda.get('Topics', [])
+
+        if not city:
+            continue
+
         if city not in city_agendas:
-            city_agendas[city] = {"agendas": [], "topic_counts": Counter()}
+            city_agendas[city] = {
+                "agendas": [],
+                "topic_counts": Counter()
+            }
+
         city_agendas[city]["agendas"].append(agenda)
+
         if isinstance(topics, list):
             city_agendas[city]["topic_counts"].update(topics)
         else:
             city_agendas[city]["topic_counts"].update([topics])
 
-    # Only slice the cities requested
     cities_list = list(city_agendas.items())
     cities_to_load = dict(cities_list[start:start + count])
 
     rendered = ""
+
     for city, data in cities_to_load.items():
-        rendered += render_template('partials/city_table_wrapper.html', _city=city, _data=data)
+        rendered += render_template(
+            'partials/city_table_wrapper.html',
+            _city=city,
+            _data=data
+        )
 
     return rendered
 
@@ -408,34 +667,57 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """User login page"""
+
     if "username" in session or "email" in session:
         return redirect(url_for('index'))
 
     if request.method == "POST":
-        identifier = request.form.get("username")  # can be email OR username
-        password = request.form.get("password")
+        identifier = (
+            request.form.get("username") or ""
+        ).strip()
+
+        password = request.form.get("password") or ""
 
         if not identifier or not password:
             flash("Missing credentials")
             return redirect(url_for('login'))
 
-        user = mongo.db.User.find_one({
-            "$or": [
-                {"email": identifier},
-                {"username": identifier}
-            ]
-        })
+        user = (
+            User.query
+            .filter(
+                db.or_(
+                    db.func.lower(User.email)
+                    == identifier.lower(),
 
-        if user and bcrypt.checkpw(password.encode('utf-8'), user["password"]):
-            session['username'] = user["username"]
-            session['email'] = user["email"]
-            session['subscribed'] = user.get("subscriptionActive", False)
-            flash('Login successful!')
-            return redirect(url_for('index'))
-        else:
-            flash('Invalid login credentials')
-    print("Rendering template from:", os.path.abspath("templates/login.html"))
-    return render_template('login.html', title="Please Login")
+                    db.func.lower(User.username)
+                    == identifier.lower()
+                )
+            )
+            .first()
+        )
+
+        password_matches = (
+            user is not None
+            and bcrypt.checkpw(
+                password.encode("utf-8"),
+                user.password_hash.encode("utf-8")
+            )
+        )
+
+        if password_matches:
+            session["username"] = user.username
+            session["email"] = user.email
+            session["subscribed"] = user.subscription_active
+
+            flash("Login successful!")
+            return redirect(url_for("index"))
+
+        flash("Invalid login credentials")
+
+    return render_template(
+        "login.html",
+        title="Please Login"
+    )
 
 @app.route('/logout')
 def logout():
@@ -456,35 +738,93 @@ def get_index():
 # STRIPE PAYMENT ROUTES
 # =============================================================================
 
-@app.route('/create-checkout-session', methods=['POST'])
+@app.route(
+    '/create-checkout-session',
+    methods=['POST']
+)
 def route_create_checkout_session():
-    username = request.form["username"]
-    email = request.form["email"]
-    password1 = request.form["password1"]
-    password2 = request.form["password2"]
+    username = request.form.get(
+        "username",
+        ""
+    ).strip()
 
-    # ✅ Validate registration using the imported function
-    errors = validate_registration(username, email, password1, password2)
+    email = request.form.get(
+        "email",
+        ""
+    ).strip().lower()
+
+    password1 = request.form.get(
+        "password1",
+        ""
+    )
+
+    password2 = request.form.get(
+        "password2",
+        ""
+    )
+
+    errors = validate_registration(
+        username,
+        email,
+        password1,
+        password2
+    )
 
     if errors:
         for error in errors:
             flash(error)
-        return render_template('register.html')
 
-    hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
-    mongo.db.User.insert_one({
-        'username': username,
-        'email': email,
-        'password': hashed,
-        'stripe_customer_id': None,
-        'stripe_subscription_id': None,
-        'subscriptionActive': False,
-        'issues': [],
-        'agendaUnique_id': []
-    })
+        return render_template(
+            "register.html",
+            title="Register for PolicyEdge"
+        )
 
-    session.update({'username': username, 'email': email})
-    return create_checkout_session(email, your_domain=app.your_domain)
+    password_hash = bcrypt.hashpw(
+        password2.encode("utf-8"),
+        bcrypt.gensalt()
+    ).decode("utf-8")
+
+    user = User(
+        username=username,
+        email=email,
+        password_hash=password_hash,
+        stripe_customer_id=None,
+        stripe_subscription_id=None,
+        subscription_active=False,
+        issues=[],
+        agenda_unique_ids=[]
+    )
+
+    try:
+        db.session.add(user)
+        db.session.commit()
+
+    except Exception as error:
+        db.session.rollback()
+
+        app.logger.exception(
+            "Failed to create user: %s",
+            error
+        )
+
+        flash(
+            "Unable to create your account. "
+            "Please try again."
+        )
+
+        return render_template(
+            "register.html",
+            title="Register for PolicyEdge"
+        )
+
+    session["username"] = user.username
+    session["email"] = user.email
+    session["subscribed"] = False
+
+    return create_checkout_session(
+        user.email,
+        your_domain=app.config["YOUR_DOMAIN"]
+    )
 
 @app.route('/webhook', methods=['POST'])
 def route_webhook():
@@ -598,7 +938,7 @@ COUNTY_ROUTES = {
 def render_county_agendas(county_key):
     county_info = COUNTY_ROUTES[county_key]
     # Fetch agendas dynamically for this county
-    agenda_items = get_county_agendas(mongo, county_info["name"])
+    agenda_items = get_county_agendas(county_info["name"],)
     # Build city dictionary
     city_agendas = {}
     cities_matched = []
