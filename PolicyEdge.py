@@ -13,7 +13,7 @@ from flask_mail import Mail
 from stripe_service import init as stripe_init, create_checkout_session, handle_webhook, get_user_stripe_customer, validate_registration
 from helpers import (get_date_threshold,handle_issue_operation,get_user_saved_agendas,int2date,)
 from map_utils import fetch_geo_info, create_folium_map
-from jobs import check4Issues2email, start_scheduler
+from jobs import start_scheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 from static_routes import static_pages
 from error_handlers import register_error_handlers
@@ -113,8 +113,8 @@ class GeoLocation(db.Model):
     longitude = db.Column("lng", db.Float)
     website = db.Column("webadress", db.Text)
 
+from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.dialects.postgresql import JSONB
-
 
 class User(db.Model):
     __tablename__ = "users"
@@ -131,12 +131,12 @@ class User(db.Model):
         default=False
     )
     issues = db.Column(
-        JSONB,
+        MutableList.as_mutable(JSONB),
         nullable=False,
         default=list
     )
     agenda_unique_ids = db.Column(
-        JSONB,
+        MutableList.as_mutable(JSONB),
         nullable=False,
         default=list
     )
@@ -183,7 +183,6 @@ def get_county_agendas(county_name, weeks_back=16):
                 "MeetingType": meeting.meeting_type,
                 "ItemType": item.item_type,
                 "Description": item.description,
-                "Topics": [],
             }
             for item, meeting, city, county in rows
         ]
@@ -326,7 +325,6 @@ def index():
             "MeetingType": item.meeting_type,
             "ItemType": item.item_type,
             "Description": item.description,
-            "Topics": []
         }
         for item in results
     ]
@@ -338,34 +336,21 @@ def index():
     for agenda in agenda_items:
         city = agenda.get('City', '')
         description = agenda.get('Description', '')
-        topics = agenda.get('Topics', [])
 
         if city not in city_agendas:
             city_agendas[city] = {
                 "agendas": [],
-                "topic_counts": Counter()
             }
 
         city_agendas[city]["agendas"].append(agenda)
-
-        if isinstance(topics, list):
-            city_agendas[city]["topic_counts"].update(topics)
-        else:
-            city_agendas[city]["topic_counts"].update([topics])
 
         if search_clean.lower() in description.lower():
             if city not in folium_agendas:
                 folium_agendas[city] = {
                     "agendas": [],
-                    "topic_counts": Counter()
                 }
 
             folium_agendas[city]["agendas"].append(agenda)
-
-            if isinstance(topics, list):
-                folium_agendas[city]["topic_counts"].update(topics)
-            else:
-                folium_agendas[city]["topic_counts"].update([topics])
 
             cities_matched.append(city)
 
@@ -410,175 +395,156 @@ def search():
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
-    form = searchForm(request.form)
-
     if request.method == 'POST':
-        primeKey = (form.primary_search.data or '').strip()
-        start_date = form.startdate_field.data
-        end_date = form.enddate_field.data
-        criteria = form.select.data
+        data = request.form
+    else:
+        data = request.args
 
-        # Agenda.date is stored as an integer in YYYYMMDD format
-        if start_date:
-            start = int(start_date.strftime("%Y%m%d"))
-        else:
-            start = get_date_threshold(weeks=-52)
+    form = searchForm(data)
 
-        if end_date:
-            end = int(end_date.strftime("%Y%m%d"))
-        else:
-            end = int(date.today().strftime("%Y%m%d"))
+    primeKey = (data.get('primary_search') or '').strip()
+    start_date = form.startdate_field.data
+    end_date = form.enddate_field.data
+    criteria = form.select.data
 
-        query = (
-            Agenda.query
-            .filter(Agenda.date >= start)
-            .filter(Agenda.date <= end)
-            .filter(Agenda.description.isnot(None))
-            .filter(Agenda.description != "")
+    # Agenda.date is stored as an integer in YYYYMMDD format
+    if start_date:
+        start = int(start_date.strftime("%Y%m%d"))
+    else:
+        start = int((date.today() - timedelta(days=5)).strftime("%Y%m%d"))
+
+    if end_date:
+        end = int(end_date.strftime("%Y%m%d"))
+    else:
+        end = int(date.today().strftime("%Y%m%d"))
+
+    query = (
+        Agenda.query
+        .filter(Agenda.date >= start)
+        .filter(Agenda.date <= end)
+        .filter(Agenda.description.isnot(None))
+        .filter(Agenda.description != "")
+    )
+
+    if primeKey:
+        query = query.filter(
+            Agenda.description.ilike(f"%{primeKey}%")
         )
 
-        if primeKey:
-            query = query.filter(
-                Agenda.description.ilike(f"%{primeKey}%")
-            )
+    county_names = [
+        'LA County',
+        'Orange County',
+        'Riverside County',
+        'San Diego County',
+        'San Bernardino County'
+    ]
 
-        county_names = [
-            'LA County',
-            'Orange County',
-            'Riverside County',
-            'San Diego County',
-            'San Bernardino County'
-        ]
+    if criteria in county_names:
+        query = query.filter(
+            Agenda.county.ilike(f"%{criteria}%")
+        )
 
-        if criteria in county_names:
-            query = query.filter(
-                Agenda.county.ilike(f"%{criteria}%")
-            )
+        city_field_map = {
+            'LA County': 'selectLA',
+            'Orange County': 'selectOC',
+            'Riverside County': 'selectRS',
+            'San Bernardino County': 'selectSB',
+            'San Diego County': 'selectSD'
+        }
 
-            city_field_map = {
-                'LA County': 'selectLA',
-                'Orange County': 'selectOC',
-                'Riverside County': 'selectRS',
-                'San Bernardino County': 'selectSB',
-                'San Diego County': 'selectSD'
-            }
+        selected_city_field = city_field_map.get(criteria)
 
-            selected_city_field = city_field_map.get(criteria)
-
-            if selected_city_field:
-                selected_city = getattr(
-                    form,
-                    selected_city_field
-                ).data
-
-                if selected_city:
-                    query = query.filter(
-                        Agenda.city.ilike(f"%{selected_city}%")
-                    )
-
-        elif criteria in ['LA Committees', 'Long Beach Committees']:
-            query = query.filter(
-                Agenda.county.ilike("%LA County%")
-            )
-
-            committee_field = (
-                'selectLACM'
-                if criteria == 'LA Committees'
-                else 'selectLBCM'
-            )
-
-            selected_committee = getattr(
-                form,
-                committee_field
-            ).data
-
-            if selected_committee:
+        if selected_city_field:
+            selected_city = getattr(form, selected_city_field).data
+            if selected_city:
                 query = query.filter(
-                    Agenda.meeting_type.ilike(
-                        f"%{selected_committee}%"
-                    )
+                    Agenda.city.ilike(f"%{selected_city}%")
                 )
 
-        results_rows = (
-            query
-            .order_by(Agenda.date.desc())
-            .limit(300)
-            .all()
+    elif criteria in ['LA Committees', 'Long Beach Committees']:
+        query = query.filter(
+            Agenda.county.ilike("%LA County%")
         )
 
-        agenda_list = [
-            {
-                "County": item.county,
-                "City": item.city,
-                "Date": item.date,
-                "Num": item.num,
-                "MeetingType": item.meeting_type,
-                "ItemType": item.item_type,
-                "Description": item.description,
-                "Topics": []
+        committee_field = (
+            'selectLACM'
+            if criteria == 'LA Committees'
+            else 'selectLBCM'
+        )
+
+        selected_committee = getattr(form, committee_field).data
+
+        if selected_committee:
+            query = query.filter(
+                Agenda.meeting_type.ilike(f"%{selected_committee}%")
+            )
+
+    results_rows = (
+        query
+        .order_by(Agenda.date.desc())
+        .limit(300)
+        .all()
+    )
+
+    agenda_list = [
+        {
+            "County": item.county,
+            "City": item.city,
+            "Date": item.date,
+            "Num": item.num,
+            "MeetingType": item.meeting_type,
+            "ItemType": item.item_type,
+            "Description": item.description,
+        }
+        for item in results_rows
+    ]
+
+    cities_matched = []
+    city_agendas = {}
+
+    for agenda in agenda_list:
+        city = agenda.get('City', '')
+        description = agenda.get('Description', '')
+
+        if not city:
+            continue
+
+        if city not in city_agendas:
+            city_agendas[city] = {
+                "agendas": [],
             }
-            for item in results_rows
-        ]
 
-        cities_matched = []
-        city_agendas = {}
+        city_agendas[city]["agendas"].append(agenda)
 
-        for agenda in agenda_list:
-            city = agenda.get('City', '')
-            description = agenda.get('Description', '')
-            topics = agenda.get('Topics', [])
+        if not primeKey or primeKey.lower() in description.lower():
+            cities_matched.append(city)
 
-            if not city:
-                continue
+    initial_cities = dict(
+        list(city_agendas.items())[:6]
+    )
 
-            if city not in city_agendas:
-                city_agendas[city] = {
-                    "agendas": [],
-                    "topic_counts": Counter()
-                }
+    city_issue_counts = Counter(cities_matched)
 
-            city_agendas[city]["agendas"].append(agenda)
+    geo_info = fetch_geo_info(
+        db,
+        GeoLocation,
+        city_issue_counts
+    )
 
-            if isinstance(topics, list):
-                city_agendas[city]["topic_counts"].update(topics)
-            else:
-                city_agendas[city]["topic_counts"].update([topics])
-
-            if not primeKey or primeKey.lower() in description.lower():
-                cities_matched.append(city)
-
-        initial_cities = dict(
-            list(city_agendas.items())[:6]
-        )
-
-        city_issue_counts = Counter(cities_matched)
-
-        geo_info = fetch_geo_info(
-            db,
-            GeoLocation,
-            city_issue_counts
-        )
-
-        folium_map = create_folium_map(
-            geo_info,
-            city_agendas
-        )
-
-        return render_template(
-            'search.html',
-            folium_map=folium_map._repr_html_(),
-            primeKey=primeKey,
-            city_issue_counts=city_issue_counts,
-            city_agendas=initial_cities,
-            form=form,
-            agendas=agenda_list,
-            title="PolicyEdge Search Results"
-        )
+    folium_map = create_folium_map(
+        geo_info,
+        city_agendas
+    )
 
     return render_template(
         'search.html',
+        folium_map=folium_map._repr_html_(),
+        primeKey=primeKey,
+        city_issue_counts=city_issue_counts,
+        city_agendas=initial_cities,
         form=form,
-        title="PolicyEdge Search"
+        agendas=agenda_list,
+        title="PolicyEdge Search Results"
     )
 
 # ---------------------------
@@ -594,7 +560,7 @@ def load_more_cities():
 
     if username:
         # User accounts and saved agendas remain in MongoDB for now
-        agenda_list = get_user_saved_agendas(mongo, username)
+        agenda_list = get_user_saved_agendas(User, Agenda, username)
 
     else:
         rows = (
@@ -615,14 +581,12 @@ def load_more_cities():
                 "MeetingType": item.meeting_type,
                 "ItemType": item.item_type,
                 "Description": item.description,
-                "Topics": []
             }
             for item in rows
         ]
 
     for agenda in agenda_list:
         city = agenda.get('City', '')
-        topics = agenda.get('Topics', [])
 
         if not city:
             continue
@@ -630,15 +594,9 @@ def load_more_cities():
         if city not in city_agendas:
             city_agendas[city] = {
                 "agendas": [],
-                "topic_counts": Counter()
             }
 
         city_agendas[city]["agendas"].append(agenda)
-
-        if isinstance(topics, list):
-            city_agendas[city]["topic_counts"].update(topics)
-        else:
-            city_agendas[city]["topic_counts"].update([topics])
 
     cities_list = list(city_agendas.items())
     cities_to_load = dict(cities_list[start:start + count])
@@ -663,6 +621,57 @@ def register():
     if "username" in session or "email" in session:
         return redirect(url_for("index"))
     return render_template("register.html", title="Register for PolicyEdge")
+
+@app.route('/createAccount', methods=['POST'])
+def create_account():
+    username = request.form.get("username", "").strip()
+    email = request.form.get("email", "").strip().lower()
+    password1 = request.form.get("password1", "")
+    password2 = request.form.get("password2", "")
+
+    errors = validate_registration(
+        username,
+        email,
+        password1,
+        password2
+    )
+
+    if errors:
+        for error in errors:
+            flash(error)
+        return render_template("register.html", title="Register for PolicyEdge")
+
+    password_hash = bcrypt.hashpw(
+        password1.encode("utf-8"),
+        bcrypt.gensalt()
+    ).decode("utf-8")
+
+    user = User(
+        username=username,
+        email=email,
+        password_hash=password_hash,
+        stripe_customer_id=None,
+        stripe_subscription_id=None,
+        subscription_active=False,
+        issues=[],
+        agenda_unique_ids=[]
+    )
+
+    try:
+        db.session.add(user)
+        db.session.commit()
+    except Exception as error:
+        db.session.rollback()
+        app.logger.exception("Failed to create user: %s", error)
+        flash("Unable to create your account. Please try again.")
+        return render_template("register.html", title="Register for PolicyEdge")
+
+    session["username"] = user.username
+    session["email"] = user.email
+    session["subscribed"] = False
+
+    flash("Account created successfully.")
+    return redirect(url_for("trackedIssues"))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -729,8 +738,8 @@ def logout():
 @app.route('/subscription')
 def get_index():
     """Subscription management page"""
-    if "username" in session or "email" in session:
-        return render_template('subscription.html', title='Re-subscribe to PolicyEdge')
+    if "username" in session:
+        return render_template('subscription.html', title='Subscribe to PolicyEdge')
     else:
         return redirect(url_for("login"))
 
@@ -738,93 +747,51 @@ def get_index():
 # STRIPE PAYMENT ROUTES
 # =============================================================================
 
-@app.route(
-    '/create-checkout-session',
-    methods=['POST']
-)
+@app.route('/create-checkout-session', methods=['POST'])
 def route_create_checkout_session():
-    username = request.form.get(
-        "username",
-        ""
-    ).strip()
+    username = session.get("username")
 
-    email = request.form.get(
-        "email",
-        ""
-    ).strip().lower()
+    if not username:
+        flash("Please log in first.")
+        return redirect(url_for("login"))
 
-    password1 = request.form.get(
-        "password1",
-        ""
-    )
+    user = User.query.filter_by(username=username).first()
 
-    password2 = request.form.get(
-        "password2",
-        ""
-    )
-
-    errors = validate_registration(
-        username,
-        email,
-        password1,
-        password2
-    )
-
-    if errors:
-        for error in errors:
-            flash(error)
-
-        return render_template(
-            "register.html",
-            title="Register for PolicyEdge"
-        )
-
-    password_hash = bcrypt.hashpw(
-        password2.encode("utf-8"),
-        bcrypt.gensalt()
-    ).decode("utf-8")
-
-    user = User(
-        username=username,
-        email=email,
-        password_hash=password_hash,
-        stripe_customer_id=None,
-        stripe_subscription_id=None,
-        subscription_active=False,
-        issues=[],
-        agenda_unique_ids=[]
-    )
-
-    try:
-        db.session.add(user)
-        db.session.commit()
-
-    except Exception as error:
-        db.session.rollback()
-
-        app.logger.exception(
-            "Failed to create user: %s",
-            error
-        )
-
-        flash(
-            "Unable to create your account. "
-            "Please try again."
-        )
-
-        return render_template(
-            "register.html",
-            title="Register for PolicyEdge"
-        )
-
-    session["username"] = user.username
-    session["email"] = user.email
-    session["subscribed"] = False
+    if not user:
+        flash("User not found.")
+        return redirect(url_for("login"))
 
     return create_checkout_session(
         user.email,
-        your_domain=app.config["YOUR_DOMAIN"]
+        your_domain=app.config["YOUR_DOMAIN"],
+        existing_customer_id=user.stripe_customer_id
     )
+
+@app.route('/create-portal-session', methods=['POST'])
+def create_portal_session():
+    username = session.get("username")
+
+    if not username:
+        flash("Please log in first.")
+        return redirect(url_for("login"))
+
+    user = User.query.filter_by(username=username).first()
+
+    if not user:
+        flash("User not found.")
+        return redirect(url_for("login"))
+
+    if not user.stripe_customer_id:
+        flash("No billing account found yet.")
+        return redirect(url_for("subscription"))
+
+    portal_session = stripe.billing_portal.Session.create(
+        customer=user.stripe_customer_id,
+        return_url=url_for("index", _external=True)
+    )
+
+    return redirect(portal_session.url, code=303)
+
 
 @app.route('/webhook', methods=['POST'])
 def route_webhook():
@@ -833,85 +800,97 @@ def route_webhook():
 # =============================================================================
 # SEARCH AND AGENDA ROUTES
 # =============================================================================
-@app.route('/savedIssues', methods=['GET', 'POST'])
-def savedIssues():
-    """Manage user's saved search issues and show matching agendas"""
-    if "username" not in session:
+@app.route('/trackedIssues', methods=['GET', 'POST'])
+def trackedIssues():
+    username = session.get("username")
+    if not username:
         return redirect(url_for("login"))
-        
-    # Check if user has active subscription
-    user_subscribed = mongo.db.User.find_one({
-        'username': session['username'],
-        'subscriptionActive': True
-    })
-    
-    if not user_subscribed:
-        return render_template('noSubscription.html')
-    
+
+    current_user = User.query.filter_by(username=username).first()
+    if not current_user:
+        session.clear()
+        return redirect(url_for("login"))
+
     form = monitorListform()
-    user = session["username"]
-    
-    if request.method == 'GET':
-        # Get user's saved issues
-        user_data = mongo.db.User.find_one(
-            {'username': user}, 
-            {'_id': 0, 'issues': 1}
+    subscription_active = bool(current_user.subscription_active)
+    free_limit = 3
+    threshold_date = int((date.today() - timedelta(days=7)).strftime('%Y%m%d'))
+    issues_with_counts = []
+
+    for issue in current_user.issues or []:
+        searchWord = (issue.get('searchWord') or '').strip()
+        city = (issue.get('City') or '').strip()
+        committee = (issue.get('Committee') or '').strip()
+        county = (issue.get('County') or '').strip()
+
+        query = (
+            Agenda.query
+            .filter(Agenda.date >= threshold_date)
+            .filter(Agenda.description.isnot(None))
+            .filter(Agenda.description != "")
         )
-        issues_placeholder = user_data.get('issues', []) if user_data else []
 
-        user_agendas = get_user_saved_agendas(mongo, user)  # returns list
-        print(user_agendas)
-        # Organize by city like search.html
-        city_agendas_dict = {}
-        for agenda in user_agendas:
-            city = agenda.get('City', '')
-            if city not in city_agendas_dict:
-                city_agendas_dict[city] = {"agendas": []}
-            city_agendas_dict[city]["agendas"].append(agenda)
+        if searchWord:
+            query = query.filter(Agenda.description.ilike(f"%{searchWord}%"))
 
-        # Slice first 6 cities
-        initial_cities = dict(list(city_agendas_dict.items())[:6])
+        if committee:
+            query = query.filter(Agenda.meeting_type.ilike(f"%{committee}%"))
 
-        # Pass to template
-        return render_template(
-            'savedIssues.html',
-            issues_placeholders=issues_placeholder,
-            form=form,
-            city_agendas=initial_cities,  # 🔹 now a dict, not a list
-            title='Subscription List'
-        )
-    
-    elif request.method == 'POST':
-        # Handle add/delete operations for saved issues
+        if city:
+            query = query.filter(Agenda.city.ilike(f"%{city}%"))
+
+        if county:
+            query = query.filter(Agenda.county.ilike(f"%{county}%"))
+
+        item_count = query.count()
+
+        issue_copy = dict(issue)
+        issue_copy["item_count"] = item_count
+        issues_with_counts.append(issue_copy)
+    if request.method == 'POST':
         operation = request.form.get('action')
-        handle_issue_operation(mongo, user, request.form, operation)
-        
-        # Refresh the page with updated data
-        user_data = mongo.db.User.find_one(
-            {'username': user}, 
-            {'_id': 0, 'issues': 1}
-        )
-        issues_placeholder = user_data.get('issues', []) if user_data else []
-        
-        user_agendas = get_user_saved_agendas(mongo, user)  # returns list
 
-        city_agendas_dict = {}
-        for agenda in user_agendas:
-            city = agenda.get('City', '')
-            if city not in city_agendas_dict:
-                city_agendas_dict[city] = {"agendas": []}
-            city_agendas_dict[city]["agendas"].append(agenda)
+        if operation == 'Add' and not subscription_active and len(issues_placeholder) >= free_limit:
+            flash(f"Free accounts can follow up to {free_limit} topics. Upgrade to add more.")
+        else:
+            success = handle_issue_operation(
+                db,
+                User,
+                username,
+                request.form,
+                operation,
+                subscription_active=subscription_active,
+                free_limit=free_limit
+            )
 
-                    # Slice first 6 cities
-        initial_cities = dict(list(city_agendas_dict.items())[:6])
+            if not success:
+                flash("Unable to update your saved issues.")
 
-        return render_template(
-            'savedIssues.html',
-            issues_placeholders=issues_placeholder,
-            form=form,
-            city_agendas=initial_cities,
-            title='Subscription List'
-        )
+        return redirect(url_for("trackedIssues"))
+
+        db.session.refresh(current_user)
+        issues_placeholder = current_user.issues or []
+
+    user_agendas = get_user_saved_agendas(User, Agenda, username)
+
+    city_agendas_dict = {}
+    for agenda in user_agendas:
+        city = agenda.get("City", "")
+        if city not in city_agendas_dict:
+            city_agendas_dict[city] = {"agendas": []}
+        city_agendas_dict[city]["agendas"].append(agenda)
+
+    initial_cities = dict(list(city_agendas_dict.items())[:6])
+
+    return render_template(
+        'trackedIssues.html',
+        issues_placeholders=issues_with_counts,
+        form=form,
+        city_agendas=initial_cities,
+        title='Tracked Issues',
+        subscription_active=subscription_active,
+        free_limit=free_limit
+    )
 # -------------------------------
 # COUNTY ROUTES CONFIGURATION
 # -------------------------------
@@ -945,14 +924,8 @@ def render_county_agendas(county_key):
 
     for agenda in agenda_items:
         city = agenda.get("City", "")
-        topics = agenda.get("Topics", [])
-        if city not in city_agendas:
-            city_agendas[city] = {"agendas": [], "topic_counts": Counter()}
         city_agendas[city]["agendas"].append(agenda)
-        if isinstance(topics, list):
-            city_agendas[city]["topic_counts"].update(topics)
-        else:
-            city_agendas[city]["topic_counts"].update([topics])
+
     # Only show first 6 cities
     initial_cities = dict(list(city_agendas.items())[:6])
 
@@ -979,7 +952,7 @@ app.template_filter('aTime')(int2date)
 # =============================================================================
 # SCHEDULER CONFIGURATION
 # =============================================================================
-#scheduler = start_scheduler(mongo, mail)
+scheduler = start_scheduler(User, Agenda, db)
 # =============================================================================
 # STATIC PAGES AND COUNTY-SPECIFIC ROUTES
 # =============================================================================

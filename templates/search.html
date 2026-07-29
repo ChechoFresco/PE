@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block metadata %}
 <meta property="og:title" content="PolicyEdge Search City Council Agenda" />
 <meta property="og:description" content="PolicyEdge provides a searchable trove of city government agendas. Start looking at city council agendas today." />
@@ -15,7 +16,6 @@
 
 <script>
 $(document).ready(function () {
-    // Hide city section initially
     $('#cities-section').hide();
 
     $('#select').on('change', function () {
@@ -35,4 +35,5 @@ $(document).ready(function () {
     });
 });
 </script>
+
 {% endblock %}

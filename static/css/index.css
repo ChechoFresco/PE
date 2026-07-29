@@ -1,7 +1,7 @@
 /* ================================
    GLOBAL CONTAINERS
    ================================ */
-   .page-container {
+.page-container {
     max-width: 1200px;
     margin: auto;
 }
@@ -10,11 +10,11 @@
     padding: 1.5rem 0.5rem;
 }
 
-.section-block:nth-child(odd) {
+.section-block:nth-child(even) {
     background: white !important;
 }
 
-.section-block:nth-child(even) {
+.section-block:nth-child(odd) {
     /* Radial + linear gradients with blue accents */
     background: 
         radial-gradient(ellipse 80% 60% at 20% 40%, rgba(26, 50, 99, 0.2) 0%, transparent 70%),

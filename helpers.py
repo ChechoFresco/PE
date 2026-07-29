@@ -3,6 +3,7 @@ from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 from collections import Counter
 import logging
+from sqlalchemy import or_
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)  # or DEBUG
@@ -12,22 +13,26 @@ def get_date_threshold(weeks=-2):
     """Get date threshold in YYYYMMDD format for database queries"""
     return int((date.today() + relativedelta(weeks=weeks)).strftime('%Y%m%d'))
 
-def handle_issue_operation(mongo, user, form_data, operation):
+def handle_issue_operation(db, User, username, form_data, operation, subscription_active=False, free_limit=3):
     """Handle adding or removing issues from user's saved list"""
     primeKey = form_data.get('primary_search', '').strip()
     county = form_data.get('select', '')
+
     city_field_map = {
-        'LA County': 'selectLA', 'Orange County': 'selectOC', 
-        'Riverside County': 'selectRS', 'San Bernardino County': 'selectSB'
+        'LA County': 'selectLA',
+        'Orange County': 'selectOC',
+        'Riverside County': 'selectRS',
+        'San Bernardino County': 'selectSB',
+        'San Diego County': 'selectSD',
     }
-    
+
     city = form_data.get(city_field_map.get(county, ''), '')
     committee = form_data.get('selectLACM', '') or form_data.get('selectLBCM', '')
-    
-    # Handle LA/Long Beach committees specially
+
     if county in ['LA Committees', 'Long Beach Committees']:
+        original_county = county
         county = 'LA County'
-        city = 'Los Angeles' if 'LA Committees' in form_data else 'Long Beach'
+        city = 'Los Angeles' if original_county == 'LA Committees' else 'Long Beach'
         committee = form_data.get('selectLACM', '') or form_data.get('selectLBCM', '')
 
     issue_data = {
@@ -36,15 +41,50 @@ def handle_issue_operation(mongo, user, form_data, operation):
         "Committee": committee,
         "County": county,
     }
-    
-    # Use $push for Add, $pull for Delete
-    operation = '$push' if operation == 'Add' else '$pull'
-    mongo.db.User.update_one(
-        {'username': user},
-        {operation: {'issues': issue_data}}
-    )
 
-def get_user_saved_agendas(mongo, username, days_back=60, days_forward=30):
+    current_user = User.query.filter_by(username=username).first()
+    if not current_user:
+        return False
+
+    issues = current_user.issues or []
+
+    print("operation:", operation)
+    print("subscription_active:", subscription_active)
+    print("free_limit:", free_limit)
+    print("current issues count:", len(issues))
+    print("issue_data:", issue_data)
+    print("issues:", issues)
+
+    if operation == 'Add':
+        if issue_data in issues:
+            return True
+
+        if not subscription_active and len(issues) >= free_limit:
+            return False
+
+        issues.append(issue_data)
+        current_user.issues = issues
+        db.session.commit()
+        return True
+
+    elif operation == 'Delete':
+        updated_issues = [
+            issue for issue in issues
+            if not (
+                issue.get("searchWord") == issue_data["searchWord"]
+                and issue.get("City") == issue_data["City"]
+                and issue.get("Committee") == issue_data["Committee"]
+                and issue.get("County") == issue_data["County"]
+            )
+        ]
+        current_user.issues = updated_issues
+        db.session.commit()
+        return True
+
+    return False
+
+
+def get_user_saved_agendas(User, Agenda, username, days_back=7, days_forward=30):
     """Get agendas matching user's saved issues"""
     if not username:
         return []
@@ -55,22 +95,25 @@ def get_user_saved_agendas(mongo, username, days_back=60, days_forward=30):
 
     print(f"Searching agendas from {start_date} to {end_date} for user {username}")
 
-    user_data = mongo.db.User.find_one({'username': username}, {'_id': 0, 'issues': 1})
+    user_data = (
+        User.query
+        .filter_by(username=username)
+        .first()
+    )
 
-    if not user_data or not user_data.get('issues'):
+    if not user_data or not user_data.issues:
         print("No saved issues found")
         return []
 
     agendas = []
 
-    for issue in user_data['issues']:
+    for issue in user_data.issues:
         print("Checking issue:", issue)
-        
-        # Grab values from issue
-        searchWord = issue.get('searchWord', '').strip()
-        city = issue.get('City', '').strip()
-        committee = issue.get('Committee', '').strip()
-        county = issue.get('County', '').strip()
+
+        searchWord = (issue.get('searchWord') or '').strip()
+        city = (issue.get('City') or '').strip()
+        committee = (issue.get('Committee') or '').strip()
+        county = (issue.get('County') or '').strip()
 
         # If the saved issue was just a keyword search
         if county == 'Issue':
@@ -78,29 +121,40 @@ def get_user_saved_agendas(mongo, username, days_back=60, days_forward=30):
             city = ''
             committee = ''
 
-        # Build text search for Description
-        text_query = {}
+        query = (
+            Agenda.query
+            .filter(Agenda.date >= start_date)
+            .filter(Agenda.date <= end_date)
+            .filter(Agenda.description.isnot(None))
+            .filter(Agenda.description != "")
+        )
+
         if searchWord:
-            text_query = {'$text': {'$search': f'"{searchWord}"'}}
+            query = query.filter(Agenda.description.ilike(f"%{searchWord}%"))
 
-        # Build the MongoDB query
-        query = {
-            '$and': [
-                {"MeetingType": {'$regex': committee, '$options': 'i'}},
-                {"City": {'$regex': city, '$options': 'i'}},
-                {"County": {'$regex': county, '$options': 'i'}},
-                {"Date": {'$gte': start_date, '$lte': end_date}}
-            ]
-        }
+        if committee:
+            query = query.filter(Agenda.meeting_type.ilike(f"%{committee}%"))
 
-        if text_query:
-            query['$and'].append(text_query)
+        if city:
+            query = query.filter(Agenda.city.ilike(f"%{city}%"))
 
-        # Fetch results
-        results = mongo.db.Agenda.find(query).sort('Date', -1)
+        if county:
+            query = query.filter(Agenda.county.ilike(f"%{county}%"))
+
+        results = query.order_by(Agenda.date.desc()).all()
+
         for agenda in results:
-            print("Agenda:", agenda.get('Description', ''), agenda.get('Date', ''))
-            agendas.append(agenda)
+            agendas.append({
+                "id": agenda.id,
+                "County": agenda.county,
+                "City": agenda.city,
+                "Date": agenda.date,
+                "Num": agenda.num,
+                "MeetingType": agenda.meeting_type,
+                "ItemType": agenda.item_type,
+                "Description": agenda.description,
+                "Topics": []
+            })
 
     print(f"Total agendas found: {len(agendas)}")
     return agendas

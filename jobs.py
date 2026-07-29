@@ -1,8 +1,7 @@
 # jobs.py
 from datetime import date
-from collections import Counter
 from flask import current_app as app, render_template
-from flask_mail import Mail, Message
+from flask_mail import Message
 from apscheduler.schedulers.background import BackgroundScheduler
 import atexit
 import logging
@@ -12,89 +11,103 @@ logger = logging.getLogger(__name__)
 # -----------------------------
 # JOB FUNCTIONS
 # -----------------------------
-def check4Issues2email(mongo, mail):
-    """Background job to check for issues and send email notifications to users"""
+def check4Issues2email(User, Agenda, db):
+    """Background job to check for issues and send email notifications to users."""
     from flask import current_app
 
-    with current_app.app_context():  # <-- ensures Flask context is available
+    with current_app.app_context():
         today = int(date.today().strftime('%Y%m%d'))
-        
-        users = list(mongo.db.User.find({
-            'email': {'$exists': True, '$ne': ''},
-            'subscriptionActive': True
-        }))
+
+        users = (
+            User.query
+            .filter(User.email.isnot(None))
+            .filter(User.email != "")
+            .filter(User.subscription_active.is_(True))
+            .all()
+        )
+
         logger.info(f"Processing {len(users)} users for email notifications")
-        
+
         for user in users:
             try:
-                process_user_email_notifications(user, today, mongo, mail)
+                process_user_email_notifications(user, today, Agenda, db)
             except Exception as e:
-                logger.error(f"Error processing user {user.get('username')}: {e}")
+                logger.error(f"Error processing user {user.username}: {e}")
 
 
-def process_user_email_notifications(user, today, mongo, mail):
-    """Process and send email notifications for a single user"""
-    username = user.get('username')
-    email = user.get('email')
+def process_user_email_notifications(user, today, Agenda, db):
+    """Process and send email notifications for a single user."""
+    username = user.username
+    email = user.email
 
-    if not email or not user.get('subscriptionActive'):
+    if not email or not user.subscription_active:
         return
 
-    # Clean old agenda IDs
-    mongo.db.User.update_one(
-        {'username': username},
-        {'$pull': {'agendaUnique_id': {'Date': {'$lt': today}}}}
-    )
-
-    user_data = mongo.db.User.find_one(
-        {'username': username},
-        {'issues': 1, 'agendaUnique_id': 1, '_id': 0}
-    )
-
-    if not user_data or not user_data.get('issues'):
+    issues = user.issues or []
+    if not issues:
         return
 
-    issues = user_data['issues']
-    seen_agenda_ids = {agenda['_id'] for agenda in user_data.get('agendaUnique_id', [])}
+    seen_agenda_ids = set(user.agenda_unique_ids or [])
     agendas_by_search_term = {}
-    
+
     for issue in issues:
-        search_term = issue.get('searchWord', '')
+        search_term = (issue.get("searchWord") or "").strip()
         if not search_term:
             continue
 
-        query = {
-            '$and': [
-                {"MeetingType": {'$regex': issue.get('Committee', ''), '$options': 'i'}},
-                {"City": {'$regex': issue.get('City', ''), '$options': 'i'}},
-                {"County": {'$regex': issue.get('County', ''), '$options': 'i'}},
-                {'Description': {"$regex": search_term, '$options': 'i'}},
-                {'Date': {'$gte': today}}
-            ]
-        }
-        matching_agendas = list(mongo.db.Agenda.find(query))
+        city = (issue.get("City") or "").strip()
+        county = (issue.get("County") or "").strip()
+        committee = (issue.get("Committee") or "").strip()
+
+        query = Agenda.query.filter(
+            Agenda.date >= today,
+            Agenda.description.isnot(None),
+            Agenda.description != ""
+        )
+
+        if search_term:
+            query = query.filter(Agenda.description.ilike(f"%{search_term}%"))
+
+        if city:
+            query = query.filter(Agenda.city.ilike(f"%{city}%"))
+
+        if county:
+            query = query.filter(Agenda.county.ilike(f"%{county}%"))
+
+        if committee:
+            query = query.filter(Agenda.meeting_type.ilike(f"%{committee}%"))
+
+        matching_agendas = query.all()
 
         for agenda in matching_agendas:
-            if agenda['_id'] not in seen_agenda_ids:
-                agenda_data = dict(agenda)
-                agenda_data['searchWord'] = search_term
-                agenda_data['matchedSearchTerm'] = search_term
-                agendas_by_search_term.setdefault(search_term, []).append(agenda_data)
+            if agenda.id in seen_agenda_ids:
+                continue
 
-                mongo.db.User.update_one(
-                    {'username': username},
-                    {'$addToSet': {'agendaUnique_id': {
-                        '_id': agenda['_id'],
-                        'Date': agenda['Date']
-                    }}}
-                )
+            agenda_data = {
+                "id": agenda.id,
+                "County": agenda.county,
+                "City": agenda.city,
+                "Date": agenda.date,
+                "Num": agenda.num,
+                "MeetingType": agenda.meeting_type,
+                "ItemType": agenda.item_type,
+                "Description": agenda.description,
+                "searchWord": search_term,
+                "matchedSearchTerm": search_term
+            }
+
+            agendas_by_search_term.setdefault(search_term, []).append(agenda_data)
+
+            seen_agenda_ids.add(agenda.id)
+            user.agenda_unique_ids = list(seen_agenda_ids)
+            db.session.commit()
 
     if agendas_by_search_term:
-        send_agenda_email(username, email, agendas_by_search_term, mail)
+        send_agenda_email(username, email, agendas_by_search_term)
 
 
-def send_agenda_email(username, email, agendas_by_search_term, mail):
-    """Send email notification about new matching agendas"""
+def send_agenda_email(username, email, agendas_by_search_term):
+    """Send email notification about new matching agendas."""
     try:
         total_agendas = sum(len(a) for a in agendas_by_search_term.values())
         subject = f'You have {total_agendas} new agenda items from Policy Edge'
@@ -109,7 +122,7 @@ def send_agenda_email(username, email, agendas_by_search_term, mail):
             total_agendas=total_agendas
         )
 
-        with app.open_resource('/app/static/logo.png') as fp:
+        with app.open_resource('static/logo.png') as fp:
             msg.attach(
                 filename="logo.png",
                 content_type="image/png",
@@ -118,6 +131,7 @@ def send_agenda_email(username, email, agendas_by_search_term, mail):
                 headers={"Content-ID": "<logo_png>"}
             )
 
+        from PolicyEdge import mail
         mail.send(msg)
         logger.info(f"✓ Email successfully sent to {username}")
 
@@ -130,10 +144,10 @@ def send_agenda_email(username, email, agendas_by_search_term, mail):
 # -----------------------------
 scheduler = BackgroundScheduler(timezone='UTC')
 
-def start_scheduler(mongo, mail):
-    """Start background jobs for PolicyEdge"""
+def start_scheduler(User, Agenda, db):
+    """Start background jobs for PolicyEdge."""
     scheduler.add_job(
-        func=lambda: check4Issues2email(mongo, mail),
+        func=lambda: check4Issues2email(User, Agenda, db),
         trigger='interval',
         minutes=60,
         id='check4Issues2email'
@@ -145,7 +159,7 @@ def start_scheduler(mongo, mail):
     return scheduler
 
 def shutdown_scheduler():
-    """Gracefully shutdown the scheduler when app exits"""
+    """Gracefully shutdown the scheduler when app exits."""
     if scheduler.running:
         scheduler.shutdown()
         logger.info("Scheduler shut down successfully")

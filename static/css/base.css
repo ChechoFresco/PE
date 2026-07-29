@@ -5,21 +5,22 @@
 :root {
   --white: #e8e8e8;
   --gray: #929292e8;
-  --blue: #3056b6bf;
-  --blueTrans: #2b42e975;
+  --blue: #5e7cff;
+  --blueTrans: #5e7cff;
   --green: #8cb630;
 
 }
 
-html {
-  height: 100%;
+html, body {
+  min-height: 100%;
 }
 
 body {
   min-height: 100vh;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: white;
   overflow-x: hidden;
-  background-color: white;
 }
 
 .section-block{

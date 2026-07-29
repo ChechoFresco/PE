@@ -1,19 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/savedIssues.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/trackedIssues.css') }}">
 
 <div class="container py-5">
 
     <!-- Form Card -->
     <div class="search-container">
         <form method="post" class="search-form">
-            <!-- Criteria Select -->
             <div class="form-group">
                 {{ form.select.label }}
                 {{ form.select(class="form-control", id="select") }}
             </div>
-
-            <!-- Cities Section -->
+        
             <div id="cities-section" class="form-group" style="display: none;">
                 {{ form.selectLA.label }}
                 {{ form.selectLA(class="form-control city-field", id="LA") }}
@@ -24,15 +22,21 @@
                 {{ form.selectLACM(class="form-control city-field", id="LACM") }}
                 {{ form.selectLBCM(class="form-control city-field", id="LBCM") }}
             </div>
-
-            <!-- Keyword Input -->
+        
             <div class="form-group">
                 {{ form.primary_search.label }}
                 {{ form.primary_search(class="form-control", placeholder="Enter keyword") }}
             </div>
-
-            <button type="submit" name="action" value="Add" class="btn btn-primary">Add</button>
-            <button type="submit" name="action" value="Delete" class="btn btn-danger">Delete</button>
+        
+            <div class="form-actions">
+                {% if not subscription_active and issues_placeholders|length >= free_limit %}
+                    <button type="submit" name="action" value="Add" class="btn btn-primary" disabled>Add</button>
+                {% else %}
+                    <button type="submit" name="action" value="Add" class="btn btn-primary">Add</button>
+                {% endif %}
+            
+                <button type="submit" name="action" value="Delete" class="btn btn-danger">Delete</button>
+            </div>
         </form>
     </div>
 
@@ -57,40 +61,43 @@
     });
 </script>
 
-    <!-- Saved Issues Display -->
-    <div class="saved-issues-container mb-4">
-        <h4>Tracked Issues</h4>
-        <small class="text" style ="color: white;">You’ll be notified when these appear in agendas</small>
-        <div class="row g-2">
-            {% for x in issues_placeholders %}
-            <div class="col-6 col-md-3 col-lg-2">
-                <div class="issue-card p-1">
-                    <div class="issue-info mb-1">
-                        <p class="mb-1"><strong>Issue:</strong> {{ x['searchWord'] }}</p>
-                        {% if x['City'] %}
-                        <p class="mb-1"><strong>City:</strong> {{ x['City'] }}</p>
-                        {% endif %}
-                        {% if x['Committee'] %}
-                        <p class="mb-1"><strong>Committee:</strong> {{ x['Committee'] }}</p>
-                        {% endif %}
-                        {% if x['County'] %}
-                        <p class="mb-0"><strong>County:</strong> {{ x['County'] }}</p>
-                        {% endif %}
-                    </div>
-                    <form method="post" class="text-end">
-                        <input type="hidden" name="primary_search" value="{{ x['searchWord'] }}">
-                        <input type="hidden" name="select" value="{{ x['County'] }}">
-                        <input type="hidden" name="selectLA" value="{{ x['City'] }}">
-                        <input type="hidden" name="selectLACM" value="{{ x['Committee'] }}">
-                        <button type="submit" name="action" value="Delete" class="btn btn-outline-danger btn-sm py-0 px-1" style="font-size: 0.65rem; line-height: 1;">
-                            Delete
-                        </button>
-                    </form>
+<!-- Saved Issues Display -->
+<div class="row g-2">
+    {% for x in issues_placeholders %}
+    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
+        <div class="issue-card-modern">
+            <a href="{{ url_for('results', primary_search=x['searchWord'], city=x['City'], county=x['County'], committee=x['Committee']) }}" class="issue-card-link">
+                <div class="issue-top">
+                    <span class="issue-badge">{{ x['searchWord'] }}</span>
+                    <span class="issue-count">{{ x['item_count'] }} items</span>
                 </div>
-            </div>
-            {% endfor %}
+
+                <div class="issue-meta">
+                    {% if x['City'] %}
+                        <span>{{ x['City'] }}</span>
+                    {% endif %}
+                    {% if x['Committee'] %}
+                        <span>{{ x['Committee'] }}</span>
+                    {% endif %}
+                    {% if x['County'] %}
+                        <span>{{ x['County'] }}</span>
+                    {% endif %}
+                </div>
+            </a>
+
+            <form method="post" class="mt-2 text-end">
+                <input type="hidden" name="primary_search" value="{{ x['searchWord'] }}">
+                <input type="hidden" name="select" value="{{ x['County'] }}">
+                <input type="hidden" name="selectLA" value="{{ x['City'] }}">
+                <input type="hidden" name="selectLACM" value="{{ x['Committee'] }}">
+                <button type="submit" name="action" value="Delete" class="btn-delete-link">
+                    Delete
+                </button>
+            </form>
         </div>
     </div>
+    {% endfor %}
+</div>
 
     <!-- Agendas Table -->
     <!-- ===== TABLE CONTAINER ===== -->

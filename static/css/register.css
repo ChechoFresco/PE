@@ -1,20 +1,57 @@
+body {
+    background:
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(26, 50, 99, 0.2) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(74, 158, 202, 0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 50% 80%, rgba(232, 152, 94, 0.1) 0%, transparent 70%),
+    linear-gradient(180deg, #fafbfc 0%, #f0f7f4 100%),
+    linear-gradient(rgba(0,0,0,0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.10) 1px, transparent 1px);
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.register-page {
+    min-height: calc(100vh - 90px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.register-card {
+    width: 100%;
+    max-width: 720px;
+    padding: 2rem;
+}
+
 .frost {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-radius: 3rem;
-    padding: 2rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-#textDiv h1 {
-    font-size: 3rem;
-    text-shadow: 2px 3px 6px #ffffff30;
+.register-title {
+    font-size: 2.2rem;
+    color: white;
+    text-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25);
+    margin-bottom: 0.75rem;
 }
 
-#textDiv p {
+.register-subtitle {
+    color: var(--black);
+    margin-bottom: 1.5rem;
     font-size: 1rem;
+    line-height: 1.6;
+}
+
+label {
+    color: var(--black);
+}
+
+.form-control {
+    border-radius: 1rem;
+    min-height: 3rem;
 }
 
 .btn-primary {
@@ -22,8 +59,10 @@
     color: black;
     border-radius: 1.3rem;
     min-height: 3.5rem;
+    border: none;
 }
-label {
-    color: white;
 
+.btn-primary:hover {
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
 }

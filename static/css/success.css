@@ -1,0 +1,110 @@
+.success-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 3rem 1rem;
+}
+
+.success-card {
+    width: 100%;
+    max-width: 720px;
+    padding: 2rem;
+    border-radius: 2rem;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(48, 86, 182, 0.22), transparent 40%),
+        radial-gradient(circle at 80% 25%, rgba(140, 182, 48, 0.16), transparent 42%),
+        linear-gradient(135deg, #f3f6ff 0%, #dce7ff 52%, #edf5dc 100%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+    text-align: center;
+    color: #16306a;
+}
+
+.success-icon {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 1rem;
+    border-radius: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-icon img {
+    width: 56px;
+    height: 120px;
+    object-fit: contain;
+}
+
+.success-badge {
+    display: inline-block;
+    margin-bottom: 0.85rem;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(48, 86, 182, 0.18);
+    color: #16306a;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.success-card h1 {
+    margin: 0 0 0.85rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #16306a;
+}
+
+.success-card p {
+    max-width: 42rem;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #35508f;
+}
+
+.success-actions {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    align-items: center;
+}
+
+#checkout-and-portal-button {
+    width: 100%;
+    max-width: 320px;
+    height: 3.4rem;
+    border: 0;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, #5e7cff, #2e6da4);
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(94, 124, 255, 0.35);
+}
+
+#checkout-and-portal-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(94, 124, 255, 0.45);
+}
+
+.back-link {
+    color: #2e6da4;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .success-card {
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+    }
+}

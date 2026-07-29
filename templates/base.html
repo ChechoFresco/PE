@@ -24,23 +24,23 @@
 
 <!-- Icons -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-	
+
 <!-- Hamburger -->
 	<script>
 	document.addEventListener("DOMContentLoaded", function () {
-		  const menuButton = document.querySelector(".js-menu-button");
-		  const topnav = document.getElementById("myTopnav");
-		  const icon = document.getElementById("expe");
-		
-		  menuButton.addEventListener("click", function (e) {
-		    e.preventDefault();
-		
+		const menuButton = document.querySelector(".js-menu-button");
+		const topnav = document.getElementById("myTopnav");
+		const icon = document.getElementById("expe");
+
+		menuButton.addEventListener("click", function (e) {
+			e.preventDefault();
+
 		    // Toggle nav
-		    topnav.classList.toggle("responsive");
-		
-		    // Toggle icon animation
-		    icon.classList.toggle("open");
-		  });
+			topnav.classList.toggle("responsive");
+
+			// Toggle icon animation
+			icon.classList.toggle("open");
+		});
 		});
 	</script>
 
@@ -103,8 +103,17 @@
 				<!-- NAV LINKS -->
 				<div class="topnav-links">
 					<a href="/search">Search</a>
-					<a href="/savedIssues">Notification</a>
-					<a href="/login" id="login">Login</a>
+					<a href="/trackedIssues">Tracked Issues</a>
+				
+					{% if session.get("username") and not session.get("subscribed") %}
+						<a href="{{ url_for('get_index') }}" id="subscribe">Subscribe</a>
+					{% endif %}
+				
+					{% if session.get("username") %}
+						<a href="/logout" id="logout">Logout</a>
+					{% else %}
+						<a href="/login" id="login">Login</a>
+					{% endif %}
 				</div>
 			
 				<!-- HAMBURGER -->

@@ -8,7 +8,7 @@
 }
 
 .cityCaption {
-  background-color: #2b42e975;
+  background-color: var(--blue);
   color: white !important;
   border: 1px solid black;
   border-radius: 7px;
@@ -21,7 +21,7 @@
 }
 
 .cityCaption:hover {
-background-color: #15305f;      /* darker blue on hover */
+background-color: var(--blue);      /* darker blue on hover */
 color: #fff;
 transform: scale(1.05);         /* subtle pop */
 }
