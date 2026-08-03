@@ -15,8 +15,12 @@ def get_date_threshold(weeks=-2):
 
 def handle_issue_operation(db, User, username, form_data, operation, subscription_active=False, free_limit=3):
     """Handle adding or removing issues from user's saved list"""
-    primeKey = form_data.get('primary_search', '').strip()
-    county = form_data.get('select', '')
+
+    def clean(value):
+        return (value or "").strip()
+
+    primeKey = clean(form_data.get('primary_search'))
+    county = clean(form_data.get('select'))
 
     city_field_map = {
         'LA County': 'selectLA',
@@ -26,14 +30,14 @@ def handle_issue_operation(db, User, username, form_data, operation, subscriptio
         'San Diego County': 'selectSD',
     }
 
-    city = form_data.get(city_field_map.get(county, ''), '')
-    committee = form_data.get('selectLACM', '') or form_data.get('selectLBCM', '')
+    city = clean(form_data.get(city_field_map.get(county, '')))
+    committee = clean(form_data.get('selectLACM')) or clean(form_data.get('selectLBCM'))
 
     if county in ['LA Committees', 'Long Beach Committees']:
         original_county = county
         county = 'LA County'
         city = 'Los Angeles' if original_county == 'LA Committees' else 'Long Beach'
-        committee = form_data.get('selectLACM', '') or form_data.get('selectLBCM', '')
+        committee = clean(form_data.get('selectLACM')) or clean(form_data.get('selectLBCM'))
 
     issue_data = {
         "searchWord": primeKey,
@@ -68,15 +72,18 @@ def handle_issue_operation(db, User, username, form_data, operation, subscriptio
         return True
 
     elif operation == 'Delete':
-        updated_issues = [
-            issue for issue in issues
-            if not (
-                issue.get("searchWord") == issue_data["searchWord"]
-                and issue.get("City") == issue_data["City"]
-                and issue.get("Committee") == issue_data["Committee"]
-                and issue.get("County") == issue_data["County"]
-            )
-        ]
+        updated_issues = []
+        for issue in issues:
+            saved_issue = {
+                "searchWord": clean(issue.get("searchWord")),
+                "City": clean(issue.get("City")),
+                "Committee": clean(issue.get("Committee")),
+                "County": clean(issue.get("County")),
+            }
+
+            if saved_issue != issue_data:
+                updated_issues.append(issue)
+
         current_user.issues = updated_issues
         db.session.commit()
         return True

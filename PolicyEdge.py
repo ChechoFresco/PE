@@ -149,7 +149,6 @@ class User(db.Model):
 
 # Must be below the User class
 stripe_init(db, User)
-
 # -------------------------------
 # HELPER: GET COUNTY AGENDAS
 # -------------------------------
@@ -248,13 +247,6 @@ CITIES = {
 # Combined list of all cities for dropdowns
 ALL_CITIES = [city for county_cities in CITIES.values() for city in county_cities]
 
-@app.route("/pg-test")
-def pg_test():
-    count = db.session.execute(
-        db.text('SELECT COUNT(*) FROM "Agendas"')
-    ).scalar()
-
-    return f"Postgres connected. Agendas: {count}"
 # =============================================================================
 # Stop bots
 # =============================================================================
@@ -286,35 +278,29 @@ def httpsroute():
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     form = chartForm()
-    date_threshold = get_date_threshold(weeks=-1)
+
+    table_start = int((date.today() - timedelta(days=7)).strftime("%Y%m%d"))
+    table_end = int((date.today() + timedelta(days=7)).strftime("%Y%m%d"))
 
     if request.method == 'POST' and request.form.get('chartSearch'):
         search_term = request.form['chartSearch'].strip()
-        chosen = f'"{search_term}"'
-        search_clean = search_term
+        chosen = search_term
     else:
         chosen = 'cannabis'
-        search_clean = 'cannabis'
 
-    query = (
+    # TABLES: no chosen word, just date window
+    table_query = (
         Agenda.query
         .filter(Agenda.meeting_type.ilike("%City Council%"))
-        .filter(Agenda.date >= date_threshold)
+        .filter(Agenda.date >= table_start)
+        .filter(Agenda.date <= table_end)
         .filter(Agenda.description.isnot(None))
         .filter(Agenda.description != "")
+        .filter(~Agenda.description.ilike("%minute%"))
+        .filter(~Agenda.description.ilike("%warrant%"))
     )
 
-    if request.method == 'POST' and request.form.get('chartSearch'):
-        query = query.filter(
-            Agenda.description.ilike(f"%{search_clean}%")
-        )
-    else:
-        query = query.filter(
-            ~Agenda.description.ilike("%minute%"),
-            ~Agenda.description.ilike("%warrant%")
-        )
-
-    results = query.order_by(Agenda.date.desc()).all()
+    table_results = table_query.order_by(Agenda.date.desc()).all()
 
     agenda_items = [
         {
@@ -326,54 +312,76 @@ def index():
             "ItemType": item.item_type,
             "Description": item.description,
         }
-        for item in results
+        for item in table_results
     ]
 
-    cities_matched = []
     city_agendas = {}
-    folium_agendas = {}
-
     for agenda in agenda_items:
         city = agenda.get('City', '')
-        description = agenda.get('Description', '')
-
         if city not in city_agendas:
-            city_agendas[city] = {
-                "agendas": [],
-            }
-
+            city_agendas[city] = {"agendas": []}
         city_agendas[city]["agendas"].append(agenda)
 
-        if search_clean.lower() in description.lower():
-            if city not in folium_agendas:
-                folium_agendas[city] = {
-                    "agendas": [],
-                }
+    initial_cities = dict(list(city_agendas.items())[:6])
+    # MAP: chosen word only
+    map_query = (
+        Agenda.query
+        .filter(Agenda.meeting_type.ilike("%City Council%"))
+        .filter(Agenda.date >= table_start)
+        .filter(Agenda.date <= table_end)
+        .filter(Agenda.description.isnot(None))
+        .filter(Agenda.description != "")
+    )
 
-            folium_agendas[city]["agendas"].append(agenda)
+    if request.method == 'POST' and request.form.get('chartSearch'):
+        search_term = request.form['chartSearch'].strip()
+        chosen = search_term
+    else:
+        chosen = 'cannabis'
 
+    map_query = (
+        Agenda.query
+        .filter(Agenda.meeting_type.ilike("%City Council%"))
+        .filter(Agenda.date >= table_start)
+        .filter(Agenda.date <= table_end)
+        .filter(Agenda.description.isnot(None))
+        .filter(Agenda.description != "")
+        .filter(Agenda.description.ilike(f"%{chosen}%"))
+        .filter(~Agenda.description.ilike("%minute%"))
+        .filter(~Agenda.description.ilike("%warrant%"))
+    )
+
+    map_results = map_query.order_by(Agenda.date.desc()).all()
+
+    folium_agendas = {}
+    cities_matched = []
+
+    for item in map_results:
+        city = item.city
+        if not city:
+            continue
+
+        if city not in folium_agendas:
+            folium_agendas[city] = {"agendas": []}
+
+        folium_agendas[city]["agendas"].append({
+            "County": item.county,
+            "City": item.city,
+            "Date": item.date,
+            "Num": item.num,
+            "MeetingType": item.meeting_type,
+            "ItemType": item.item_type,
+            "Description": item.description,
+        })
+
+        if chosen.lower() in (item.description or "").lower():
             cities_matched.append(city)
 
-    initial_cities = dict(list(city_agendas.items())[:6])
-
     city_issue_counts = Counter(cities_matched)
+    geo_info = fetch_geo_info(db, GeoLocation, city_issue_counts)
+    folium_map = create_folium_map(geo_info, folium_agendas)
 
-    geo_info = fetch_geo_info(
-        db,
-        GeoLocation,
-        city_issue_counts
-    )
-
-    folium_map = create_folium_map(
-        geo_info,
-        folium_agendas
-    )
-
-    num_agenda_items = sum(
-        len(data["agendas"])
-        for data in folium_agendas.values()
-    )
-
+    num_agenda_items = sum(len(data["agendas"]) for data in folium_agendas.values())
     num_cities = len(set(cities_matched))
 
     return render_template(
@@ -405,18 +413,12 @@ def results():
     primeKey = (data.get('primary_search') or '').strip()
     start_date = form.startdate_field.data
     end_date = form.enddate_field.data
+
+    start = int(start_date.strftime("%Y%m%d")) if start_date else get_date_threshold(weeks=-52)
+    end = int(end_date.strftime("%Y%m%d")) if end_date else int(date.today().strftime("%Y%m%d"))
     criteria = form.select.data
 
     # Agenda.date is stored as an integer in YYYYMMDD format
-    if start_date:
-        start = int(start_date.strftime("%Y%m%d"))
-    else:
-        start = int((date.today() - timedelta(days=5)).strftime("%Y%m%d"))
-
-    if end_date:
-        end = int(end_date.strftime("%Y%m%d"))
-    else:
-        end = int(date.today().strftime("%Y%m%d"))
 
     query = (
         Agenda.query
@@ -542,7 +544,7 @@ def results():
         primeKey=primeKey,
         city_issue_counts=city_issue_counts,
         city_agendas=initial_cities,
-        form=form,
+        form=searchForm(),
         agendas=agenda_list,
         title="PolicyEdge Search Results"
     )
@@ -550,6 +552,177 @@ def results():
 # ---------------------------
 # Load more cities via AJAX
 # ---------------------------
+@app.route('/load_more_cities_index')
+def load_more_cities_index():
+    start = int(request.args.get('start', 0))
+    count = int(request.args.get('count', 6))
+
+    table_start = int((date.today() - timedelta(days=7)).strftime("%Y%m%d"))
+    table_end = int((date.today() + timedelta(days=7)).strftime("%Y%m%d"))
+
+    city_agendas = {}
+
+    rows = (
+        Agenda.query
+        .filter(Agenda.meeting_type.ilike("%City Council%"))
+        .filter(Agenda.date >= table_start)
+        .filter(Agenda.date <= table_end)
+        .filter(Agenda.description.isnot(None))
+        .filter(Agenda.description != "")
+        .filter(~Agenda.description.ilike("%minute%"))
+        .filter(~Agenda.description.ilike("%warrant%"))
+        .order_by(Agenda.date.desc())
+        .all()
+    )
+
+    agenda_list = [
+        {
+            "County": item.county,
+            "City": item.city,
+            "Date": item.date,
+            "Num": item.num,
+            "MeetingType": item.meeting_type,
+            "ItemType": item.item_type,
+            "Description": item.description,
+        }
+        for item in rows
+    ]
+
+    for agenda in agenda_list:
+        city = agenda.get('City', '')
+
+        if not city:
+            continue
+
+        if city not in city_agendas:
+            city_agendas[city] = {
+                "agendas": [],
+            }
+
+        city_agendas[city]["agendas"].append(agenda)
+
+    cities_list = list(city_agendas.items())
+    cities_to_load = dict(cities_list[start:start + count])
+
+    rendered = ""
+    for city, data in cities_to_load.items():
+        rendered += render_template(
+            'partials/city_table_wrapper.html',
+            _city=city,
+            _data=data
+        )
+
+    return rendered
+
+@app.route('/load_more_cities_results')
+def load_more_cities_results():
+    start = int(request.args.get('start', 0))
+    count = int(request.args.get('count', 6))
+
+    primeKey = (request.args.get('primary_search') or '').strip()
+    criteria = (request.args.get('select') or '').strip()
+    selectLA = (request.args.get('selectLA') or '').strip()
+    selectOC = (request.args.get('selectOC') or '').strip()
+    selectRS = (request.args.get('selectRS') or '').strip()
+    selectSB = (request.args.get('selectSB') or '').strip()
+    selectSD = (request.args.get('selectSD') or '').strip()
+    selectLACM = (request.args.get('selectLACM') or '').strip()
+    selectLBCM = (request.args.get('selectLBCM') or '').strip()
+
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+
+    if start_date:
+        start_date = int(start_date)
+    else:
+        start_date = get_date_threshold(weeks=-52)
+
+    if end_date:
+        end_date = int(end_date)
+    else:
+        end_date = int(date.today().strftime("%Y%m%d"))
+
+    query = (
+        Agenda.query
+        .filter(Agenda.date >= start_date)
+        .filter(Agenda.date <= end_date)
+        .filter(Agenda.description.isnot(None))
+        .filter(Agenda.description != "")
+    )
+
+    if primeKey:
+        query = query.filter(Agenda.description.ilike(f"%{primeKey}%"))
+
+    county_names = [
+        'LA County',
+        'Orange County',
+        'Riverside County',
+        'San Diego County',
+        'San Bernardino County'
+    ]
+
+    if criteria in county_names:
+        query = query.filter(Agenda.county.ilike(f"%{criteria}%"))
+
+        city_field_map = {
+            'LA County': selectLA,
+            'Orange County': selectOC,
+            'Riverside County': selectRS,
+            'San Bernardino County': selectSB,
+            'San Diego County': selectSD
+        }
+
+        selected_city = city_field_map.get(criteria)
+        if selected_city:
+            query = query.filter(Agenda.city.ilike(f"%{selected_city}%"))
+
+    elif criteria in ['LA Committees', 'Long Beach Committees']:
+        query = query.filter(Agenda.county.ilike("%LA County%"))
+
+        selected_committee = selectLACM if criteria == 'LA Committees' else selectLBCM
+        if selected_committee:
+            query = query.filter(Agenda.meeting_type.ilike(f"%{selected_committee}%"))
+
+    rows = query.order_by(Agenda.date.desc()).all()
+
+    agenda_list = [
+        {
+            "County": item.county,
+            "City": item.city,
+            "Date": item.date,
+            "Num": item.num,
+            "MeetingType": item.meeting_type,
+            "ItemType": item.item_type,
+            "Description": item.description,
+        }
+        for item in rows
+    ]
+
+    city_agendas = {}
+
+    for agenda in agenda_list:
+        city = agenda.get('City', '')
+        if not city:
+            continue
+
+        if city not in city_agendas:
+            city_agendas[city] = {"agendas": []}
+
+        city_agendas[city]["agendas"].append(agenda)
+
+    cities_list = list(city_agendas.items())
+    cities_to_load = dict(cities_list[start:start + count])
+
+    rendered = ""
+    for city, data in cities_to_load.items():
+        rendered += render_template(
+            'partials/city_table_wrapper.html',
+            _city=city,
+            _data=data
+        )
+
+    return rendered
+
 @app.route('/load_more_cities')
 def load_more_cities():
     start = int(request.args.get('start', 0))
@@ -850,7 +1023,7 @@ def trackedIssues():
     if request.method == 'POST':
         operation = request.form.get('action')
 
-        if operation == 'Add' and not subscription_active and len(issues_placeholder) >= free_limit:
+        if operation == 'Add' and not subscription_active and len(current_user.issues or []) >= free_limit:
             flash(f"Free accounts can follow up to {free_limit} topics. Upgrade to add more.")
         else:
             success = handle_issue_operation(
@@ -952,7 +1125,7 @@ app.template_filter('aTime')(int2date)
 # =============================================================================
 # SCHEDULER CONFIGURATION
 # =============================================================================
-scheduler = start_scheduler(User, Agenda, db)
+scheduler = start_scheduler(app, User, Agenda, db)
 # =============================================================================
 # STATIC PAGES AND COUNTY-SPECIFIC ROUTES
 # =============================================================================

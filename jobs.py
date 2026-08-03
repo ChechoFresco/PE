@@ -1,6 +1,6 @@
 # jobs.py
 from datetime import date
-from flask import current_app as app, render_template
+from flask import render_template
 from flask_mail import Message
 from apscheduler.schedulers.background import BackgroundScheduler
 import atexit
@@ -8,15 +8,16 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+scheduler = BackgroundScheduler(timezone="UTC")
+
+
 # -----------------------------
 # JOB FUNCTIONS
 # -----------------------------
-def check4Issues2email(User, Agenda, db):
+def check4Issues2email(app, User, Agenda, db):
     """Background job to check for issues and send email notifications to users."""
-    from flask import current_app
-
-    with current_app.app_context():
-        today = int(date.today().strftime('%Y%m%d'))
+    with app.app_context():
+        today = int(date.today().strftime("%Y%m%d"))
 
         users = (
             User.query
@@ -30,12 +31,12 @@ def check4Issues2email(User, Agenda, db):
 
         for user in users:
             try:
-                process_user_email_notifications(user, today, Agenda, db)
+                process_user_email_notifications(app, user, today, Agenda, db)
             except Exception as e:
                 logger.error(f"Error processing user {user.username}: {e}")
 
 
-def process_user_email_notifications(user, today, Agenda, db):
+def process_user_email_notifications(app, user, today, Agenda, db):
     """Process and send email notifications for a single user."""
     username = user.username
     email = user.email
@@ -65,8 +66,7 @@ def process_user_email_notifications(user, today, Agenda, db):
             Agenda.description != ""
         )
 
-        if search_term:
-            query = query.filter(Agenda.description.ilike(f"%{search_term}%"))
+        query = query.filter(Agenda.description.ilike(f"%{search_term}%"))
 
         if city:
             query = query.filter(Agenda.city.ilike(f"%{city}%"))
@@ -99,40 +99,41 @@ def process_user_email_notifications(user, today, Agenda, db):
             agendas_by_search_term.setdefault(search_term, []).append(agenda_data)
 
             seen_agenda_ids.add(agenda.id)
+
+        if agendas_by_search_term:
             user.agenda_unique_ids = list(seen_agenda_ids)
             db.session.commit()
 
     if agendas_by_search_term:
-        send_agenda_email(username, email, agendas_by_search_term)
+        send_agenda_email(app, username, email, agendas_by_search_term)
 
 
-def send_agenda_email(username, email, agendas_by_search_term):
+def send_agenda_email(app, username, email, agendas_by_search_term):
     """Send email notification about new matching agendas."""
     try:
         total_agendas = sum(len(a) for a in agendas_by_search_term.values())
-        subject = f'You have {total_agendas} new agenda items from Policy Edge'
-        msg = Message(subject, sender='AgendaPreciado@gmail.com', recipients=[email])
+        subject = f"You have {total_agendas} new agenda items from Policy Edge"
+        msg = Message(subject, sender="AgendaPreciado@gmail.com", recipients=[email])
 
         logger.info(f"Sending email to {username} ({total_agendas} items)")
 
         msg.html = render_template(
-            'schedEmail.html',
+            "schedEmail.html",
             username=username,
             agendas_by_search_term=agendas_by_search_term,
             total_agendas=total_agendas
         )
 
-        with app.open_resource('static/logo.png') as fp:
+        with app.open_resource("static/logo.png") as fp:
             msg.attach(
                 filename="logo.png",
                 content_type="image/png",
-                data=fp.read(),
-                disposition="inline",
-                headers={"Content-ID": "<logo_png>"}
+                data=fp.read()
             )
 
         from PolicyEdge import mail
         mail.send(msg)
+
         logger.info(f"✓ Email successfully sent to {username}")
 
     except Exception as e:
@@ -142,21 +143,21 @@ def send_agenda_email(username, email, agendas_by_search_term):
 # -----------------------------
 # SCHEDULER SETUP
 # -----------------------------
-scheduler = BackgroundScheduler(timezone='UTC')
-
-def start_scheduler(User, Agenda, db):
+def start_scheduler(app, User, Agenda, db):
     """Start background jobs for PolicyEdge."""
     scheduler.add_job(
-        func=lambda: check4Issues2email(User, Agenda, db),
-        trigger='interval',
+        func=lambda: check4Issues2email(app, User, Agenda, db),
+        trigger="interval",
         minutes=60,
-        id='check4Issues2email'
+        id="check4Issues2email",
+        replace_existing=True
     )
     scheduler.start()
     logger.info("Background scheduler started with jobs")
 
     atexit.register(shutdown_scheduler)
     return scheduler
+
 
 def shutdown_scheduler():
     """Gracefully shutdown the scheduler when app exits."""
