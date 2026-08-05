@@ -908,16 +908,19 @@ def login_google():
 @app.route("/auth/google/callback")
 def google_callback():
     token = google.authorize_access_token()
-
+    print("=== NEW GOOGLE CALLBACK ===")
+    print(token)
     userinfo = token.get("userinfo")
-    if not userinfo:
-        userinfo = google.get(
-            "https://openidconnect.googleapis.com/v1/userinfo"
-        ).json()
 
-        google_sub = userinfo["sub"]
-        email = (userinfo.get("email") or "").lower().strip()
-        username = (userinfo.get("name") or "").strip()
+    if not userinfo:
+        resp = google.get("https://openidconnect.googleapis.com/v1/userinfo")
+        userinfo = resp.json()
+
+    print(userinfo)
+
+    google_sub = userinfo.get("sub")
+    email = (userinfo.get("email") or "").lower().strip()
+    username = (userinfo.get("name") or "").strip()
 
     if not email:
         flash("Google login did not return an email address.")
