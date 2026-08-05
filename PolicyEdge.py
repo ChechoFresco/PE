@@ -1,5 +1,3 @@
-
-
 from flask_pymongo import PyMongo
 from flask_compress import Compress
 from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, send_from_directory, Blueprint, abort
@@ -11,7 +9,7 @@ import logging
 from collections import Counter
 from flask_mail import Mail
 from stripe_service import init as stripe_init, create_checkout_session, handle_webhook, get_user_stripe_customer, validate_registration
-from helpers import (get_date_threshold,handle_issue_operation,get_user_saved_agendas,int2date,)
+from helpers import (get_date_threshold, handle_issue_operation, get_user_saved_agendas, int2date,)
 from map_utils import fetch_geo_info, create_folium_map
 from jobs import start_scheduler
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -22,6 +20,9 @@ from dotenv import load_dotenv
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import JSONB
+
+from authlib.integrations.flask_client import OAuth
+
 # =============================================================================
 # INITIALIZATION AND CONFIGURATION
 # =============================================================================
@@ -31,6 +32,7 @@ app = Flask(__name__)
 Compress(app)
 
 db = SQLAlchemy()
+
 # Configuration - Using environment variables for security
 app.config['MONGO_URI'] = os.environ.get("MONGO_URI")
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -44,16 +46,26 @@ app.config['YOUR_DOMAIN'] = os.environ.get("YOUR_DOMAIN", "http://127.0.0.1:5001
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_pre_ping": True,
     "pool_recycle": 300,
 }
 
 db.init_app(app)
+
 # Initialize extensions
 mongo = PyMongo(app)
 mail = Mail(app)
+
+oauth = OAuth(app)
+
+google = oauth.register(
+    name="google",
+    client_id=os.environ.get("GOOGLE_CLIENT_ID"),
+    client_secret=os.environ.get("GOOGLE_CLIENT_SECRET"),
+    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
+    client_kwargs={"scope": "openid email profile"}
+)
 
 # Constants
 stripe_keys = {
@@ -122,29 +134,15 @@ class User(db.Model):
     id = db.Column(db.BigInteger, primary_key=True)
     username = db.Column(db.Text, nullable=False, unique=True)
     email = db.Column(db.Text, nullable=False, unique=True)
-    password_hash = db.Column(db.Text, nullable=False)
+    password_hash = db.Column(db.Text, nullable=True)  # allow Google-only users
+    google_sub = db.Column(db.Text, unique=True, nullable=True)
+    auth_provider = db.Column(db.Text, nullable=False, default="local")
     stripe_customer_id = db.Column(db.Text)
     stripe_subscription_id = db.Column(db.Text)
-    subscription_active = db.Column(
-        db.Boolean,
-        nullable=False,
-        default=False
-    )
-    issues = db.Column(
-        MutableList.as_mutable(JSONB),
-        nullable=False,
-        default=list
-    )
-    agenda_unique_ids = db.Column(
-        MutableList.as_mutable(JSONB),
-        nullable=False,
-        default=list
-    )
-    created_at = db.Column(
-        db.DateTime(timezone=True),
-        server_default=db.func.now(),
-        nullable=False
-    )
+    subscription_active = db.Column(db.Boolean, nullable=False, default=False)
+    issues = db.Column(MutableList.as_mutable(JSONB), nullable=False, default=list)
+    agenda_unique_ids = db.Column(MutableList.as_mutable(JSONB), nullable=False, default=list)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=db.func.now(), nullable=False)
 
 
 # Must be below the User class
@@ -900,6 +898,59 @@ def login():
         "login.html",
         title="Please Login"
     )
+
+@app.route("/login/google")
+def login_google():
+    redirect_uri = url_for("google_callback", _external=True)
+    return google.authorize_redirect(redirect_uri)
+
+
+@app.route("/auth/google/callback")
+def google_callback():
+    token = google.authorize_access_token()
+    userinfo = google.get("userinfo").json()
+
+    google_sub = userinfo["sub"]
+    email = (userinfo.get("email") or "").lower().strip()
+    username = (userinfo.get("name") or "").strip()
+
+    if not email:
+        flash("Google login did not return an email address.")
+        return redirect(url_for("login"))
+
+    user = User.query.filter_by(email=email).first()
+
+    if user:
+        user.google_sub = google_sub
+        user.auth_provider = "google"
+    else:
+        base_username = username or email.split("@")[0]
+        final_username = base_username
+
+        existing_username = User.query.filter_by(username=final_username).first()
+        if existing_username:
+            final_username = f"{base_username}_{google_sub[:6]}"
+
+        user = User(
+            username=final_username,
+            email=email,
+            password_hash=None,
+            google_sub=google_sub,
+            auth_provider="google",
+            subscription_active=False,
+            issues=[],
+            agenda_unique_ids=[]
+        )
+        db.session.add(user)
+
+    db.session.commit()
+
+    session["username"] = user.username
+    session["email"] = user.email
+    session["subscribed"] = user.subscription_active
+
+    flash("Google login successful!")
+    return redirect(url_for("index"))
 
 @app.route('/logout')
 def logout():
