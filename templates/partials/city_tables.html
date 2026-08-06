@@ -47,6 +47,16 @@
                         <i class="bi bi-calendar"></i>{{ agenda.Date|aTime }}
                         <i class="bi bi-briefcase"></i>{{ agenda.ItemType }}
                         <span class="bi">#</span>{{ agenda.Num }}
+                        <a
+                            href="https://www.google.com/search?q={{ (
+                                '"' ~ agenda.City ~ '" "' ~
+                                agenda.MeetingType ~ '" agenda ' ~
+                                (agenda.Date|aTime)
+                            )|urlencode }}"
+                            target="_blank"
+                            title="Search for original agenda">
+                            <i class="bi bi-search"></i>
+                        </a>
                     </td>
 
                     <!-- Other hidden metadata -->

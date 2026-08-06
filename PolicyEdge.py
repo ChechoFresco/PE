@@ -389,7 +389,7 @@ def index():
         num_cities=num_cities,
         form=form,
         city_agendas=initial_cities,
-        title="Policy Edge Tracking Agendas",
+        title="California City Council Agendas | PolicyEdge",
         chosen=chosen
     )
 
@@ -397,7 +397,7 @@ def index():
 def search():
     """Search page for agenda items"""
     form = searchForm()
-    return render_template('search.html', form=form, title='Search')
+    return render_template('search.html', form=form, title='Search California Government Agendas | PolicyEdge')
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
@@ -544,7 +544,7 @@ def results():
         city_agendas=initial_cities,
         form=searchForm(),
         agendas=agenda_list,
-        title="PolicyEdge Search Results"
+        title="Search California Government Agendas Results| PolicyEdge"
     )
 
 # ---------------------------
@@ -791,7 +791,7 @@ def register():
     """User registration page"""
     if "username" in session or "email" in session:
         return redirect(url_for("index"))
-    return render_template("register.html", title="Register for PolicyEdge")
+    return render_template("register.html", title="Sign Up for PolicyEdge | Track California City Council Agendas")
 
 @app.route('/createAccount', methods=['POST'])
 def create_account():
@@ -810,7 +810,7 @@ def create_account():
     if errors:
         for error in errors:
             flash(error)
-        return render_template("register.html", title="Register for PolicyEdge")
+        return render_template("register.html", title="Sign Up for PolicyEdge | Track California City Council Agendas")
 
     password_hash = bcrypt.hashpw(
         password1.encode("utf-8"),
@@ -835,7 +835,7 @@ def create_account():
         db.session.rollback()
         app.logger.exception("Failed to create user: %s", error)
         flash("Unable to create your account. Please try again.")
-        return render_template("register.html", title="Register for PolicyEdge")
+        return render_template("register.html", title="Sign Up for PolicyEdge | Track California City Council Agendas")
 
     session["username"] = user.username
     session["email"] = user.email
@@ -896,7 +896,7 @@ def login():
 
     return render_template(
         "login.html",
-        title="Please Login"
+        title="Log into PolicyEdge | Track California City Council Agendas"
     )
 
 @app.route("/login/google")
@@ -971,7 +971,7 @@ def logout():
 def get_index():
     """Subscription management page"""
     if "username" in session:
-        return render_template('subscription.html', title='Subscribe to PolicyEdge')
+        return render_template('subscription.html', title='Subscribe to California Government Agenda Alerts | PolicyEdge')
     else:
         return redirect(url_for("login"))
 
@@ -1119,7 +1119,7 @@ def trackedIssues():
         issues_placeholders=issues_with_counts,
         form=form,
         city_agendas=initial_cities,
-        title='Tracked Issues',
+        title='Track California Government Issues | PolicyEdge',
         subscription_active=subscription_active,
         free_limit=free_limit
     )
