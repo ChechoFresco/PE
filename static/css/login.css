@@ -93,6 +93,23 @@ label{
     text-decoration: underline;
 }
 
+.google-btn {
+    font-weight: 500;
+    color: #444;
+    text-decoration: none;
+    padding: 0.6rem 1rem;
+}
+
+.google-btn:hover {
+    background-color: #f8f9fa;
+    color: #222;
+}
+
+.google-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
 /* Responsive tweaks for small screens */
 @media (max-width: 576px) {
     .frosted {

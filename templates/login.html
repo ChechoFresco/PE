@@ -44,8 +44,9 @@
                 </form>
                 
                 <div class="d-grid mt-3">
-                    <a href="{{ url_for('login_google') }}" class="btn btn-outline-primary">
-                        Continue with Google
+                    <a href="{{ url_for('login_google') }}" class="btn btn-light border d-flex align-items-center justify-content-center gap-2 google-btn">
+                        <img src="{{ url_for('static', filename='google-logo.png') }}" alt="Google" class="google-icon">
+                        <span>Continue with Google</span>
                     </a>
                 </div>
                 
