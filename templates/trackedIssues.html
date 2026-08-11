@@ -115,7 +115,7 @@
 </div>
 <script>
     // Toggle description height
-    $(".table1").on("click", "td.description", function () {
+    $(document).on("click", ".table1 td.description", function () {
         let $desc = $(this);
         if ($desc.hasClass("expanded")) {
             // Collapse back to default height

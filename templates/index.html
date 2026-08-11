@@ -128,20 +128,20 @@
         }, 4000);
 
 // Toggle description height
-        $(".table1").on("click", "td.description", function () {
-            let $desc = $(this);
-            if ($desc.hasClass("expanded")) {
-                // Collapse back to default height
-                $desc.removeClass("expanded")
-                    .css("max-height", "128px");
-            } else {
-                // Expand to full height
-                $desc.addClass("expanded");
-                let fullHeight = $desc.prop("scrollHeight") + "px";
-                $desc.css("max-height", fullHeight);
-            }
-        });
+    $(document).on("click", ".table1 td.description", function () {
+        let $desc = $(this);
+        if ($desc.hasClass("expanded")) {
+            // Collapse back to default height
+            $desc.removeClass("expanded")
+                .css("max-height", "128px");
+        } else {
+            // Expand to full height
+            $desc.addClass("expanded");
+            let fullHeight = $desc.prop("scrollHeight") + "px";
+            $desc.css("max-height", fullHeight);
+        }
     });
+});
 
 // City Loader
     let start = 6;

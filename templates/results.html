@@ -4,9 +4,10 @@
     <style>
         /* Highlight words in table */
         .highlight {
+            color: var(--blue);
             text-decoration-line: underline;
-            text-decoration-color: var(--orange);
-            text-decoration-thickness: 4px;
+            border-radius: 2px;
+            padding: 0 2px;
         }
 
         /* Topic section */
@@ -53,19 +54,41 @@
 
 <!-- Highlights words in table-->
 <script>
-    $(document).ready(function () {
-        const searchValue = {{ primeKey | tojson if primeKey else '""' }};
-        const contentElement = document.querySelector('tbody');
 
-        if (contentElement && searchValue) {
-            const content = contentElement.innerHTML;
-            const highlightedContent = content.replace(
-                new RegExp(searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'),
-                '<span class="highlight">$&</span>'
-            );
-            contentElement.innerHTML = highlightedContent;
+    // Toggle description height
+    $(document).on("click", ".table1 td.description", function () {
+        let $desc = $(this);
+        if ($desc.hasClass("expanded")) {
+            // Collapse back to default height
+            $desc.removeClass("expanded")
+                .css("max-height", "128px");
+        } else {
+            // Expand to full height
+            $desc.addClass("expanded");
+            let fullHeight = $desc.prop("scrollHeight") + "px";
+            $desc.css("max-height", fullHeight);
         }
     });
+
+    function highlightSearchTerm() {
+        const searchValue = {{ primeKey | tojson if primeKey else '""' }};
+        if (!searchValue) return;
+
+        const escaped = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(${escaped})`, 'gi');
+
+        document.querySelectorAll('.table1 td.description').forEach(function (cell) {
+            const text = cell.textContent;
+            cell.innerHTML = text.replace(regex, '<span class="highlight">$1</span>');
+        });
+    }
+
+    $(document).ready(function () {
+        highlightSearchTerm();
+    });
+
+    // Re-apply after bootstrap-table re-renders (init, pagination, search, load-more)
+    $(document).on('post-body.bs.table', '.table1', highlightSearchTerm);
 
     let start = 6;
     const count = 6;
