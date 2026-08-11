@@ -71,6 +71,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Explore Other Issues?</h5>
                         <form id="mapSearchForm" method="POST">
+                            {{ form.csrf_token }}
                             {% from "_formhelpers.html" import render_field %}
                             <div class="search-bar-wrapper">
                                 {{ render_field(form.chartSearch) }}

@@ -49,6 +49,16 @@ def process_user_email_notifications(app, user, today, Agenda, db):
         return
 
     seen_agenda_ids = set(user.agenda_unique_ids or [])
+
+    # Prune IDs for agendas that are no longer within the search window
+    if seen_agenda_ids:
+        seen_agenda_ids = {
+            row.id for row in Agenda.query
+            .filter(Agenda.id.in_(seen_agenda_ids))
+            .filter(Agenda.date >= today)
+            .all()
+        }
+
     agendas_by_search_term = {}
 
     for issue in issues:

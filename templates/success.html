@@ -28,6 +28,7 @@
 
                 <div class="success-actions">
                     <form action="/create-portal-session" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <input type="hidden" id="session-id" name="session_id" value="">
                         <button id="checkout-and-portal-button" type="submit">
                             Manage Billing

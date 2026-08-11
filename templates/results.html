@@ -87,8 +87,11 @@
         const selectSD = params.get('selectSD') || '';
         const selectLACM = params.get('selectLACM') || '';
         const selectLBCM = params.get('selectLBCM') || '';
-        const start_date = params.get('start_date') || '';
-        const end_date = params.get('end_date') || '';
+        const start_date = params.get('startdate_field') || '';
+        const end_date = params.get('enddate_field') || '';
+        const city = params.get('city') || '';
+        const county = params.get('county') || '';
+        const committee = params.get('committee') || '';
 
         fetch(
             `/load_more_cities_results?start=${start}&count=${count}`
@@ -103,6 +106,9 @@
             + `&selectLBCM=${encodeURIComponent(selectLBCM)}`
             + `&start_date=${encodeURIComponent(start_date)}`
             + `&end_date=${encodeURIComponent(end_date)}`
+            + `&city=${encodeURIComponent(city)}`
+            + `&county=${encodeURIComponent(county)}`
+            + `&committee=${encodeURIComponent(committee)}`
         )
             .then(res => res.text())
             .then(html => {

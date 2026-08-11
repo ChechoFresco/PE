@@ -35,6 +35,7 @@
         </p>
 
         <form action="/createAccount" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="row g-3">
                 <div class="col-12 col-md-6">
                     <label for="inputUsername" class="form-label">Username</label>

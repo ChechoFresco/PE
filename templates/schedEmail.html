@@ -4,15 +4,16 @@
     <meta charset="utf-8">
 </head>
 <body>
-{% macro simple_highlight(text, term) %}
-{% if term and text %}
-    {% set safe_term = term|e %}
-    {% set replacement = '<span style="text-decoration: underline; font-style: italic; font-weight: bold;">' ~ safe_term ~ '</span>' %}
-    {{ text | replace(term, replacement) | safe }}
-{% else %}
-    {{ text }}
-{% endif %}
-{% endmacro %}
+    {% macro simple_highlight(text, term) %}
+    {% if term and text %}
+        {% set safe_term = term|e %}
+        {% set safe_text = text|e %}
+        {% set replacement = '<span style="text-decoration: underline; font-style: italic; font-weight: bold;">' ~ safe_term ~ '</span>' %}
+        {{ safe_text | replace(safe_term, replacement) | safe }}
+    {% else %}
+        {{ text|e }}
+    {% endif %}
+    {% endmacro %}
     <table style="width:100%; background-color: slategrey; padding: 20px;" id="Background">
         <tr>
             <td align="center">

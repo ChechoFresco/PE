@@ -111,33 +111,26 @@ def create_checkout_session(
 def handle_webhook(
     request_data,
     request_headers,
-    your_domain,
-    env
 ):
-    webhook_secret = os.environ.get(
-        "STRIPE_WEBHOOK_SECRET"
-    )
+    webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
+
+    if not webhook_secret:
+        current_app.logger.error(
+            "STRIPE_WEBHOOK_SECRET is not configured; rejecting webhook"
+        )
+        return jsonify({"status": "error"}), 400
 
     try:
-        if env == "production" and webhook_secret:
-            signature = request_headers.get(
-                "stripe-signature"
-            )
-
-            event = stripe.Webhook.construct_event(
-                payload=request_data,
-                sig_header=signature,
-                secret=webhook_secret
-            )
-        else:
-            event = json.loads(request_data)
-
+        event = stripe.Webhook.construct_event(
+            payload=request_data,
+            sig_header=request_headers.get("stripe-signature"),
+            secret=webhook_secret
+        )
     except Exception as error:
         current_app.logger.error(
             "Webhook verification failed: %s",
             error
         )
-
         return jsonify({"status": "error"}), 400
 
     data = event["data"]["object"]

@@ -3,7 +3,7 @@
 
 <div class="search-container2">
     {% from "_formhelpers.html" import render_field %}
-    <form action='/results' method="post" class="search-form">
+    <form action='/results' method="get" class="search-form">
         <!-- Criteria Select -->
         <div class="form-group">
             {{ form.select.label }}

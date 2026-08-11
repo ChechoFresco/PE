@@ -12,11 +12,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <style>
     #titleCounty {
-      text-align: center;
-      background: var(--rad2);
-      background-clip: text;
-      color: transparent;
-      font-size: 3.2rem;
+        text-align: center;
+        background: var(--rad2);
+        background-clip: text;
+        color: transparent;
+        font-size: 3.2rem;
     }
 </style>
 <!-- Alerts -->
@@ -68,7 +68,7 @@ let loading = false;
 function loadMoreCities() {
 if (loading) return;
 loading = true;
-fetch(`/load_more_cities?start=${start}&count=${count}`)
+fetch(`/load_more_cities?start=${start}&count=${count}&county={{ county_name | urlencode }}`)
     .then(res => res.text())
     .then(html => {
         if (html.trim() !== "") {

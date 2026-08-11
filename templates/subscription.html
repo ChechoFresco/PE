@@ -31,6 +31,7 @@
                         </div>
                     </div>
                     <form action="/create-checkout-session" method="POST" class="subscription-form">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <button id="checkout-and-portal-button" type="submit">
                             Subscribe Now
                         </button>

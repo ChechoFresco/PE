@@ -2,6 +2,7 @@
 from folium import Map, Circle, Marker, Popup
 from folium.features import DivIcon
 from folium import Popup
+from html import escape
 
 def fetch_geo_info(db, GeoLocation, city_issue_counts):
     """Fetch geographic information from PostgreSQL."""
@@ -50,6 +51,7 @@ def create_folium_map(geo_info, ALL_CITY_AGENDAS_CACHE):
     )
     
     for city, state_id, county_name, lat, lon, issue_count, web_address in geo_info:
+        city_safe = escape(city)
         agendas = ALL_CITY_AGENDAS_CACHE.get(city, {}).get("agendas", [])
 
         if agendas:
@@ -66,13 +68,14 @@ def create_folium_map(geo_info, ALL_CITY_AGENDAS_CACHE):
                 font-family:Arial, sans-serif;
                 font-size:13px;
             ">
-                <h4 style="margin:0 0 6px 0; color:#2F5755;">{city}</h4>
+                <h4 style="margin:0 0 6px 0; color:#2F5755;">{city_safe}</h4>
             """
 
             for idx, agenda in enumerate(agendas[:5], 1):
-                desc = agenda.get("Description", "")
-                date = agenda.get("Date", "")
-                topics = ", ".join(agenda.get("Topics", [])) if isinstance(agenda.get("Topics"), list) else agenda.get("Topics", "")
+                desc = escape(str(agenda.get("Description", "")))
+                date = escape(str(agenda.get("Date", "")))
+                topics_raw = agenda.get("Topics", "")
+                topics = escape(", ".join(topics_raw) if isinstance(topics_raw, list) else str(topics_raw or ""))
                 
                 popup_html += f"""
                 <div style="margin-bottom:6px; padding-bottom:4px; border-bottom:1px solid #ff7a00;">
@@ -101,7 +104,7 @@ def create_folium_map(geo_info, ALL_CITY_AGENDAS_CACHE):
             icon=DivIcon(
                 icon_size=(10, 10),
                 icon_anchor=(15, 15),
-                html=f'<div style="font-size: 10pt">{issue_count} {city}</div>'
+                html=f'<div style="font-size: 10pt">{issue_count} {city_safe}</div>'
             )
         ).add_to(folium_map)
     
