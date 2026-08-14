@@ -3,7 +3,7 @@ from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 from collections import Counter
 import logging
-from sqlalchemy import or_
+from sqlalchemy import func, or_
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)  # or DEBUG
@@ -137,7 +137,11 @@ def get_user_saved_agendas(User, Agenda, username, days_back=7, days_forward=30)
         )
 
         if searchWord:
-            query = query.filter(Agenda.description.ilike(f"%{searchWord}%"))
+            query = query.filter(
+                Agenda.search_vector.op('@@')(
+                    func.plainto_tsquery('english', searchWord)
+                )
+            )
 
         if committee:
             query = query.filter(Agenda.meeting_type.ilike(f"%{committee}%"))

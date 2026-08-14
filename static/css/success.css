@@ -78,7 +78,7 @@
     height: 3.4rem;
     border: 0;
     border-radius: 1rem;
-    background: linear-gradient(135deg, #5e7cff, #2e6da4);
+    background: linear-gradient(135deg, var(--blue), var(--blueDark));
     color: white;
     font-size: 1rem;
     font-weight: 700;

@@ -56,8 +56,8 @@
             else if(selected === 'LA Committees') $('#LACM').show();
             else if(selected === 'Long Beach Committees') $('#LBCM').show();
 
-            if(selected !== 'Issue') $('#cities-section').show();
-            else $('#cities-section').hide();
+            if(selected === '' || selected === 'Issue') $('#cities-section').hide();
+            else $('#cities-section').show();
         });
     });
 </script>

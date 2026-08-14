@@ -20,6 +20,32 @@
             color: white;
             text-transform: capitalize;
         }
+
+        #mainBox, #chartBox {
+            --bs-gutter-x: 0;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        #foliumMapContainer {
+            width: 100%;
+            min-height: 500px;
+            margin: auto;
+        }
+
+        #foliumMapContainer iframe {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            #foliumMapContainer {
+                min-height: 300px;
+            }
+        }
+        #mainBox{
+            max-width: 1600px;
+            margin: auto;
+        }
     </style>
 </head>
     <!-- City Squares -->
@@ -29,13 +55,13 @@
         </div>
     {% endif %}
 
-<!--First table-->
+    <!--First table-->
     {% if agendas %}
-        <div class="row" id="mainBox">
+        <div class="row g-0" id="mainBox">
             <!-- ===== CHARTS ===== -->
             {% if folium_map %}
-            <div class="row" id="chartBox">
-                <div id="foliumMapContainer" style="width: 60%; min-height: 500px; margin: auto">
+            <div class="row g-0" id="chartBox">
+                <div id="foliumMapContainer">
                     {{ folium_map | safe }}
                 </div>
             </div>

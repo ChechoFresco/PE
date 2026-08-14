@@ -1,5 +1,14 @@
 
 
+/* Table card wrapper */
+div.texture {
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  height: auto;
+  padding: 1rem;
+}
+
 /* City Titles*/
 
 .city-info {
@@ -8,7 +17,7 @@
 }
 
 .cityCaption {
-  background-color: var(--blue);
+  background-color: var(--darkBlue);
   color: white !important;
   border: 1px solid black;
   border-radius: 7px;

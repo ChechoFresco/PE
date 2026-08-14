@@ -19,7 +19,8 @@ import stripe
 from dotenv import load_dotenv
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy import Computed
+from sqlalchemy.dialects.postgresql import JSONB, TSVECTOR
 
 from authlib.integrations.flask_client import OAuth
 
@@ -113,6 +114,9 @@ class Meeting(db.Model):
 
 class Agenda(db.Model):
     __tablename__ = "Agendas"
+    __table_args__ = (
+        db.Index("agenda_search_idx", "search_vector", postgresql_using="gin"),
+    )
 
     id = db.Column(db.BigInteger, primary_key=True)
     county = db.Column(db.Text)
@@ -122,6 +126,18 @@ class Agenda(db.Model):
     meeting_type = db.Column(db.Text)
     item_type = db.Column(db.Text)
     description = db.Column(db.Text)
+    search_vector = db.Column(
+        TSVECTOR,
+        Computed(
+            "to_tsvector('english', "
+            "coalesce(county, '') || ' ' || "
+            "coalesce(city, '') || ' ' || "
+            "coalesce(meeting_type, '') || ' ' || "
+            "coalesce(item_type, '') || ' ' || "
+            "coalesce(description, ''))",
+            persisted=True
+        )
+    )
 
 class GeoLocation(db.Model):
     __tablename__ = "geoloc"
@@ -256,6 +272,20 @@ ALL_CITIES = [city for county_cities in CITIES.values() for city in county_citie
 @app.before_request
 def log_requests():
     pass
+
+@app.before_request
+def refresh_subscription_status():
+    """Keep the session's subscription flag in sync with the database."""
+    if request.path.startswith('/static/'):
+        return
+
+    username = session.get("username")
+    if not username:
+        return
+
+    user = User.query.filter_by(username=username).first()
+    if user:
+        session["subscribed"] = bool(user.subscription_active)
 # =============================================================================
 # ROUTES
 # =============================================================================
@@ -349,7 +379,7 @@ def index():
         .filter(Agenda.date <= table_end)
         .filter(Agenda.description.isnot(None))
         .filter(Agenda.description != "")
-        .filter(Agenda.description.ilike(f"%{chosen}%"))
+        .filter(Agenda.search_vector.op('@@')(db.func.plainto_tsquery('english', chosen)))
         .filter(~Agenda.description.ilike("%minute%"))
         .filter(~Agenda.description.ilike("%warrant%"))
     )
@@ -433,7 +463,9 @@ def results():
 
     if primeKey:
         query = query.filter(
-            Agenda.description.ilike(f"%{primeKey}%")
+            Agenda.search_vector.op('@@')(
+                db.func.plainto_tsquery('english', primeKey)
+            )
         )
 
     county_names = [
@@ -669,7 +701,11 @@ def load_more_cities_results():
     )
 
     if primeKey:
-        query = query.filter(Agenda.description.ilike(f"%{primeKey}%"))
+        query = query.filter(
+            Agenda.search_vector.op('@@')(
+                db.func.plainto_tsquery('english', primeKey)
+            )
+        )
 
     county_names = [
         'LA County',
@@ -755,39 +791,13 @@ def load_more_cities():
     username = session.get('username')
     county_name = (request.args.get('county') or '').strip()
 
-    city_agendas = {}
-
     if county_name:
         agenda_list = get_county_agendas(county_name)
 
     elif username:
         # User accounts and saved agendas remain in MongoDB for now
         agenda_list = get_user_saved_agendas(User, Agenda, username)
-        for agenda in agenda_list:
-            city = agenda.get('City', '')
 
-            if not city:
-                continue
-
-            if city not in city_agendas:
-                city_agendas[city] = {
-                    "agendas": [],
-                }
-
-            city_agendas[city]["agendas"].append(agenda)
-
-        cities_list = list(city_agendas.items())
-        cities_to_load = dict(cities_list[start:start + count])
-
-        rendered = ""
-        for city, data in cities_to_load.items():
-            rendered += render_template(
-                'partials/city_table_wrapper.html',
-                _city=city,
-                _data=data
-            )
-
-        return rendered
     else:
         rows = (
             Agenda.query
@@ -810,6 +820,31 @@ def load_more_cities():
             }
             for item in rows
         ]
+
+    city_agendas = {}
+    for agenda in agenda_list:
+        city = agenda.get('City', '')
+
+        if not city:
+            continue
+
+        if city not in city_agendas:
+            city_agendas[city] = {"agendas": []}
+
+        city_agendas[city]["agendas"].append(agenda)
+
+    cities_list = list(city_agendas.items())
+    cities_to_load = dict(cities_list[start:start + count])
+
+    rendered = ""
+    for city, data in cities_to_load.items():
+        rendered += render_template(
+            'partials/city_table_wrapper.html',
+            _city=city,
+            _data=data
+        )
+
+    return rendered
 
 # =============================================================================
 # Resgister Login

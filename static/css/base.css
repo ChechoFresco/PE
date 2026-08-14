@@ -5,9 +5,15 @@
 :root {
   --white: #e8e8e8;
   --gray: #929292e8;
-  --blue: #5e7cff;
-  --blueTrans: #5e7cff;
-  --green: #8cb630;
+  --blue: #4177be;
+  --blueTrans: #4177be;
+  --darkBlue: #2e5385;
+  --green: #77be41;
+  --orange: #f39c12;
+  --dark: #15305f;
+  --blueDark: #2e6da4;
+  --radius: 14px;
+  --shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 
 }
 
@@ -19,8 +25,21 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: white;
+  background:
+      radial-gradient(ellipse 80% 60% at 20% 40%, rgba(26, 50, 99, 0.2) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(74, 158, 202, 0.1) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 50% 80%, rgba(232, 152, 94, 0.1) 0%, transparent 70%),
+      linear-gradient(180deg, #fafbfc 0%, #f0f7f4 100%),
+      linear-gradient(rgba(0,0,0,0.10) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.10) 1px, transparent 1px);
+  background-attachment: fixed;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
+}
+
+.page-container {
+  max-width: 1600px;
+  margin: auto;
 }
 
 .section-block{

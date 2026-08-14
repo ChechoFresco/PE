@@ -1,28 +1,9 @@
-/* ================================
-   GLOBAL CONTAINERS
-   ================================ */
-.page-container {
-    max-width: 1200px;
-    margin: auto;
-}
-
 .section-block {
     padding: 1.5rem 0.5rem;
 }
 
 .section-block:nth-child(even) {
     background: white !important;
-}
-
-.section-block:nth-child(odd) {
-    /* Radial + linear gradients with blue accents */
-    background: 
-        radial-gradient(ellipse 80% 60% at 20% 40%, rgba(26, 50, 99, 0.2) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 50% at 80% 30%, rgba(74, 158, 202, 0.1) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 40% at 50% 80%, rgba(232, 152, 94, 0.1) 0%, transparent 70%),
-        linear-gradient(180deg, #fafbfc 0%, #f0f7f4 100%),
-        linear-gradient(rgba(0,0,0,0.10) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,0.10) 1px, transparent 1px);
 }
 
 /* ================================
@@ -162,20 +143,21 @@ h3.sellLine {
 .card {
     border: 1px solid var(--blue) !important;
     width: 16rem;
+    background-color: var(--darkBlue) !important;
 }
 
 #statsCards h5 {
     margin: 0 0 6px 0;
     font-weight: 900;
     font-size: 0.9em;
-    color: var(--gray);
+    color: white;
 }
 
 #statsCards p {
     margin: 0;
     font-size: 0.8em;
     font-weight: 500;
-    color: var(--blue);
+    color: white;
 }
 
 

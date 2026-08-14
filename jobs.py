@@ -76,7 +76,11 @@ def process_user_email_notifications(app, user, today, Agenda, db):
             Agenda.description != ""
         )
 
-        query = query.filter(Agenda.description.ilike(f"%{search_term}%"))
+        query = query.filter(
+            Agenda.search_vector.op('@@')(
+                db.func.plainto_tsquery('english', search_term)
+            )
+        )
 
         if city:
             query = query.filter(Agenda.city.ilike(f"%{city}%"))
