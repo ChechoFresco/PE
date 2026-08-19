@@ -5,6 +5,7 @@ from forms import searchForm, monitorListform, chartForm
 import bcrypt
 from datetime import date, datetime, timedelta
 import os
+import re
 import logging
 from collections import Counter
 from flask_mail import Mail
@@ -682,7 +683,9 @@ def agenda_item(item_id):
 
     return render_template(
         'agenda_item.html',
-        item=item
+        item=item,
+        city_slug=slugify(item.city or ''),
+        meeting_date=fmt_date_yyyy_mm_dd(item.date)
     )
 
 # ---------------------------
@@ -1272,6 +1275,121 @@ def trackedIssues():
         subscription_active=subscription_active,
         free_limit=free_limit
     )
+def slugify(name):
+    """'Los Angeles' -> 'los-angeles'"""
+    slug = name.lower().strip()
+    parts = [p for p in re.split(r'[^a-z0-9]+', slug) if p]
+    return '-'.join(parts)
+
+
+def city_name_from_slug(slug):
+    """Resolve a URL slug back to the real city name from the database."""
+    names = db.session.query(Agenda.city).filter(Agenda.city.isnot(None)).distinct().all()
+    for (name,) in names:
+        if slugify(name) == slug:
+            return name
+    return None
+
+
+def fmt_date_yyyy_mm_dd(date_int):
+    """20260819 -> '2026-08-19'"""
+    ds = str(date_int)
+    if len(ds) != 8:
+        return None
+    return f"{ds[0:4]}-{ds[4:6]}-{ds[6:8]}"
+
+
+@app.route('/city/<slug>')
+def city_page(slug):
+    city = city_name_from_slug(slug)
+    if not city:
+        abort(404)
+
+    page = request.args.get('page', 1, type=int)
+    per_page = 20
+
+    meeting_query = (
+        db.session.query(
+            Agenda.city,
+            Agenda.date,
+            Agenda.meeting_type,
+            db.func.count(Agenda.id).label('item_count')
+        )
+        .filter(Agenda.city == city)
+        .group_by(Agenda.city, Agenda.date, Agenda.meeting_type)
+        .order_by(Agenda.date.desc(), Agenda.meeting_type.asc())
+    )
+
+    total = meeting_query.count()
+    pages = max(1, math.ceil(total / per_page))
+    page = max(1, min(page, pages))
+
+    rows = meeting_query.offset((page - 1) * per_page).limit(per_page).all()
+
+    meetings = [
+        {
+            'date': fmt_date_yyyy_mm_dd(date_int),
+            'date_display': int2date(date_int),
+            'meeting_type': meeting_type,
+            'item_count': item_count,
+        }
+        for city_name, date_int, meeting_type, item_count in rows
+    ]
+
+    pagination = {
+        'page': page,
+        'pages': pages,
+        'has_prev': page > 1,
+        'has_next': page < pages,
+        'prev_num': page - 1,
+        'next_num': page + 1,
+    }
+
+    return render_template(
+        'city.html',
+        city=city,
+        slug=slug,
+        meetings=meetings,
+        pagination=pagination,
+        title=f"{city} Government Agendas | PolicyEdge"
+    )
+
+
+@app.route('/city/<slug>/meeting/<meeting_date>')
+def meeting_page(slug, meeting_date):
+    city = city_name_from_slug(slug)
+    if not city:
+        abort(404)
+
+    try:
+        date_int = int(datetime.strptime(meeting_date, '%Y-%m-%d').strftime('%Y%m%d'))
+    except ValueError:
+        abort(404)
+
+    items = (
+        Agenda.query
+        .filter(Agenda.city == city, Agenda.date == date_int)
+        .order_by(Agenda.meeting_type, Agenda.item_type, Agenda.num)
+        .all()
+    )
+
+    if not items:
+        abort(404)
+
+    # A single date can host multiple meeting types — group them
+    grouped = {}
+    for item in items:
+        grouped.setdefault(item.meeting_type or 'General', []).append(item)
+
+    return render_template(
+        'meeting.html',
+        city=city,
+        slug=slug,
+        meeting_date=meeting_date,
+        grouped=grouped,
+        title=f"{city} - {meeting_date} | PolicyEdge"
+    )
+
 # -------------------------------
 # COUNTY ROUTES CONFIGURATION
 # -------------------------------

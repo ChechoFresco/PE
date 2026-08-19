@@ -22,6 +22,16 @@
 
 {% block content %}
 
+<nav aria-label="breadcrumb" class="page-container mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('city_page', slug=city_slug) }}">{{ item.city }}</a></li>
+        {% if meeting_date %}
+        <li class="breadcrumb-item"><a href="{{ url_for('meeting_page', slug=city_slug, meeting_date=meeting_date) }}">{{ meeting_date }}</a></li>
+        {% endif %}
+        <li class="breadcrumb-item active">Item {{ item.num }}</li>
+    </ol>
+</nav>
+
 <div class="agenda-item-page">
 
     <div class="agenda-item-header">
