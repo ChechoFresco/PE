@@ -6,6 +6,24 @@
     <!-- City caption and topic list wrapper -->
     <div class="city-info">
         <div class="cityCaption">{{ _city }}</div>
+
+        {% if _data.agendas %}
+            {% set latest_agenda = _data.agendas[0] %}
+
+            <div class="city-source-link">
+                <a
+                    href="https://www.google.com/search?q={{ (
+                        '"' ~ latest_agenda.City ~ '" "' ~
+                        latest_agenda.MeetingType ~ '" agenda ' ~
+                        (latest_agenda.Date|aTime)
+                    )|urlencode }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Search for latest original agenda">
+                    <i class="bi bi-search"></i>
+                </a>
+            </div>
+        {% endif %}
     </div>
 
     <!-- Table wrapper -->
@@ -30,7 +48,7 @@
                     <th data-field="County" class="none">County</th>
                     <th data-field="City" class="none">City</th>
                     <th data-field="MeetingType" class="none">Meeting Type</th>
-                    <th data-field="_id" class="none">id</th>
+                    <th data-field="ID" class="none">id</th>
                     <th data-field="topic" class="none">topic</th>
                 </tr>
             </thead>
@@ -43,20 +61,15 @@
                     <td class="none">{{ agenda.Num }}</td>
 
                     <!-- Visible columns -->
-                    <td class="description">{{ agenda.Description }}</td>
+                    <td class="description">
+                        {{ agenda.Description }}
+                    </td>
                     <td class="infoLocation">
                         <i class="bi bi-calendar"></i>{{ agenda.Date|aTime }}
                         <i class="bi bi-briefcase"></i>{{ agenda.ItemType }}
-                        <span class="bi">#</span>{{ agenda.Num }}
-                        <a
-                            href="https://www.google.com/search?q={{ (
-                                '"' ~ agenda.City ~ '" "' ~
-                                agenda.MeetingType ~ '" agenda ' ~
-                                (agenda.Date|aTime)
-                            )|urlencode }}"
-                            target="_blank"
-                            title="Search for original agenda">
-                            <i class="bi bi-search"></i>
+                        <span class="bi">#</span>
+                        <a href="{{ url_for('agenda_item', item_id=agenda.ID) }}">
+                            {{ agenda.Num }}
                         </a>
                     </td>
 

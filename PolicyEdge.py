@@ -1,6 +1,6 @@
 from flask_pymongo import PyMongo
 from flask_compress import Compress
-from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, send_from_directory, Blueprint, abort
+from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, send_from_directory, Blueprint, abort, Response
 from forms import searchForm, monitorListform, chartForm
 import bcrypt
 from datetime import date, datetime, timedelta
@@ -28,6 +28,7 @@ from flask_wtf import CSRFProtect
 
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+import math
 # =============================================================================
 # INITIALIZATION AND CONFIGURATION
 # =============================================================================
@@ -267,7 +268,7 @@ CITIES = {
 ALL_CITIES = [city for county_cities in CITIES.values() for city in county_cities]
 
 # =============================================================================
-# Stop bots
+# For the bots
 # =============================================================================
 @app.before_request
 def log_requests():
@@ -286,14 +287,88 @@ def refresh_subscription_status():
     user = User.query.filter_by(username=username).first()
     if user:
         session["subscribed"] = bool(user.subscription_active)
-# =============================================================================
-# ROUTES
-# =============================================================================
+
+SITEMAP_SIZE = 50000
+
+
+@app.route('/sitemap.xml')
+def sitemap_index():
+    total = db.session.query(
+        db.func.count(Agenda.id)
+    ).scalar()
+
+    sitemap_count = math.ceil(total / SITEMAP_SIZE)
+
+    xml = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    ]
+
+    for page in range(1, sitemap_count + 1):
+        xml.append(
+            '<sitemap>'
+            f'<loc>{url_for("sitemap_page", page=page, _external=True)}</loc>'
+            '</sitemap>'
+        )
+
+    xml.append('</sitemapindex>')
+
+    return Response(
+        ''.join(xml),
+        mimetype='application/xml'
+    )
+
+
+@app.route('/sitemap-<int:page>.xml')
+def sitemap_page(page):
+    total = db.session.query(
+        db.func.count(Agenda.id)
+    ).scalar()
+
+    sitemap_count = math.ceil(total / SITEMAP_SIZE)
+
+    if page < 1 or page > sitemap_count:
+        return Response("Sitemap not found", status=404)
+
+    start_id = ((page - 1) * SITEMAP_SIZE) + 1
+    end_id = min(page * SITEMAP_SIZE, total)
+
+    items = (
+        Agenda.query
+        .with_entities(Agenda.id)
+        .filter(Agenda.id >= start_id)
+        .filter(Agenda.id <= end_id)
+        .order_by(Agenda.id.asc())
+        .all()
+    )
+
+    xml = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    ]
+
+    for item in items:
+        xml.append(
+            '<url>'
+            f'<loc>{url_for("agenda_item", item_id=item.id, _external=True)}</loc>'
+            '</url>'
+        )
+
+    xml.append('</urlset>')
+
+    return Response(
+        ''.join(xml),
+        mimetype='application/xml'
+    )
+
 @app.route('/robots.txt')
 def robots_txt():
     """Serve robots.txt for search engines"""
     return send_from_directory(app.static_folder, 'robots.txt')
 
+# =============================================================================
+# Image
+# =============================================================================
 @app.route('/favicon.ico')
 def favicon():
     """Serve favicon"""
@@ -303,6 +378,9 @@ def favicon():
         mimetype='image/vnd.microsoft.icon'
     )
 
+# =============================================================================
+# Main Routes
+# =============================================================================
 @app.route('/')
 def httpsroute():
     """Redirect root to HTTPS index page"""
@@ -337,6 +415,7 @@ def index():
 
     agenda_items = [
         {
+            "ID": item.id,
             "County": item.county,
             "City": item.city,
             "Date": item.date,
@@ -537,6 +616,7 @@ def results():
 
     agenda_list = [
         {
+            "ID": item.id,
             "County": item.county,
             "City": item.city,
             "Date": item.date,
@@ -594,6 +674,15 @@ def results():
         form=form,
         agendas=agenda_list,
         title="Search California Government Agendas Results| PolicyEdge"
+    )
+
+@app.route('/item/<int:item_id>')
+def agenda_item(item_id):
+    item = Agenda.query.get_or_404(item_id)
+
+    return render_template(
+        'agenda_item.html',
+        item=item
     )
 
 # ---------------------------

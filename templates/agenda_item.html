@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block metadata %}
+    <title>
+        {{ item.city }} {{ item.meeting_type }} Agenda Item {{ item.num }} - {{ item.date|aTime }} | PolicyEdge
+    </title>
+
+    <meta
+        name="description"
+        content="{{ item.description[:160] }}"
+    >
+    <link
+        rel="canonical"
+        href="{{ url_for('agenda_item', item_id=item.id, _external=True) }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/agenda_item.css') }}"
+    >
+{% endblock %}
+
+{% block content %}
+
+<div class="agenda-item-page">
+
+    <div class="agenda-item-header">
+
+        <div class="agenda-item-location">
+            {{ item.city }}
+        </div>
+
+        <h1>
+            {{ item.meeting_type }}
+        </h1>
+
+        <div class="agenda-item-meta">
+            <span>
+                <i class="bi bi-calendar"></i>
+                {{ item.date|aTime }}
+            </span>
+
+            <span>
+                <i class="bi bi-briefcase"></i>
+                {{ item.item_type }}
+            </span>
+
+            <span>
+                #{{ item.num }}
+            </span>
+        </div>
+
+    </div>
+
+    <div class="agenda-item-content">
+
+        <h2>Agenda Item {{ item.num }}</h2>
+
+        <div class="agenda-description">
+            {{ item.description }}
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
