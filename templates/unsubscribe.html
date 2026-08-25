@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-container text-center py-5">
+    {% if valid %}
+        <h1>You're unsubscribed</h1>
+        <p>You'll no longer receive agenda alert emails{% if email %} for {{ email }}{% endif %}.</p>
+        <p>Your PolicyEdge subscription and saved issues are unchanged.</p>
+        <a href="{{ url_for('index') }}" class="btn btn-primary mt-3">Back to PolicyEdge</a>
+    {% else %}
+        <h1>Invalid link</h1>
+        <p>This unsubscribe link is invalid or expired. Please try again from a recent email.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -32,6 +32,8 @@ from flask_wtf import CSRFProtect
 
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+from itsdangerous import URLSafeTimedSerializer
+
 import math
 # =============================================================================
 # INITIALIZATION AND CONFIGURATION
@@ -173,6 +175,7 @@ class User(db.Model):
     stripe_customer_id = db.Column(db.Text)
     stripe_subscription_id = db.Column(db.Text)
     subscription_active = db.Column(db.Boolean, nullable=False, default=False)
+    email_alerts_enabled = db.Column(db.Boolean, nullable=False, default=True)
     issues = db.Column(MutableList.as_mutable(JSONB), nullable=False, default=list)
     agenda_unique_ids = db.Column(MutableList.as_mutable(JSONB), nullable=False, default=list)
     created_at = db.Column(db.DateTime(timezone=True), server_default=db.func.now(), nullable=False)
@@ -1233,6 +1236,45 @@ def route_webhook():
 # =============================================================================
 # TRACKED ISSUES (SAVED SEARCHES & ALERTS)
 # =============================================================================
+UNSUBSCRIBE_SALT = "email-unsubscribe"
+UNSUBSCRIBE_MAX_AGE = 365 * 24 * 3600  # link valid for a year
+
+
+def make_unsubscribe_token(user_id):
+    s = URLSafeTimedSerializer(app.secret_key, salt=UNSUBSCRIBE_SALT)
+    return s.dumps({"user_id": user_id})
+
+
+def verify_unsubscribe_token(token):
+    s = URLSafeTimedSerializer(app.secret_key, salt=UNSUBSCRIBE_SALT)
+    try:
+        return s.loads(token, max_age=UNSUBSCRIBE_MAX_AGE)
+    except Exception:
+        return None
+
+
+@csrf.exempt
+@app.route('/unsubscribe/<token>', methods=['GET', 'POST'])
+def unsubscribe(token):
+    data = verify_unsubscribe_token(token)
+    if not data:
+        return render_template('unsubscribe.html', valid=False), 404
+
+    user = User.query.get(data.get("user_id"))
+    if user:
+        user.email_alerts_enabled = False
+        db.session.commit()
+
+    if request.method == 'POST':  # Gmail/Yahoo one-click
+        return Response("Unsubscribed", status=200)
+
+    return render_template(
+        'unsubscribe.html',
+        valid=True,
+        email=user.email if user else None
+    )
+
+
 @app.route('/trackedIssues', methods=['GET', 'POST'])
 def trackedIssues():
     username = session.get("username")

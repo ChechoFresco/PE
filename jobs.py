@@ -40,6 +40,7 @@ def check4Issues2email(app, User, Agenda, db):
             .filter(User.email.isnot(None))
             .filter(User.email != "")
             .filter(User.subscription_active.is_(True))
+            .filter(User.email_alerts_enabled.is_(True))
             .all()
         )
 
@@ -135,15 +136,24 @@ def process_user_email_notifications(app, user, today, Agenda, db):
             db.session.commit()
 
     if agendas_by_search_term:
-        send_agenda_email(app, username, email, agendas_by_search_term)
+        from PolicyEdge import make_unsubscribe_token
+        from flask import url_for
+
+        token = make_unsubscribe_token(user.id)
+        unsubscribe_url = url_for("unsubscribe", token=token, _external=True)
+        send_agenda_email(app, username, email, agendas_by_search_term, unsubscribe_url)
 
 
-def send_agenda_email(app, username, email, agendas_by_search_term):
+def send_agenda_email(app, username, email, agendas_by_search_term, unsubscribe_url):
     """Send email notification about new matching agendas."""
     try:
         total_agendas = sum(len(a) for a in agendas_by_search_term.values())
         subject = f"You have {total_agendas} new agenda items from Policy Edge"
         msg = Message(subject, sender="AgendaPreciado@gmail.com", recipients=[email])
+        msg.headers = {
+            "List-Unsubscribe": f"<{unsubscribe_url}>",
+            "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+        }
 
         logger.info(f"Sending email to {username} ({total_agendas} items)")
 
@@ -151,7 +161,8 @@ def send_agenda_email(app, username, email, agendas_by_search_term):
             "schedEmail.html",
             username=username,
             agendas_by_search_term=agendas_by_search_term,
-            total_agendas=total_agendas
+            total_agendas=total_agendas,
+            unsubscribe_url=unsubscribe_url
         )
 
         with app.open_resource("static/logo.png") as fp:
