@@ -37,6 +37,10 @@ body {
   overflow-x: hidden;
 }
 
+main {
+    flex: 1;
+}
+
 .page-container {
   max-width: 1600px;
   margin: auto;

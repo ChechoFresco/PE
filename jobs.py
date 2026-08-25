@@ -10,6 +10,18 @@ logger = logging.getLogger(__name__)
 
 scheduler = BackgroundScheduler(timezone="UTC")
 
+_last_max_id = None
+
+
+def db_has_new_agendas(db, Agenda):
+    """Return True only when new rows have been inserted since the last check."""
+    global _last_max_id
+    current_max = db.session.query(db.func.max(Agenda.id)).scalar()
+    if _last_max_id is not None and current_max is not None and current_max <= _last_max_id:
+        return False
+    _last_max_id = current_max
+    return True
+
 
 # -----------------------------
 # JOB FUNCTIONS
@@ -17,6 +29,10 @@ scheduler = BackgroundScheduler(timezone="UTC")
 def check4Issues2email(app, User, Agenda, db):
     """Background job to check for issues and send email notifications to users."""
     with app.app_context():
+        if not db_has_new_agendas(db, Agenda):
+            logger.info("No new agenda rows; skipping email run")
+            return
+
         today = int(date.today().strftime("%Y%m%d"))
 
         users = (
@@ -162,7 +178,7 @@ def start_scheduler(app, User, Agenda, db):
     scheduler.add_job(
         func=lambda: check4Issues2email(app, User, Agenda, db),
         trigger="interval",
-        minutes=60,
+        minutes=10,
         id="check4Issues2email",
         replace_existing=True
     )

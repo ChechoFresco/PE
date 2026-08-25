@@ -1,3 +1,6 @@
+# =============================================================================
+# PolicyEdge — Flask app (agenda tracking for California local government)
+# =============================================================================
 from flask_pymongo import PyMongo
 from flask_compress import Compress
 from flask import Flask, render_template, url_for, request, redirect, flash, session, jsonify, send_from_directory, Blueprint, abort, Response
@@ -93,6 +96,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# =============================================================================
+# DATABASE MODELS (SQLAlchemy)
+# =============================================================================
 class County(db.Model):
     __tablename__ = "counties"
     id = db.Column(db.Integer, primary_key=True)
@@ -175,7 +181,7 @@ class User(db.Model):
 # Must be below the User class
 stripe_init(db, User)
 # -------------------------------
-# HELPER: GET COUNTY AGENDAS
+# COUNTY AGENDA HELPERS
 # -------------------------------
 def get_county_agendas(county_name, weeks_back=16):
     """Return recent City Council agenda items for a county."""
@@ -215,7 +221,7 @@ def get_county_agendas(county_name, weeks_back=16):
 
 
 # =============================================================================
-# CONSTANTS AND CONFIGURATION DATA
+# CITY DATA BY COUNTY
 # =============================================================================
 # Comprehensive city lists organized by county
 CITIES = {
@@ -269,7 +275,7 @@ CITIES = {
 ALL_CITIES = [city for county_cities in CITIES.values() for city in county_cities]
 
 # =============================================================================
-# For the bots
+# REQUEST HOOKS (BEFORE-REQUEST)
 # =============================================================================
 @app.before_request
 def log_requests():
@@ -289,78 +295,100 @@ def refresh_subscription_status():
     if user:
         session["subscribed"] = bool(user.subscription_active)
 
+
+# =============================================================================
+# SEO & SITE-LEVEL ROUTES (sitemap, robots, favicon, redirects)
+# =============================================================================
 SITEMAP_SIZE = 50000
+SITEMAP_CACHE_TTL = 24 * 60 * 60  # regenerate sitemaps at most once per day
+SITEMAP_DAYS = 180                # only include the last 6 months of items
+
+_sitemap_cache = {}  # key -> (generated_at, xml)
+
+
+def _sitemap_cutoff():
+    """YYYYMMDD cutoff: only items from the last 6 months."""
+    return int((date.today() - timedelta(days=SITEMAP_DAYS)).strftime('%Y%m%d'))
+
+
+def _cached_sitemap(key, builder):
+    """Return cached XML if fresh, otherwise rebuild (and cache valid pages)."""
+    now = time.time()
+    entry = _sitemap_cache.get(key)
+    if entry and now - entry[0] < SITEMAP_CACHE_TTL:
+        return entry[1]
+
+    result = builder()
+    if result is not None:
+        _sitemap_cache[key] = (now, result)
+    return result
 
 
 @app.route('/sitemap.xml')
 def sitemap_index():
-    total = db.session.query(
-        db.func.count(Agenda.id)
-    ).scalar()
-
-    sitemap_count = math.ceil(total / SITEMAP_SIZE)
-
-    xml = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-    ]
-
-    for page in range(1, sitemap_count + 1):
-        xml.append(
-            '<sitemap>'
-            f'<loc>{url_for("sitemap_page", page=page, _external=True)}</loc>'
-            '</sitemap>'
+    def build():
+        total = (
+            db.session.query(db.func.count(Agenda.id))
+            .filter(Agenda.date >= _sitemap_cutoff())
+            .scalar()
         )
+        sitemap_count = max(1, math.ceil(total / SITEMAP_SIZE))
 
-    xml.append('</sitemapindex>')
+        xml = [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        ]
+        for page in range(1, sitemap_count + 1):
+            xml.append(
+                '<sitemap>'
+                f'<loc>{url_for("sitemap_page", page=page, _external=True)}</loc>'
+                '</sitemap>'
+            )
+        xml.append('</sitemapindex>')
+        return ''.join(xml)
 
-    return Response(
-        ''.join(xml),
-        mimetype='application/xml'
-    )
+    return Response(_cached_sitemap('index', build), mimetype='application/xml')
 
 
 @app.route('/sitemap-<int:page>.xml')
 def sitemap_page(page):
-    total = db.session.query(
-        db.func.count(Agenda.id)
-    ).scalar()
+    def build():
+        total = (
+            db.session.query(db.func.count(Agenda.id))
+            .filter(Agenda.date >= _sitemap_cutoff())
+            .scalar()
+        )
+        sitemap_count = max(1, math.ceil(total / SITEMAP_SIZE))
+        if page < 1 or page > sitemap_count:
+            return None  # 404, not cached
 
-    sitemap_count = math.ceil(total / SITEMAP_SIZE)
-
-    if page < 1 or page > sitemap_count:
-        return Response("Sitemap not found", status=404)
-
-    start_id = ((page - 1) * SITEMAP_SIZE) + 1
-    end_id = min(page * SITEMAP_SIZE, total)
-
-    items = (
-        Agenda.query
-        .with_entities(Agenda.id)
-        .filter(Agenda.id >= start_id)
-        .filter(Agenda.id <= end_id)
-        .order_by(Agenda.id.asc())
-        .all()
-    )
-
-    xml = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-    ]
-
-    for item in items:
-        xml.append(
-            '<url>'
-            f'<loc>{url_for("agenda_item", item_id=item.id, _external=True)}</loc>'
-            '</url>'
+        items = (
+            Agenda.query
+            .with_entities(Agenda.id)
+            .filter(Agenda.date >= _sitemap_cutoff())
+            .order_by(Agenda.id.asc())
+            .offset((page - 1) * SITEMAP_SIZE)
+            .limit(SITEMAP_SIZE)
+            .all()
         )
 
-    xml.append('</urlset>')
+        xml = [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        ]
+        for item in items:
+            xml.append(
+                '<url>'
+                f'<loc>{url_for("agenda_item", item_id=item.id, _external=True)}</loc>'
+                '</url>'
+            )
+        xml.append('</urlset>')
+        return ''.join(xml)
 
-    return Response(
-        ''.join(xml),
-        mimetype='application/xml'
-    )
+    xml = _cached_sitemap(f'page-{page}', build)
+    if xml is None:
+        return Response("Sitemap not found", status=404)
+    return Response(xml, mimetype='application/xml')
 
 @app.route('/robots.txt')
 def robots_txt():
@@ -380,7 +408,7 @@ def favicon():
     )
 
 # =============================================================================
-# Main Routes
+# HOMEPAGE
 # =============================================================================
 @app.route('/')
 def httpsroute():
@@ -508,6 +536,9 @@ def index():
         chosen=chosen
     )
 
+# =============================================================================
+# SEARCH, RESULTS & AGENDA ITEM PAGES
+# =============================================================================
 @app.route('/search')
 def search():
     """Search page for agenda items"""
@@ -681,16 +712,31 @@ def results():
 def agenda_item(item_id):
     item = Agenda.query.get_or_404(item_id)
 
+    agendas = (
+        Agenda.query
+        .filter_by(city=item.city)
+        .order_by(Agenda.date.desc())
+        .limit(20)
+        .all()
+    )
+
+    city_agendas = {
+        item.city: {
+            'agendas': agendas
+        }
+    }
+
     return render_template(
         'agenda_item.html',
         item=item,
         city_slug=slugify(item.city or ''),
-        meeting_date=fmt_date_yyyy_mm_dd(item.date)
+        meeting_date=fmt_date_yyyy_mm_dd(item.date),
+        city_agendas=city_agendas
     )
 
-# ---------------------------
-# Load more cities via AJAX
-# ---------------------------
+# =============================================================================
+# LOAD-MORE ENDPOINTS (INFINITE SCROLL)
+# =============================================================================
 @app.route('/load_more_cities_index')
 def load_more_cities_index():
     start = int(request.args.get('start', 0))
@@ -716,6 +762,7 @@ def load_more_cities_index():
 
     agenda_list = [
         {
+            "ID": item.id,
             "County": item.county,
             "City": item.city,
             "Date": item.date,
@@ -840,6 +887,7 @@ def load_more_cities_results():
 
     agenda_list = [
         {
+            "ID": item.id,
             "County": item.county,
             "City": item.city,
             "Date": item.date,
@@ -902,6 +950,7 @@ def load_more_cities():
 
         agenda_list = [
             {
+                "ID": item.id,
                 "County": item.county,
                 "City": item.city,
                 "Date": item.date,
@@ -939,7 +988,7 @@ def load_more_cities():
     return rendered
 
 # =============================================================================
-# Resgister Login
+# AUTHENTICATION (register, login, Google, logout)
 # =============================================================================
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -1182,7 +1231,7 @@ def create_portal_session():
 def route_webhook():
     return handle_webhook(request.data, request.headers)
 # =============================================================================
-# SEARCH AND AGENDA ROUTES
+# TRACKED ISSUES (SAVED SEARCHES & ALERTS)
 # =============================================================================
 @app.route('/trackedIssues', methods=['GET', 'POST'])
 def trackedIssues():
@@ -1275,6 +1324,10 @@ def trackedIssues():
         subscription_active=subscription_active,
         free_limit=free_limit
     )
+
+# =============================================================================
+# CITY & MEETING HIERARCHY PAGES
+# =============================================================================
 def slugify(name):
     """'Los Angeles' -> 'los-angeles'"""
     slug = name.lower().strip()
@@ -1378,8 +1431,23 @@ def meeting_page(slug, meeting_date):
 
     # A single date can host multiple meeting types — group them
     grouped = {}
+
     for item in items:
-        grouped.setdefault(item.meeting_type or 'General', []).append(item)
+        agenda_dict = {
+            'ID': item.id,
+            'Date': item.date,
+            'ItemType': item.item_type,
+            'Num': item.num,
+            'Description': item.description,
+            'County': item.county,
+            'City': item.city,
+            'MeetingType': item.meeting_type,
+        }
+
+        grouped.setdefault(
+            item.meeting_type or 'General',
+            []
+        ).append(agenda_dict)
 
     return render_template(
         'meeting.html',
@@ -1453,7 +1521,9 @@ app.template_filter('aTime')(int2date)
 # =============================================================================
 # SCHEDULER CONFIGURATION
 # =============================================================================
-scheduler = start_scheduler(app, User, Agenda, db)
+scheduler = None
+if os.environ.get("RUN_EMAIL_SCHEDULER") == "1":
+    scheduler = start_scheduler(app, User, Agenda, db)
 # =============================================================================
 # STATIC PAGES AND COUNTY-SPECIFIC ROUTES
 # =============================================================================
