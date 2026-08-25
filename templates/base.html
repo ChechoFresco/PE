@@ -4,19 +4,24 @@
 <head>
 	<!-- Google tag manager -->
 <script>
-  window.addEventListener('load', function() {
-    setTimeout(function(){
-      var gtagScript = document.createElement('script');
-      gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-8GHTB4NH7Z";
-      gtagScript.async = true;
-      document.head.appendChild(gtagScript);
+  var host = window.location.hostname;
+  var optedOut = window.localStorage && localStorage.getItem('ga_optout') === '1';
 
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-8GHTB4NH7Z');
-    }, 2000);
-  });
+  if (host !== 'localhost' && host !== '127.0.0.1' && !optedOut) {
+    window.addEventListener('load', function() {
+      setTimeout(function(){
+        var gtagScript = document.createElement('script');
+        gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-8GHTB4NH7Z";
+        gtagScript.async = true;
+        document.head.appendChild(gtagScript);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-8GHTB4NH7Z');
+      }, 2000);
+    });
+  }
 </script>
 
 <!-- Allows for jquery changes -->
