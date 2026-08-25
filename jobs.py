@@ -169,7 +169,9 @@ def send_agenda_email(app, username, email, agendas_by_search_term, unsubscribe_
             msg.attach(
                 filename="logo.png",
                 content_type="image/png",
-                data=fp.read()
+                data=fp.read(),
+                disposition="inline",
+                headers={"Content-ID": "<logo>"}
             )
 
         from PolicyEdge import mail

@@ -1559,7 +1559,29 @@ for route_name in COUNTY_ROUTES:
 # =============================================================================
 # TEMPLATE FILTERS
 # =============================================================================
+CAPS_ACRONYMS = {
+    "ADU", "BMR", "CEQA", "LA", "LADWP", "LAPD", "LAFD", "PLUM",
+    "SCE", "SB", "AB", "MOU", "RFP", "RFQ", "PSA", "CD", "FY", "DOT",
+}
+
+
+def soften_caps(text):
+    """Title-case long ALL-CAPS words, keep real acronyms, lowercase short words."""
+    def repl(match):
+        word = match.group(0)
+        upper = word.upper()
+        if upper in CAPS_ACRONYMS:
+            return word
+        if word.isupper() and word.isalpha():
+            if len(word) <= 3:
+                return word.lower()
+            return word.capitalize()
+        return word
+    return re.sub(r"[A-Za-z']+", repl, text or "")
+
+
 app.template_filter('aTime')(int2date)
+app.template_filter('soften_caps')(soften_caps)
 # =============================================================================
 # SCHEDULER CONFIGURATION
 # =============================================================================
