@@ -1,20 +1,47 @@
+.register-page {
+    min-height: calc(100vh - 90px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.register-card {
+    width: 100%;
+    max-width: 720px;
+    padding: 2rem;
+}
+
 .frost {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-radius: 3rem;
-    padding: 2rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-#textDiv h1 {
-    font-size: 3rem;
-    text-shadow: 2px 3px 6px #ffffff30;
+.register-title {
+    font-size: 2.2rem;
+    color: white;
+    text-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25);
+    margin-bottom: 0.75rem;
 }
 
-#textDiv p {
+.register-subtitle {
+    color: var(--black);
+    margin-bottom: 1.5rem;
     font-size: 1rem;
+    line-height: 1.6;
+}
+
+label {
+    color: var(--black);
+}
+
+.form-control {
+    border-radius: 1rem;
+    min-height: 3rem;
 }
 
 .btn-primary {
@@ -22,8 +49,10 @@
     color: black;
     border-radius: 1.3rem;
     min-height: 3.5rem;
+    border: none;
 }
-label {
-    color: white;
 
+.btn-primary:hover {
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
 }

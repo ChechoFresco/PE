@@ -4,15 +4,16 @@
     <meta charset="utf-8">
 </head>
 <body>
-{% macro simple_highlight(text, term) %}
-{% if term and text %}
-    {% set safe_term = term|e %}
-    {% set replacement = '<span style="text-decoration: underline; font-style: italic; font-weight: bold;">' ~ safe_term ~ '</span>' %}
-    {{ text | replace(term, replacement) | safe }}
-{% else %}
-    {{ text }}
-{% endif %}
-{% endmacro %}
+    {% macro simple_highlight(text, term) %}
+    {% if term and text %}
+        {% set safe_term = term|e %}
+        {% set safe_text = text|e %}
+        {% set replacement = '<span style="text-decoration: underline; font-style: italic; font-weight: bold;">' ~ safe_term ~ '</span>' %}
+        {{ safe_text | replace(safe_term, replacement) | safe }}
+    {% else %}
+        {{ text|e }}
+    {% endif %}
+    {% endmacro %}
     <table style="width:100%; background-color: slategrey; padding: 20px;" id="Background">
         <tr>
             <td align="center">
@@ -112,7 +113,7 @@
 
                                         <!-- Agenda Description with Highlighting -->
                                         <div style="color: #333; line-height: 1.5; font-size: 15px; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
-                                            {{ simple_highlight(agenda.get('Description', 'No description available'), search_term) }}
+                                            {{ simple_highlight(agenda.get('Description', 'No description available') | soften_caps, search_term) }}
                                         </div>
                                     </td>
                                 </tr>
@@ -133,6 +134,13 @@
                             </table>
 
                             <!-- Signature -->
+                            <p style="margin-top: 25px; text-align: center; font-size: 12px; color: #888; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
+                                You are receiving this because you signed up for PolicyEdge agenda alerts.
+                                <a href="{{ unsubscribe_url }}" style="color: #5e7cff;">Unsubscribe</a>
+                            </p>
+                            <p style="margin-top: 8px; text-align: center; font-size: 12px; color: #888; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
+                                PolicyEdge, 924 S. Dodson Ave., San Pedro, CA
+                            </p>
                             <table style="width:100%; margin-top: 30px;">
                                 <tr>
                                     <td align="center">

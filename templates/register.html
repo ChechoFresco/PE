@@ -6,9 +6,7 @@
 
 {% block content %}
 
-<!-- Bootstrap 5 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
 <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}" />
 <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
 <script src="https://js.stripe.com/v3/"></script>
@@ -22,61 +20,51 @@
 {% endif %}
 {% endwith %}
 
-<div class="container my-5">
-    <div class="row justify-content-center align-items-start">
-        <!-- Info section -->
-        <div class="col-md-6 text-white mb-4" id="textDiv">
-            <h1 class="display-5">Get started with PolicyEdge</h1>
-            <p class="lead">
-                Set alerts to track legislation as it moves through counties or local city councils.
-            </p>
-            <p>
-                Take a tour of our website to see a few of our offerings, from monitoring legislation and regulations
-                to tracking emerging trends across Southern California.
-            </p>
-            <p>
-                We provide a three-year back catalog of city government documents, with customizable search features,
-                allowing users to simplify background research and gain fresh insights examining neighboring cities.
-            </p>
+<div class="register-page">
+    <div class="register-card frost">
+        <div class="text-center mb-4">
+            <img src="{{ url_for('static', filename='cityHall.svg') }}"
+                alt="PolicyEdge Logo"
+                class="img-fluid"
+                style="max-width: 90px; height: auto;">
         </div>
 
-        <!-- Registration Form -->
-        <div class="col-md-6">
-            <div class="frost p-4 rounded">
-                <!-- Logo -->
-                <div class="text-center mb-4">
-                    <img src="{{ url_for('static', filename='cityHall.svg') }}"
-                         alt="PolicyEdge Logo"
-                         class="img-fluid"
-                         style="max-width: 100px; height:auto;">
+        <h1 class="register-title text-center">Get started with PolicyEdge</h1>
+        <p class="register-subtitle text-center">
+            Set alerts, track agenda items, and follow the issues that matter to you.
+        </p>
+
+        <form action="/createAccount" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <label for="inputUsername" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="inputUsername" name="username" placeholder="John Doe" required>
                 </div>
-
-                <form action="/create-checkout-session" method="post">
-                    <div class="row g-3">
-                        <div class="col-12 col-md-6">
-                            <label for="inputUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="inputUsername" name="username" placeholder="John Doe" required>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="inputEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="inputEmail" name="email" placeholder="example@email.com" required>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="inputPassword" class="form-label">Enter Password</label>
-                            <input type="password" class="form-control" id="inputPassword" name="password1" placeholder="Password" required>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="inputPassword2" class="form-label">Repeat Password</label>
-                            <input type="password" class="form-control" id="inputPassword2" name="password2" placeholder="Password" required>
-                        </div>
-                    </div>
-
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-primary w-100">Submit</button>
-                    </div>
-                </form>
+                <div class="col-12 col-md-6">
+                    <label for="inputEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="inputEmail" name="email" placeholder="example@email.com" required>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="inputPassword" class="form-label">Enter Password</label>
+                    <input type="password" class="form-control" id="inputPassword" name="password1" placeholder="Password" required>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="inputPassword2" class="form-label">Repeat Password</label>
+                    <input type="password" class="form-control" id="inputPassword2" name="password2" placeholder="Password" required>
+                </div>
             </div>
-        </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
+            </div>
+            <div class="d-grid mt-3">
+                <a href="{{ url_for('login_google') }}" class="btn btn-light border d-flex align-items-center justify-content-center gap-2 google-btn">
+                    <img src="{{ url_for('static', filename='google-logo.png') }}" alt="Google" class="google-icon">
+                    <span>Continue with Google</span>
+                </a>
+            </div>
+        </form>
     </div>
 </div>
 

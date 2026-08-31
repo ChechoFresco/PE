@@ -6,6 +6,24 @@
     <!-- City caption and topic list wrapper -->
     <div class="city-info">
         <div class="cityCaption">{{ _city }}</div>
+
+        {% if _data.agendas %}
+            {% set latest_agenda = _data.agendas[0] %}
+
+            <div class="city-source-link">
+                <a
+                    href="https://www.google.com/search?q={{ (
+                        '"' ~ latest_agenda.City ~ '" "' ~
+                        latest_agenda.MeetingType ~ '" agenda ' ~
+                        (latest_agenda.Date|aTime)
+                    )|urlencode }}"
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    title="Search for latest original agenda">
+                    <i>View Original Agenda</i>
+                </a>
+            </div>
+        {% endif %}
     </div>
 
     <!-- Table wrapper -->
@@ -15,12 +33,13 @@
                 data-pagination="true"
                 data-search="true"
                 data-show-columns="true"
-                data-page-size="5">
+                data-page-size="5"
+                data-page-list="[5, 10, 15, 25, 50, 100]">
             <thead>
                 <tr>
                     <!-- Hidden but sortable columns -->
-                    <th data-field="Date" data-sortable="true">Date</th>
-                    <th data-field="ItemType" data-sortable="true">Item Type</th>
+                    <th data-field="Date" data-sortable="true" >Date</th>
+                    <th data-field="ItemType" data-sortable="true" >Item Type</th>
                     <th data-field="Num" data-sortable="true" >Item</th>
 
                     <!-- Hidden columns -->
@@ -29,8 +48,7 @@
                     <th data-field="County" class="none">County</th>
                     <th data-field="City" class="none">City</th>
                     <th data-field="MeetingType" class="none">Meeting Type</th>
-                    <th data-field="_id" class="none">id</th>
-                    <th data-field="topic" class="none">topic</th>
+                    <th data-field="ID" class="none">id</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,11 +60,16 @@
                     <td class="none">{{ agenda.Num }}</td>
 
                     <!-- Visible columns -->
-                    <td class="description">{{ agenda.Description }}</td>
+                    <td class="description">
+                        {{ agenda.Description }}
+                    </td>
                     <td class="infoLocation">
                         <i class="bi bi-calendar"></i>{{ agenda.Date|aTime }}
                         <i class="bi bi-briefcase"></i>{{ agenda.ItemType }}
-                        <span class="bi">#</span>{{ agenda.Num }}
+                        <span class="bi">#</span>
+                        <a href="{{ url_for('agenda_item', item_id=agenda.ID) }}">
+                            {{ agenda.Num }}
+                        </a>
                     </td>
 
                     <!-- Other hidden metadata -->
@@ -54,7 +77,6 @@
                     <td class="none">{{ agenda.City }}</td>
                     <td class="none">{{ agenda.MeetingType }}</td>
                     <td class="none">{{ agenda._id }}</td>
-                    <td class="none">{{ agenda.topic }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

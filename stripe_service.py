@@ -1,5 +1,4 @@
 import os
-import json
 import stripe
 import re
 from flask import current_app, redirect, flash, url_for, request, jsonify
@@ -59,19 +58,18 @@ def create_checkout_session(email, your_domain, existing_customer_id=None):
         flash('Error creating checkout session. Please try again.')
         return redirect(url_for('register'))
 
-def handle_webhook(request_data, request_headers, your_domain, env):
-    """Handle Stripe webhook events"""
+def handle_webhook(request_data, request_headers, your_domain=None):
+    """Handle Stripe webhook events (signature always verified)"""
     webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
+    if not webhook_secret:
+        current_app.logger.error("Stripe webhook rejected: STRIPE_WEBHOOK_SECRET not configured")
+        return jsonify({'status': 'error'}), 400
     try:
-        if env == "production" and webhook_secret:
-            signature = request_headers.get('stripe-signature')
-            event = stripe.Webhook.construct_event(
-                payload=request_data,
-                sig_header=signature,
-                secret=webhook_secret
-            )
-        else:
-            event = json.loads(request_data)
+        event = stripe.Webhook.construct_event(
+            payload=request_data,
+            sig_header=request_headers.get('stripe-signature'),
+            secret=webhook_secret
+        )
     except Exception as e:
         current_app.logger.error(f"Webhook signature verification failed: {e}")
         return jsonify({'status': 'error'}), 400

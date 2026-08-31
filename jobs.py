@@ -4,7 +4,9 @@ from collections import Counter
 from flask import current_app as app, render_template
 from flask_mail import Mail, Message
 from apscheduler.schedulers.background import BackgroundScheduler
+from helpers import make_unsubscribe_token
 import atexit
+import os
 import logging
 
 logger = logging.getLogger(__name__)
@@ -21,7 +23,8 @@ def check4Issues2email(mongo, mail):
         
         users = list(mongo.db.User.find({
             'email': {'$exists': True, '$ne': ''},
-            'subscriptionActive': True
+            'subscriptionActive': True,
+            'email_alerts_enabled': {'$ne': False}
         }))
         logger.info(f"Processing {len(users)} users for email notifications")
         
@@ -99,6 +102,14 @@ def send_agenda_email(username, email, agendas_by_search_term, mail):
         total_agendas = sum(len(a) for a in agendas_by_search_term.values())
         subject = f'You have {total_agendas} new agenda items from Policy Edge'
         msg = Message(subject, sender='AgendaPreciado@gmail.com', recipients=[email])
+        unsubscribe_url = (
+            f"{app.config['YOUR_DOMAIN']}unsubscribe/"
+            f"{make_unsubscribe_token(app.secret_key, email)}"
+        )
+        msg.extra_headers = {
+            'List-Unsubscribe': f'<{unsubscribe_url}>',
+            'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+        }
 
         logger.info(f"Sending email to {username} ({total_agendas} items)")
 
@@ -106,10 +117,11 @@ def send_agenda_email(username, email, agendas_by_search_term, mail):
             'schedEmail.html',
             username=username,
             agendas_by_search_term=agendas_by_search_term,
-            total_agendas=total_agendas
+            total_agendas=total_agendas,
+            unsubscribe_url=unsubscribe_url
         )
 
-        with app.open_resource('/app/static/logo.png') as fp:
+        with open(os.path.join(app.root_path, 'static', 'logo.png'), 'rb') as fp:
             msg.attach(
                 filename="logo.png",
                 content_type="image/png",

@@ -1,0 +1,175 @@
+.search-container {
+    margin: 1.25rem auto;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.14);
+}
+
+.search-form {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+    align-items: end;
+}
+
+
+.search-form .form-group {
+    margin-bottom: 0;
+}
+
+.search-form label {
+    font-size: 0.75rem;
+    margin-bottom: 0.15rem;
+    color: var(--blue);
+}
+
+.search-form .form-control {
+    padding: 0.4rem 0.55rem;
+    font-size: 13px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.12);
+    background: rgba(255,255,255,0.55);
+    color: var(--blue);
+    transition: all 0.2s ease;
+}
+
+.search-form .form-control::placeholder {
+    color: var(--blue) !important;
+    opacity: 1;
+}
+
+.search-form .form-control:focus {
+    background: rgba(255,255,255,0.8);
+    border-color: rgba(94,124,255,0.7);
+    box-shadow: 0 0 0 2px rgba(94,124,255,0.2);
+    color: var(--blue);
+}
+
+.search-form select {
+    background-color: rgba(255, 255, 255, 0.55);
+    color: var(--blue);
+}
+
+.btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 13px;
+    border-radius: 10px;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--blue), var(--blueDark));
+    color: white;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ff5e5e, #d42e2e);
+    color: white;
+}
+
+.form-actions {
+    grid-column: 4 / 7;
+    display: flex;
+    gap: 0.5rem;
+    align-items: end;
+    justify-content: flex-end;
+}
+
+
+
+
+
+.saved-issues-container h4 {
+    var(--blue);
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+.saved-issues-container small {
+    color: var(--blue) !important;
+    font-size: 0.8rem;
+}
+
+.issue-card-modern {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 1rem;
+    padding: 0.85rem 0.9rem;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.issue-card-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.issue-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.65rem;
+}
+
+.issue-badge {
+    display: inline-block;
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--blue), var(--blueDark));
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.issue-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--blue);
+}
+
+.issue-meta span {
+    padding: 0.22rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.issue-count{
+    font-size: 0.7rem;
+
+}
+.btn-delete-link {
+    border: 0;
+    background: transparent;
+    color: #d9484a;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.btn-delete-link:hover {
+    text-decoration: underline;
+}

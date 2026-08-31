@@ -1,8 +1,7 @@
-from flask import Flask, render_template, request
-from wtforms import StringField, SelectField, Form
+from flask_wtf import FlaskForm
+from wtforms import StringField, SelectField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, Length
-
 
 # Common choice sets
 CITY_CHOICES = {
@@ -14,17 +13,17 @@ CITY_CHOICES = {
         ('El Segundo','El Segundo'), ('Gardena','Gardena'), ('Glendale','Glendale'), ('Glendora','Glendora'), ('Hawaiian Gardens','Hawaiian Gardens'), ('Hawthorne','Hawthorne'), ('Hermosa Beach','Hermosa Beach'), ('Hidden Hills','Hidden Hills'), ('Huntington Park','Huntington Park'), ('Inglewood','Inglewood'),
         ('Irwindale','Irwindale'), ('La Canada Flintridge','La Canada Flintridge'), ('La Habra Heights','La Habra Heights'), ('La Mirada','La Mirada'), ('La Puente','La Puente'), ('La Verne','La Verne'),
         ('Lakewood','Lakewood'), ('Lancaster','Lancaster'), ('Lawndale','Lawndale'), ('Lomita','Lomita'), ('Long Beach','Long Beach'), ('Los Angeles','Los Angeles'), ('Lynwood','Lynwood'), ('Malibu','Malibu'),('Manhattan Beach','Manhattan Beach'), ('Maywood','Maywood'), ('Monrovia','Monrovia'),
-        ('Montebello','Montebello'), ('Monterey Park','Monterey Park'), ('Norwalk','Norwalk'), ('Palmdale','Palmdale'), ('Palos Verdes Estates',''), ('Paramount','Paramount'), ('Pasadena','Pasadena'), ('Pico Rivera','Pico Rivera'),
-        ('Pomona','Pomona'), ('Rancho Palos Verdes','Rancho Palos Verdes'), ('Redondo Beach','Redondo Beach'), ('Rolling Hills','Rolling Hills'), ('Rolling Hills Estate','Rolling Hills Estate'), ('Rosemead','Rosemead'), ('San Dimas','San Dimas'),
-        ('San Fernando','San Fernando'), ('San Gabriel','an Gabriel'), ('San Marino','San Marino'), ('Santa Clarita','Santa Clarita'), ('Santa Fe Springs','Santa Fe Springs'), ('Santa Monica','Santa Monica'),
+        ('Montebello','Montebello'), ('Monterey Park','Monterey Park'), ('Norwalk','Norwalk'), ('Palmdale','Palmdale'), ('Palos Verdes Estates','Palos Verdes Estates'), ('Paramount','Paramount'), ('Pasadena','Pasadena'), ('Pico Rivera','Pico Rivera'),
+        ('Pomona','Pomona'), ('Rancho Palos Verdes','Rancho Palos Verdes'), ('Redondo Beach','Redondo Beach'), ('Rolling Hills','Rolling Hills'), ('Rolling Hills Estates','Rolling Hills Estates'), ('Rosemead','Rosemead'), ('San Dimas','San Dimas'),
+        ('San Fernando','San Fernando'), ('San Gabriel','San Gabriel'), ('San Marino','San Marino'), ('Santa Clarita','Santa Clarita'), ('Santa Fe Springs','Santa Fe Springs'), ('Santa Monica','Santa Monica'),
         ('Sierra Madre','Sierra Madre'), ('Signal Hill','Signal Hill'), ('South El Monte','South El Monte'), ('South Gate','South Gate'), ('South Pasadena','South Pasadena'), ('Temple City','Temple City'), ('Torrance','Torrance'),
-        ('Vernon','Vernon'), ('Walnut','Walnut'), ('West Covina','West Covina'), ('West Hollywood','West Hollywoo'), ('Westlake Village','Westlake Village'), ('Whittier','Whittier')
+        ('Vernon','Vernon'), ('Walnut','Walnut'), ('West Covina','West Covina'), ('West Hollywood','West Hollywood'), ('Westlake Village','Westlake Village'), ('Whittier','Whittier')
 ],
 "OC": [
         ('', ''), ('Aliso Viejo', 'Aliso Viejo'), ('Anaheim', 'Anaheim'), ('Brea', 'Brea'), ('Buena Park', 'Buena Park'), ('Costa Mesa', 'Costa Mesa'), ('Cypress','Cypress'), ('Dana Point','Dana Point'),
         ('Fountain Valley','Fountain Valley'), ('Fullerton','Fullerton'), ('Huntington Beach','Huntington Beach'), ('Irvine','Irvine'), ('La Habra','La Habra'), ('La Palma','La Palma'),
         ('Laguna Beach','Laguna Beach'), ('Laguna Hills','Laguna Hills'), ('Laguna Niguel','Laguna Niguel'), ('Laguna Woods','Laguna Woods'), ('Lake Forest','Lake Forest'), ('Los Alamitos','Los Alamitos'), ('Mission Viejo','Mission Viejo'), ('Newport Beach','Newport Beach'), ('Orange','Orange'), ('Placentia','Placentia'),
-        ('Rancho Santa Margarita','Rancho Santa Margarita'), ('San Clemente','San Clemente'), ('San Juan Capistrano','San Juan Capistrano'), ('Santa Ana','Santa Ana'), ('Seal Beach','Seal Beach'), ('Stanton','Stanton'), ('Tustin','Tustin'), ('Villa Park','Villa Park'), ('Westminister','Westminister'), ('Yorba Linda','Yorba Linda')
+        ('Rancho Santa Margarita','Rancho Santa Margarita'), ('San Clemente','San Clemente'), ('San Juan Capistrano','San Juan Capistrano'), ('Santa Ana','Santa Ana'), ('Seal Beach','Seal Beach'), ('Stanton','Stanton'), ('Tustin','Tustin'), ('Villa Park','Villa Park'), ('Westminster','Westminster'), ('Yorba Linda','Yorba Linda')
 ],
 "RS": [
         ('', ''), ('Banning', 'Banning'), ('Beaumont', 'Beaumont'), ('Blythe', 'Blythe'), ('Calimesa', 'Calimesa'), ('Canyon Lake', 'Canyon Lake'),
@@ -36,12 +35,12 @@ CITY_CHOICES = {
 "SB": [
         ('', ''), ('Adelanto', 'Adelanto'), ('Apple Valley', 'Apple Valley'), ('Barstow', 'Barstow'), ('Big Bear Lake', 'Big Bear Lake'), ('Chino', 'Chino'), ('Chino Hills','Chino Hills'), ('Colton','Colton'), ('Fontana','Fontana'), ('Grand Terrace','Grand Terrace'),
         ('Hesperia','Hesperia'), ('Highland','Highland'), ('Loma Linda','Loma Linda'), ('Montclair','Montclair'), ('Needles','Needles'),
-        ('Ontario','Ontario'), ('Rancho Cucamonga','Rancho Cucamonga'), ('Redlands','Redlands'), ('Rialto','Rialto'), ('San Bernandino','San Bernandino'),
-        ('Twnentynine Palms','Twnentynine Palms'), ('Upland','Upland'), ('Victorville','Victorville'), ('Yucaipa','Yucaipa'),('Yucca Valley','Yucca Valley')
+        ('Ontario','Ontario'), ('Rancho Cucamonga','Rancho Cucamonga'), ('Redlands','Redlands'), ('Rialto','Rialto'), ('San Bernardino','San Bernardino'),
+        ('Twentynine Palms','Twentynine Palms'), ('Upland','Upland'), ('Victorville','Victorville'), ('Yucaipa','Yucaipa'),('Yucca Valley','Yucca Valley')
 ],
 "SD": [
         ('', ''), ('Carlsbad', 'Carlsbad'), ('Chula Vista', 'Chula Vista'), ('Coronado', 'Coronado'), ('Del Mar', 'Del Mar'), ('El Cajon', 'El Cajon'),
-        ('Encinitas','Encinitas'),('Escondido','Escondido'),('Imprial Beach','Imprial Beach'),('La Mesa','La Mesa'),('Lemon Grove','Lemon Grove'),
+        ('Encinitas','Encinitas'),('Escondido','Escondido'),('Imperial Beach','Imperial Beach'),('La Mesa','La Mesa'),('Lemon Grove','Lemon Grove'),
         ('National City','National City'),('Oceanside','Oceanside'),('Poway','Poway'), ('San Diego','San Diego'),('San Marcos','San Marcos'),('Santee','Santee'),('Solana Beach','Solana Beach'),('Vista','Vista')],
 "LACM": [
         ('', ''), ('Arts, Parks, Health, Education and Neighborhoods Committee','Arts, Parks, Health, Education and Neighborhoods Committee'),('Board of Airport Commissioners', 'Board of Airport Commissioners'),
@@ -90,7 +89,7 @@ SEARCH_CRITERIA_CHOICES = [
 ]
 
 
-class searchForm(Form):
+class searchForm(FlaskForm):
         select = SelectField('Criteria:', choices=SEARCH_CRITERIA_CHOICES)
         selectLA = SelectField('Cities:', choices=CITY_CHOICES["LA"])
         selectOC = SelectField('Cities:', choices=CITY_CHOICES["OC"])
@@ -100,8 +99,8 @@ class searchForm(Form):
         selectLACM = SelectField('Cities:', choices=CITY_CHOICES["LACM"])
         selectLBCM = SelectField('Cities:', choices=CITY_CHOICES["LBCM"])
         primary_search = StringField('Keyword:', validators=[Length(min=1, max=25), DataRequired()])
-        startdate_field = DateField('Start Date:', format='%Y%m%d')
-        enddate_field = DateField('End Date:', format='%Y%m%d')
+        startdate_field = DateField('Start Date:', format='%Y-%m-%d')
+        enddate_field = DateField('End Date:', format='%Y-%m-%d')
 
 class monitorListform(searchForm):
     """
@@ -117,6 +116,6 @@ class monitorListform(searchForm):
     select = SelectField('Source:', choices=SEARCH_CRITERIA_CHOICES)
     primary_search = StringField('Topic:', validators=[DataRequired()])
 
-class chartForm(Form):
+class chartForm(FlaskForm):
         chartSearch = StringField('',render_kw={"placeholder": "Explore Other Issues?"}, validators=[Length(min=1, max=25),DataRequired()])
 

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block metadata %}
+    <title>
+        {{ item.city }} {{ item.meeting_type }} Agenda Item {{ item.num }} - {{ item.date|aTime }} | PolicyEdge
+    </title>
+
+    <meta
+        name="description"
+        content="{{ item.description[:160] }}"
+    >
+    <link
+        rel="canonical"
+        href="{{ url_for('agenda_item', item_id=item.id, _external=True) }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/agenda_item.css') }}"
+    >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    >
+
+{% endblock %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb" class="page-container mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('city_page', slug=city_slug) }}">{{ item.city }}</a></li>
+        {% if meeting_date %}
+        <li class="breadcrumb-item"><a href="{{ url_for('meeting_page', slug=city_slug, meeting_date=meeting_date) }}">{{ meeting_date }}</a></li>
+        {% endif %}
+        <li class="breadcrumb-item active">Item {{ item.num }}</li>
+    </ol>
+</nav>
+
+<div class="agenda-item-page">
+
+    <div class="agenda-item-header">
+
+        <div class="agenda-item-location">
+            {{ item.city }}
+        </div>
+
+        <h1>
+            {{ item.meeting_type }}
+        </h1>
+
+    </div>
+
+    <div class="agenda-item-content">
+
+        <div class="agenda-description">
+            {{ item.description }}
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

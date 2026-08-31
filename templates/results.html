@@ -4,9 +4,10 @@
     <style>
         /* Highlight words in table */
         .highlight {
+            color: var(--blue);
             text-decoration-line: underline;
-            text-decoration-color: var(--orange);
-            text-decoration-thickness: 4px;
+            border-radius: 2px;
+            padding: 0 2px;
         }
 
         /* Topic section */
@@ -19,19 +20,34 @@
             color: white;
             text-transform: capitalize;
         }
+
+        #mainBox, #chartBox {
+            --bs-gutter-x: 0;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        #foliumMapContainer {
+            width: 100%;
+            min-height: 500px;
+            margin: auto;
+        }
+
+        #foliumMapContainer iframe {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            #foliumMapContainer {
+                min-height: 300px;
+            }
+        }
+        #mainBox{
+            max-width: 1600px;
+            margin: auto;
+        }
     </style>
 </head>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <script>
-            var messages = {{ messages | safe }};
-            for (var i=0; i<messages.length; i++) {
-                alert(messages[i]);
-            }
-            </script>
-        {% endif %}
-    {% endwith %}
-
     <!-- City Squares -->
     {% if primeKey %}
         <div id="primeDiv">
@@ -39,18 +55,18 @@
         </div>
     {% endif %}
 
-<!--First table-->
+    <!--First table-->
     {% if agendas %}
-        <div class="row" id="mainBox">
+        <div class="row g-0" id="mainBox">
             <!-- ===== CHARTS ===== -->
             {% if folium_map %}
-            <div class="row" id="chartBox">
-                <div id="foliumMapContainer" style="width: 60%; min-height: 500px; margin: auto">
+            <div class="row g-0" id="chartBox">
+                <div id="foliumMapContainer">
                     {{ folium_map | safe }}
                 </div>
             </div>
             {% endif %}
-            
+
             {% from 'partials/city_tables.html' import city_table %}
             <div class="row" id="conTable">
                 {% for city, data in city_agendas.items() %}
@@ -64,21 +80,128 @@
 
 <!-- Highlights words in table-->
 <script>
-    $(document).ready(function () {
-    const searchValue = {{ primeKey | tojson if primeKey else '"keyword"' }};
-    const contentElement = document.querySelector('tbody');
-    let searchValue2 = searchValue.replace('"', '').replace('"', '')
-    console.log(searchValue)
-    if (searchValue !== '') {
-        const content = contentElement.innerHTML;
-        const highlightedContent = content.replace(
-            new RegExp(searchValue2, 'gi'),
-            '<span class="highlight">$&</span>'
-        );
-        contentElement.innerHTML = highlightedContent;
-    } else {
-        False;
+
+    // Toggle description height
+    $(document).on("click", ".table1 td.description", function () {
+        let $desc = $(this);
+        if ($desc.hasClass("expanded")) {
+            // Collapse back to default height
+            $desc.removeClass("expanded")
+                .css("max-height", "128px");
+        } else {
+            // Expand to full height
+            $desc.addClass("expanded");
+            let fullHeight = $desc.prop("scrollHeight") + "px";
+            $desc.css("max-height", fullHeight);
+        }
+    });
+
+    function highlightSearchTerm() {
+        const searchValue = {{ primeKey | tojson if primeKey else '""' }};
+        if (!searchValue) return;
+
+        const escaped = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(${escaped})`, 'gi');
+
+        document.querySelectorAll('.table1 td.description').forEach(function (cell) {
+            const text = cell.textContent;
+            cell.innerHTML = text.replace(regex, '<span class="highlight">$1</span>');
+        });
     }
+
+    $(document).ready(function () {
+        highlightSearchTerm();
+    });
+
+    // Re-apply after bootstrap-table re-renders (init, pagination, search, load-more)
+    $(document).on('post-body.bs.table', '.table1', highlightSearchTerm);
+
+    let start = 6;
+    const count = 6;
+    let loading = false;
+    let hasMore = true;
+
+    function loadMoreCities() {
+        if (loading || !hasMore) return;
+        loading = true;
+
+        const params = new URLSearchParams(window.location.search);
+
+        const primary_search = params.get('primary_search') || {{ primeKey | tojson if primeKey else '""' }};
+        const select = params.get('select') || '';
+        const selectLA = params.get('selectLA') || '';
+        const selectOC = params.get('selectOC') || '';
+        const selectRS = params.get('selectRS') || '';
+        const selectSB = params.get('selectSB') || '';
+        const selectSD = params.get('selectSD') || '';
+        const selectLACM = params.get('selectLACM') || '';
+        const selectLBCM = params.get('selectLBCM') || '';
+        const start_date = params.get('startdate_field') || '';
+        const end_date = params.get('enddate_field') || '';
+        const city = params.get('city') || '';
+        const county = params.get('county') || '';
+        const committee = params.get('committee') || '';
+
+        fetch(
+            `/load_more_cities_results?start=${start}&count=${count}`
+            + `&primary_search=${encodeURIComponent(primary_search)}`
+            + `&select=${encodeURIComponent(select)}`
+            + `&selectLA=${encodeURIComponent(selectLA)}`
+            + `&selectOC=${encodeURIComponent(selectOC)}`
+            + `&selectRS=${encodeURIComponent(selectRS)}`
+            + `&selectSB=${encodeURIComponent(selectSB)}`
+            + `&selectSD=${encodeURIComponent(selectSD)}`
+            + `&selectLACM=${encodeURIComponent(selectLACM)}`
+            + `&selectLBCM=${encodeURIComponent(selectLBCM)}`
+            + `&start_date=${encodeURIComponent(start_date)}`
+            + `&end_date=${encodeURIComponent(end_date)}`
+            + `&city=${encodeURIComponent(city)}`
+            + `&county=${encodeURIComponent(county)}`
+            + `&committee=${encodeURIComponent(committee)}`
+        )
+            .then(res => res.text())
+            .then(html => {
+                if (html.trim() !== "") {
+                    const container = document.createElement('div');
+                    container.innerHTML = html;
+
+                    const conTable = document.getElementById('conTable');
+                    const newWrappers = container.querySelectorAll('.city-wrapper');
+
+                    if (newWrappers.length === 0) {
+                        hasMore = false;
+                    }
+
+                    newWrappers.forEach(wrapper => {
+                        const colDiv = document.createElement('div');
+                        colDiv.className = 'col-sm-6';
+                        colDiv.appendChild(wrapper);
+                        conTable.appendChild(colDiv);
+
+                        const table = wrapper.querySelector('table');
+                        if (table) $(table).bootstrapTable();
+                    });
+
+                    if (newWrappers.length > 0) {
+                        start += count;
+                    }
+                } else {
+                    hasMore = false;
+                }
+
+                loading = false;
+            })
+            .catch(() => {
+                loading = false;
+            });
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!hasMore) return;
+
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+            loadMoreCities();
+        }
     });
 </script>
 

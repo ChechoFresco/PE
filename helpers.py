@@ -1,11 +1,58 @@
 # helpers.py
+import re
 from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 from collections import Counter
 import logging
+from itsdangerous import URLSafeTimedSerializer
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)  # or DEBUG
+
+
+UNSUBSCRIBE_SALT = "email-unsubscribe"
+
+
+def make_unsubscribe_token(secret_key, email):
+    """Create a signed, time-limited unsubscribe token for an email address."""
+    return URLSafeTimedSerializer(secret_key, salt=UNSUBSCRIBE_SALT).dumps(email)
+
+
+def load_unsubscribe_token(secret_key, token, max_age_days=365):
+    """Decode an unsubscribe token, raising on invalid/expired tokens."""
+    return URLSafeTimedSerializer(secret_key, salt=UNSUBSCRIBE_SALT).loads(
+        token, max_age=60 * 60 * 24 * max_age_days
+    )
+
+
+def to_table_agenda(doc):
+    """Convert a Mongo Agenda doc into the uppercase dict shape templates expect."""
+    doc_id = str(doc.get("_id", "")) if doc else ""
+    return {
+        "ID": doc_id,
+        "_id": doc_id,
+        "County": doc.get("County", ""),
+        "City": doc.get("City", ""),
+        "Date": doc.get("Date", ""),
+        "Num": doc.get("Num", ""),
+        "MeetingType": doc.get("MeetingType", ""),
+        "ItemType": doc.get("ItemType", ""),
+        "Description": doc.get("Description", ""),
+    }
+
+
+def to_item_dict(doc):
+    """Convert a Mongo Agenda doc to the lowercase dict used by the item page."""
+    return {
+        "id": str(doc.get("_id", "")),
+        "city": doc.get("City", ""),
+        "county": doc.get("County", ""),
+        "date": doc.get("Date", ""),
+        "num": doc.get("Num", ""),
+        "meeting_type": doc.get("MeetingType", ""),
+        "item_type": doc.get("ItemType", ""),
+        "description": doc.get("Description", ""),
+    }
 
 
 def get_date_threshold(weeks=-2):
@@ -78,10 +125,10 @@ def get_user_saved_agendas(mongo, username, days_back=60, days_forward=30):
             city = ''
             committee = ''
 
-        # Build text search for Description
+        # Keyword filter: case-insensitive substring match on Description
         text_query = {}
         if searchWord:
-            text_query = {'$text': {'$search': f'"{searchWord}"'}}
+            text_query = {'Description': {'$regex': re.escape(searchWord), '$options': 'i'}}
 
         # Build the MongoDB query
         query = {
@@ -118,7 +165,7 @@ def get_county_agendas(mongo, county_name, weeks_back=16):
                 {'Date': {'$gte': date_threshold}},
                 {'MeetingType': {'$regex': 'City Council', '$options': 'i'}},
                 {'County': {'$regex': county_name, '$options': 'i'}},
-                {"$expr": {"$gt": [{"$strLenCP": "$Description"}, 5]}},
+                {'Description': {'$regex': '.{6}'}},
                 {
                     '$and': [
                         {"Description": {'$not': {'$regex': "minute"}}},

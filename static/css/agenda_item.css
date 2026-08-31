@@ -1,0 +1,41 @@
+.agenda-item-page {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 25px;
+}
+
+.agenda-item-header {
+    margin-bottom: 30px;
+}
+
+.agenda-item-location {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.agenda-item-header h1 {
+    font-size: 1.1rem;
+    margin: 5px 0 15px;
+}
+
+.agenda-item-meta {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+}
+
+.agenda-item-content {
+    padding: 30px;
+    border-radius: 8px;
+    background: var(--background);
+}
+
+.agenda-item-content h2 {
+    margin-top: 0;
+}
+
+.agenda-description {
+    white-space: normal;
+    line-height: 1.7;
+}
