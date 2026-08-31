@@ -1258,7 +1258,11 @@ def verify_unsubscribe_token(token):
 def unsubscribe(token):
     data = verify_unsubscribe_token(token)
     if not data:
-        return render_template('unsubscribe.html', valid=False), 404
+        return render_template(
+            'unsubscribe.html',
+            valid=False,
+            title='Unsubscribe | PolicyEdge'
+        ), 404
 
     user = User.query.get(data.get("user_id"))
     if user:
@@ -1271,7 +1275,8 @@ def unsubscribe(token):
     return render_template(
         'unsubscribe.html',
         valid=True,
-        email=user.email if user else None
+        email=user.email if user else None,
+        title='Unsubscribe | PolicyEdge'
     )
 
 

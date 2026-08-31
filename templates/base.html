@@ -4,10 +4,7 @@
 <head>
 	<!-- Google tag manager -->
 <script>
-  var host = window.location.hostname;
-  var optedOut = window.localStorage && localStorage.getItem('ga_optout') === '1';
-
-  if (host !== 'localhost' && host !== '127.0.0.1' && !optedOut) {
+  function loadGA() {
     window.addEventListener('load', function() {
       setTimeout(function(){
         var gtagScript = document.createElement('script');
@@ -21,6 +18,45 @@
         gtag('config', 'G-8GHTB4NH7Z');
       }, 2000);
     });
+  }
+
+  (function initConsent() {
+    var host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1') {
+      return; // never load analytics in local dev
+    }
+
+    var storage = window.localStorage;
+    if (storage && storage.getItem('ga_optout') === '1') {
+      return; // manual opt-out wins; no banner needed
+    }
+
+    var consent = storage && storage.getItem('ga_consent');
+    if (consent === 'accepted') {
+      loadGA();
+      return;
+    }
+    if (consent === 'declined') {
+      return;
+    }
+
+    var banner = document.getElementById('consent-banner');
+    if (banner) {
+      banner.style.display = 'block';
+    }
+  })();
+
+  function setConsent(value) {
+    if (window.localStorage) {
+      localStorage.setItem('ga_consent', value);
+    }
+    var banner = document.getElementById('consent-banner');
+    if (banner) {
+      banner.style.display = 'none';
+    }
+    if (value === 'accepted') {
+      loadGA();
+    }
   }
 </script>
 
@@ -91,7 +127,7 @@
 	{% if title %}
 		<title>{{ title }}</title>
 		{% else %}
-		<title>Welcome to Policy Edge</title>
+		<title>PolicyEdge</title>
 	{% endif %}
 	{% block metadata %}{% endblock %}
 </head>
@@ -200,5 +236,12 @@
 			</div>
 		</div>
 	</footer>
+
+	<!-- Analytics consent banner -->
+	<div id="consent-banner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#15305f; color:#fff; padding:12px 20px; z-index:9999; font-size:14px; text-align:center; box-shadow:0 -2px 8px rgba(0,0,0,.25);">
+		<span>We use Google Analytics to understand how visitors use PolicyEdge.</span>
+		<button type="button" onclick="setConsent('accepted')" style="margin-left:10px; padding:6px 14px; border:none; border-radius:6px; background:#8cb630; color:#fff; cursor:pointer;">Accept</button>
+		<button type="button" onclick="setConsent('declined')" style="margin-left:6px; padding:6px 14px; border:none; border-radius:6px; background:rgba(255,255,255,.2); color:#fff; cursor:pointer;">Decline</button>
+	</div>
 	</body>
 	</html>
