@@ -22,8 +22,7 @@ from stripe_service import init as stripe_init, create_checkout_session, handle_
 from helpers import (get_date_threshold, handle_issue_operation, get_user_saved_agendas, int2date, get_county_agendas,
                      make_unsubscribe_token, load_unsubscribe_token, to_table_agenda, to_item_dict)
 from map_utils import fetch_geo_info, create_folium_map
-from jobs import check4Issues2email, start_scheduler
-from apscheduler.schedulers.background import BackgroundScheduler
+from watcher import start_watcher
 from static_routes import static_pages
 from error_handlers import register_error_handlers
 import stripe
@@ -1125,9 +1124,9 @@ def soften_caps(text):
 app.template_filter('aTime')(int2date)
 app.template_filter('soften_caps')(soften_caps)
 # =============================================================================
-# SCHEDULER CONFIGURATION
+# CHANGE-STREAM WATCHER (emails on new agenda inserts)
 # =============================================================================
-scheduler = start_scheduler(mongo, mail)
+watcher = start_watcher(app, mongo, mail)
 # =============================================================================
 # STATIC PAGES AND COUNTY-SPECIFIC ROUTES
 # =============================================================================
