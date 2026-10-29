@@ -192,18 +192,14 @@ main {
   .topnav-links {
     position: fixed;
     inset: 0;
-  
     background: rgba(26, 50, 99);
-  
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: normal;
     align-items: center;
     gap: 2rem;
-  
     clip-path: circle(20px at 90% 40px);
     transition: clip-path 0.6s cubic-bezier(.77,0,.18,1);
-  
     z-index: 999;              /* 🔥 higher than nav */
     visibility: hidden;        /* 🔥 hide text initially */
   }
@@ -220,6 +216,7 @@ main {
   opacity: 0;
   transform: translateY(200px);
   transition: all 0.4s ease;
+  top: 10rem;
 }
 
 .topnav.responsive .topnav-links a {
