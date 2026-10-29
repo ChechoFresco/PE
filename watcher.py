@@ -38,6 +38,22 @@ def _save_meta(mongo, last_id, resume_token=None):
     mongo.db.app_meta.update_one({"_id": META_ID}, update, upsert=True)
 
 
+def _clear_resume_token(mongo):
+    """Drop an unusable resume token so the next stream starts fresh."""
+    mongo.db.app_meta.update_one({"_id": META_ID}, {"$unset": {"resume_token": ""}})
+    logger.warning("Cleared stale change-stream resume token; starting a fresh stream")
+
+
+def _is_stale_resume_error(error):
+    """True when MongoDB can no longer resume from the stored token."""
+    text = str(error)
+    return (
+        "ChangeStreamHistoryLost" in text
+        or "NonResumableChangeStreamError" in text
+        or "resume point" in text
+    )
+
+
 def _init_watermark(mongo):
     """First run: start after the newest existing agenda so the back
     catalog never triggers emails."""
@@ -119,5 +135,11 @@ def _run(app, mongo, mail):
             try:
                 _watch(mongo, mail)
             except Exception as e:
+                if _is_stale_resume_error(e):
+                    _clear_resume_token(mongo)
+                    try:
+                        _catch_up(mongo, mail)
+                    except Exception as catch_up_error:
+                        logger.error("Watcher catch-up failed: %s", catch_up_error)
                 logger.error("Watcher error: %s; restarting in 10s", e)
                 time.sleep(10)

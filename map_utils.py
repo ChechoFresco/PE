@@ -29,7 +29,7 @@ def create_folium_map(geo_info, ALL_CITY_AGENDAS_CACHE):
     folium_map = Map(
         location=(34, -118), 
         zoom_start=9, 
-        tiles="cartodbpositron"
+        tiles="OpenStreetMap"
     )
     
     for city, state_id, county_name, lat, lon, issue_count, web_address in geo_info:
