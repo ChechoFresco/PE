@@ -16,7 +16,8 @@ import re
 import logging
 import math
 import time
-from collections import Counter
+import threading
+from collections import Counter, defaultdict, deque
 from flask_mail import Mail
 from stripe_service import init as stripe_init, create_checkout_session, handle_webhook, get_user_stripe_customer, validate_registration
 from helpers import (get_date_threshold, handle_issue_operation, get_user_saved_agendas, int2date, get_county_agendas,
@@ -140,10 +141,16 @@ CITIES = {
 # Combined list of all cities for dropdowns
 ALL_CITIES = [city for county_cities in CITIES.values() for city in county_cities]
 # =============================================================================
-# Stop bots
+# Rate limiting (in-memory; no database writes)
 # =============================================================================
+RATE_WINDOW_SECONDS = 60
+RATE_MAX_REQUESTS = 60
+_rate_buckets = defaultdict(deque)
+_rate_lock = threading.Lock()
+
+
 @app.before_request
-def log_requests():
+def rate_limit_requests():
     if app.debug:
         return  # Skip in development
 
@@ -153,25 +160,24 @@ def log_requests():
             or request.remote_addr in ('127.0.0.1', '::1')):
         return
 
-    ip = request.remote_addr
-    ua = request.headers.get("User-Agent")
-    path = request.path
-    ts = datetime.utcnow()
+    ip = request.remote_addr or 'unknown'
+    now = time.time()
+    cutoff = now - RATE_WINDOW_SECONDS
 
-    mongo.db.RequestLogs.insert_one({
-        "ip": ip,
-        "user_agent": ua,
-        "path": path,
-        "timestamp": ts
-    })
+    with _rate_lock:
+        bucket = _rate_buckets[ip]
+        while bucket and bucket[0] < cutoff:
+            bucket.popleft()
+        bucket.append(now)
+        too_many = len(bucket) > RATE_MAX_REQUESTS
 
-    one_min_ago = ts - timedelta(seconds=60)
-    recent_count = mongo.db.RequestLogs.count_documents({
-        "ip": ip,
-        "timestamp": {"$gte": one_min_ago}
-    })
+        # Opportunistic cleanup so the dict doesn't grow unbounded
+        if len(_rate_buckets) > 1000:
+            for key in [k for k, v in _rate_buckets.items()
+                        if not v or v[-1] < cutoff]:
+                del _rate_buckets[key]
 
-    if recent_count > 60:
+    if too_many:
         abort(429)
 # =============================================================================
 # ROUTES

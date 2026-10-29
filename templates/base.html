@@ -2,25 +2,27 @@
 <html lang="en">
 
 <head>
-	<!-- Google tag manager -->
+	<!-- Google Analytics (gtag.js), consent-gated -->
 <script>
-  function loadGA() {
-    window.addEventListener('load', function() {
-      setTimeout(function(){
-        var gtagScript = document.createElement('script');
-        gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-8GHTB4NH7Z";
-        gtagScript.async = true;
-        document.head.appendChild(gtagScript);
+  var GA_ID = 'G-8GHTB4NH7Z';
+  var gaLoaded = false;
 
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-8GHTB4NH7Z');
-      }, 2000);
-    });
+  function loadGA() {
+    if (gaLoaded) return;
+    gaLoaded = true;
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+
+    var gtagScript = document.createElement('script');
+    gtagScript.async = true;
+    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(gtagScript);
   }
 
-  (function initConsent() {
+  function initConsent() {
     var host = window.location.hostname;
     if (host === 'localhost' || host === '127.0.0.1') {
       return; // never load analytics in local dev
@@ -44,7 +46,10 @@
     if (banner) {
       banner.style.display = 'block';
     }
-  })();
+  }
+
+  // The banner lives at the end of <body>, so wait for the DOM.
+  document.addEventListener('DOMContentLoaded', initConsent);
 
   function setConsent(value) {
     if (window.localStorage) {
